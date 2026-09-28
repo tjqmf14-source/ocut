@@ -1,0 +1,11 @@
+original/
+node_modules/
+dist/
+.runtime/
+baseline/node_modules/
+__pycache__/
+*.pyc
+evidence/**/*.png
+evidence/**/*.mp4
+evidence/**/*.wav
+evidence/**/*.mp3

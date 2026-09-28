@@ -1,0 +1,444 @@
+{
+  "time": "2026-09-28T13:20:57.715Z",
+  "installer": {
+    "size": 81749297,
+    "sha256": "aba6ad82505df3a24df0b01ce694d8fd45cb36e5a90327526e2386575ce2afcc",
+    "nullsoftSignatureOffset": 49160,
+    "archiveFormat": "NSIS executable with embedded 7z payload",
+    "authenticode": "NotSigned"
+  },
+  "originalPackage": {
+    "name": "ssokmusic-free",
+    "productName": "ssokMusic Free",
+    "version": "0.50.2",
+    "description": "ssokMusic Free - 로컬 GPU로 노래를 만드는 무료 AI 작곡 프로그램",
+    "main": "electron/main.js",
+    "author": "ssok.dev",
+    "homepage": "https://ssok.dev",
+    "license": "MIT"
+  },
+  "files": [
+    {
+      "path": "build/icon.png",
+      "size": 6763,
+      "sha256": "f2e0a326331ef0a0b0b3b9e3f28554201a0dc301ad7cd9bf5f22b1d756b61223",
+      "unpacked": false,
+      "category": "Package/Assets",
+      "baselineSha256": "f2e0a326331ef0a0b0b3b9e3f28554201a0dc301ad7cd9bf5f22b1d756b61223",
+      "modified": false
+    },
+    {
+      "path": "electron/app-update.js",
+      "size": 8064,
+      "sha256": "6a8485d58d94bffeb0c6d0adf17b6386048c6db099103ddc25ca109c45968933",
+      "unpacked": false,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "f2d16d1d470119e36ed16f096938fee7c1b13c717e021d4a1ac36ce8e40ff395",
+      "modified": true
+    },
+    {
+      "path": "electron/main.js",
+      "size": 100534,
+      "sha256": "2d769b95357f6111c387c92df9815316265508d89550eda5bbb4b5b0599052e9",
+      "unpacked": false,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "97b9e6445ab7b2b8bec0633132e5618330cc1d8fda29caedaa183bea5a054c1d",
+      "modified": true
+    },
+    {
+      "path": "electron/midi.js",
+      "size": 23659,
+      "sha256": "ab72de4735d5c664d5b20f4c82be81b50149bc8b01e98558412750eb018c88b3",
+      "unpacked": false,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "ab72de4735d5c664d5b20f4c82be81b50149bc8b01e98558412750eb018c88b3",
+      "modified": false
+    },
+    {
+      "path": "electron/preload.js",
+      "size": 4605,
+      "sha256": "97a727d5855ed8e41dd2b8693fb8d3cd9b9ee06d91279d3f32acfeb7878ff48a",
+      "unpacked": false,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "97a727d5855ed8e41dd2b8693fb8d3cd9b9ee06d91279d3f32acfeb7878ff48a",
+      "modified": false
+    },
+    {
+      "path": "electron/spectrum-analysis.js",
+      "size": 6948,
+      "sha256": "344e6799b9fe1e812dbbf62c5b9d7b0448cfabbedb4ea8e5242228538c8ed6a5",
+      "unpacked": true,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "344e6799b9fe1e812dbbf62c5b9d7b0448cfabbedb4ea8e5242228538c8ed6a5",
+      "modified": false
+    },
+    {
+      "path": "electron/spectrum-worker.js",
+      "size": 1493,
+      "sha256": "24deda5ab95b746330a1d27b40dedb6a3f7fd10ce1b461ff306820847147d7ea",
+      "unpacked": true,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "24deda5ab95b746330a1d27b40dedb6a3f7fd10ce1b461ff306820847147d7ea",
+      "modified": false
+    },
+    {
+      "path": "electron/video.js",
+      "size": 22913,
+      "sha256": "094a45935d51a87234054cb9d808955a04011524450a928acbc18f5917feaefb",
+      "unpacked": false,
+      "category": "Main/Preload/Worker",
+      "baselineSha256": "094a45935d51a87234054cb9d808955a04011524450a928acbc18f5917feaefb",
+      "modified": false
+    },
+    {
+      "path": "package.json",
+      "size": 297,
+      "sha256": "ef0fd4965555d3016132578490be10de3de25c831d73342c11e241a1e538b466",
+      "unpacked": false,
+      "category": "Package/Assets",
+      "baselineSha256": "f3885c0a1d290d489668acb6a38ebe71ab9674dca17e7299d853ae80af2946f4",
+      "modified": true
+    },
+    {
+      "path": "python/LICENSE-abc_tools.txt",
+      "size": 11560,
+      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+      "unpacked": true,
+      "category": "Python",
+      "baselineSha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+      "modified": false
+    },
+    {
+      "path": "python/abc_check.py",
+      "size": 1146,
+      "sha256": "3bb2d9d8b3ef582d781a63d4e4011fbbe047bb6283eb1b1fb8c54b60bda96bfa",
+      "unpacked": true,
+      "category": "Python",
+      "baselineSha256": "3bb2d9d8b3ef582d781a63d4e4011fbbe047bb6283eb1b1fb8c54b60bda96bfa",
+      "modified": false
+    },
+    {
+      "path": "python/abc_tools.py",
+      "size": 15983,
+      "sha256": "750f615796f58c54addecdcc5523880b9ef08b4e68afa330b90bed8826114698",
+      "unpacked": true,
+      "category": "Python",
+      "baselineSha256": "750f615796f58c54addecdcc5523880b9ef08b4e68afa330b90bed8826114698",
+      "modified": false
+    },
+    {
+      "path": "python/setup_models.py",
+      "size": 1478,
+      "sha256": "df5a93b6e6fdcd9d7afcc0622dac0c5420ff00d32c1493426d4e75d84e5d2c36",
+      "unpacked": true,
+      "category": "Python",
+      "baselineSha256": "df5a93b6e6fdcd9d7afcc0622dac0c5420ff00d32c1493426d4e75d84e5d2c36",
+      "modified": false
+    },
+    {
+      "path": "python/worker.py",
+      "size": 19753,
+      "sha256": "40d36991c548e21556a6b9303e18ae062426a31789455c9ad3347ccacf96edaf",
+      "unpacked": true,
+      "category": "Python",
+      "baselineSha256": "40d36991c548e21556a6b9303e18ae062426a31789455c9ad3347ccacf96edaf",
+      "modified": false
+    },
+    {
+      "path": "renderer/app.js",
+      "size": 88332,
+      "sha256": "7e35df77abbac273d14e0fbe6bfebd11ece50ec812251ac61686cde135460f7c",
+      "unpacked": false,
+      "category": "Renderer",
+      "baselineSha256": "7e35df77abbac273d14e0fbe6bfebd11ece50ec812251ac61686cde135460f7c",
+      "modified": false
+    },
+    {
+      "path": "renderer/index.html",
+      "size": 26616,
+      "sha256": "cac421a3bea25e49e62ace96f00938da394e5319ccd9a644ca9749931217f669",
+      "unpacked": false,
+      "category": "HTML",
+      "baselineSha256": "cac421a3bea25e49e62ace96f00938da394e5319ccd9a644ca9749931217f669",
+      "modified": false
+    },
+    {
+      "path": "renderer/prompt.js",
+      "size": 19689,
+      "sha256": "13acd879ad954763ea8450b91c3c3da5df7de657e7df8439b360bf126894c3dd",
+      "unpacked": false,
+      "category": "Renderer",
+      "baselineSha256": "13acd879ad954763ea8450b91c3c3da5df7de657e7df8439b360bf126894c3dd",
+      "modified": false
+    },
+    {
+      "path": "renderer/sortable.js",
+      "size": 7150,
+      "sha256": "932205b430cd4be02d5859386d4f1ac6489b971fc3db74ef4441017281bef284",
+      "unpacked": false,
+      "category": "Renderer",
+      "baselineSha256": "932205b430cd4be02d5859386d4f1ac6489b971fc3db74ef4441017281bef284",
+      "modified": false
+    },
+    {
+      "path": "renderer/spectrum-renderer.js",
+      "size": 9150,
+      "sha256": "e6572c4f279bb69f1a7b9118be0664f8bd320d60b371d5a2eaa4c85a1d6890e7",
+      "unpacked": false,
+      "category": "Renderer",
+      "baselineSha256": "e6572c4f279bb69f1a7b9118be0664f8bd320d60b371d5a2eaa4c85a1d6890e7",
+      "modified": false
+    },
+    {
+      "path": "renderer/studio.js",
+      "size": 29999,
+      "sha256": "8a974014a6ce1ee90fdd8bf7c1be6488fbed8cb7e4c45f6cd9809b1e9d86c998",
+      "unpacked": false,
+      "category": "Renderer",
+      "baselineSha256": "8a974014a6ce1ee90fdd8bf7c1be6488fbed8cb7e4c45f6cd9809b1e9d86c998",
+      "modified": false
+    },
+    {
+      "path": "renderer/styles.css",
+      "size": 27758,
+      "sha256": "2320e94af036ec4d8bb9a05dd70f466406bb519ba3f431847447b3380b09a924",
+      "unpacked": false,
+      "category": "CSS",
+      "baselineSha256": "2320e94af036ec4d8bb9a05dd70f466406bb519ba3f431847447b3380b09a924",
+      "modified": false
+    }
+  ],
+  "ipc": [
+    {
+      "channel": "app:state",
+      "line": 947
+    },
+    {
+      "channel": "setup:check",
+      "line": 956
+    },
+    {
+      "channel": "setup:location",
+      "line": 958
+    },
+    {
+      "channel": "setup:pick-location",
+      "line": 964
+    },
+    {
+      "channel": "setup:run",
+      "line": 987
+    },
+    {
+      "channel": "projects:list",
+      "line": 991
+    },
+    {
+      "channel": "projects:select",
+      "line": 995
+    },
+    {
+      "channel": "projects:create",
+      "line": 1002
+    },
+    {
+      "channel": "projects:rename",
+      "line": 1012
+    },
+    {
+      "channel": "songs:list",
+      "line": 1026
+    },
+    {
+      "channel": "song:generate",
+      "line": 1031
+    },
+    {
+      "channel": "ui:log",
+      "line": 1041
+    },
+    {
+      "channel": "song:score",
+      "line": 1177
+    },
+    {
+      "channel": "score:check",
+      "line": 1187
+    },
+    {
+      "channel": "score:open",
+      "line": 1216
+    },
+    {
+      "channel": "score:convert",
+      "line": 1249
+    },
+    {
+      "channel": "song:render",
+      "line": 1260
+    },
+    {
+      "channel": "song:resume",
+      "line": 1279
+    },
+    {
+      "channel": "song:cancel",
+      "line": 1291
+    },
+    {
+      "channel": "queue:list",
+      "line": 1301
+    },
+    {
+      "channel": "queue:remove",
+      "line": 1303
+    },
+    {
+      "channel": "queue:reorder",
+      "line": 1316
+    },
+    {
+      "channel": "songs:import",
+      "line": 1338
+    },
+    {
+      "channel": "songs:reorder",
+      "line": 1389
+    },
+    {
+      "channel": "queue:move",
+      "line": 1404
+    },
+    {
+      "channel": "queue:pause",
+      "line": 1414
+    },
+    {
+      "channel": "queue:retry",
+      "line": 1422
+    },
+    {
+      "channel": "queue:dismiss",
+      "line": 1433
+    },
+    {
+      "channel": "queue:clear",
+      "line": 1440
+    },
+    {
+      "channel": "song:delete",
+      "line": 1448
+    },
+    {
+      "channel": "song:rename",
+      "line": 1468
+    },
+    {
+      "channel": "song:reveal",
+      "line": 1490
+    },
+    {
+      "channel": "song:export",
+      "line": 1496
+    },
+    {
+      "channel": "album:export",
+      "line": 1532
+    },
+    {
+      "channel": "songs:compact",
+      "line": 1601
+    },
+    {
+      "channel": "settings:move-models",
+      "line": 1628
+    },
+    {
+      "channel": "settings:pick-export",
+      "line": 1678
+    },
+    {
+      "channel": "settings:move-songs",
+      "line": 1714
+    },
+    {
+      "channel": "video:settings",
+      "line": 1849
+    },
+    {
+      "channel": "video:save-settings",
+      "line": 1850
+    },
+    {
+      "channel": "video:prepare",
+      "line": 1857
+    },
+    {
+      "channel": "video:background",
+      "line": 1893
+    },
+    {
+      "channel": "video:start",
+      "line": 1908
+    },
+    {
+      "channel": "video:frame",
+      "line": 1947
+    },
+    {
+      "channel": "video:layer",
+      "line": 1954
+    },
+    {
+      "channel": "video:finish",
+      "line": 1961
+    },
+    {
+      "channel": "video:cancel",
+      "line": 1981
+    },
+    {
+      "channel": "video:compare",
+      "line": 2009
+    },
+    {
+      "channel": "presets:list",
+      "line": 2048
+    },
+    {
+      "channel": "presets:save",
+      "line": 2050
+    },
+    {
+      "channel": "presets:delete",
+      "line": 2061
+    },
+    {
+      "channel": "settings:get",
+      "line": 2067
+    },
+    {
+      "channel": "settings:set",
+      "line": 2078
+    },
+    {
+      "channel": "shell:open",
+      "line": 2087
+    },
+    {
+      "channel": "log:open",
+      "line": 2089
+    },
+    {
+      "channel": "update:check",
+      "line": 2095
+    },
+    {
+      "channel": "update:install",
+      "line": 2101
+    }
+  ],
+  "nodeNativeModules": [],
+  "originalLockfilePresent": false,
+  "originalDevDependenciesRecoverable": false
+}

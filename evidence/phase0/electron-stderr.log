@@ -1,0 +1,6 @@
+Debugger ending on ws://127.0.0.1:57245/a09d7c1c-80ef-40d8-9a6c-a01c63123e7f
+For help, see: https://nodejs.org/en/docs/inspector
+Debugger ending on ws://127.0.0.1:57272/b05f123e-eeb0-4447-8cc3-44ec301207c2
+For help, see: https://nodejs.org/en/docs/inspector
+[1836:0928/221824.024:ERROR:command_buffer_proxy_impl.cc(324)] GPU state invalid after WaitForGetOffsetInRange.
+[1836:0928/221824.024:ERROR:command_buffer_proxy_impl.cc(324)] GPU state invalid after WaitForGetOffsetInRange.

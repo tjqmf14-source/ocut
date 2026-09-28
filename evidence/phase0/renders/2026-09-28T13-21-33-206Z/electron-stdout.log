@@ -1,0 +1,42 @@
+[2026-09-28T13:21:33.629Z] songs folder D:\O-CUT\.runtime\2026-09-28T13-17-50-548Z\Songs
+[2026-09-28T13:21:33.691Z] update check up to date
+[2026-09-28T13:21:33.736Z] project created Render QA 2026-09-28T13-21-33-206Z
+[2026-09-28T13:21:33.760Z] update check up to date
+[2026-09-28T13:21:33.854Z] songs imported {"count":1,"failures":[]}
+[2026-09-28T13:21:34.779Z] video prepared {"songs":1,"seconds":2,"frames":60,"bars":64,"reusedAudio":false,"reusedAnalysis":false}
+[2026-09-28T13:21:35.211Z] render plan {"width":1920,"height":1080,"fps":30,"target":2,"cycleSeconds":2,"still":false,"loop":false,"renderFrames":60,"bandY":638,"bandHeight":412,"expectedFrames":60,"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\1080p-30.mp4","renderer":"cpu","background":"none"}
+[2026-09-28T13:21:38.442Z] renderer video timing per frame (http): draw 0.1ms, readback 4.2ms, send 48.7ms
+[2026-09-28T13:21:38.632Z] render finished {"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\1080p-30.mp4","expectedSeconds":2,"actualSeconds":2,"expectedFrames":60}
+[2026-09-28T13:21:38.785Z] video compare {"frame":0,"against":0,"ssim":0.992709}
+[2026-09-28T13:21:38.903Z] video compare {"frame":30,"against":30,"ssim":0.99276}
+[2026-09-28T13:21:39.015Z] video compare {"frame":29,"against":29,"ssim":0.992748}
+[2026-09-28T13:21:39.121Z] video compare {"frame":2,"against":1,"ssim":0.97364}
+[2026-09-28T13:21:39.224Z] video compare {"frame":2,"against":2,"ssim":0.992739}
+[2026-09-28T13:21:39.327Z] video compare {"frame":2,"against":3,"ssim":0.96672}
+[2026-09-28T13:21:39.329Z] renderer video preview/render SSIM #0=0.99271 #30=0.99276 #29=0.99275 frame offset 0
+[2026-09-28T13:21:41.220Z] video prepared {"songs":1,"seconds":2,"frames":120,"bars":64,"reusedAudio":false,"reusedAnalysis":false}
+[2026-09-28T13:21:41.350Z] video prepared {"songs":1,"seconds":2,"frames":120,"bars":64,"reusedAudio":true,"reusedAnalysis":true}
+[2026-09-28T13:21:41.477Z] render plan {"width":1920,"height":1080,"fps":60,"target":2,"cycleSeconds":2,"still":false,"loop":false,"renderFrames":120,"bandY":638,"bandHeight":412,"expectedFrames":120,"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\1080p-60.mp4","renderer":"cpu","background":"none"}
+[2026-09-28T13:21:47.819Z] renderer video timing per frame (http): draw 0.1ms, readback 4.2ms, send 48.1ms
+[2026-09-28T13:21:47.998Z] render finished {"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\1080p-60.mp4","expectedSeconds":2,"actualSeconds":2,"expectedFrames":120}
+[2026-09-28T13:21:48.097Z] video compare {"frame":0,"against":0,"ssim":0.992723}
+[2026-09-28T13:21:48.213Z] video compare {"frame":60,"against":60,"ssim":0.992693}
+[2026-09-28T13:21:48.325Z] video compare {"frame":59,"against":59,"ssim":0.992689}
+[2026-09-28T13:21:48.428Z] video compare {"frame":5,"against":4,"ssim":0.97377}
+[2026-09-28T13:21:48.527Z] video compare {"frame":5,"against":5,"ssim":0.992627}
+[2026-09-28T13:21:48.635Z] video compare {"frame":5,"against":6,"ssim":0.977829}
+[2026-09-28T13:21:48.637Z] renderer video preview/render SSIM #0=0.99272 #60=0.99269 #59=0.99269 frame offset 0
+[2026-09-28T13:21:53.456Z] video prepared {"songs":1,"seconds":2,"frames":60,"bars":64,"reusedAudio":true,"reusedAnalysis":true}
+[2026-09-28T13:21:53.775Z] video prepared {"songs":1,"seconds":2,"frames":60,"bars":64,"reusedAudio":true,"reusedAnalysis":true}
+[2026-09-28T13:21:53.895Z] render plan {"width":3840,"height":2160,"fps":30,"target":2,"cycleSeconds":2,"still":false,"loop":false,"renderFrames":60,"bandY":1278,"bandHeight":814,"expectedFrames":60,"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\2160p-30.mp4","renderer":"cpu","background":"none"}
+[2026-09-28T13:22:06.790Z] renderer video timing per frame (http): draw 0.1ms, readback 15.5ms, send 196.5ms
+[2026-09-28T13:22:07.358Z] render finished {"output":"D:\\O-CUT\\evidence\\phase0\\renders\\2026-09-28T13-21-33-206Z\\2160p-30.mp4","expectedSeconds":2,"actualSeconds":2,"expectedFrames":60}
+[2026-09-28T13:22:07.653Z] video compare {"frame":0,"against":0,"ssim":0.992915}
+[2026-09-28T13:22:07.981Z] video compare {"frame":30,"against":30,"ssim":0.992944}
+[2026-09-28T13:22:08.293Z] video compare {"frame":29,"against":29,"ssim":0.992938}
+[2026-09-28T13:22:08.578Z] video compare {"frame":2,"against":1,"ssim":0.979594}
+[2026-09-28T13:22:08.844Z] video compare {"frame":2,"against":2,"ssim":0.992917}
+[2026-09-28T13:22:09.100Z] video compare {"frame":2,"against":3,"ssim":0.974998}
+[2026-09-28T13:22:09.106Z] renderer video preview/render SSIM #0=0.99291 #30=0.99294 #29=0.99294 frame offset 0
+[2026-09-28T13:22:10.083Z] exported mp3 D:\O-CUT\evidence\phase0\renders\2026-09-28T13-21-33-206Z\audio-export.mp3
+[2026-09-28T13:22:10.173Z] exported wav D:\O-CUT\evidence\phase0\renders\2026-09-28T13-21-33-206Z\audio-export.wav

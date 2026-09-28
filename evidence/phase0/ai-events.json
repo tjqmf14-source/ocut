@@ -1,0 +1,255 @@
+{
+  "done": {
+    "id": "song",
+    "style": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM, instrumental only, no vocals, no singing, no humming, no choir, no chanting, no spoken word, no narration, no vocal samples, no ad-libs, no vocal chops, no backing vocals, melody carried by lead instrument",
+    "lyrics": "[Intro]\n[instrumental]\n\n[Verse]\n[instrumental]\n\n[Chorus]\n[instrumental]\n\n[Bridge]\n[instrumental]\n\n[Outro]\n[instrumental]",
+    "cot": "off",
+    "seed": 42,
+    "advanced": {
+      "abcMaxTokens": 256,
+      "odeSteps": 8,
+      "maxTokens": 500
+    },
+    "engine": "yue2-infer 0.1.6",
+    "abc": null,
+    "seconds": 20,
+    "wallSeconds": 27.1,
+    "truncated": {
+      "abc": false,
+      "semantic": true
+    },
+    "createdAt": "2026-09-28T22:18:20",
+    "dir": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke",
+    "audio": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke\\O-CUT baseline AI smoke.wav",
+    "mp3": null,
+    "status": "done",
+    "audioUrl": "file:///D:/O-CUT/.runtime/2026-09-28T13-17-50-548Z/Songs/O-CUT%20Phase0%20QA/20260928131752_O-CUT%20baseline%20AI%20smoke/O-CUT%20baseline%20AI%20smoke.wav",
+    "instrumental": true,
+    "targetSeconds": null,
+    "parts": {
+      "genre": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM",
+      "instruments": [],
+      "bpm": null,
+      "strict": false,
+      "strong": false,
+      "structure": "",
+      "instrumental": true
+    },
+    "appVersion": "0.50.2",
+    "title": "O-CUT baseline AI smoke"
+  },
+  "error": null,
+  "events": [
+    {
+      "type": "ready",
+      "cuda": true,
+      "gpu": "NVIDIA GeForce RTX 5080"
+    },
+    {
+      "type": "notice",
+      "message": "고급 설정 적용: abcMaxTokens, maxTokens, odeSteps"
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "plan",
+      "status": "start"
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "plan",
+      "status": "done",
+      "abc": null,
+      "truncated": false
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "status": "start"
+    },
+    {
+      "type": "stage",
+      "stage": "load",
+      "status": "start"
+    },
+    {
+      "type": "stage",
+      "stage": "load",
+      "status": "done"
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 1,
+      "rate": 0.12
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 44,
+      "rate": 4.94
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 88,
+      "rate": 9.44
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 132,
+      "rate": 13.57
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 176,
+      "rate": 17.36
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 220,
+      "rate": 20.88
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 265,
+      "rate": 24.21
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 309,
+      "rate": 27.23
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 353,
+      "rate": 30.03
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 398,
+      "rate": 32.73
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 443,
+      "rate": 35.25
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "tokens": 488,
+      "rate": 37.62
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "semantic",
+      "status": "done",
+      "tokens": 500,
+      "truncated": true
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "status": "start"
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 1,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 2,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 3,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 4,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 5,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 6,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 7,
+      "steps": 8
+    },
+    {
+      "type": "progress",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "step": 8,
+      "steps": 8
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "synth",
+      "status": "done"
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "decode",
+      "status": "start"
+    },
+    {
+      "type": "stage",
+      "jobId": "1790601472285",
+      "stage": "decode",
+      "status": "done"
+    }
+  ]
+}

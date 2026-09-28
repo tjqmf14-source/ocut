@@ -1,0 +1,17 @@
+{
+  "time": "2026-09-28T13:16:15.161Z",
+  "type": "source-repacked Electron application (not a new Electron compilation or installer)",
+  "executable": "D:\\O-CUT\\dist\\baseline\\O-CUT.exe",
+  "electron": "33.4.11",
+  "package": {
+    "name": "o-cut-baseline",
+    "productName": "O-CUT Baseline",
+    "version": "0.50.2",
+    "description": "O-CUT Phase 0 verified reconstruction",
+    "main": "electron/main.js",
+    "author": "ssok.dev",
+    "homepage": "https://ssok.dev",
+    "license": "MIT"
+  },
+  "asarSha256": "12822d7946974af452f122ff1026d81e8b6e66e236b1e104c19189485af022ea"
+}

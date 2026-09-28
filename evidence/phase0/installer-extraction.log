@@ -1,0 +1,33 @@
+
+7-Zip (a) 24.09 (x86) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-29
+
+Scanning the drive for archives:
+1 file, 81749297 bytes (78 MiB)
+
+Extracting archive: D:\O-CUT\original\ssokMusic-Free-Setup-0.50.2.exe
+
+WARNINGS:
+There are data after the end of archive
+
+--
+Path = D:\O-CUT\original\ssokMusic-Free-Setup-0.50.2.exe
+Type = 7z
+WARNINGS:
+There are data after the end of archive
+Offset = 131482
+Physical Size = 81261367
+Tail Size = 356448
+Headers Size = 1606
+Method = LZMA2:20 LZMA:20 BCJ2
+Solid = -
+Blocks = 80
+
+Everything is Ok
+
+Archives with Warnings: 1
+
+Warnings: 1
+Folders: 5
+Files: 80
+Size:       281511195
+Compressed: 81749297

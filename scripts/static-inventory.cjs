@@ -1,0 +1,15 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const crypto=require('node:crypto');
+const root=path.resolve(__dirname,'..');
+const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const original=path.join(root,'original/source');
+const manifest=require('../evidence/phase0/source-manifest.json');
+const main=fs.readFileSync(path.join(original,'electron/main.js'),'utf8');
+const ipc=[...main.matchAll(/ipcMain\.handle\('([^']+)'/g)].map(m=>({channel:m[1],line:main.slice(0,m.index).split('\n').length}));
+const files=manifest.map(f=>({...f,category:f.path.startsWith('python/')?'Python':f.path.endsWith('.html')?'HTML':f.path.endsWith('.css')?'CSS':f.path.startsWith('renderer/')?'Renderer':f.path.startsWith('electron/')?'Main/Preload/Worker':'Package/Assets',baselineSha256:sha(path.join(root,'baseline',f.path)),modified:sha(path.join(root,'baseline',f.path))!==f.sha256}));
+const installer=fs.readFileSync(path.join(root,'original/ssokMusic-Free-Setup-0.50.2.exe'));
+const report={time:new Date().toISOString(),installer:{size:installer.length,sha256:sha(path.join(root,'original/ssokMusic-Free-Setup-0.50.2.exe')),nullsoftSignatureOffset:installer.indexOf('NullsoftInst'),archiveFormat:'NSIS executable with embedded 7z payload',authenticode:'NotSigned'},originalPackage:JSON.parse(fs.readFileSync(path.join(original,'package.json'))),files,ipc,nodeNativeModules:[],originalLockfilePresent:false,originalDevDependenciesRecoverable:false};
+fs.writeFileSync(path.join(root,'evidence/phase0/static-inventory.json'),JSON.stringify(report,null,2));
+fs.writeFileSync(path.join(root,'evidence/phase0/ipc-inventory.md'),'# 원본 IPC 목록\n\n| 채널 | 원본 main.js 행 |\n|---|---:|\n'+ipc.map(x=>`| ${x.channel} | ${x.line} |`).join('\n')+'\n');
+console.log(JSON.stringify({files:files.length,ipc:ipc.length,modified:files.filter(x=>x.modified).map(x=>x.path),installer:report.installer},null,2));

@@ -1,0 +1,15 @@
+{
+  "name": "o-cut-development",
+  "version": "0.1.0",
+  "private": true,
+  "description": "O-CUT Phase 0 reconstruction and verification tools",
+  "scripts": {
+    "build:baseline": "node scripts/build-baseline.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "qa:baseline": "node scripts/qa-baseline.cjs"
+  },
+  "devDependencies": {
+    "@electron/asar": "4.3.1",
+    "playwright-core": "1.58.2"
+  }
+}

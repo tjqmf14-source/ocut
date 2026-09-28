@@ -1,0 +1,212 @@
+{
+  "runId": "2026-09-28T13-17-50-548Z",
+  "data": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z",
+  "checks": [
+    {
+      "name": "packaged application startup and music controls",
+      "status": "PASS",
+      "detail": {
+        "versions": {
+          "node": "20.18.3",
+          "acorn": "8.14.0",
+          "ada": "2.9.2",
+          "ares": "1.34.4",
+          "base64": "0.5.2",
+          "brotli": "1.0.9",
+          "cjs_module_lexer": "1.4.1",
+          "cldr": "44.1",
+          "icu": "74.2",
+          "llhttp": "8.1.2",
+          "modules": "130",
+          "napi": "9",
+          "nghttp2": "1.61.0",
+          "openssl": "0.0.0",
+          "simdutf": "5.6.4",
+          "tz": "2024a",
+          "undici": "6.21.1",
+          "unicode": "15.1",
+          "uv": "1.46.0",
+          "uvwasi": "0.0.21",
+          "v8": "13.0.245.25-electron.0",
+          "zlib": "1.3.0.1-motley",
+          "electron": "33.4.11",
+          "chrome": "130.0.6723.191"
+        },
+        "userData": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z",
+        "packaged": true
+      }
+    },
+    {
+      "name": "project create/select IPC and rendered selector",
+      "status": "PASS",
+      "detail": {
+        "current": "O-CUT Phase0 QA",
+        "projects": [
+          {
+            "name": "기본",
+            "songs": 0
+          },
+          {
+            "name": "O-CUT Phase0 QA",
+            "songs": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "real local AI music generation and complete audio decode",
+      "status": "PASS",
+      "detail": {
+        "song": {
+          "id": "song",
+          "style": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM, instrumental only, no vocals, no singing, no humming, no choir, no chanting, no spoken word, no narration, no vocal samples, no ad-libs, no vocal chops, no backing vocals, melody carried by lead instrument",
+          "lyrics": "[Intro]\n[instrumental]\n\n[Verse]\n[instrumental]\n\n[Chorus]\n[instrumental]\n\n[Bridge]\n[instrumental]\n\n[Outro]\n[instrumental]",
+          "cot": "off",
+          "seed": 42,
+          "advanced": {
+            "abcMaxTokens": 256,
+            "odeSteps": 8,
+            "maxTokens": 500
+          },
+          "engine": "yue2-infer 0.1.6",
+          "abc": null,
+          "seconds": 20,
+          "wallSeconds": 27.1,
+          "truncated": {
+            "abc": false,
+            "semantic": true
+          },
+          "createdAt": "2026-09-28T22:18:20",
+          "dir": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke",
+          "audio": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke\\O-CUT baseline AI smoke.wav",
+          "mp3": null,
+          "status": "done",
+          "audioUrl": "file:///D:/O-CUT/.runtime/2026-09-28T13-17-50-548Z/Songs/O-CUT%20Phase0%20QA/20260928131752_O-CUT%20baseline%20AI%20smoke/O-CUT%20baseline%20AI%20smoke.wav",
+          "instrumental": true,
+          "targetSeconds": null,
+          "parts": {
+            "genre": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM",
+            "instruments": [],
+            "bpm": null,
+            "strict": false,
+            "strong": false,
+            "structure": "",
+            "instrumental": true
+          },
+          "appVersion": "0.50.2",
+          "title": "O-CUT baseline AI smoke",
+          "folder": "20260928131752_O-CUT baseline AI smoke",
+          "unfinished": false,
+          "score": false,
+          "stages": null,
+          "format": "wav",
+          "position": null
+        },
+        "audio": {
+          "streams": [
+            {
+              "index": 0,
+              "codec_name": "pcm_s24le",
+              "codec_long_name": "PCM signed 24-bit little-endian",
+              "codec_type": "audio",
+              "codec_tag_string": "[1][0][0][0]",
+              "codec_tag": "0x0001",
+              "sample_fmt": "s32",
+              "sample_rate": "48000",
+              "channels": 2,
+              "bits_per_sample": 24,
+              "initial_padding": 0,
+              "r_frame_rate": "0/0",
+              "avg_frame_rate": "0/0",
+              "time_base": "1/48000",
+              "duration_ts": 959936,
+              "duration": "19.998667",
+              "bit_rate": "2304000",
+              "bits_per_raw_sample": "24",
+              "disposition": {
+                "default": 0,
+                "dub": 0,
+                "original": 0,
+                "comment": 0,
+                "lyrics": 0,
+                "karaoke": 0,
+                "forced": 0,
+                "hearing_impaired": 0,
+                "visual_impaired": 0,
+                "clean_effects": 0,
+                "attached_pic": 0,
+                "timed_thumbnails": 0,
+                "non_diegetic": 0,
+                "captions": 0,
+                "descriptions": 0,
+                "metadata": 0,
+                "dependent": 0,
+                "still_image": 0,
+                "multilayer": 0
+              }
+            }
+          ],
+          "format": {
+            "filename": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke\\O-CUT baseline AI smoke.wav",
+            "nb_streams": 1,
+            "nb_programs": 0,
+            "nb_stream_groups": 0,
+            "format_name": "wav",
+            "format_long_name": "WAV / WAVE (Waveform Audio)",
+            "duration": "19.998667",
+            "size": "5759660",
+            "bit_rate": "2304017",
+            "probe_score": 99
+          }
+        }
+      }
+    },
+    {
+      "name": "real generated audio spectrum worker through IPC",
+      "status": "PASS",
+      "detail": {
+        "ok": true,
+        "cycle": {
+          "id": "e272874e1b6134799f8f",
+          "seconds": 20,
+          "frameCount": 600,
+          "fps": 30,
+          "chapters": [
+            {
+              "title": "O-CUT baseline AI smoke",
+              "start": 0,
+              "seconds": 20
+            }
+          ],
+          "audioUrl": "file:///D:/O-CUT/.runtime/2026-09-28T13-17-50-548Z/video-cache/e272874e1b6134799f8f.wav"
+        },
+        "header": {
+          "version": 1,
+          "sourceHash": "e272874e1b6134799f8f",
+          "durationSeconds": 20,
+          "sampleRate": 48000,
+          "fps": 30,
+          "frameCount": 600,
+          "barCount": 32,
+          "analysisSettingsHash": "818ce5aa52b9e6156de9"
+        },
+        "bytes": 76800
+      }
+    },
+    {
+      "name": "close/relaunch restores project and generated song",
+      "status": "PASS",
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "no renderer startup or runtime exception",
+      "status": "PASS",
+      "detail": {
+        "errors": []
+      }
+    }
+  ],
+  "errors": []
+}

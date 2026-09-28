@@ -1,0 +1,4 @@
+* text=auto eol=lf
+baseline/** -text whitespace=cr-at-eol
+*.png binary
+*.exe binary

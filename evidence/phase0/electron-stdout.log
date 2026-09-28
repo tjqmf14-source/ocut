@@ -1,0 +1,25 @@
+[2026-09-28T13:17:51.845Z] songs folder D:\O-CUT\.runtime\2026-09-28T13-17-50-548Z\Songs
+[2026-09-28T13:17:51.882Z] update check up to date
+[2026-09-28T13:17:52.114Z] project created O-CUT Phase0 QA
+[2026-09-28T13:17:52.142Z] update check up to date
+[2026-09-28T13:17:52.284Z] generate request {"title":"O-CUT baseline AI smoke","seed":42,"python":"D:/ssokmusic/runtime/venv/Scripts/python.exe"}
+[2026-09-28T13:17:52.286Z] job queued {"jobId":"1790601472285","title":"O-CUT baseline AI smoke","waiting":1}
+[2026-09-28T13:17:52.286Z] starting worker D:/ssokmusic/runtime/venv/Scripts/python.exe D:\O-CUT\dist\baseline\resources\app.asar.unpacked\python\worker.py
+[2026-09-28T13:17:52.293Z] job started {"jobId":"1790601472285","title":"O-CUT baseline AI smoke"}
+[2026-09-28T13:17:58.823Z] notice  고급 설정 적용: abcMaxTokens, maxTokens, odeSteps
+[2026-09-28T13:17:58.824Z] stage plan start
+[2026-09-28T13:17:58.841Z] stage plan done
+[2026-09-28T13:17:58.842Z] stage semantic start
+[2026-09-28T13:18:01.008Z] stage load start
+[2026-09-28T13:18:01.857Z] stage load done
+[2026-09-28T13:18:07.355Z] progress {"type":"progress","jobId":"1790601472285","stage":"semantic","tokens":1,"rate":0.12}
+[2026-09-28T13:18:11.932Z] stage semantic done
+[2026-09-28T13:18:11.932Z] stage synth start
+[2026-09-28T13:18:18.977Z] stage synth done
+[2026-09-28T13:18:18.978Z] stage decode start
+[2026-09-28T13:18:20.004Z] worker stderr D:\ssokmusic\runtime\venv\Lib\site-packages\torch\nn\utils\weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+[2026-09-28T13:18:20.919Z] stage decode done
+[2026-09-28T13:18:23.267Z] video prepared {"songs":1,"seconds":20,"frames":600,"bars":32,"reusedAudio":false,"reusedAnalysis":false}
+[2026-09-28T13:18:23.852Z] songs folder D:\O-CUT\.runtime\2026-09-28T13-17-50-548Z\Songs
+[2026-09-28T13:18:23.923Z] update check up to date

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "song",
+    "style": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM, instrumental only, no vocals, no singing, no humming, no choir, no chanting, no spoken word, no narration, no vocal samples, no ad-libs, no vocal chops, no backing vocals, melody carried by lead instrument",
+    "lyrics": "[Intro]\n[instrumental]\n\n[Verse]\n[instrumental]\n\n[Chorus]\n[instrumental]\n\n[Bridge]\n[instrumental]\n\n[Outro]\n[instrumental]",
+    "cot": "off",
+    "seed": 42,
+    "advanced": {
+      "abcMaxTokens": 256,
+      "odeSteps": 8,
+      "maxTokens": 500
+    },
+    "engine": "yue2-infer 0.1.6",
+    "abc": null,
+    "seconds": 20,
+    "wallSeconds": 27.1,
+    "truncated": {
+      "abc": false,
+      "semantic": true
+    },
+    "createdAt": "2026-09-28T22:18:20",
+    "dir": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke",
+    "audio": "D:\\O-CUT\\.runtime\\2026-09-28T13-17-50-548Z\\Songs\\O-CUT Phase0 QA\\20260928131752_O-CUT baseline AI smoke\\O-CUT baseline AI smoke.wav",
+    "mp3": null,
+    "status": "done",
+    "audioUrl": "file:///D:/O-CUT/.runtime/2026-09-28T13-17-50-548Z/Songs/O-CUT%20Phase0%20QA/20260928131752_O-CUT%20baseline%20AI%20smoke/O-CUT%20baseline%20AI%20smoke.wav",
+    "instrumental": true,
+    "targetSeconds": null,
+    "parts": {
+      "genre": "solo acoustic piano, gentle instrumental, C major, short melody, 90 BPM",
+      "instruments": [],
+      "bpm": null,
+      "strict": false,
+      "strong": false,
+      "structure": "",
+      "instrumental": true
+    },
+    "appVersion": "0.50.2",
+    "title": "O-CUT baseline AI smoke",
+    "folder": "20260928131752_O-CUT baseline AI smoke",
+    "unfinished": false,
+    "score": false,
+    "stages": null,
+    "format": "wav",
+    "position": null
+  }
+]

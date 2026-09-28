@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; media-src 'self' file: blob:; img-src 'self' file: data: blob:; connect-src 'self' http://127.0.0.1:*; style-src 'self' 'unsafe-inline'">
+<title>ssokMusic Free</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 첫 실행 설치 화면 -->
+<div id="setup" class="overlay hidden">
+  <div class="setup-card">
+    <h1>ssokMusic Free 설치</h1>
+    <p class="muted">곡을 만들려면 AI 실행 환경과 모델이 필요합니다. 한 번만 받으면 됩니다. (약 11GB, 인터넷 속도에 따라 10~40분)</p>
+    <div class="location">
+      <div class="location-text">
+        <span class="muted">설치 위치</span>
+        <b id="dataDir">확인 중…</b>
+      </div>
+      <button id="pickLocation" class="ghost small">변경</button>
+    </div>
+    <div id="preflight" class="preflight hidden"></div>
+    <ul class="steps">
+      <li data-step="gpu"><span class="dot"></span><b>그래픽카드 확인</b><span class="detail"></span></li>
+      <li data-step="uv"><span class="dot"></span><b>설치 도구 준비</b><span class="detail"></span></li>
+      <li data-step="venv"><span class="dot"></span><b>파이썬 환경 구성</b><span class="detail"></span></li>
+      <li data-step="torch"><span class="dot"></span><b>AI 엔진 설치 (약 3GB)</b><span class="detail"></span></li>
+      <li data-step="yue"><span class="dot"></span><b>YuE2 설치</b><span class="detail"></span></li>
+      <li data-step="models"><span class="dot"></span><b>음악 모델 다운로드 (약 8GB)</b><span class="detail"></span></li>
+      <li data-step="verify"><span class="dot"></span><b>엔진 점검</b><span class="detail"></span></li>
+    </ul>
+    <div class="bar"><div id="setupBar"></div></div>
+    <div class="setup-actions">
+      <button id="setupStart" class="primary">설치 시작</button>
+      <button id="setupLogToggle" class="ghost">자세히 보기</button>
+    </div>
+    <pre id="setupLog" class="log hidden"></pre>
+    <p id="setupError" class="error hidden"></p>
+  </div>
+</div>
+
+<!-- 메인 -->
+<header class="topbar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 256 256" aria-hidden="true">
+      <defs>
+        <linearGradient id="logoFill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#ff5c9d"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="256" height="256" rx="56" fill="url(#logoFill)"/>
+      <path d="M170 90a42 42 0 1 0-42 42 42 42 0 1 1-42 42"
+            fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">ssok<span>Music</span></span>
+    <span class="badge">Free</span>
+    <span class="version" id="versionInfo">버전 0.1</span>
+  </div>
+  <div class="credit">
+    <button id="studioToggle" class="ghost small" title="오른쪽 영상 만들기 화면 보이기 / 숨기기">영상 스튜디오</button>
+    <span class="gauge hidden" id="vramGauge" title="그래픽카드 메모리">
+      <b>VRAM</b><span class="bar"><i id="vramBar"></i></span><span id="vramText"></span>
+    </span>
+    <span class="gauge hidden" id="ramGauge" title="시스템 메모리">
+      <b>RAM</b><span class="bar"><i id="ramBar"></i></span><span id="ramText"></span>
+    </span>
+    <span class="muted" id="gpuLoad"></span>
+    <span class="muted" id="gpuInfo"></span>
+  </div>
+</header>
+
+<main>
+  <section class="workspace">
+    <div class="panel lyrics-panel">
+      <div class="panel-head">
+        <h2>가사</h2>
+        <div class="head-actions">
+          <label class="inst-toggle"><input type="checkbox" id="instrumental"> 가사 없이 (연주곡)</label>
+          <input id="title" placeholder="곡 제목" maxlength="60">
+          <button id="lyricsHelp" class="ghost small">태그 안내</button>
+          <button id="clearLyrics" class="ghost small" title="제목과 가사 지우기">✕ 지우기</button>
+        </div>
+      </div>
+      <textarea id="lyrics" spellcheck="false" placeholder="[Verse]
+창문을 열면 불빛이 흘러
+한강 위로 번지는 네온
+
+[Chorus]
+너와 함께 달려가
+도시의 별빛 아래서"></textarea>
+      <div class="hint muted" id="lyricsHint">[Verse] [Pre-Chorus] [Chorus] [Bridge] 로 구간을 나누면 곡 구조가 좋아집니다.</div>
+    </div>
+
+    <div class="panel prompt-panel">
+      <div class="panel-head">
+        <h2>스타일 · 장르</h2>
+        <div class="head-actions">
+          <label class="seed-label">시드
+            <input id="seed" placeholder="랜덤" inputmode="numeric">
+          </label>
+          <button id="clearStyle" class="ghost small" title="프롬프트 지우기">✕ 지우기</button>
+        </div>
+      </div>
+      <div id="coverBar" class="cover-bar hidden">
+        <b>커버</b>
+        <span id="coverFrom"></span>
+        <span class="muted">원곡의 멜로디·화성을 그대로 두고 스타일·가사만 새로 만듭니다.</span>
+        <button id="coverCancel" class="ghost small">해제</button>
+      </div>
+      <div id="presets" class="presets"></div>
+      <textarea id="style" spellcheck="false" placeholder="장르·분위기·보컬 톤을 짧은 영어 단어로, 쉼표로 나눠 적으면 가장 잘 나옵니다.
+예) bossa nova jazz, relaxed cafe mood, smooth female vocal"></textarea>
+      <div class="builder">
+        <div class="builder-row">
+          <span class="builder-label">악기</span>
+          <select id="inst1" class="inst"></select>
+          <select id="inst2" class="inst"></select>
+          <select id="inst3" class="inst"></select>
+          <label class="inst-toggle"><input type="checkbox" id="onlyListed"> 지정한 악기만 (엄격)</label>
+        </div>
+        <div class="builder-row">
+          <span class="builder-label">템포</span>
+          <input id="bpm" type="number" min="40" max="220" step="1" placeholder="자동"><span class="muted">BPM</span>
+          <span class="builder-label">구조</span>
+          <select id="structure"></select>
+          <label class="inst-toggle hidden" id="strongWrap" title="스타일을 더 강하게 따르게 합니다. 곡 만드는 시간이 약 2배가 됩니다.">
+            <input type="checkbox" id="strongPrompt"> 프롬프트 강하게 (실험 · 시간 약 2배)
+          </label>
+        </div>
+        <p id="builderHint" class="builder-hint"></p>
+        <div class="tag-preview">
+          <span class="muted">YuE2에 보낼 태그</span>
+          <span id="tagPreview"></span>
+        </div>
+      </div>
+      <details id="advanced" class="advanced">
+        <summary>고급 설정 <span class="muted" id="advancedState"></span></summary>
+        <div class="advanced-grid">
+          <label>작곡 방식
+            <select id="advCot">
+              <option value="full">전체 (코드 + 멜로디)</option>
+              <option value="melody">멜로디만</option>
+              <option value="off">악보 없이 바로</option>
+            </select>
+            <small>기본: 전체</small>
+          </label>
+          <label>창의성 (Temperature)
+            <input id="advTemperature" type="number" step="0.05" min="0.05" max="2" placeholder="1.0">
+            <small>낮을수록 안정적, 높을수록 과감함 · 기본 1.0</small>
+          </label>
+          <label>Top-p
+            <input id="advTopP" type="number" step="0.01" min="0.05" max="1" placeholder="0.95">
+            <small>기본 0.95</small>
+          </label>
+          <label>Top-k
+            <input id="advTopK" type="number" step="1" min="1" max="500" placeholder="100">
+            <small>기본 100</small>
+          </label>
+          <label>반복 억제
+            <input id="advRepetitionPenalty" type="number" step="0.05" min="1" max="2" placeholder="1.2">
+            <small>높이면 같은 구절 반복이 줄어듦 · 기본 1.2</small>
+          </label>
+          <label>가사 충실도 (CFG)
+            <input id="advCfgScale" type="number" step="0.1" min="1" max="5" placeholder="1.0">
+            <small>1보다 크면 생성 시간이 약 2배 · 기본 1.0</small>
+          </label>
+          <label>최대 곡 길이 (초)
+            <input id="advMaxSeconds" type="number" step="10" min="20" max="360" placeholder="360">
+            <small>최대 360초 (토큰 9000) · 기본 360</small>
+          </label>
+          <label>작곡 창의성
+            <input id="advAbcTemperature" type="number" step="0.05" min="0.05" max="2" placeholder="0.7">
+            <small>악보 단계 · 기본 0.7</small>
+          </label>
+          <label>악보 최대 길이
+            <input id="advAbcMaxTokens" type="number" step="128" min="256" max="4096" placeholder="4096">
+            <small>토큰 · 기본 4096</small>
+          </label>
+          <label>음향 합성 단계
+            <input id="advOdeSteps" type="number" step="4" min="8" max="64" placeholder="32">
+            <small>높이면 음질↑ 시간↑ · 기본 32</small>
+          </label>
+        </div>
+        <div class="advanced-actions">
+          <button id="advReset" class="ghost small">기본값으로</button>
+          <span class="muted">비워두면 개발자 권장 기본값을 씁니다.</span>
+        </div>
+      </details>
+
+      <div class="generate-row">
+        <button id="generate" class="primary big">곡 만들기</button>
+        <button id="planOnly" class="ghost big">악보만</button>
+        <button id="importScore" class="ghost big" title="MIDI나 ABC 악보로 내 멜로디를 불러와 곡을 만듭니다">악보 불러오기</button>
+        <label class="count-label">길이
+          <select id="target">
+            <option value="">자동</option>
+            <option value="120">2분</option>
+            <option value="180">3분</option>
+            <option value="240">4분</option>
+            <option value="300">5분</option>
+            <option value="360">6분</option>
+          </select>
+        </label>
+        <label class="count-label">한 번에
+          <select id="count">
+            <option value="1">1곡</option>
+            <option value="2">2곡</option>
+            <option value="3">3곡</option>
+            <option value="4">4곡</option>
+            <option value="6">6곡</option>
+            <option value="8">8곡</option>
+          </select>
+        </label>
+        <span id="generateHint" class="muted hint"></span>
+      </div>
+    </div>
+  </section>
+
+  <aside class="library">
+    <div class="panel-head">
+      <h2>프로젝트</h2>
+      <div class="head-actions">
+        <button id="queuePause" class="ghost small hidden">일시정지</button>
+        <button id="queueClear" class="ghost small hidden">대기열 비우기</button>
+        <button id="importSongs" class="ghost small" title="다른 곳에서 만든 음악 파일(MP3·WAV·FLAC·M4A 등)을 이 프로젝트로 불러옵니다">불러오기</button>
+        <button id="openFolder" class="ghost small">폴더</button>
+      </div>
+    </div>
+    <div class="projects">
+      <select id="project"></select>
+      <button id="newProject" class="ghost small" title="새 프로젝트">＋</button>
+      <button id="renameProject" class="ghost small" title="프로젝트 이름 변경">✎</button>
+    </div>
+    <details class="options" id="optionsBox" open>
+      <summary>설정 · 도구</summary>
+      <div class="options-body">
+      <label><input type="checkbox" id="autoMp3"> 완성되면 MP3로 자동 저장</label>
+      <label class="sub-option"><input type="checkbox" id="dropWav" disabled> 원본(WAV) 지워 용량 아끼기</label>
+      <button id="albumExport" class="ghost small">앨범으로 내보내기</button>
+      <button id="compact" class="ghost small">이미 만든 곡 정리</button>
+      <button id="moveModels" class="ghost small">모델 위치 옮기기</button>
+      <div class="locations">
+        <div class="location-row">
+          <span class="location-label">곡 저장</span>
+          <span id="songsDirText" class="location-path"></span>
+          <button id="moveSongs" class="ghost small">옮기기</button>
+        </div>
+        <div class="location-row">
+          <span class="location-label">내보내기</span>
+          <span id="exportDirText" class="location-path"></span>
+          <button id="pickExport" class="ghost small">변경</button>
+        </div>
+      </div>
+      </div>
+    </details>
+    <div id="songs" class="songs"></div>
+    <div id="player" class="player hidden">
+      <div class="now" id="nowTitle"></div>
+      <audio id="audio" controls></audio>
+      <div class="player-actions">
+        <button id="reuseSong" class="ghost small">설정 복제</button>
+        <button id="coverSong" class="ghost small">커버 만들기</button>
+        <button id="showScore" class="ghost small">악보 보기</button>
+        <button id="exportMp3" class="ghost small">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 19h16"/></svg>MP3
+        </button>
+        <button id="exportWav" class="ghost small">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M4 19h16"/></svg>WAV
+        </button>
+        <button id="renameSong" class="ghost small">이름 변경</button>
+        <button id="revealSong" class="ghost small">폴더 열기</button>
+        <button id="deleteSong" class="ghost small danger">삭제</button>
+      </div>
+      <details class="meta">
+        <summary>곡 정보</summary>
+        <div id="songMeta"></div>
+      </details>
+    </div>
+  </aside>
+
+  <!-- 영상 스튜디오: 미리보기 · 영상 제작 옵션 · 스펙트럼 -->
+  <aside class="studio" id="studio">
+    <div class="panel-head">
+      <h2>영상 만들기</h2>
+      <div class="head-actions">
+        <select id="vSource" title="영상에 넣을 곡">
+          <option value="selected">선택한 곡</option>
+          <option value="checked">체크한 곡 (목록 순서)</option>
+          <option value="project">프로젝트 전체 (목록 순서)</option>
+        </select>
+        <button id="vPrepare" class="ghost small">미리보기 준비</button>
+      </div>
+    </div>
+
+    <div class="v-row v-picks" id="vPickRow">
+      <span id="vPickCount" class="v-file">체크한 곡 0곡</span>
+      <button id="vPickAll" class="ghost small">모두 체크</button>
+      <button id="vPickNone" class="ghost small">체크 해제</button>
+    </div>
+    <div class="v-stage" id="vStage">
+      <img id="vBgImage" class="v-bg hidden" alt="">
+      <video id="vBgVideo" class="v-bg hidden" muted loop playsinline preload="auto"></video>
+      <canvas id="vCanvas"></canvas>
+      <div id="vEmpty" class="v-empty">곡을 고르고 "미리보기 준비"를 누르세요</div>
+      <div id="vBusy" class="v-busy hidden">
+        <span id="vBusyText">준비 중…</span>
+        <div class="bar"><div id="vBusyBar"></div></div>
+      </div>
+    </div>
+    <div class="v-transport">
+      <button id="vPlay" class="ghost small" disabled title="재생 / 멈춤">▶</button>
+      <input type="range" id="vSeek" min="0" max="0" value="0" step="1" disabled>
+      <span id="vTime" class="v-time">0:00 / 0:00</span>
+    </div>
+    <p id="vInfo" class="v-info"></p>
+    <audio id="vAudio" preload="auto"></audio>
+
+    <section class="v-section">
+      <h3>영상 제작 옵션</h3>
+      <div class="v-row">
+        <span class="v-label">배경</span>
+        <button id="vBgPickImage" class="ghost small">이미지</button>
+        <button id="vBgPickVideo" class="ghost small">영상</button>
+        <button id="vBgClear" class="ghost small">없음</button>
+      </div>
+      <div class="v-row"><span class="v-label"></span><span id="vBgName" class="v-file"></span></div>
+      <div class="v-row">
+        <span class="v-label">배경 어둡게</span>
+        <input type="range" id="sDim" min="0" max="0.7" step="0.05">
+      </div>
+      <div class="v-row">
+        <span class="v-label">영상 길이</span>
+        <select id="vLength">
+          <option value="once">1회 (곡 길이 그대로)</option>
+          <option value="repeat">반복 횟수로</option>
+          <option value="minutes">시간으로 (루프)</option>
+        </select>
+      </div>
+      <div class="v-row hidden" id="vRepeatRow">
+        <span class="v-label"></span>
+        <input id="vRepeat" type="number" min="1" max="1000" step="1" title="재생목록을 몇 번 반복할지">
+        <span class="muted">회 반복</span>
+      </div>
+      <div class="v-row hidden" id="vTimeRow">
+        <span class="v-label"></span>
+        <input id="vHours" type="number" min="0" max="10" step="1" title="시간">
+        <span class="muted">시간</span>
+        <input id="vMins" type="number" min="0" max="59" step="1" title="분">
+        <span class="muted">분</span>
+      </div>
+      <div class="v-row">
+        <span class="v-label">출력 화질</span>
+        <select id="vResolution">
+          <option value="720p">720p HD</option>
+          <option value="1080p">1080p FHD</option>
+          <option value="1440p">1440p QHD</option>
+          <option value="2160p">2160p 4K</option>
+        </select>
+        <select id="vFps">
+          <option value="30">30fps</option>
+          <option value="60">60fps</option>
+        </select>
+      </div>
+      <div class="v-row">
+        <span class="v-label">렌더링</span>
+        <label class="v-radio"><input type="radio" name="vRenderer" value="gpu"> GPU (NVIDIA)</label>
+        <label class="v-radio"><input type="radio" name="vRenderer" value="cpu"> CPU</label>
+      </div>
+    </section>
+
+    <section class="v-section">
+      <h3>스펙트럼 <label class="v-switch"><input type="checkbox" id="sVisible"> 표시</label></h3>
+      <div class="v-row">
+        <span class="v-label">모양</span>
+        <select id="sKind">
+          <option value="bars">막대</option>
+          <option value="mirror">미러 막대</option>
+          <option value="line">선형 파형</option>
+          <option value="circle">원형</option>
+        </select>
+        <label class="v-check"><input type="checkbox" id="sSymmetric"> 좌우 대칭</label>
+      </div>
+      <div class="v-row">
+        <span class="v-label">막대 수</span>
+        <select id="sBars">
+          <option value="32">32</option>
+          <option value="48">48</option>
+          <option value="64">64</option>
+          <option value="96">96</option>
+          <option value="128">128</option>
+        </select>
+        <span class="v-label v-label-inline">위치</span>
+        <select id="sPosition">
+          <option value="bottom">하단</option>
+          <option value="center">중앙</option>
+        </select>
+      </div>
+      <div class="v-row"><span class="v-label">높이</span><input type="range" id="sSize" min="0.08" max="0.6" step="0.01"></div>
+      <div class="v-row"><span class="v-label">너비</span><input type="range" id="sWidth" min="0.3" max="1" step="0.01"></div>
+      <div class="v-row">
+        <span class="v-label">색상</span>
+        <input type="color" id="sColor1" title="아래쪽 색">
+        <input type="color" id="sColor2" title="위쪽 색">
+      </div>
+      <div class="v-row"><span class="v-label">글로우</span><input type="range" id="sGlow" min="0" max="1" step="0.05"></div>
+    </section>
+
+    <div class="v-render">
+      <button id="vRender" class="primary" disabled>영상 만들기</button>
+      <button id="vCancel" class="ghost hidden">취소</button>
+    </div>
+    <div id="vProgress" class="v-progress hidden">
+      <div class="bar"><div id="vProgressBar"></div></div>
+      <p id="vProgressText" class="v-info"></p>
+    </div>
+    <div id="vResult" class="v-result hidden">
+      <p id="vResultText"></p>
+      <p id="vResultCheck" class="v-info"></p>
+      <div class="v-row">
+        <button id="vOpen" class="ghost small">폴더 열기</button>
+        <button id="vCopyChapters" class="ghost small">타임스탬프 복사</button>
+      </div>
+      <pre id="vChapters" class="v-chapters"></pre>
+    </div>
+  </aside>
+</main>
+
+<!-- 새 버전 알림 -->
+<div id="update" class="overlay hidden">
+  <div class="setup-card update-card">
+    <h1>새 버전이 나왔습니다</h1>
+    <p class="muted"><span id="updateFrom"></span> → <b id="updateTo"></b></p>
+    <pre id="updateNotes" class="notes hidden"></pre>
+    <div class="bar hidden" id="updateBarWrap"><div id="updateBar"></div></div>
+    <p id="updateStatus" class="muted hidden"></p>
+    <div class="setup-actions">
+      <button id="updateNow" class="primary">지금 업데이트</button>
+      <button id="updateLater" class="ghost">나중에</button>
+    </div>
+    <p class="muted tiny">업데이트하면 프로그램이 잠시 닫혔다가 다시 열립니다. 만든 곡과 설치된 AI 모델은 그대로 유지됩니다.</p>
+  </div>
+</div>
+
+<!-- 악보 보기 · 수정 -->
+<div id="score" class="overlay hidden">
+  <div class="setup-card score-card">
+    <div class="score-head">
+      <h1>악보 <span class="muted" id="scoreTitle"></span></h1>
+      <button id="scoreClose" class="ghost small">닫기</button>
+    </div>
+    <p class="muted tiny" id="scoreIntroSong">YuE2가 쓴 악보입니다. 코드나 음을 고친 뒤 그 악보로 다시 만들 수 있습니다.
+      ABC 기보법이며, <code>"Gbmaj7"</code>처럼 따옴표 안이 코드, <code>z</code>가 쉼표입니다.</p>
+    <p class="muted tiny hidden" id="scoreIntroImport">직접 만든 멜로디로 곡을 만듭니다. MIDI 파일(큐베이스·FL Studio·로직·개러지밴드·
+      전자키보드에서 저장한 .mid)이나 ABC 악보를 열거나, 아래 칸에 ABC를 붙여넣으세요. 불러온 악보는 YuE2 규칙에
+      맞는지 바로 검사합니다. 가사와 스타일은 메인 화면에 적은 것을 씁니다.</p>
+    <div id="scoreImportBar" class="score-import hidden">
+      <button id="scoreOpenFile" class="primary small">파일 열기 (MIDI · ABC)</button>
+      <span id="scoreFileName" class="muted tiny"></span>
+    </div>
+    <div id="midiPanel" class="midi-panel hidden">
+      <label>보컬 멜로디 <select id="midiVocal"></select></label>
+      <label>반주 멜로디 <select id="midiIns"></select></label>
+      <label class="inst-toggle"><input type="checkbox" id="midiChords" checked> 반주에서 코드 읽기</label>
+      <p id="midiNotes" class="midi-notes"></p>
+    </div>
+    <p id="scoreInstrumental" class="muted tiny hidden">이 곡은 연주곡입니다. 악보를 어떻게 고치더라도
+      보컬 성부는 다시 비워진 채로 만들어집니다.</p>
+    <p id="scoreCheck" class="score-check"></p>
+    <div id="scoreInfo" class="score-info"></div>
+    <details class="score-request" id="scoreRequestBox">
+      <summary>이 곡을 만들 때 YuE2에 보낸 요청</summary>
+      <div id="scoreRequest"></div>
+    </details>
+    <div class="score-tools">
+      <button id="scoreMelodyOnly" class="ghost small">코드 빼기</button>
+      <button id="scoreVocalRest" class="ghost small">보컬 빼기 (연주곡)</button>
+      <button id="scoreInsRest" class="ghost small">반주 빼기</button>
+      <button id="scoreRevert" class="ghost small">원래대로</button>
+      <span class="muted tiny" id="scoreState"></span>
+    </div>
+    <textarea id="scoreText" spellcheck="false"></textarea>
+    <div class="setup-actions">
+      <button id="scoreRender" class="primary">이 악보로 곡 만들기</button>
+      <button id="scoreCopy" class="ghost">악보 복사</button>
+    </div>
+  </div>
+</div>
+
+<!-- 오류 안내 -->
+<div id="problem" class="overlay hidden">
+  <div class="setup-card problem-card">
+    <h1 id="problemTitle">곡을 만들지 못했습니다</h1>
+    <p id="problemText" class="problem-text"></p>
+    <pre id="problemDetail" class="log hidden"></pre>
+    <div class="setup-actions">
+      <button id="problemClose" class="primary">닫기</button>
+      <button id="problemCopy" class="ghost">오류 내용 복사</button>
+      <button id="problemLog" class="ghost">기록 파일 열기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 앨범 내보내기 -->
+<div id="album" class="overlay hidden">
+  <div class="setup-card album-card">
+    <h1>앨범으로 내보내기</h1>
+    <p class="muted tiny">지금 프로젝트의 완성곡을 한 폴더에 모아 저장합니다. 만든 순서대로 트랙 번호가 붙고,
+      각 파일에 곡 제목·앨범 이름·트랙 번호가 태그로 들어갑니다.</p>
+    <div class="album-grid">
+      <label>앨범 이름 <b id="albumName"></b></label>
+      <label>형식
+        <select id="albumFormat">
+          <option value="mp3">MP3 (320kbps)</option>
+          <option value="wav">WAV (원본 음질)</option>
+        </select>
+      </label>
+      <label class="album-check"><input type="checkbox" id="albumNumbered" checked> 파일 이름 앞에 트랙 번호 (01. 제목)</label>
+    </div>
+    <p id="albumSummary" class="album-summary"></p>
+    <div class="setup-actions">
+      <button id="albumOk" class="primary">저장할 곳 고르기</button>
+      <button id="albumCancel" class="ghost">취소</button>
+    </div>
+  </div>
+</div>
+
+<!-- 이름 입력 (Electron 에는 prompt() 가 없다) -->
+<div id="ask" class="overlay hidden">
+  <div class="setup-card ask-card">
+    <h1 id="askTitle">이름 변경</h1>
+    <input id="askInput" maxlength="60" autocomplete="off">
+    <div class="setup-actions">
+      <button id="askOk" class="primary">확인</button>
+      <button id="askCancel" class="ghost">취소</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="prompt.js"></script>
+<script src="sortable.js"></script>
+<script src="spectrum-renderer.js"></script>
+<script src="app.js"></script>
+<script src="studio.js"></script>
+</body>
+</html>

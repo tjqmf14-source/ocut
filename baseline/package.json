@@ -1,0 +1,10 @@
+{
+  "name": "o-cut-baseline",
+  "productName": "O-CUT Baseline",
+  "version": "0.50.2",
+  "description": "O-CUT Phase 0 verified reconstruction",
+  "main": "electron/main.js",
+  "author": "ssok.dev",
+  "homepage": "https://ssok.dev",
+  "license": "MIT"
+}
