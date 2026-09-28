@@ -1,0 +1,43 @@
+
+> o-cut-development@0.1.0 test
+> node --test tests/*.test.cjs
+
+✔ built ASAR contains the current baseline source bytes (20.361ms)
+✔ all recovered source bytes match ASAR integrity manifest (1.7708ms)
+✔ spectrum of digital silence remains zero (9.1702ms)
+✔ FFT responds to real samples and is deterministic (24.9748ms)
+✔ frame/time boundaries do not add a rounding frame (0.1268ms)
+✔ invalid MIDI is rejected (0.3132ms)
+✔ MIDI melody converts to valid ABC through recovered Python validator (78.2828ms)
+✔ render plan preserves resolution frame rate and repeat length (0.2463ms)
+✔ upstream updater cannot download or execute an installer (0.6133ms)
+✔ built core equals current source (5.5131ms)
+✔ project JSON round-trip preserves media tracks and source range (1.4454ms)
+✔ reject unknown format version instead of lossy migration (0.3036ms)
+✔ reject missing media reference (0.1487ms)
+✔ reject duplicate entity IDs (0.1357ms)
+✔ reject clip source overrun and mismatched speed span (0.1437ms)
+✔ reject NaN infinity and zero duration (0.2235ms)
+✔ reject unsafe JSON object keys and unsupported fields (0.1591ms)
+✔ support source-free text and bounded keyframes (0.1987ms)
+✔ undo redo round-trip and branching clear redo (0.6364ms)
+✔ failed edit and retained draft cannot mutate history (0.3105ms)
+✔ history is bounded and rejects async edits (0.7345ms)
+✔ document identity remains stable through history edits (0.2063ms)
+✔ save open update enforces optimistic concurrency (24.506ms)
+✔ invalid save preserves existing bytes and releases lock (4.5588ms)
+✔ corrupt on-disk document is rejected and never silently overwritten (3.4136ms)
+✔ traversal reserved filenames and alternate data streams are rejected (0.5908ms)
+✔ existing lock prevents writes without stealing another writer lock (1.585ms)
+✔ simultaneous saves cannot both overwrite the same revision (4.2671ms)
+✔ autosave recovery preserves primary project and survives new service instance (8.6388ms)
+✔ reject non-regular project targets (1.2724ms)
+✔ actual packaged Electron runtime saves and reopens core in separate processes (150.5681ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 268.0632

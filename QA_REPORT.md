@@ -16,3 +16,5 @@ Phase 0 상세 결과 및 미검증 기능은 [BASELINE_REPORT.md](BASELINE_REPO
 | evidence/phase0/npm-audit.json | 개발 도구 의존성 취약점 0건 |
 
 최종 제품 Scenario A–E, 새 PC 설치, NVENC fallback, 장시간/대용량 timeline, 자막/STT/전환/키프레임은 **NOT RUN**입니다. Phase 0 출력은 원본 playlist 영상 기능의 검증이며 미래 O-CUT timeline의 검증이 아닙니다.
+
+Phase 1 현재 검사: 31/31 통과, 실패/skip/취소 0. `evidence/phase1/tests.log`와 [Phase 1 보고서](PHASE1_REPORT.md)를 참조합니다. 실제 baseline UI/runtime/render 코드는 이 단계에서 변경하지 않았으며 해당 ASAR와 소스의 동일성을 재검증했습니다.

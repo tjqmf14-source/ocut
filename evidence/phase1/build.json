@@ -1,0 +1,18 @@
+{
+  "time": "2026-09-28T13:31:18.865Z",
+  "kind": "CommonJS core distribution; no UI or installer",
+  "files": [
+    {
+      "file": "core/project.cjs",
+      "sha256": "2e17d21a5e321a90fa7bcda516f49eb7290dc106cb99861bbb7fe0fee27a307c"
+    },
+    {
+      "file": "core/history.cjs",
+      "sha256": "1c30a10a1fe73382c71dd454471e241bea7700857f664dd7c1d6d2c511315cd1"
+    },
+    {
+      "file": "infrastructure/project-store.cjs",
+      "sha256": "505f501322747b521a60452f5349461102e84558479560249327ea7c023ed560"
+    }
+  ]
+}

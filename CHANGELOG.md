@@ -1,5 +1,13 @@
 # 변경 이력
 
+## Phase 1 기반 — 2026-09-28
+
+- `.ocut` v1 데이터 모델/검증/직렬화 구현.
+- 독립 snapshot 기반 undo/redo와 문서 identity 보호.
+- 원자적 파일 저장, etag 충돌 검사, 복구본 저장/재열기 구현.
+- 31개 회귀/기능 검사 및 별도 Electron 프로세스 저장 smoke 통과.
+- 신규 UI 연결 및 timeline/export adapter는 후속 단계로 명시.
+
 ## Phase 0 — 2026-09-28
 
 - 설치 파일 정적 추출, ASAR 21개 파일 SHA-256 대조 복원.

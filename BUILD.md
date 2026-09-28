@@ -18,3 +18,7 @@ Windows, Node >=22.12, npm, 원본 installer 추출물이 필요합니다. 이�
 QA는 실제 창과 GPU를 사용합니다. 실행 중 테스트 창의 입력을 바꾸거나 닫으면 실패할 수 있습니다. 기존 사용자 곡/설정을 import하지 않습니다. 원본/패키지/미디어/모델은 Git에 넣지 않으며 이 PC에 보존합니다.
 
 빌드는 Electron 런타임을 재사용한 소스 repack입니다. 원 제작자의 lockfile 및 installer 설정이 없어 원본 installer의 비트 단위 재현을 주장하지 않습니다. 최종 O-CUT installer는 후속 Phase입니다.
+
+## Phase 1 코어
+
+Phase 1 브랜치에서는 `npm run build:core`를 먼저 실행한 뒤 `npm test`를 실행합니다. 테스트는 배포 사본 `dist/core`를 사용하며 현재 소스와 동일한지 확인합니다. 실제 Electron 저장/재열기 smoke에는 Phase 0 baseline 빌드도 필요합니다. 신규 runtime dependency는 없습니다.
