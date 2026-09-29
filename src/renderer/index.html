@@ -11,7 +11,7 @@
   <header class="topbar">
     <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M24 7a12 12 0 1 0 1 17"/><path d="M15 17 29 3"/></svg><span>O-CUT</span><span class="edition">STUDIO</span></div>
     <div class="document-name"><span class="document-dot"></span><span id="documentTitle">새 프로젝트</span><span id="saveState" class="muted">저장 전</span></div>
-    <div class="top-actions"><button id="newProject" class="quiet">새 프로젝트</button><button id="openProject" class="quiet">열기</button><span class="divider"></span><button id="undo" class="icon-button" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소">↶</button><button id="redo" class="icon-button" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행">↷</button><button id="save" class="secondary">저장</button><button id="saveAs" class="quiet" title="다른 이름으로 저장">다른 이름으로</button></div>
+    <div class="top-actions"><button id="newProject" class="quiet">새 프로젝트</button><button id="openProject" class="quiet">열기</button><span class="divider"></span><button id="undo" class="icon-button" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소">↶</button><button id="redo" class="icon-button" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행">↷</button><button id="save" class="secondary">저장</button><button id="saveAs" class="quiet" title="다른 이름으로 저장">다른 이름으로</button><button id="exportVideo" class="primary">MP4 내보내기 ↗</button></div>
   </header>
   <main class="workspace">
     <aside class="library">
@@ -57,6 +57,7 @@
     </section>
   </main>
   <footer class="statusbar"><span id="status" role="status" aria-live="polite">준비 중…</span><span>O-CUT · 로컬 스튜디오</span></footer>
-  <script src="playback.js"></script><script src="app.js"></script>
+  <dialog id="exportDialog"><div class="overline">O-CUT EXPORT</div><h2>영상을 만들고 있습니다</h2><p id="exportDescription"></p><progress id="exportProgress" max="100" value="0"></progress><p id="exportPercent" role="status">저장할 위치를 선택해 주세요.</p><button id="cancelExport" class="secondary">내보내기 취소</button></dialog>
+  <script src="text.js"></script><script src="playback.js"></script><script src="app.js"></script>
 </body>
 </html>

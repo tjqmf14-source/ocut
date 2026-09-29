@@ -1,0 +1,37 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
+const { createHash } = require('node:crypto');
+const { _electron } = require('playwright-core');
+const root = path.resolve(__dirname, '..'), evidence = path.join(root, 'evidence/studio');
+const timeline = JSON.parse(fs.readFileSync(path.join(evidence, 'timeline-qa.json')));
+const data = path.join(root, '.runtime', 'export-recovery-' + Date.now()); fs.mkdirSync(data, { recursive: true });
+const checks = []; let app;
+const hash = file => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+async function main() {
+  app = await _electron.launch({ executablePath: path.join(root, 'dist/studio/O-CUT.exe'), env: { ...process.env, OCUT_DATA_DIR: path.join(data, 'user') } });
+  const page = await app.firstWindow(); await page.waitForFunction(() => document.querySelector('#status').textContent === '프로젝트 준비됨');
+  await app.evaluate(({ dialog }, file) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [file] }); }, timeline.save);
+  await page.locator('#openProject').click(); await page.waitForFunction(() => document.querySelectorAll('.clip').length === 4);
+  await page.locator('#resolution').selectOption('3840,2160'); await page.locator('#projectForm button').click();
+  await page.waitForFunction(() => document.querySelector('#canvasInfo').textContent.includes('3840'));
+  const output = path.join(data, 'existing-output.mp4'); fs.writeFileSync(output, 'previous-output-preserve-on-cancel'); const before = hash(output);
+  await app.evaluate(({ dialog }, file) => { dialog.showSaveDialog = async () => ({ canceled: false, filePath: file }); }, output);
+  await page.locator('#exportVideo').click(); await page.waitForFunction(() => document.querySelector('#exportProgress').value > 0, null, { timeout: 30000 });
+  await page.locator('#cancelExport').click(); await page.waitForFunction(() => !document.querySelector('#exportDialog').open);
+  assert.match(await page.locator('#status').textContent(), /취소/); assert.equal(hash(output), before);
+  assert.equal(fs.readdirSync(data).some(f => f.startsWith('.ocut-')), false);
+  checks.push('cancel running FFmpeg preserves prior target bytes and removes partial file');
+  const source = timeline.project.media.find(m => m.type === 'video').path, sourceBefore = hash(source);
+  await app.evaluate(({ dialog }, file) => { dialog.showSaveDialog = async () => ({ canceled: false, filePath: file }); }, source);
+  await page.locator('#exportVideo').click(); await page.waitForFunction(() => !document.querySelector('#exportDialog').open);
+  assert.match(await page.locator('#status').textContent(), /원본 미디어에 덮어쓸 수 없습니다/); assert.equal(hash(source), sourceBefore);
+  checks.push('source video overwrite rejected with original bytes unchanged');
+  await app.evaluate(({ dialog }) => { dialog.showSaveDialog = async () => ({ canceled: true }); });
+  await page.locator('#exportVideo').click(); await page.waitForFunction(() => !document.querySelector('#exportDialog').open);
+  assert.match(await page.locator('#status').textContent(), /취소/); assert.equal(await page.locator('#projectName').isEnabled(), true);
+  checks.push('native save dialog cancel returns usable editor');
+  await app.evaluate(({ app }) => app.exit()); app = null;
+  fs.writeFileSync(path.join(evidence, 'export-recovery-qa.json'), JSON.stringify({ time: new Date().toISOString(), data, checks }, null, 2));
+  console.log('Export recovery PASS:', checks.length, 'checks');
+}
+main().catch(async e => { console.error(e); fs.writeFileSync(path.join(evidence, 'export-recovery-failure.json'), JSON.stringify({ error: e.stack, data, checks }, null, 2)); if (app) await app.evaluate(({ app }) => app.exit()).catch(() => {}); process.exitCode = 1; });

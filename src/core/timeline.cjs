@@ -13,7 +13,9 @@ function trackFor(project, type) {
   let track = project.tracks.find(item => item.type === type && !item.locked);
   if (!track) {
     track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', text: '텍스트' }[type] || type);
-    project.tracks.splice(type === 'audio' ? project.tracks.length : 0, 0, track);
+    const rank = item => ['text', 'subtitle'].includes(item) ? 0 : ['audio', 'music'].includes(item) ? 2 : 1;
+    const at = project.tracks.findIndex(item => rank(item.type) > rank(type));
+    project.tracks.splice(at < 0 ? project.tracks.length : at, 0, track);
   }
   return track;
 }

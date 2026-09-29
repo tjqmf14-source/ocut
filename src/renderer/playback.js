@@ -79,10 +79,7 @@ class StudioPlayback {
         ctx.rotate(clip.transform.rotation * Math.PI / 180);
         ctx.scale(clip.transform.scaleX * (clip.transform.flipX ? -1 : 1), clip.transform.scaleY * (clip.transform.flipY ? -1 : 1));
         if (clip.type === 'text' || clip.type === 'subtitle') {
-          ctx.font = `600 ${Math.round(height * 0.05)}px "Malgun Gothic", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          const lines = clip.text.split('\n'); const lineHeight = height * 0.065;
-          ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#000000'; ctx.lineWidth = Math.max(2, height * 0.003);
-          lines.forEach((line, i) => { const y = (i - (lines.length - 1) / 2) * lineHeight; ctx.strokeText(line, 0, y); ctx.fillText(line, 0, y); });
+          OcutText.paint(ctx, clip, height);
         } else if (entry && (entry.media.type === 'image' ? entry.node.complete && entry.node.naturalWidth : entry.node.readyState >= 2)) {
           const w = entry.node.videoWidth || entry.node.naturalWidth, h = entry.node.videoHeight || entry.node.naturalHeight;
           const scale = Math.min(width / w, height / h); ctx.drawImage(entry.node, -w * scale / 2, -h * scale / 2, w * scale, h * scale);

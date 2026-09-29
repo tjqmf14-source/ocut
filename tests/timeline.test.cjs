@@ -9,6 +9,12 @@ function fixture() {
   p.media.push({ id: randomUUID(), type: 'video', path: 'D:/clip.mp4', name: 'clip', duration: 10, fingerprint: null });
   const h = new ProjectHistory(p); const id = applyCommand(h, { type: 'add', mediaId: p.media[0].id }); return { h, id };
 }
+test('new image track stays below titles and above audio', () => {
+  const p = createProject(); p.tracks.push(createTrack('text'), createTrack('video'), createTrack('audio'));
+  p.media.push({ id: 'image', type: 'image', path: 'D:/image.png', name: 'image', duration: null, fingerprint: null });
+  const h = new ProjectHistory(p); applyCommand(h, { type: 'add', mediaId: 'image' });
+  assert.deepEqual(h.state.tracks.map(t => t.type), ['text', 'video', 'image', 'audio']);
+});
 test('split preserves exact source span and is one undoable operation', () => {
   const { h, id } = fixture(); const right = applyCommand(h, { type: 'split', id, time: 3 });
   const [a, b] = h.state.clips; assert.equal(b.id, right); assert.equal(a.duration, 3); assert.equal(a.sourceEnd, 3); assert.equal(b.sourceStart, 3); assert.equal(b.duration, 7); assert.equal(b.startTime, 3); assert.equal(durationOf(h.state), 10);

@@ -1,0 +1,9 @@
+{
+  "time": "2026-09-29T11:50:39.015Z",
+  "data": "D:\\O-CUT\\.runtime\\export-recovery-1790682637416",
+  "checks": [
+    "cancel running FFmpeg preserves prior target bytes and removes partial file",
+    "source video overwrite rejected with original bytes unchanged",
+    "native save dialog cancel returns usable editor"
+  ]
+}

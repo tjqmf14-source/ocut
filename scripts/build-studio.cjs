@@ -7,7 +7,8 @@ const root = path.resolve(__dirname, '..');
 async function main() {
   const { createPackageWithOptions } = await import('@electron/asar');
   const out = path.join(root, 'dist/studio');
-  const staging = path.join(root, '.runtime/studio-package');
+  fs.mkdirSync(path.join(root, '.runtime'), { recursive: true });
+  const staging = fs.mkdtempSync(path.join(root, '.runtime/studio-package-'));
   const input = path.join(root, 'original/extracted');
   fs.mkdirSync(staging, { recursive: true });
   const manifest = [];
@@ -21,7 +22,7 @@ async function main() {
     }
   }
   copy(path.join(root, 'src'));
-  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.2.0', private: true, main: 'src/desktop/main.cjs' }));
+  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.3.0', private: true, main: 'src/desktop/main.cjs' }));
   fs.mkdirSync(out, { recursive: true });
   for (const e of fs.readdirSync(input)) {
     if (e === 'resources') continue;

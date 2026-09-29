@@ -14,5 +14,12 @@ contextBridge.exposeInMainWorld('ocut', {
   undo: () => call('history:undo'),
   redo: () => call('history:redo'),
   importMedia: () => call('media:import'),
-  edit: action => call('timeline:edit', action)
+  edit: action => call('timeline:edit', action),
+  exportVideo: () => call('render:export'),
+  cancelExport: () => ipcRenderer.send('render:cancel'),
+  onExportProgress: callback => {
+    const listener = (_event, percent) => callback(percent);
+    ipcRenderer.on('render:progress', listener);
+    return () => ipcRenderer.removeListener('render:progress', listener);
+  }
 });

@@ -1,6 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 let state, busy = false, selected = new Set(), zoom = 70, snap = true, ripple = false;
+let exporting = false;
 const clipNodes = new Map(), cardNodes = new Map();
 const symbols = { text: 'T', video: '▣', image: '▧', audio: '♫', music: '♫' };
 const clock = t => { const m = Math.floor(t / 60); return `${String(m).padStart(2, '0')}:${(t % 60).toFixed(3).padStart(6, '0')}`; };
@@ -12,6 +13,11 @@ const playback = new StudioPlayback($('preview'), (time, playing) => {
 const selectedClip = () => state?.project.clips.find(c => selected.has(c.id));
 function render(next) {
   if (next) {
+    if (next.reloadMedia) {
+      playback.clear();
+      for (const node of cardNodes.values()) node.remove(); cardNodes.clear();
+      for (const node of clipNodes.values()) node.remove(); clipNodes.clear();
+    }
     if (state?.project.id !== next.project.id) selected.clear();
     state = next;
     if (Object.hasOwn(next, 'selectedId')) selected = new Set(next.selectedId ? [next.selectedId] : []);
@@ -70,7 +76,7 @@ function renderTimeline() {
   $('trackHeaders').replaceChildren();
   const lanes = new Map([...$('tracks').children].map(node => [node.dataset.trackId, node]));
   for (const track of p.tracks) {
-    const head = document.createElement('div'); head.className = 'track-head';
+    const head = document.createElement('div'); head.className = 'track-head'; head.dataset.trackId = track.id;
     const name = document.createElement('span'); name.className = 'track-name'; name.textContent = `${symbols[track.type] || '▣'}  ${track.name}`;
     const toggles = document.createElement('div'); toggles.className = 'track-toggles';
     for (const [property, label, title] of [['locked', 'L', '트랙 잠금'], ['hidden', 'V', '화면 숨김'], ['muted', 'M', '음소거'], ['solo', 'S', '이 트랙만 듣기']]) {
@@ -80,12 +86,14 @@ function renderTimeline() {
     head.append(name, toggles); $('trackHeaders').append(head);
     let lane = lanes.get(track.id);
     if (!lane) { lane = document.createElement('div'); lane.className = 'track-lane'; lane.dataset.trackId = track.id; $('tracks').append(lane); }
+    $('tracks').append(lane);
     lane.classList.toggle('locked', track.locked); lane.classList.toggle('track-hidden', track.hidden); lanes.delete(track.id);
     lane.ondragover = event => event.preventDefault();
     lane.ondrop = event => { event.preventDefault(); const id = event.dataTransfer.getData('application/ocut-media'); if (id) edit({ type: 'add', mediaId: id, startTime: timeAt(event.clientX) }); };
     lane.onpointerdown = event => { if (event.target !== lane) return; selected.clear(); playback.seek(timeAt(event.clientX)); renderSelection(); renderInspector(); };
   }
   for (const lane of lanes.values()) lane.remove();
+  $('trackHeaders').scrollTop = $('timelineBody').scrollTop;
   const ids = new Set(p.clips.map(c => c.id));
   for (const [id, node] of clipNodes) if (!ids.has(id)) { node.remove(); clipNodes.delete(id); }
   for (const clip of p.clips) {
@@ -213,6 +221,7 @@ $('clipForm').onsubmit = event => {
   edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
+  if (exporting) return;
   const key = event.key.toLowerCase(), typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
   if ((event.ctrlKey || event.metaKey) && key === 's') { event.preventDefault(); $(event.shiftKey ? 'saveAs' : 'save').click(); return; }
   if (typing) return;
@@ -230,4 +239,18 @@ new ResizeObserver(entries => {
   const frame = document.querySelector('.monitor-frame'); const fitted = Math.min(width, height * ratio);
   frame.style.width = `${fitted}px`; frame.style.height = `${fitted / ratio}px`;
 }).observe(document.querySelector('.monitor-space'));
+window.ocut.onExportProgress(percent => { $('exportProgress').value = percent; $('exportPercent').textContent = `${Math.floor(percent)}% · ${percent >= 99 ? '파일 확인 중' : '영상과 음성 출력 중'}`; });
+$('exportDialog').addEventListener('cancel', event => event.preventDefault());
+$('cancelExport').onclick = () => { window.ocut.cancelExport(); $('cancelExport').disabled = true; $('exportPercent').textContent = '취소하고 있습니다…'; };
+$('exportVideo').onclick = async () => {
+  if (busy) return;
+  busy = exporting = true; playback.pause();
+  const s = state.project.exportSettings;
+  $('exportDescription').textContent = `${s.width} × ${s.height} · ${s.fps} FPS · H.264 / AAC`;
+  $('exportProgress').value = 0; $('exportPercent').textContent = '저장할 위치를 선택해 주세요.'; $('cancelExport').disabled = false;
+  $('exportDialog').showModal();
+  try { const result = await window.ocut.exportVideo(); message(result ? `내보내기 완료: ${result.target}` : '내보내기를 취소했습니다.'); }
+  catch (error) { message(error.message, true); }
+  finally { $('exportDialog').close(); busy = exporting = false; }
+};
 act(() => window.ocut.state(), '프로젝트 준비됨');

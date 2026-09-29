@@ -1,0 +1,301 @@
+{
+  "time": "2026-09-29T11:50:37.097Z",
+  "data": "D:\\O-CUT\\.runtime\\image-export-1790682632871",
+  "output": "D:\\O-CUT\\.runtime\\image-export-1790682632871\\O-CUT-image-music-text.mp4",
+  "ssim": 0.990249,
+  "fullDecode": true,
+  "metadata": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640028",
+        "width": 1920,
+        "height": 1080,
+        "coded_width": 1920,
+        "coded_height": 1080,
+        "has_b_frames": 2,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "16:9",
+        "pix_fmt": "yuv420p",
+        "level": 40,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/15360",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 92160,
+        "duration": "6.000000",
+        "bit_rate": "127017",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "180",
+        "extradata_size": 51,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc63.1.100 libx264"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "profile": "LC",
+        "codec_type": "audio",
+        "codec_tag_string": "mp4a",
+        "codec_tag": "0x6134706d",
+        "mime_codec_string": "mp4a.40.2",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 1024,
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 288000,
+        "duration": "6.000000",
+        "bit_rate": "191601",
+        "nb_frames": "283",
+        "extradata_size": 5,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler"
+        }
+      }
+    ],
+    "format": {
+      "filename": "D:\\O-CUT\\.runtime\\image-export-1790682632871\\O-CUT-image-music-text.mp4",
+      "nb_streams": 2,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "6.000000",
+      "size": "247515",
+      "bit_rate": "330020",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf63.1.100"
+      }
+    }
+  },
+  "project": {
+    "format": "O-CUT",
+    "version": 1,
+    "id": "d7685c99-dd9d-4758-bcc0-3bb1f8411d49",
+    "name": "새 프로젝트",
+    "createdAt": "2026-09-29T11:50:33.011Z",
+    "modifiedAt": "2026-09-29T11:50:33.830Z",
+    "revision": 6,
+    "canvas": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "background": "#101216"
+    },
+    "media": [
+      {
+        "id": "33028dc4-3c05-4868-9295-91632d4eefdf",
+        "type": "image",
+        "path": "D:\\O-CUT\\.runtime\\image-export-1790682632871\\image.png",
+        "name": "image.png",
+        "duration": null,
+        "fingerprint": null
+      },
+      {
+        "id": "45626eb7-5fc5-4f52-b05c-d19c638c5a9d",
+        "type": "audio",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1790682615156\\music.wav",
+        "name": "music.wav",
+        "duration": 6,
+        "fingerprint": null
+      }
+    ],
+    "tracks": [
+      {
+        "id": "37bdf19e-fdbd-4959-bdb3-6da74e5e7ede",
+        "type": "text",
+        "name": "텍스트",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      },
+      {
+        "id": "9161e33e-561f-40ee-a5b2-6c947a46da8f",
+        "type": "video",
+        "name": "영상",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      },
+      {
+        "id": "01e6d455-e7a2-4b23-bbee-4eb8cffb1f8c",
+        "type": "image",
+        "name": "이미지",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      },
+      {
+        "id": "259c4dd6-ebc6-4d24-b7f0-02051f525191",
+        "type": "audio",
+        "name": "오디오",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      }
+    ],
+    "clips": [
+      {
+        "id": "c026e593-0d0a-49e3-82b6-e1632d9127eb",
+        "trackId": "01e6d455-e7a2-4b23-bbee-4eb8cffb1f8c",
+        "type": "image",
+        "source": "33028dc4-3c05-4868-9295-91632d4eefdf",
+        "startTime": 0,
+        "duration": 5,
+        "sourceStart": 0,
+        "sourceEnd": 5,
+        "speed": 1,
+        "transform": {
+          "x": 120,
+          "y": 50,
+          "scaleX": 0.75,
+          "scaleY": 0.75,
+          "rotation": 15,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 0.8,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "5d165006-9971-4f94-8ec8-8a410745f782",
+        "trackId": "259c4dd6-ebc6-4d24-b7f0-02051f525191",
+        "type": "audio",
+        "source": "45626eb7-5fc5-4f52-b05c-d19c638c5a9d",
+        "startTime": 0,
+        "duration": 6,
+        "sourceStart": 0,
+        "sourceEnd": 6,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "08596345-03c0-4490-9937-bcd7384b328c",
+        "trackId": "37bdf19e-fdbd-4959-bdb3-6da74e5e7ede",
+        "type": "text",
+        "source": null,
+        "startTime": 0,
+        "duration": 3,
+        "sourceStart": 0,
+        "sourceEnd": 3,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "이미지와 음악 · O-CUT"
+      }
+    ],
+    "exportSettings": {
+      "container": "mp4",
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    }
+  }
+}

@@ -23,4 +23,14 @@ Preview/Render 구현이 들어오기 전 데이터 계층 테스트만으로 �
 
 Document version은 schema 호환성, revision은 메모리 편집 순서, etag는 저장 파일의 바이트 변경을 나타냅니다. 미래 schema를 추측해 변환하지 않고 거부합니다. 단일 프로세스 history의 full snapshot은 초기 검증에 유리하지만 대형 timeline에서 메모리 비용이 있으므로 향후 측정 후 command delta로 전환합니다.
 
-프로젝트를 읽는 것만으로 media 실행/다운로드 또는 코드 실행을 하지 않습니다. 저장은 main-side adapter가 소유할 예정이며 renderer에 임의 filesystem 함수를 노출하지 않습니다. 실제 IPC 연결은 아직 구현하지 않았습니다.
+현재 main-side session이 프로젝트와 파일 저장을 소유하고 제한된 preload IPC로 편집 명령을 받습니다. 프로젝트를 열 때 로컬 미디어를 FFprobe/FFmpeg로 분석하며 다운로드나 프로젝트 내부 코드 실행은 하지 않습니다. renderer에는 임의 filesystem 함수를 노출하지 않습니다.
+
+## Studio 편집/출력 구현
+
+`timeline.cjs` 명령은 History transaction에서 전체 프로젝트 검증을 거칩니다. renderer는 키가 같은 클립 DOM을 유지하고 재생 시 playhead/Canvas만 갱신합니다. 파형은 FFmpeg로 읽은 실제 PCM의 시간별 peak를 캐시합니다. 미디어 ID를 허용 목록으로 검사하는 `ocut-media` 프로토콜이 등록된 파일만 읽습니다.
+
+Preview는 HTMLVideoElement/Image, Canvas, Web Audio를 사용합니다. Export는 main이 가진 프로젝트 snapshot을 `render-plan.cjs`에 전달합니다. renderer에서 별도 출력용 타임라인을 만들지 않습니다. 텍스트는 `text.js`의 공통 Canvas 그리기를 사용해 투명 레이어로 만들고 FFmpeg가 트랙 순서대로 합성합니다. 미디어 trim/speed/transform와 오디오 mute/solo/volume은 동일 프로젝트 필드에서 읽습니다.
+
+FFmpeg는 shell 없이 인수 배열로 실행합니다. 필터는 생성한 파일로 전달하고 사용자 텍스트는 필터 문법에 삽입하지 않습니다. 결과는 임시 파일로 출력한 뒤 실제 metadata를 검사하고 대상 파일 변경 여부를 확인한 후 교체합니다. 취소 IPC는 출력 작업의 직렬 queue를 기다리지 않고 프로세스를 중단합니다. 작업 snapshot/filter/log는 앱 데이터의 exports 폴더에 보존합니다.
+
+공식 참고: [Electron protocol](https://www.electronjs.org/docs/latest/api/protocol), [FFmpeg filter graph](https://ffmpeg.org/ffmpeg-filters.html), [FFmpeg 파일 인수 옵션](https://ffmpeg.org/ffmpeg.html#Options).

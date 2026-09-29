@@ -1,0 +1,22 @@
+[
+  {
+    "path": "D:\\O-CUT\\artifacts\\vertical-slice\\O-CUT-1080p-30.mp4",
+    "bytes": 2153145,
+    "sha256": "7aae6a5c6f213273e03f8bedc0014f70d4468de8b7610d447eeae450345dca28"
+  },
+  {
+    "path": "D:\\O-CUT\\artifacts\\vertical-slice\\O-CUT-1080p-60.mp4",
+    "bytes": 2194428,
+    "sha256": "847a8cff2591decf9084046ea07bbfa2a49d60afc4282ed53f8337b36dc3e89d"
+  },
+  {
+    "path": "D:\\O-CUT\\artifacts\\vertical-slice\\O-CUT-2160p-30.mp4",
+    "bytes": 5085145,
+    "sha256": "3e83f0e50c9e023d8844a9d21a7f3e29d0ad6ddf94203a555eb2c60a60d49856"
+  },
+  {
+    "path": "D:\\O-CUT\\artifacts\\vertical-slice\\O-CUT-image-music-text.mp4",
+    "bytes": 247515,
+    "sha256": "a15524ed2f37f2b577da3ef36d302188feea41b76859c6a734476b2926c2e331"
+  }
+]

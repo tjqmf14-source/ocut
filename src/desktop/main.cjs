@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const { StudioSession } = require('./session.cjs');
 const { MediaLibrary } = require('../infrastructure/media.cjs');
 const { applyCommand } = require('../core/timeline.cjs');
+const { renderVideo } = require('../infrastructure/render.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -15,6 +16,7 @@ let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache')
 protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
+let exportAbort;
 let serial = Promise.resolve();
 const rendererPath = path.join(__dirname, '../renderer/index.html');
 const log = message => {
@@ -69,7 +71,7 @@ register('project:open', async () => {
     catch (error) { missing.push(`${media.name}: ${error.message}`); }
   }
   session = next; library = assets;
-  return snapshot({ selectedId: null, warning: missing.length ? `누락되거나 읽을 수 없는 미디어 ${missing.length}개: ${missing.join(' / ')}` : null });
+  return snapshot({ selectedId: null, reloadMedia: true, warning: missing.length ? `누락되거나 읽을 수 없는 미디어 ${missing.length}개: ${missing.join(' / ')}` : null });
 });
 register('project:save', as => save(Boolean(as)));
 register('history:undo', () => { session.history.undo(); return snapshot(); });
@@ -77,6 +79,22 @@ register('history:redo', () => { session.history.redo(); return snapshot(); });
 register('timeline:edit', action => {
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
+});
+register('render:export', async () => {
+  const project = session.history.state;
+  if (!project.clips.length) throw Error('타임라인에 클립을 추가해 주세요.');
+  const picked = await dialog.showSaveDialog(window, { title: 'MP4 내보내기', defaultPath: `${project.name}.mp4`, filters: [{ name: 'MP4 영상', extensions: ['mp4'] }] });
+  if (picked.canceled || !picked.filePath) return null;
+  exportAbort = new AbortController();
+  try {
+    return await renderVideo({ project, library, target: picked.filePath.toLowerCase().endsWith('.mp4') ? picked.filePath : picked.filePath + '.mp4',
+      cacheDir: path.join(app.getPath('userData'), 'exports'), signal: exportAbort.signal,
+      textImage: (clip, canvas, output) => window.webContents.executeJavaScript(`window.OcutText.image(${JSON.stringify(clip)},${JSON.stringify(canvas)},${JSON.stringify(output)})`),
+      onProgress: percent => { if (!window.isDestroyed()) window.webContents.send('render:progress', percent); } });
+  } finally { exportAbort = null; }
+});
+ipcMain.on('render:cancel', event => {
+  if (event.sender === window.webContents && event.senderFrame === window.webContents.mainFrame) exportAbort?.abort();
 });
 register('media:import', async () => {
   const picked = await dialog.showOpenDialog(window, { title: '영상 · 이미지 · 오디오 가져오기', properties: ['openFile', 'multiSelections'], filters: [{ name: '미디어', extensions: ['mp4', 'mov', 'mkv', 'webm', 'avi', 'wav', 'mp3', 'm4a', 'flac', 'ogg', 'aac', 'png', 'jpg', 'jpeg', 'webp'] }] });
@@ -112,6 +130,7 @@ app.whenReady().then(() => {
   window.webContents.on('render-process-gone', (_event, details) => log('renderer gone: ' + JSON.stringify(details)));
   let closing = false;
   window.on('close', event => {
+    if (exportAbort) { event.preventDefault(); return; }
     if (closing || !session.snapshot().dirty) return;
     event.preventDefault();
     serial = serial.then(async () => { if (await mayDiscard()) { closing = true; window.close(); } }).catch(error => log(error.stack));

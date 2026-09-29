@@ -1,6 +1,7 @@
 original/
 node_modules/
 dist/
+artifacts/
 .runtime/
 baseline/node_modules/
 __pycache__/
