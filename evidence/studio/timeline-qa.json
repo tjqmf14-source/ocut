@@ -1,0 +1,187 @@
+{
+  "time": "2026-09-29T11:33:24.204Z",
+  "data": "D:\\O-CUT\\.runtime\\timeline-1790681600721",
+  "save": "D:\\O-CUT\\.runtime\\timeline-1790681600721\\timeline.ocut",
+  "checks": [
+    "actual video/audio import, PCM waveform, thumbnails",
+    "actual realtime playback and decoded canvas video",
+    "UI playhead split and inspector trim",
+    "text edit undo redo through actual controls",
+    "actual pointer drag move and right edge trim",
+    "track lock disables editing and unlock restores editing",
+    "app close relaunch project open restores exact timeline"
+  ],
+  "errors": [],
+  "project": {
+    "format": "O-CUT",
+    "version": 1,
+    "id": "3bb63479-064d-495a-8e9a-1209adfd8ccb",
+    "name": "새 프로젝트",
+    "createdAt": "2026-09-29T11:33:21.250Z",
+    "modifiedAt": "2026-09-29T11:33:23.381Z",
+    "revision": 15,
+    "canvas": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "background": "#101216"
+    },
+    "media": [
+      {
+        "id": "a63dcc88-c3da-4573-817c-5460c9b39e93",
+        "type": "video",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1790681600721\\motion.mp4",
+        "name": "motion.mp4",
+        "duration": 6,
+        "fingerprint": null
+      },
+      {
+        "id": "be4a2eb5-a7b3-4fa4-837f-0c1013ba9d3f",
+        "type": "audio",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1790681600721\\music.wav",
+        "name": "music.wav",
+        "duration": 6,
+        "fingerprint": null
+      }
+    ],
+    "tracks": [
+      {
+        "id": "afb30b18-fcf9-45f8-b7af-06f6bb5ab836",
+        "type": "text",
+        "name": "텍스트",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      },
+      {
+        "id": "02dbb773-3cbd-43a4-8550-f95dd82ca07c",
+        "type": "video",
+        "name": "영상",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      },
+      {
+        "id": "6f399714-d7a2-4231-afcd-ec922495598a",
+        "type": "audio",
+        "name": "오디오",
+        "locked": false,
+        "hidden": false,
+        "muted": false,
+        "solo": false
+      }
+    ],
+    "clips": [
+      {
+        "id": "832f727d-d546-480e-b60d-b875ba3b6b4b",
+        "trackId": "02dbb773-3cbd-43a4-8550-f95dd82ca07c",
+        "type": "video",
+        "source": "a63dcc88-c3da-4573-817c-5460c9b39e93",
+        "startTime": 0,
+        "duration": 2,
+        "sourceStart": 0,
+        "sourceEnd": 2,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "6198368c-dce1-4b3a-b245-d5f86035c52c",
+        "trackId": "02dbb773-3cbd-43a4-8550-f95dd82ca07c",
+        "type": "video",
+        "source": "a63dcc88-c3da-4573-817c-5460c9b39e93",
+        "startTime": 2,
+        "duration": 2,
+        "sourceStart": 2,
+        "sourceEnd": 4,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "ddf7fa74-aed4-4cd5-8e03-add7f993453a",
+        "trackId": "6f399714-d7a2-4231-afcd-ec922495598a",
+        "type": "audio",
+        "source": "be4a2eb5-a7b3-4fa4-837f-0c1013ba9d3f",
+        "startTime": 0,
+        "duration": 6,
+        "sourceStart": 0,
+        "sourceEnd": 6,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "92e63e28-88b4-4537-b175-b85b02ef0875",
+        "trackId": "afb30b18-fcf9-45f8-b7af-06f6bb5ab836",
+        "type": "text",
+        "source": null,
+        "startTime": 2,
+        "duration": 3,
+        "sourceStart": 0,
+        "sourceEnd": 3,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 300,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "O-CUT 첫 번째 장면"
+      }
+    ],
+    "exportSettings": {
+      "container": "mp4",
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    }
+  }
+}

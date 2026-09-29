@@ -1,13 +1,19 @@
 'use strict';
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, protocol, net } = require('electron');
+const { pathToFileURL } = require('node:url');
 const path = require('node:path');
 const fs = require('node:fs');
 const { StudioSession } = require('./session.cjs');
+const { MediaLibrary } = require('../infrastructure/media.cjs');
+const { applyCommand } = require('../core/timeline.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
 app.setPath('userData', process.env.OCUT_DATA_DIR || path.join(app.getPath('appData'), 'O-CUT'));
-const session = new StudioSession();
+let session = new StudioSession();
+let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache'));
+protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
+const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
 let serial = Promise.resolve();
 const rendererPath = path.join(__dirname, '../renderer/index.html');
@@ -42,20 +48,60 @@ async function save(as) {
     if (picked.canceled || !picked.filePath) return null;
     file = picked.filePath.endsWith('.ocut') ? picked.filePath : picked.filePath + '.ocut';
   }
-  return session.save(file);
+  await session.save(file);
+  return snapshot();
 }
-register('project:state', () => session.snapshot());
-register('project:settings', values => session.settings(values));
-register('project:new', async () => await mayDiscard() ? session.newProject() : null);
+register('project:state', () => snapshot());
+register('project:settings', values => { session.settings(values); return snapshot(); });
+register('project:new', async () => {
+  if (!await mayDiscard()) return null;
+  session.newProject(); library.assets.clear(); return snapshot({ selectedId: null });
+});
 register('project:open', async () => {
   if (!await mayDiscard()) return null;
   const picked = await dialog.showOpenDialog(window, { title: 'O-CUT 프로젝트 열기', properties: ['openFile'], filters: [{ name: 'O-CUT 프로젝트', extensions: ['ocut'] }] });
-  return picked.canceled ? null : session.open(picked.filePaths[0]);
+  if (picked.canceled) return null;
+  const file = picked.filePaths[0];
+  const next = new StudioSession(); await next.open(file);
+  const assets = new MediaLibrary(library.cacheDir); const missing = [];
+  for (const media of next.history.state.media) {
+    try { await assets.prepare({ ...media, path: path.resolve(path.dirname(file), media.path) }); }
+    catch (error) { missing.push(`${media.name}: ${error.message}`); }
+  }
+  session = next; library = assets;
+  return snapshot({ selectedId: null, warning: missing.length ? `누락되거나 읽을 수 없는 미디어 ${missing.length}개: ${missing.join(' / ')}` : null });
 });
 register('project:save', as => save(Boolean(as)));
-register('history:undo', () => { session.history.undo(); return session.snapshot(); });
-register('history:redo', () => { session.history.redo(); return session.snapshot(); });
+register('history:undo', () => { session.history.undo(); return snapshot(); });
+register('history:redo', () => { session.history.redo(); return snapshot(); });
+register('timeline:edit', action => {
+  const selectedId = applyCommand(session.history, action);
+  return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
+});
+register('media:import', async () => {
+  const picked = await dialog.showOpenDialog(window, { title: '영상 · 이미지 · 오디오 가져오기', properties: ['openFile', 'multiSelections'], filters: [{ name: '미디어', extensions: ['mp4', 'mov', 'mkv', 'webm', 'avi', 'wav', 'mp3', 'm4a', 'flac', 'ogg', 'aac', 'png', 'jpg', 'jpeg', 'webp'] }] });
+  if (picked.canceled) return null;
+  const imported = []; const failures = [];
+  for (const file of picked.filePaths.slice(0, 50)) {
+    try { imported.push(await library.import(file)); }
+    catch (error) { failures.push(`${path.basename(file)}: ${error.message}`); }
+  }
+  if (imported.length) session.history.apply('미디어 가져오기', project => { project.media.push(...imported); });
+  if (!imported.length && failures.length) throw Error(failures.join('\n'));
+  return snapshot({ warning: failures.length ? failures.join('\n') : null });
+});
 app.whenReady().then(() => {
+  protocol.handle('ocut-media', async request => {
+    const url = new URL(request.url); const id = url.pathname.slice(1);
+    // A renderer cannot turn this protocol into an arbitrary filesystem reader.
+    if (!['GET', 'HEAD'].includes(request.method) || !session.history.state.media.some(media => media.id === id)) return new Response('Forbidden', { status: 403 });
+    const asset = library.assets.get(id);
+    const file = url.hostname === 'asset' ? asset?.path : url.hostname === 'thumb' ? asset?.thumbnail : null;
+    if (!file) return new Response('Not found', { status: 404 });
+    const response = await net.fetch(pathToFileURL(file).href, { method: request.method, headers: request.headers });
+    const headers = new Headers(response.headers); headers.set('Access-Control-Allow-Origin', '*');
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  });
   Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: '편집', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }]));
   window = new BrowserWindow({ width: 1540, height: 960, minWidth: 1100, minHeight: 760,
     title: 'O-CUT', backgroundColor: '#101215', autoHideMenuBar: true,

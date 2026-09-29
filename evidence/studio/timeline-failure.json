@@ -1,0 +1,12 @@
+{
+  "message": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at main (D:\\O-CUT\\scripts\\qa-timeline.cjs:61:10)",
+  "data": "D:\\O-CUT\\.runtime\\timeline-1790681399066",
+  "checks": [
+    "actual video/audio import, PCM waveform, thumbnails",
+    "actual realtime playback and decoded canvas video",
+    "UI playhead split and inspector trim",
+    "text edit undo redo through actual controls",
+    "actual pointer drag move and right edge trim"
+  ],
+  "errors": []
+}

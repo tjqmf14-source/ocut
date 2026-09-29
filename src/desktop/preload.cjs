@@ -12,5 +12,7 @@ contextBridge.exposeInMainWorld('ocut', {
   openProject: () => call('project:open'),
   saveProject: as => call('project:save', as),
   undo: () => call('history:undo'),
-  redo: () => call('history:redo')
+  redo: () => call('history:redo'),
+  importMedia: () => call('media:import'),
+  edit: action => call('timeline:edit', action)
 });

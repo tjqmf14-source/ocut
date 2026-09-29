@@ -15,14 +15,14 @@
   </header>
   <main class="workspace">
     <aside class="library">
-      <div class="panel-head"><h1>프로젝트 미디어</h1><span class="count" id="mediaCount">0</span></div>
+      <div class="panel-head"><h1>프로젝트 미디어 <span class="count" id="mediaCount">0</span></h1><button id="importMedia" class="primary small">＋ 가져오기</button></div>
       <div id="libraryContent" class="library-content"><div class="empty-library"><div class="empty-symbol">＋</div><h2>이야기가 시작될 공간</h2><p>프로젝트의 영상과 음악이<br>이곳에 모입니다.</p></div></div>
       <div class="library-footer"><span class="dot"></span>내 컴퓨터에 저장되는 프로젝트</div>
     </aside>
     <section class="monitor-panel" aria-label="영상 미리보기">
       <div class="panel-head"><h2>미리보기</h2><span id="canvasInfo" class="muted"></span></div>
       <div class="monitor-space"><div class="monitor-frame"><canvas id="preview" width="1920" height="1080"></canvas><div id="previewEmpty"><span class="preview-mark">O-CUT</span><p>나만의 장면을 만들어 보세요</p></div></div></div>
-      <div class="transport"><span id="timecode">00:00.000</span><span class="transport-label" id="monitorMessage">프로젝트 준비됨</span><span id="duration">00:00.000</span></div>
+      <div class="transport"><span id="timecode">00:00.000</span><div class="transport-buttons"><button id="stepBack" aria-label="이전 프레임" title="이전 프레임 (←)">│◁</button><button id="play" aria-label="재생" title="재생/일시정지 (Space)">▶</button><button id="stepForward" aria-label="다음 프레임" title="다음 프레임 (→)">▷│</button></div><span id="duration">00:00.000</span></div>
     </section>
     <aside class="inspector">
       <div class="panel-head"><h2 id="inspectorTitle">프로젝트</h2><span class="overline">INSPECTOR</span></div>
@@ -34,13 +34,29 @@
         <button type="submit" class="secondary full">프로젝트 설정 적용</button>
         <div class="inspector-note"><span class="overline">YOUR WORK, YOUR FILES</span><p>영상과 음악의 원본을 유지하며<br>편집 내용은 .ocut 파일에 저장합니다.</p></div>
       </form>
+      <form id="clipForm" class="inspector-form" hidden>
+        <div class="clip-heading"><span id="clipName"></span><button type="button" id="deselect" class="quiet" title="프로젝트 설정으로">×</button></div>
+        <div class="section-caption">타이밍 · 초</div>
+        <div class="field-pair"><label>시작 위치<input id="clipStart" type="number" min="0" step="0.001" required></label><label>길이<input id="clipDuration" type="number" min="0.001" step="0.001" required></label></div>
+        <div class="field-pair"><label>원본 시작<input id="clipSourceStart" type="number" min="0" step="0.001" required></label><label>재생 속도<input id="clipSpeed" type="number" min="0.25" max="4" step="0.25" required></label></div>
+        <label id="textField" hidden>텍스트<textarea id="clipText" rows="3" maxlength="2000"></textarea></label>
+        <div id="transformFields">
+          <div class="section-caption">화면 배치</div>
+          <div class="field-pair"><label>가로 위치<input id="clipX" type="number" step="1" required></label><label>세로 위치<input id="clipY" type="number" step="1" required></label></div>
+          <div class="field-pair"><label>크기 %<input id="clipScale" type="number" min="1" max="400" step="1" required></label><label>회전 °<input id="clipRotation" type="number" min="-360" max="360" step="1" required></label></div>
+          <label>불투명도 %<input id="clipOpacity" type="number" min="0" max="100" step="1" required></label>
+        </div>
+        <label id="volumeField">볼륨 %<input id="clipVolume" type="number" min="0" max="400" step="1" required></label>
+        <button type="submit" class="primary full">클립에 적용</button>
+        <p class="inspector-help">클립의 양 끝을 드래그해 트림하거나<br>재생 헤드를 옮겨 분할하세요.</p>
+      </form>
     </aside>
     <section class="timeline-panel" aria-label="타임라인">
-      <div class="timeline-toolbar"><div><strong>타임라인</strong><span class="muted" id="clipCount">클립 0개</span></div><span class="muted">프로젝트의 모든 장면을 한곳에서</span></div>
-      <div id="timeline" class="timeline"><div id="trackHeaders" class="track-headers"></div><div id="timelineBody" class="timeline-body"><div class="ruler"><span>00:00</span></div><div id="tracks"></div></div></div>
+      <div class="timeline-toolbar"><div class="edit-tools"><strong>타임라인</strong><button id="split" title="재생 헤드에서 분할 (S)">✂ 분할</button><button id="duplicate" title="복제 (Ctrl+D)">복제</button><button id="deleteClip" title="클립 삭제 (Delete)">삭제</button><span class="divider"></span><button id="addText">T 텍스트</button><button id="snap" aria-pressed="true" title="클립 경계에 맞추기">스냅</button><button id="ripple" aria-pressed="false" title="삭제한 클립 뒤의 빈 공간 닫기">리플</button></div><div class="zoom-tools"><span class="muted" id="clipCount">클립 0개</span><label for="zoom">−</label><input id="zoom" aria-label="타임라인 확대" type="range" min="20" max="180" value="70"><span>＋</span></div></div>
+      <div id="timeline" class="timeline"><div id="trackHeaders" class="track-headers"></div><div id="timelineBody" class="timeline-body"><div id="timelineContent"><div id="ruler" class="ruler"></div><div id="tracks"></div><div id="playhead" class="playhead"></div></div></div></div>
     </section>
   </main>
   <footer class="statusbar"><span id="status" role="status" aria-live="polite">준비 중…</span><span>O-CUT · 로컬 스튜디오</span></footer>
-  <script src="app.js"></script>
+  <script src="playback.js"></script><script src="app.js"></script>
 </body>
 </html>
