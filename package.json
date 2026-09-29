@@ -4,6 +4,7 @@
   "private": true,
   "description": "O-CUT Phase 0 reconstruction and verification tools",
   "scripts": {
+    "build:studio": "node scripts/build-studio.cjs",
     "build:core": "node scripts/build-core.cjs",
     "build:baseline": "node scripts/build-baseline.cjs",
     "test": "node --test tests/*.test.cjs",

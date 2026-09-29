@@ -1,0 +1,30 @@
+{
+  "time": "2026-09-28T13:39:03.883Z",
+  "data": "D:\\O-CUT\\.runtime\\shell-1790602742514",
+  "checks": [
+    "packaged O-CUT UI and isolated preload",
+    "settings apply undo redo",
+    "actual project save new open through UI",
+    "minimum desktop width no document overflow"
+  ],
+  "errors": [],
+  "security": {
+    "preferences": {
+      "allowRunningInsecureContent": false,
+      "contextIsolation": true,
+      "disableDialogs": false,
+      "disablePopups": false,
+      "enableBlinkFeatures": "",
+      "experimentalFeatures": false,
+      "javascript": true,
+      "nodeIntegration": false,
+      "nodeIntegrationInSubFrames": false,
+      "safeDialogs": false,
+      "safeDialogsMessage": "",
+      "sandbox": true,
+      "webSecurity": true,
+      "webviewTag": false
+    },
+    "userData": "D:\\O-CUT\\.runtime\\shell-1790602742514"
+  }
+}
