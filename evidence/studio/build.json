@@ -1,7 +1,11 @@
 {
-  "time": "2026-10-01T10:19:55.348Z",
+  "time": "2026-10-01T15:29:56.704Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
+    {
+      "file": "core/audio-fades.js",
+      "sha256": "c01ec9e4bf870df1c1df5bcbf55ce1d082a799e8bcedbd668d6df545c6e0c0a2"
+    },
     {
       "file": "core/captions.cjs",
       "sha256": "00039c815d1aa3c5bd371bd55d011cb764dcdfd3526194cb962a9de222bb22e3"
@@ -12,23 +16,23 @@
     },
     {
       "file": "core/project.cjs",
-      "sha256": "2e17d21a5e321a90fa7bcda516f49eb7290dc106cb99861bbb7fe0fee27a307c"
+      "sha256": "c0b95f895e077252e4160b21d6b3f986732ecadd5743bef111ff790bb7f0f03e"
     },
     {
       "file": "core/render-plan.cjs",
-      "sha256": "20e4ab0fb22729f1dc16f77a5a727034fb499a3cceaa0c22dd6a6ec469d7a78f"
+      "sha256": "09f2bdc1141aae1654c559bbfcf1cd151c8bdb23f01e056800936a6b186dbdca"
     },
     {
       "file": "core/timeline.cjs",
-      "sha256": "8f7a29d573b17b415f8555b23265aa93d70b2ec0d9e8bfd4655882d02eaf742a"
+      "sha256": "0b86a223667584d300499066ac8de87d80927c776fdff004f0ef2711b48c2362"
     },
     {
       "file": "desktop/main.cjs",
-      "sha256": "1aa0b7917f0610758758993b03a976d175d2c39fd58933a749bbc900c7fc9650"
+      "sha256": "047733977ab284a974cfb5de94bee8d4d33c73bde6f691c8a76ab7e12affce7d"
     },
     {
       "file": "desktop/preload.cjs",
-      "sha256": "b9ec0fc8bdaf8322d64186e278bfffef9775258232cec86898be98ce0a8374bd"
+      "sha256": "5826af02b5129937b177dc61b7d5cc166ca07a143fefe5ff725652a85fbe5b29"
     },
     {
       "file": "desktop/session.cjs",
@@ -47,6 +51,10 @@
       "sha256": "3921261e6245c08546de5130fd8ea06093c583e4b8a33c8ce8236a0734b3c648"
     },
     {
+      "file": "infrastructure/music.cjs",
+      "sha256": "45b55237dfa27f3266798cf4f9e5c2bf99b0da378f44ca529ecfa2d95e43e337"
+    },
+    {
       "file": "infrastructure/project-store.cjs",
       "sha256": "505f501322747b521a60452f5349461102e84558479560249327ea7c023ed560"
     },
@@ -56,19 +64,19 @@
     },
     {
       "file": "renderer/app.js",
-      "sha256": "a52083bcd2de23ea8acc781f48a4c922ab1506a66842318f6da5ff4281420f0a"
+      "sha256": "c873ec33509c7a17b6ab1c22c51ef449f74273b1f2bd7c6ba4e5133c936eb42a"
     },
     {
       "file": "renderer/index.html",
-      "sha256": "cf2c2a61299bb8aa97d09bda1ded5dad7fb1c848e2e72ddeb39c9fe67aa40336"
+      "sha256": "9719a6fa9ec0ee70cee0c3436b00ddedc51a6382d01b0b7c955b6fe7dadef03d"
     },
     {
       "file": "renderer/playback.js",
-      "sha256": "b0525576013a728063552bbffb690db6eb5e05f9b4f26c4e4c895f6c184dfb70"
+      "sha256": "f19f567b0c558bc52d79cfbb7dc0777ca5e9a72499d985050d4a4112de7219cc"
     },
     {
       "file": "renderer/styles.css",
-      "sha256": "45739f6ef31892bbc062e46669fdfd7be3ae779f190a862197f5bbaec302f481"
+      "sha256": "c516f0c346091a5936f3727eee0550d6b9296dfa1c1312c99b1734ebc0440657"
     },
     {
       "file": "renderer/text.js",

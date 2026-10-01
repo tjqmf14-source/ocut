@@ -61,6 +61,13 @@ function validateProject(p){
     number(c.opacity,'opacity',0,1);number(c.volume,'volume',0,4);
     if(typeof c.text!=='string'||c.text.length>100000)fail('clip text');
     array(c.effects,'effects',100);for(const e of c.effects){keys(e,['id','type','enabled','parameters'],'effect');text(e.id,'effect id');text(e.type,'effect type');if(typeof e.enabled!=='boolean')fail('effect enabled');object(e.parameters,'effect parameters');}
+    const fades=c.effects.filter(e=>e.type==='audioFade');
+    if(fades.length>1)fail('duplicate audio fade');
+    for(const e of fades){
+      if(!['video','audio','music'].includes(c.type))fail('audio fade requires audio clip');
+      keys(e.parameters,['fadeIn','fadeOut'],'audio fade');
+      for(const value of [e.parameters.fadeIn,e.parameters.fadeOut])if(!Number.isFinite(value)||value<0||value>28800)fail('invalid audio fade duration');
+    }
     array(c.keyframes,'keyframes',10000);
     const seen=new Set();
     for(const k of c.keyframes){keys(k,['property','time','value','interpolation'],'keyframe');text(k.property,'keyframe property',128);number(k.time,'keyframe time',0,c.duration);number(k.value,'keyframe value',-1e9,1e9);if(!['linear','hold'].includes(k.interpolation))fail('interpolation');const key=k.property+':'+k.time;if(seen.has(key))fail('duplicate keyframe');seen.add(key);}

@@ -18,10 +18,10 @@ async function main() {
   await page.locator('.clip.image').click();
   for(const [id,value] of [['clipX','120'],['clipY','50'],['clipScale','75'],['clipRotation','15'],['clipOpacity','80']])await page.locator('#'+id).fill(value);
   await page.locator('#clipForm button[type=submit]').click();
-  await page.waitForFunction(async()=>(await window.ocut.state()).project.clips.find(c=>c.type==='image').transform.rotation===15);
+  await page.waitForFunction(()=>state.project.clips.find(c=>c.type==='image').transform.rotation===15);
   await page.locator('#addText').click(); await page.waitForFunction(()=>!document.querySelector('#textField').hidden);
   await page.locator('#clipText').fill('이미지와 음악 · O-CUT'); await page.locator('#clipForm button[type=submit]').click();
-  await page.waitForFunction(async()=>(await window.ocut.state()).project.clips.some(c=>c.text==='이미지와 음악 · O-CUT'));
+  await page.waitForFunction(()=>state.project.clips.some(c=>c.text==='이미지와 음악 · O-CUT'));
   await page.evaluate(()=>playback.seek(1));
   await page.waitForFunction(()=>[...playback.nodes.values()].some(e=>e.media.type==='image'&&e.node.complete&&e.node.naturalWidth>0));
   const preview=path.join(data,'preview.png');fs.writeFileSync(preview,Buffer.from((await page.locator('#preview').evaluate(c=>c.toDataURL())).split(',')[1],'base64'));

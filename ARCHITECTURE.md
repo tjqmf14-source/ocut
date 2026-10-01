@@ -42,3 +42,11 @@ FFmpeg는 shell 없이 인수 배열로 실행합니다. 필터는 생성한 파
 `media-response.cjs`는 허용된 미디어 ID가 가리키는 파일에 200/206, Content-Length, Content-Range, Accept-Ranges를 명시한다. Electron의 file URL fetch는 부분 바이트를 반환하면서 200과 범위 헤더 없는 응답을 전달할 수 있어 기존 단순 중계 방식에서 영상 탐색 문제가 재현됐다. 현재 구현은 요청한 범위만 파일 스트림으로 읽고 범위 오류는 416으로 반환한다.
 
 자막 시간/구문 참고: [W3C WebVTT](https://www.w3.org/TR/webvtt1/). 전체 WebVTT 스타일/배치 호환성을 구현한 것은 아니며 미지원 설정은 가져오기 결과에서 알린다.
+
+## 로컬 음악 생성과 오디오 페이드
+
+`MusicService`는 프로젝트 session과 분리된 작업 수명과 private 출력 폴더를 소유한다. 제한된 preload 입력을 검증하고 보존한 worker를 shell 없이 실행한다. stdout JSON Lines를 UTF-8 스트림으로 읽으며 실제 ready/stage/progress/done/error 이벤트만 UI에 전달한다. Worker의 반환 경로를 신뢰해 열지 않고 main이 만든 작업 ID 폴더의 audio.wav만 FFprobe로 확인한다. 완료 기록의 ID로 음원을 가져와 media와 music clip을 하나의 history transaction에 추가한다. Renderer의 일반 편집 IPC로 임의 media 객체를 삽입하는 경로는 차단한다.
+
+생성은 한 번에 하나, 별도 worker 프로세스로 실행한다. 취소 IPC는 직렬 편집/출력 queue를 우회하며 협력 취소 후 5초 내 종료, 전체 작업은 30분 제한이다. 완료/실패 시 worker를 종료한다. 기존 모델은 offline 환경으로 연결하며 모델·Python·기존 사용자 곡은 변경하지 않는다. 작업 기록은 O-CUT userData/music에 저장하고 앱 재시작 때 남은 실행 상태를 중단으로 표시한다. 기존 MIDI/ABC·score-only·batch UI는 아직 Studio에 이관하지 않았다.
+
+`.ocut` v1의 effect 확장 슬롯에 검증된 audioFade(fadeIn/fadeOut)를 저장한다. `audio-fades.js`의 동일한 유효 길이 계산을 Web Audio gain과 FFmpeg afade에 사용한다. speed 적용 이후, timeline delay 이전에 fade를 적용하므로 입력값은 출력 타임라인의 초이다. 두 fade의 겹침은 곱셈이며 미지원 효과/키프레임은 기존처럼 export에서 명시적으로 거절한다. 페이드 클립의 분할은 아직 거절하고 UI에서 먼저 0으로 설정하도록 안내한다.

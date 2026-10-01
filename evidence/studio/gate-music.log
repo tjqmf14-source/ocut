@@ -1,0 +1,9 @@
+Music: running load {}
+Music: running synth {}
+{
+  "status": "PASS",
+  "checks": 7,
+  "seconds": 19.998667,
+  "rms": 0.08861197762630613,
+  "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4"
+}

@@ -1,5 +1,6 @@
 'use strict';
 const { validateProject } = require('./project.cjs');
+const { lengths } = require('./audio-fades.js');
 function renderPlan(project, assets, textFiles) {
   validateProject(project);
   const s = project.exportSettings, duration = Math.max(0, ...project.clips.map(c => c.startTime + c.duration));
@@ -11,7 +12,7 @@ function renderPlan(project, assets, textFiles) {
   graph.push(`color=c=${project.canvas.background}:s=${s.width}x${s.height}:r=${s.fps}:d=${duration},format=rgba[base0]`);
   const solo = project.tracks.some(t => t.solo);
   for (const track of [...project.tracks].reverse()) for (const c of project.clips.filter(c => c.trackId === track.id)) {
-    if (c.effects.length || c.keyframes.length || c.type === 'effect') throw Error('효과 또는 키프레임 출력은 아직 지원하지 않습니다.');
+    if (c.effects.some(e => e.type !== 'audioFade') || c.keyframes.length || c.type === 'effect') throw Error('오디오 페이드 이외의 효과 또는 키프레임 출력은 아직 지원하지 않습니다.');
     if (c.speed < .25 || c.speed > 4) throw Error('현재 미리보기와 출력은 0.25–4배속을 지원합니다.');
     const text = ['text', 'subtitle'].includes(c.type), asset = assets.get(c.source);
     if (!text && !asset) throw Error('출력에 필요한 원본 미디어가 없습니다.');
@@ -27,7 +28,9 @@ function renderPlan(project, assets, textFiles) {
       while (rate > 2) { tempo.push('atempo=2'); rate /= 2; }
       tempo.push(`atempo=${rate}`);
       const tag = `a${index}`;
-      graph.push(`[${index}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${c.volume},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1[${tag}]`);
+      const { fadeIn, fadeOut } = lengths(c);
+      const fades = (fadeIn ? `,afade=t=in:st=0:d=${fadeIn}:curve=tri` : '') + (fadeOut ? `,afade=t=out:st=${c.duration-fadeOut}:d=${fadeOut}:curve=tri` : '');
+      graph.push(`[${index}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${c.volume}${fades},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1[${tag}]`);
       audio.push(`[${tag}]`);
     }
     if (!visual) continue;

@@ -55,7 +55,7 @@ async function main() {
   checks.push('VTT timestamps/entities and unsupported-format warning; invalid SRT leaves project unchanged');
   await page.evaluate(() => playback.seek(6)); await page.locator('#addCaption').click(); await count(page, 5);
   await page.locator('#clipText').fill('직접 작성한 마지막 자막'); await page.locator('#clipDuration').fill('1'); await page.locator('#clipForm button[type=submit]').click();
-  await page.waitForFunction(async () => (await window.ocut.state()).project.clips.some(c => c.text === '직접 작성한 마지막 자막' && c.duration === 1));
+  await page.waitForFunction(() => state.project.clips.some(c => c.text === '직접 작성한 마지막 자막' && c.duration === 1));
   await page.locator('#captionSearch').fill('WebVTT'); assert.equal(await page.locator('.caption-item').count(), 1); await page.locator('#captionSearch').fill('');
   const outputSrt = path.join(data, '편집 결과.srt'); await pickSave(outputSrt); await page.locator('#exportCaptions').click();
   await page.waitForFunction(() => document.querySelector('#status').textContent.includes('SRT 저장 완료'));

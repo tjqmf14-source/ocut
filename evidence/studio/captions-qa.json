@@ -1,9 +1,9 @@
 {
-  "time": "2026-10-01T10:20:27.242Z",
-  "data": "D:\\O-CUT\\.runtime\\captions-1790850022179",
-  "save": "D:\\O-CUT\\.runtime\\captions-1790850022179\\자막 프로젝트.ocut",
-  "outputSrt": "D:\\O-CUT\\.runtime\\captions-1790850022179\\편집 결과.srt",
-  "output": "D:\\O-CUT\\.runtime\\captions-1790850022179\\O-CUT-captions-1080p.mp4",
+  "time": "2026-10-01T15:30:28.601Z",
+  "data": "D:\\O-CUT\\.runtime\\captions-1790868623776",
+  "save": "D:\\O-CUT\\.runtime\\captions-1790868623776\\자막 프로젝트.ocut",
+  "outputSrt": "D:\\O-CUT\\.runtime\\captions-1790868623776\\편집 결과.srt",
+  "output": "D:\\O-CUT\\.runtime\\captions-1790868623776\\O-CUT-captions-1080p.mp4",
   "checks": [
     "native SRT import creates three editable timed captions with multiline Korean",
     "actual caption split and Shift multi-selection merge retain timing/text",
@@ -16,20 +16,20 @@
   "frames": [
     {
       "t": 0.8,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790850022179\\preview-0.8.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790850022179\\output-0.8.png",
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790868623776\\preview-0.8.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790868623776\\output-0.8.png",
       "ssim": 0.993924
     },
     {
       "t": 4.2,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790850022179\\preview-4.2.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790850022179\\output-4.2.png",
-      "ssim": 0.999579
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790868623776\\preview-4.2.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790868623776\\output-4.2.png",
+      "ssim": 0.99955
     },
     {
       "t": 6.5,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790850022179\\preview-6.5.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790850022179\\output-6.5.png",
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790868623776\\preview-6.5.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790868623776\\output-6.5.png",
       "ssim": 0.999616
     }
   ],
@@ -67,7 +67,7 @@
         "start_time": "0.000000",
         "duration_ts": 107520,
         "duration": "7.000000",
-        "bit_rate": "2318322",
+        "bit_rate": "2322370",
         "bits_per_raw_sample": "8",
         "nb_frames": "210",
         "extradata_size": 51,
@@ -152,7 +152,7 @@
       }
     ],
     "format": {
-      "filename": "D:\\O-CUT\\.runtime\\captions-1790850022179\\O-CUT-captions-1080p.mp4",
+      "filename": "D:\\O-CUT\\.runtime\\captions-1790868623776\\O-CUT-captions-1080p.mp4",
       "nb_streams": 2,
       "nb_programs": 0,
       "nb_stream_groups": 0,
@@ -160,8 +160,8 @@
       "format_long_name": "QuickTime / MOV",
       "start_time": "0.000000",
       "duration": "7.000000",
-      "size": "2182248",
-      "bit_rate": "2493997",
+      "size": "2185790",
+      "bit_rate": "2498045",
       "probe_score": 100,
       "tags": {
         "major_brand": "isom",

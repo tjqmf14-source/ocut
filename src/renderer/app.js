@@ -166,6 +166,9 @@ function renderInspector() {
   for (const [id, value] of Object.entries(values)) $(id).value = Number(value.toFixed(3));
   $('clipText').value = clip.text; $('textField').hidden = !['text', 'subtitle'].includes(clip.type);
   $('transformFields').hidden = ['audio', 'music'].includes(clip.type); $('volumeField').hidden = !state.assets?.[clip.source]?.hasAudio;
+  $('fadeFields').hidden = $('volumeField').hidden;
+  const fades = clip.effects.find(e => e.type === 'audioFade' && e.enabled)?.parameters;
+  $('clipFadeIn').value = fades?.fadeIn || 0; $('clipFadeOut').value = fades?.fadeOut || 0;
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
   for (const field of $('clipForm').querySelectorAll('input,textarea,button[type=submit]')) field.disabled = locked;
 }
@@ -237,12 +240,11 @@ $('exportCaptions').onclick = async () => {
   catch (error) { message(error.message, true); }
   finally { busy = false; }
 };
-function showPane(captions) {
-  $('mediaPane').hidden = captions; $('captionsPane').hidden = !captions;
-  $('mediaTab').setAttribute('aria-selected', String(!captions)); $('captionsTab').setAttribute('aria-selected', String(captions));
-  if (captions) renderCaptions();
+function showPane(name) {
+  for (const pane of ['media','captions','music']) { $(pane + 'Pane').hidden = pane !== name; $(pane + 'Tab').setAttribute('aria-selected', String(pane === name)); }
+  if (name === 'captions') renderCaptions();
 }
-$('mediaTab').onclick = () => showPane(false); $('captionsTab').onclick = () => showPane(true);
+for (const pane of ['media','captions','music']) $(pane + 'Tab').onclick = () => showPane(pane);
 $('captionSearch').oninput = () => renderCaptions(); $('captionTrack').onchange = () => { selected.clear(); renderSelection(); renderInspector(); renderCaptions(); };
 $('split').onclick = () => { if (selectedClip()) edit({ type: 'split', id: selectedClip().id, time: playback.time }); };
 $('duplicate').onclick = () => { if (selectedClip()) edit({ type: 'duplicate', id: selectedClip().id }); };
@@ -262,7 +264,7 @@ $('projectForm').onsubmit = event => {
 };
 $('clipForm').onsubmit = event => {
   event.preventDefault(); const clip = selectedClip(); if (!clip) return; const num = id => Number($(id).value);
-  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
+  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
   if (exporting) return;
@@ -298,3 +300,51 @@ $('exportVideo').onclick = async () => {
   finally { $('exportDialog').close(); busy = exporting = false; }
 };
 act(() => window.ocut.state(), '프로젝트 준비됨');
+let musicState, musicPending = false;
+function renderMusic(next) {
+  if (next) musicState = next;
+  if (!musicState) return;
+  const job = musicState.current, running = Boolean(job);
+  for (const field of $('musicForm').querySelectorAll('input,textarea,select,button')) field.disabled = running || musicPending;
+  for (const id of ['musicPython','musicModels','checkMusic']) $(id).disabled = running || musicPending;
+  $('musicProgress').hidden = !running;
+  if (job) {
+    const stage = {load:'엔진 준비',plan:'작곡 계획',semantic:'멜로디 생성',synth:'악기 소리 합성',decode:'오디오 생성',save:'음원 저장'}[job.stage] || '음악 생성';
+    $('musicStage').textContent = job.status === 'checking' ? '음원 확인' : stage;
+    const progress = job.progress;
+    $('musicDetail').textContent = progress?.steps ? `${progress.step || 0} / ${progress.steps} 단계` : progress?.tokens ? `${progress.tokens} 토큰 생성` : job.message;
+  }
+  $('musicEnvironment').textContent = `${musicState.configured ? '로컬 경로 연결됨' : '실행 환경 연결 필요'}\nPython: ${musicState.config.python}\n모델: ${musicState.config.models}`;
+  const holder = $('musicJobs'); holder.replaceChildren();
+  const jobs = musicState.jobs.filter(item => item.id !== job?.id);
+  if (!jobs.length) { const hint = document.createElement('p'); hint.className = 'music-hint'; hint.textContent = '완료된 음악을 타임라인에 넣어 편집하세요.'; holder.append(hint); }
+  for (const item of jobs) {
+    const card = document.createElement('article'); card.className = 'music-job'; card.dataset.jobId = item.id;
+    const title = document.createElement('strong'); title.textContent = item.title;
+    const info = document.createElement('p');
+    info.textContent = item.status === 'complete' ? `${item.duration.toFixed(2)}초 · 시드 ${item.seed}${item.meta?.truncated?.semantic ? ' · 길이 상한 도달' : ''}` : item.message;
+    const tag = document.createElement('span'); tag.className = 'music-job-status'; tag.textContent = {complete:'완료',failed:'실패',cancelled:'취소',interrupted:'중단'}[item.status] || item.status;
+    card.append(title, tag, info);
+    if (item.status === 'complete') { const add = document.createElement('button'); add.className = 'secondary full'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(() => window.ocut.addMusic(item.id), '생성한 음악을 타임라인에 추가했습니다.'); card.append(add); }
+    holder.append(card);
+  }
+}
+$('musicInstrumental').onchange = () => { $('musicLyricsField').hidden = $('musicInstrumental').checked; $('musicLyrics').required = !$('musicInstrumental').checked; };
+$('musicForm').onsubmit = async event => {
+  event.preventDefault(); if (musicPending || musicState?.current) return; musicPending = true; renderMusic();
+  try { renderMusic(await window.ocut.startMusic({title:$('musicTitle').value,style:$('musicStyle').value,lyrics:$('musicLyrics').value,instrumental:$('musicInstrumental').checked,seconds:Number($('musicSeconds').value),quality:$('musicQuality').value,seed:$('musicSeed').value})); message('음악 생성을 시작했습니다. 생성 중에도 프로젝트를 편집할 수 있습니다.'); }
+  catch (error) { message(error.message,true); }
+  finally { musicPending = false; renderMusic(); }
+};
+$('cancelMusic').onclick = () => { window.ocut.cancelMusic(); $('musicDetail').textContent = '취소하고 있습니다…'; };
+for (const [id,key] of [['musicPython','python'],['musicModels','models']]) $(id).onclick = async () => {
+  try { renderMusic(await window.ocut.configureMusic(key)); } catch (error) { message(error.message,true); }
+};
+$('checkMusic').onclick = async () => {
+  musicPending = true; renderMusic(); $('musicCheckResult').textContent = '실행 환경을 확인하고 있습니다…';
+  try { const value = await window.ocut.checkMusic(); $('musicCheckResult').textContent = `${value.cuda && value.models ? '환경 확인 완료' : '환경 준비 필요'} · ${value.gpu || 'CUDA GPU 없음'} · YuE2 ${value.engine}`; }
+  catch (error) { $('musicCheckResult').textContent = error.message; }
+  finally { musicPending = false; renderMusic(); }
+};
+window.ocut.onMusicState(renderMusic);
+window.ocut.musicState().then(renderMusic).catch(error => message(error.message,true));

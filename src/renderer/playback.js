@@ -69,7 +69,7 @@ class StudioPlayback {
             entry.source = this.audioContext.createMediaElementSource(node); entry.gain = this.audioContext.createGain();
             entry.source.connect(entry.gain).connect(this.audioContext.destination);
           }
-          const volume = !track.muted && (!solo || track.solo) ? clip.volume : 0;
+          const volume = !track.muted && (!solo || track.solo) ? clip.volume * OcutAudioFades.gain(clip, this.time - clip.startTime) : 0;
           if (entry.gain) { entry.gain.gain.value = volume; node.volume = 1; } else node.volume = Math.min(1, volume);
           if (this.playing && node.paused) node.play().catch(error => { if (error.name !== 'AbortError') this.onError(error.message); });
         }

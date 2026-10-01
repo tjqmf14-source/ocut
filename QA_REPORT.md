@@ -1,6 +1,14 @@
 # QA 보고서
 
-## 현재 Studio 검증 — 2026-10-01
+## 현재 Studio 검증 — 2026-10-02
+
+0.5 음악 생성과 오디오 페이드는 [MUSIC_REPORT.md](MUSIC_REPORT.md)를 기준으로 한다. 전체 Gate에서 core/build, **61/61 검사(실패/skip/취소 0)**, shell 4, timeline 7, 복구 3, 자막 7, 음악 7과 실제 MP4 6개를 검증했다. ASAR SHA-256은 `8fd73e09f28d27ca39a32ed8f064d5e42d37172895d735ce8886244674ff66f2`이며 `evidence/studio/gate.json`에 현재 소스 20개 manifest가 있다.
+
+RTX 5080 / YuE2 0.1.6에서 실제 19.998667초 음악을 생성했다. 6초로 트림하고 볼륨 75%, 페이드 인 1초·아웃 2초를 적용한 1080p MP4 전체 decode와 PCM 배율을 확인했다. 생성 중 편집, 실제 생성 취소, 재실행 후 생성 기록·프로젝트 복원이 통과했다. 보컬 가사 정확성, 표준 품질·40/60초 설정별 품질, 새 PC 설치 및 전체 제품 시나리오 C/D는 NOT RUN이다. 새 설치나 의존성 변경은 없다.
+
+UI 검사에서 Promise를 반환하는 대기 조건이 편집 완료 전에 통과할 수 있음을 확인해 동기적인 렌더러 상태 조건으로 수정했다. 이후 위 전체 Gate를 새로 실행했다. 음악 QA의 앞선 실패 기록은 `music-failure.json`에 남겨 두었고 실제 생성 성공과 전체 시나리오 성공을 구분한다.
+
+## 0.4 당시 Studio 검증 — 2026-10-01
 
 0.4 자막 기능은 [CAPTION_REPORT.md](CAPTION_REPORT.md)를 기준으로 합니다. 53개 검사에서 실패/skip/취소 0. 한 번의 전체 Gate에서 shell 4개, timeline 7개, 복구 3개, 자막 7개와 실제 MP4 5개 검증을 통과했습니다. 현재 패키지는 `evidence/studio/gate.json`의 해시와 소스 manifest를 기준으로 합니다.
 

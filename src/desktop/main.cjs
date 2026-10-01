@@ -9,6 +9,7 @@ const { renderVideo } = require('../infrastructure/render.cjs');
 const { readCaptions, writeSrt } = require('../infrastructure/caption-files.cjs');
 const { serializeSrt } = require('../core/captions.cjs');
 const { mediaResponse } = require('../infrastructure/media-response.cjs');
+const { MusicService } = require('../infrastructure/music.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -18,6 +19,8 @@ let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache')
 protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
+const music = new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py'),
+  onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 let exportAbort;
 let serial = Promise.resolve();
 const rendererPath = path.join(__dirname, '../renderer/index.html');
@@ -79,8 +82,24 @@ register('project:save', as => save(Boolean(as)));
 register('history:undo', () => { session.history.undo(); return snapshot(); });
 register('history:redo', () => { session.history.redo(); return snapshot(); });
 register('timeline:edit', action => {
+  if (action?.type === 'music') throw Error('완료된 생성 작업에서 음악을 추가해 주세요.');
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
+});
+register('music:state', () => music.state());
+register('music:check', () => music.check());
+register('music:start', values => music.start(values));
+register('music:configure', async key => {
+  if (!['python','models'].includes(key)) throw Error('잘못된 환경 설정입니다.');
+  const picked = await dialog.showOpenDialog(window, { title: key === 'python' ? '음악 생성용 Python 선택' : '저장된 YuE2 모델 폴더 선택', properties: [key === 'python' ? 'openFile' : 'openDirectory'] });
+  return picked.canceled ? null : music.configure(key, picked.filePaths[0]);
+});
+register('music:add', async id => {
+  const result = await music.audio(id), media = await library.import(result.file); media.name = result.title;
+  const selectedId = applyCommand(session.history, { type: 'music', media }); return snapshot({ selectedId });
+});
+ipcMain.on('music:cancel', event => {
+  if (event.sender === window.webContents && event.senderFrame === window.webContents.mainFrame) music.cancel();
 });
 register('captions:import', async () => {
   const picked = await dialog.showOpenDialog(window, { title: 'SRT · VTT 자막 가져오기', properties: ['openFile'], filters: [{ name: '자막 파일', extensions: ['srt', 'vtt'] }] });
@@ -152,3 +171,4 @@ app.whenReady().then(() => {
   window.loadFile(rendererPath);
 }).catch(error => { log(error.stack); app.quit(); });
 app.on('window-all-closed', () => app.quit());
+app.on('before-quit', () => music.dispose());
