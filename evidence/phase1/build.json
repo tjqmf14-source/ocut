@@ -1,14 +1,18 @@
 {
-  "time": "2026-10-01T15:29:55.835Z",
+  "time": "2026-10-01T16:03:00.388Z",
   "kind": "CommonJS core distribution; no UI or installer",
   "files": [
     {
       "file": "core/project.cjs",
-      "sha256": "c0b95f895e077252e4160b21d6b3f986732ecadd5743bef111ff790bb7f0f03e"
+      "sha256": "d424411936b78e2b1ed48d3c839db93876fce2e604d65a51e7d677e527f64dd6"
     },
     {
       "file": "core/history.cjs",
       "sha256": "1c30a10a1fe73382c71dd454471e241bea7700857f664dd7c1d6d2c511315cd1"
+    },
+    {
+      "file": "core/visualizer.js",
+      "sha256": "1bc0b215f660d448beac0200605a9855e6df7c3aee47bc9af365d721bad587b0"
     },
     {
       "file": "infrastructure/project-store.cjs",

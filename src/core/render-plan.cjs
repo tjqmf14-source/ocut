@@ -1,7 +1,8 @@
 'use strict';
 const { validateProject } = require('./project.cjs');
 const { lengths } = require('./audio-fades.js');
-function renderPlan(project, assets, textFiles) {
+const {visualTrack}=require('./visualizer.js');
+function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
   validateProject(project);
   const s = project.exportSettings, duration = Math.max(0, ...project.clips.map(c => c.startTime + c.duration));
   if (!duration || duration > 28800) throw Error('출력할 클립이 없거나 영상이 8시간을 초과합니다.');
@@ -10,18 +11,20 @@ function renderPlan(project, assets, textFiles) {
   const args = [], graph = [], audio = [], scaleX = s.width / project.canvas.width, scaleY = s.height / project.canvas.height;
   let input = 0, layer = 0;
   graph.push(`color=c=${project.canvas.background}:s=${s.width}x${s.height}:r=${s.fps}:d=${duration},format=rgba[base0]`);
-  const solo = project.tracks.some(t => t.solo);
+  const solo = project.tracks.some(t => t.solo && !visualTrack(project,t));
   for (const track of [...project.tracks].reverse()) for (const c of project.clips.filter(c => c.trackId === track.id)) {
-    if (c.effects.some(e => e.type !== 'audioFade') || c.keyframes.length || c.type === 'effect') throw Error('오디오 페이드 이외의 효과 또는 키프레임 출력은 아직 지원하지 않습니다.');
+    if (c.effects.some(e => !['audioFade','audioVisualizer'].includes(e.type)) || c.keyframes.length || c.type === 'effect') throw Error('지원하지 않는 효과 또는 키프레임 출력입니다.');
     if (c.speed < .25 || c.speed > 4) throw Error('현재 미리보기와 출력은 0.25–4배속을 지원합니다.');
     const text = ['text', 'subtitle'].includes(c.type), asset = assets.get(c.source);
+    const viz = c.effects.find(e=>e.type==='audioVisualizer');
     if (!text && !asset) throw Error('출력에 필요한 원본 미디어가 없습니다.');
-    const visual = !track.hidden && !['audio', 'music'].includes(c.type);
-    const audible = asset?.hasAudio && !track.muted && (!solo || track.solo) && c.volume > 0;
+    const visual = !track.hidden && !['audio', 'music'].includes(c.type) && (!viz || viz.enabled);
+    const audible = !viz && asset?.hasAudio && !track.muted && (!solo || track.solo) && c.volume > 0;
     if (!visual && !audible) continue;
     const index = input++;
-    if (text || asset.type === 'image') args.push('-loop', '1', '-framerate', String(s.fps));
-    args.push('-protocol_whitelist', 'file,pipe', '-i', text ? textFiles.get(c.id) : asset.path);
+    if (visual && viz && !visualFiles.has(c.id)) throw Error('시각화 영상 레이어가 없습니다.');
+    if (text || !viz && asset.type === 'image') args.push('-loop', '1', '-framerate', String(s.fps));
+    args.push('-protocol_whitelist', 'file,pipe', '-i', text ? textFiles.get(c.id) : viz ? visualFiles.get(c.id) : asset.path);
     if (audible) {
       let rate = c.speed; const tempo = [];
       while (rate < .5) { tempo.push('atempo=0.5'); rate /= .5; }
@@ -35,7 +38,7 @@ function renderPlan(project, assets, textFiles) {
     }
     if (!visual) continue;
     let filter;
-    if (text) filter = `trim=duration=${c.duration},setpts=PTS-STARTPTS+${c.startTime}/TB,format=rgba`;
+    if (text || viz) filter = `trim=duration=${c.duration},setpts=PTS-STARTPTS+${c.startTime}/TB,format=rgba`;
     else {
       const t = c.transform, fit = Math.min(project.canvas.width / asset.width, project.canvas.height / asset.height);
       const w = Math.max(1, Math.round(asset.width * fit * t.scaleX * scaleX)), h = Math.max(1, Math.round(asset.height * fit * t.scaleY * scaleY));
@@ -47,7 +50,7 @@ function renderPlan(project, assets, textFiles) {
       filter += `,colorchannelmixer=aa=${c.opacity}`;
     }
     graph.push(`[${index}:v:0]${filter}[v${index}]`);
-    const x = text ? '0' : `(W-w)/2+${c.transform.x * scaleX}`, y = text ? '0' : `(H-h)/2+${c.transform.y * scaleY}`;
+    const x = text || viz ? '0' : `(W-w)/2+${c.transform.x * scaleX}`, y = text || viz ? '0' : `(H-h)/2+${c.transform.y * scaleY}`;
     graph.push(`[base${layer}][v${index}]overlay=x='${x}':y='${y}':enable='gte(t,${c.startTime})*lt(t,${c.startTime + c.duration})':eof_action=pass:repeatlast=0:format=auto[base${++layer}]`);
   }
   graph.push(`[base${layer}]fps=${s.fps},scale=iw:ih:out_color_matrix=bt709:out_range=tv,format=yuv420p[vout]`);

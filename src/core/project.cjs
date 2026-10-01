@@ -1,5 +1,6 @@
 'use strict';
 const {randomUUID}=require('node:crypto');
+const {validate:validateVisualizer}=require('./visualizer.js');
 const VERSION=1;
 const TRACK_TYPES=['video','image','audio','music','subtitle','text','overlay','effect'];
 const MEDIA_TYPES=['video','image','audio'];
@@ -50,7 +51,7 @@ function validateProject(p){
     number(c.startTime,'clip start');number(c.duration,'clip duration',Number.EPSILON);number(c.sourceStart,'source start');number(c.sourceEnd,'source end');number(c.speed,'speed',0.05,16);
     if(Math.abs(c.sourceEnd-c.sourceStart-c.duration*c.speed)>1e-6)fail('source span must equal duration * speed');
     if(c.source!==null){const m=media.get(c.source);if(!m)fail('missing media reference');
-      const accepted={music:['audio'],audio:['audio','video'],video:['video'],image:['image'],overlay:['video','image']}[c.type]||[];
+      const accepted={music:['audio'],audio:['audio','video'],video:['video'],image:['image'],overlay:['video','image','audio']}[c.type]||[];
       if(!accepted.includes(m.type))fail('clip media type mismatch');
       if(m.duration!==null&&c.sourceEnd>m.duration+1e-6)fail('clip exceeds source');
     }else if(!['text','subtitle','effect'].includes(c.type))fail('clip requires source');
@@ -64,10 +65,18 @@ function validateProject(p){
     const fades=c.effects.filter(e=>e.type==='audioFade');
     if(fades.length>1)fail('duplicate audio fade');
     for(const e of fades){
-      if(!['video','audio','music'].includes(c.type))fail('audio fade requires audio clip');
+      if(!['video','audio','music','overlay'].includes(c.type))fail('audio fade requires audio clip');
       keys(e.parameters,['fadeIn','fadeOut'],'audio fade');
       for(const value of [e.parameters.fadeIn,e.parameters.fadeOut])if(!Number.isFinite(value)||value<0||value>28800)fail('invalid audio fade duration');
     }
+    const visualizers=c.effects.filter(e=>e.type==='audioVisualizer');
+    if(visualizers.length>1)fail('duplicate visualizer');
+    for(const e of visualizers){
+      if(c.type!=='overlay'||!['audio','video'].includes(media.get(c.source)?.type))fail('visualizer requires audio source');
+      if(media.get(c.source).duration>600)fail('visualizer source exceeds 10 minutes');
+      validateVisualizer(e.parameters);
+    }
+    if(c.type==='overlay'&&media.get(c.source)?.type==='audio'&&!visualizers.length)fail('audio overlay requires visualizer');
     array(c.keyframes,'keyframes',10000);
     const seen=new Set();
     for(const k of c.keyframes){keys(k,['property','time','value','interpolation'],'keyframe');text(k.property,'keyframe property',128);number(k.time,'keyframe time',0,c.duration);number(k.value,'keyframe value',-1e9,1e9);if(!['linear','hold'].includes(k.interpolation))fail('interpolation');const key=k.property+':'+k.time;if(seen.has(key))fail('duplicate keyframe');seen.add(key);}

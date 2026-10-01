@@ -2,7 +2,7 @@
 class StudioPlayback {
   constructor(canvas, onTime, onError) {
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.onTime = onTime; this.onError = onError;
-    this.time = 0; this.playing = false; this.nodes = new Map(); this.audioContext = null;
+    this.time = 0; this.playing = false; this.nodes = new Map(); this.audioContext = null; this.spectra = new Map();
   }
   setProject(project, assets) {
     this.pause();
@@ -16,7 +16,19 @@ class StudioPlayback {
   }
   clear() {
     for (const entry of this.nodes.values()) { entry.node.pause?.(); entry.node.removeAttribute('src'); entry.gain?.disconnect(); entry.source?.disconnect(); }
-    this.nodes.clear(); this.time = 0;
+    this.nodes.clear(); this.spectra.clear(); this.time = 0;
+  }
+  visualData(id) {
+    const encoded=this.assets[id]?.spectrum;if(!encoded)return null;
+    const old=this.spectra.get(id);if(old?.encoded===encoded.frames)return old.data;
+    const floats=base64=>{const bytes=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));return new Float32Array(bytes.buffer);};
+    const data={...encoded,frames:floats(encoded.frames),waves:floats(encoded.waves)};this.spectra.set(id,{encoded:encoded.frames,data});return data;
+  }
+  visualImage(clip,canvas,output,time) {
+    const data=this.visualData(clip.source);if(!data)throw Error('시각화 분석이 없습니다. 프로젝트를 다시 열어 주세요.');
+    const frame=document.createElement('canvas');frame.width=output.width;frame.height=output.height;
+    const ctx=frame.getContext('2d');ctx.scale(output.width/canvas.width,output.height/canvas.height);
+    OcutVisualizer.paint(ctx,clip,canvas,data,time,clip.volume*OcutAudioFades.gain(clip,time-clip.startTime));return frame.toDataURL('image/png');
   }
   node(clip) {
     if (this.nodes.has(clip.id)) return this.nodes.get(clip.id);
@@ -52,13 +64,17 @@ class StudioPlayback {
     const { ctx, project } = this;
     const { width, height } = project.canvas;
     ctx.fillStyle = project.canvas.background; ctx.fillRect(0, 0, width, height);
-    const solo = project.tracks.some(t => t.solo);
+    const solo = project.tracks.some(t => t.solo && !OcutVisualizer.visualTrack(project,t));
     // Track order is top-to-bottom in the editor; paint the bottom first.
     for (const track of [...project.tracks].reverse()) {
       for (const clip of project.clips.filter(c => c.trackId === track.id)) {
         const active = this.time >= clip.startTime - 1e-7 && this.time < clip.startTime + clip.duration - 1e-7;
         let entry = this.nodes.get(clip.id);
         if (!active) { entry?.node.pause?.(); continue; }
+        if(clip.effects.some(e=>e.type==='audioVisualizer')){
+          if(!track.hidden)OcutVisualizer.paint(ctx,clip,project.canvas,this.visualData(clip.source),this.time,clip.volume*OcutAudioFades.gain(clip,this.time-clip.startTime));
+          continue;
+        }
         if (clip.source && !entry) entry = this.node(clip);
         if (entry && entry.media.type !== 'image') {
           const { node } = entry;

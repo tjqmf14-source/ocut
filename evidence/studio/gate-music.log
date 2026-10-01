@@ -1,9 +1,8 @@
-Music: running load {}
-Music: running synth {}
+Music: running semantic {"tokens":371}
 {
   "status": "PASS",
   "checks": 7,
   "seconds": 19.998667,
-  "rms": 0.08861197762630613,
+  "rms": 0.10287486460554032,
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4"
 }

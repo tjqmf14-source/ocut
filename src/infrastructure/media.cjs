@@ -80,9 +80,14 @@ class MediaLibrary {
     const media = { id: randomUUID(), type: info.type, path: info.path, name: path.basename(info.path), duration: info.duration, fingerprint: null };
     await this.prepare(media); return media;
   }
+  async ensureVisual(id) {
+    const asset=this.assets.get(id);if(!asset)throw Error('시각화할 미디어를 먼저 연결해 주세요.');
+    if(!asset.spectrum)asset.spectrum=await require('./visualizer.cjs').analyzeVisual(asset,this.cacheDir);
+    return asset.spectrum;
+  }
   view() {
     return Object.fromEntries([...this.assets].map(([id, item]) => [id, { width: item.width, height: item.height, hasAudio: item.hasAudio, waveform: item.waveform,
-      url: `ocut-media://asset/${id}`, thumbnail: item.thumbnail ? `ocut-media://thumb/${id}` : null }]));
+      spectrum: item.spectrum || null, url: `ocut-media://asset/${id}`, thumbnail: item.thumbnail ? `ocut-media://thumb/${id}` : null }]));
   }
 }
 module.exports = { MediaLibrary, probe, tool, run, waveform };

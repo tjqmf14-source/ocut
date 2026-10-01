@@ -75,16 +75,37 @@ register('project:open', async () => {
     try { await assets.prepare({ ...media, path: path.resolve(path.dirname(file), media.path) }); }
     catch (error) { missing.push(`${media.name}: ${error.message}`); }
   }
+  for(const clip of next.history.state.clips.filter(c=>c.effects.some(e=>e.type==='audioVisualizer'))) {
+    try{await assets.ensureVisual(clip.source);}catch(error){missing.push(`시각화: ${error.message}`);}
+  }
   session = next; library = assets;
   return snapshot({ selectedId: null, reloadMedia: true, warning: missing.length ? `누락되거나 읽을 수 없는 미디어 ${missing.length}개: ${missing.join(' / ')}` : null });
 });
 register('project:save', as => save(Boolean(as)));
 register('history:undo', () => { session.history.undo(); return snapshot(); });
 register('history:redo', () => { session.history.redo(); return snapshot(); });
-register('timeline:edit', action => {
+register('timeline:edit', async action => {
   if (action?.type === 'music') throw Error('완료된 생성 작업에서 음악을 추가해 주세요.');
+  if (action?.type === 'visualizer') await library.ensureVisual(action.mediaId);
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
+});
+register('visualizer:createVideo', async mediaId => {
+  const media=session.history.state.media.find(m=>m.id===mediaId),asset=library.assets.get(mediaId);
+  if(!media||!asset?.hasAudio)throw Error('오디오가 있는 미디어를 선택해 주세요.');
+  await library.ensureVisual(mediaId);
+  if(!await mayDiscard())return null;
+  const next=new StudioSession(),duration=Math.floor(media.duration*30+1e-6)/30;
+  next.settings({name:media.name,width:1920,height:1080,fps:30});
+  next.history.apply('음악 소스',p=>p.media.push(media));
+  const audioId=applyCommand(next.history,{type:'add',mediaId});
+  const visualId=applyCommand(next.history,{type:'visualizer',mediaId});
+  for(const id of [audioId,visualId])applyCommand(next.history,{type:'update',id,values:{audioFade:{fadeIn:Math.min(1,duration/2),fadeOut:Math.min(2,duration/2)}}});
+  const title=applyCommand(next.history,{type:'text',text:media.name,startTime:0});
+  applyCommand(next.history,{type:'update',id:title,values:{duration,transform:{y:-260,scaleX:.7,scaleY:.7}}});
+  // Build before swapping: a failed analysis or validation never destroys the current document.
+  session=next;for(const id of library.assets.keys())if(id!==mediaId)library.assets.delete(id);
+  return snapshot({selectedId:visualId,reloadMedia:true});
 });
 register('music:state', () => music.state());
 register('music:check', () => music.check());
@@ -125,6 +146,7 @@ register('render:export', async () => {
     return await renderVideo({ project, library, target: picked.filePath.toLowerCase().endsWith('.mp4') ? picked.filePath : picked.filePath + '.mp4',
       cacheDir: path.join(app.getPath('userData'), 'exports'), signal: exportAbort.signal,
       textImage: (clip, canvas, output) => window.webContents.executeJavaScript(`window.OcutText.image(${JSON.stringify(clip)},${JSON.stringify(canvas)},${JSON.stringify(output)})`),
+      visualImage: (clip,canvas,output,time) => window.webContents.executeJavaScript(`playback.visualImage(${JSON.stringify(clip)},${JSON.stringify(canvas)},${JSON.stringify(output)},${JSON.stringify(time)})`),
       onProgress: percent => { if (!window.isDestroyed()) window.webContents.send('render:progress', percent); } });
   } finally { exportAbort = null; }
 });

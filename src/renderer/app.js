@@ -3,7 +3,7 @@ const $ = id => document.getElementById(id);
 let state, busy = false, selected = new Set(), zoom = 70, snap = true, ripple = false;
 let exporting = false;
 const clipNodes = new Map(), cardNodes = new Map();
-const symbols = { text: 'T', subtitle: 'CC', video: '▣', image: '▧', audio: '♫', music: '♫' };
+const symbols = { text: 'T', subtitle: 'CC', video: '▣', image: '▧', audio: '♫', music: '♫', overlay: '▥' };
 const clock = t => { const m = Math.floor(t / 60); return `${String(m).padStart(2, '0')}:${(t % 60).toFixed(3).padStart(6, '0')}`; };
 function message(text, error = false) { $('status').textContent = text; $('status').classList.toggle('error', error); }
 const playback = new StudioPlayback($('preview'), (time, playing) => {
@@ -35,7 +35,13 @@ function render(next) {
   $('duration').textContent = clock(playback.duration);
   $('previewEmpty').hidden = p.clips.length > 0;
   $('play').disabled = !p.clips.length;
-  renderLibrary(); renderTimeline(); renderInspector(); renderCaptions();
+  renderLibrary(); renderTimeline(); renderInspector(); renderCaptions(); renderVisualizerSources();
+}
+function renderVisualizerSources(){
+  const selector=$('visualizerSource'),previous=selector.value,media=state.project.media.filter(m=>state.assets[m.id]?.hasAudio);
+  selector.replaceChildren();for(const m of media){const option=document.createElement('option');option.value=m.id;option.textContent=m.name;selector.append(option);}
+  selector.value=media.some(m=>m.id===previous)?previous:media[0]?.id||'';
+  $('addVisualizer').disabled=$('createMusicVideo').disabled=!media.length;
 }
 function renderCaptions() {
   const selector = $('captionTrack'), previous = selector.value, clip = selectedClip();
@@ -108,6 +114,7 @@ function renderTimeline() {
     const toggles = document.createElement('div'); toggles.className = 'track-toggles';
     for (const [property, label, title] of [['locked', 'L', '트랙 잠금'], ['hidden', 'V', '화면 숨김'], ['muted', 'M', '음소거'], ['solo', 'S', '이 트랙만 듣기']]) {
       const button = document.createElement('button'); button.textContent = label; button.title = title; button.setAttribute('aria-label', `${track.name} ${title}`); button.setAttribute('aria-pressed', String(track[property]));
+      if(OcutVisualizer.visualTrack(p,track)&&['muted','solo'].includes(property))button.disabled=true;
       button.onclick = () => edit({ type: 'track', id: track.id, property, value: !track[property] }); toggles.append(button);
     }
     head.append(name, toggles); $('trackHeaders').append(head);
@@ -169,8 +176,10 @@ function renderInspector() {
   $('fadeFields').hidden = $('volumeField').hidden;
   const fades = clip.effects.find(e => e.type === 'audioFade' && e.enabled)?.parameters;
   $('clipFadeIn').value = fades?.fadeIn || 0; $('clipFadeOut').value = fades?.fadeOut || 0;
+  const visual=clip.effects.find(e=>e.type==='audioVisualizer');$('visualizerFields').hidden=!visual;
+  if(visual){const v=visual.parameters;for(const [id,key] of Object.entries({visualStyle:'style',visualColor:'color',visualBars:'barCount',visualThickness:'thickness',visualSensitivity:'sensitivity',visualSmoothing:'smoothing',visualMin:'minFrequency',visualMax:'maxFrequency',visualGlow:'glow'}))$(id).value=v[key];}
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
-  for (const field of $('clipForm').querySelectorAll('input,textarea,button[type=submit]')) field.disabled = locked;
+  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button[type=submit]')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields'));
 }
 function timeAt(x) { const box = $('timelineBody').getBoundingClientRect(); return Math.max(0, (x - box.left + $('timelineBody').scrollLeft) / zoom); }
 function snapped(delta, clip) {
@@ -241,10 +250,12 @@ $('exportCaptions').onclick = async () => {
   finally { busy = false; }
 };
 function showPane(name) {
-  for (const pane of ['media','captions','music']) { $(pane + 'Pane').hidden = pane !== name; $(pane + 'Tab').setAttribute('aria-selected', String(pane === name)); }
+  for (const pane of ['media','captions','music','visualizer']) { $(pane + 'Pane').hidden = pane !== name; $(pane + 'Tab').setAttribute('aria-selected', String(pane === name)); }
   if (name === 'captions') renderCaptions();
 }
-for (const pane of ['media','captions','music']) $(pane + 'Tab').onclick = () => showPane(pane);
+for (const pane of ['media','captions','music','visualizer']) $(pane + 'Tab').onclick = () => showPane(pane);
+$('addVisualizer').onclick=()=>{message('음원의 파형과 주파수를 분석하고 있습니다…');edit({type:'visualizer',mediaId:$('visualizerSource').value,startTime:playback.time});};
+$('createMusicVideo').onclick=()=>{message('음원을 분석하고 음악 영상 프로젝트를 준비하고 있습니다…');act(()=>window.ocut.createMusicVideo($('visualizerSource').value),'음악 영상 프로젝트를 만들었습니다. 각 트랙을 자유롭게 편집하세요.');};
 $('captionSearch').oninput = () => renderCaptions(); $('captionTrack').onchange = () => { selected.clear(); renderSelection(); renderInspector(); renderCaptions(); };
 $('split').onclick = () => { if (selectedClip()) edit({ type: 'split', id: selectedClip().id, time: playback.time }); };
 $('duplicate').onclick = () => { if (selectedClip()) edit({ type: 'duplicate', id: selectedClip().id }); };
@@ -264,7 +275,8 @@ $('projectForm').onsubmit = event => {
 };
 $('clipForm').onsubmit = event => {
   event.preventDefault(); const clip = selectedClip(); if (!clip) return; const num = id => Number($(id).value);
-  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
+  const visual=$('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}};
+  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
   if (exporting) return;

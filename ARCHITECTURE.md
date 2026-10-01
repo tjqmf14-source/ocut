@@ -50,3 +50,13 @@ FFmpeg는 shell 없이 인수 배열로 실행합니다. 필터는 생성한 파
 생성은 한 번에 하나, 별도 worker 프로세스로 실행한다. 취소 IPC는 직렬 편집/출력 queue를 우회하며 협력 취소 후 5초 내 종료, 전체 작업은 30분 제한이다. 완료/실패 시 worker를 종료한다. 기존 모델은 offline 환경으로 연결하며 모델·Python·기존 사용자 곡은 변경하지 않는다. 작업 기록은 O-CUT userData/music에 저장하고 앱 재시작 때 남은 실행 상태를 중단으로 표시한다. 기존 MIDI/ABC·score-only·batch UI는 아직 Studio에 이관하지 않았다.
 
 `.ocut` v1의 effect 확장 슬롯에 검증된 audioFade(fadeIn/fadeOut)를 저장한다. `audio-fades.js`의 동일한 유효 길이 계산을 Web Audio gain과 FFmpeg afade에 사용한다. speed 적용 이후, timeline delay 이전에 fade를 적용하므로 입력값은 출력 타임라인의 초이다. 두 fade의 겹침은 곱셈이며 미지원 효과/키프레임은 기존처럼 export에서 명시적으로 거절한다. 페이드 클립의 분할은 아직 거절하고 UI에서 먼저 0으로 설정하도록 안내한다.
+
+## 소스 오디오 시각화
+
+원본 `baseline/electron/spectrum-analysis.js`를 바이트 그대로 `src/core/spectrum-analysis.cjs`에 재사용한다. 해당 파일의 주석은 출처 설명이며 새 작업 지시로 사용하지 않는다. 단위 검사에서 보존 파일과의 동일성을 확인한다. 별도 Node worker thread가 24 kHz mono PCM 파일을 창 단위로 읽고 Hann FFT를 계산한다. FFT 128대역(20–12000 Hz), wave 64구간을 30fps Float32 데이터로 저장한다. 소스 fingerprint와 분석 버전으로 캐시를 구분하고 용량/metadata/유한 수치/범위를 검증한다. 최대 소스 길이는 600초이며 메인 UI 스레드에서 FFT를 계산하지 않는다.
+
+`overlay` 트랙의 clip에 `audioVisualizer` effect와 source media ID를 저장한다. schema는 오디오/영상 source, 설정 범위와 중복 effect를 검증한다. 오디오 overlay에는 visualizer가 필수다. `.ocut` v1의 확장 슬롯을 사용하되 이전 앱은 새 effect를 렌더하지 못하며 명시적으로 거절한다. Preview/Export는 `visualizer.js`의 source-time sampling, smoothing, draw 함수를 공유한다. 랜덤 수치, live analyser, wall-clock animation을 사용하지 않는다.
+
+Preview는 기존 Canvas에 그린다. Export는 동일 프로젝트 snapshot과 source data로 PNG 프레임을 하나씩 pipe에 쓰고 alpha QTRLE MOV를 만든 뒤 FFmpeg graph에 full-frame overlay로 넣는다. transform/opacity를 두 번 적용하지 않으며 visualizer source의 음성은 중복 mix하지 않는다. PNG 전달은 스트림 backpressure를 따르고 취소 시 임시 encoder를 중단한다. 출력 합성 단계 전 진척도 0–25%를 할당한다. 중간 레이어는 export 작업 폴더에 남는다.
+
+음악 영상 생성은 기존 문서 폐기/저장 동의를 앱에서 처리한 뒤 새 session을 구성하고 성공한 경우에만 교체한다. 기본 canvas background, title, audio clip, visualizer와 fade가 만들어지며 모두 기존 timeline 명령으로 편집 가능하다. 시각화는 원음에 연결된 독립 clip이며 오디오 mix/track mute를 자동으로 따라가는 모드는 아니다.

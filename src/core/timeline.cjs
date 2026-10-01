@@ -1,6 +1,7 @@
 'use strict';
 const { randomUUID } = require('node:crypto');
 const { createTrack, createClip, validateProject } = require('./project.cjs');
+const { defaults: visualDefaults, validate: validateVisualizer } = require('./visualizer.js');
 const durationOf = project => Math.max(0, ...project.clips.map(clip => clip.startTime + clip.duration));
 const frameTime = (time, fps) => Math.round(time * fps) / fps;
 function writable(project, id) {
@@ -12,8 +13,8 @@ function writable(project, id) {
 function trackFor(project, type) {
   let track = project.tracks.find(item => item.type === type && !item.locked);
   if (!track) {
-    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', music: 'AI 음악', text: '텍스트', subtitle: '자막' }[type] || type);
-    const rank = item => ['text', 'subtitle'].includes(item) ? 0 : ['audio', 'music'].includes(item) ? 2 : 1;
+    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', music: 'AI 음악', text: '텍스트', subtitle: '자막', overlay: '시각화' }[type] || type);
+    const rank = item => ['text', 'subtitle'].includes(item) ? 0 : item === 'overlay' ? 1 : ['audio', 'music'].includes(item) ? 3 : 2;
     const at = project.tracks.findIndex(item => rank(item.type) > rank(type));
     project.tracks.splice(at < 0 ? project.tracks.length : at, 0, track);
   }
@@ -23,6 +24,14 @@ function command(project, action) {
   if (!action || typeof action.type !== 'string') throw Error('잘못된 편집 명령입니다.');
   const frame = 1 / project.canvas.fps;
   switch (action.type) {
+    case 'visualizer': {
+      const media = project.media.find(m => m.id === action.mediaId);
+      if (!media || !['audio','video'].includes(media.type) || media.duration > 600) throw Error('10분 이하 오디오 소스를 선택해 주세요.');
+      const track = trackFor(project,'overlay'),duration = Math.floor(media.duration * project.canvas.fps + 1e-6) / project.canvas.fps;
+      const clip = createClip({trackId:track.id,type:'overlay',source:media.id,startTime:frameTime(action.startTime||0,project.canvas.fps),duration});
+      clip.effects.push({id:randomUUID(),type:'audioVisualizer',enabled:true,parameters:{...visualDefaults}});
+      project.clips.push(clip);return clip.id;
+    }
     case 'music': {
       const media = action.media;
       if (!media || media.type !== 'audio' || !(media.duration > 0)) throw Error('음악 파일을 읽을 수 없습니다.');
@@ -77,7 +86,7 @@ function command(project, action) {
     }
     case 'split': {
       const clip = writable(project, action.id);
-      if (clip.keyframes.length || clip.effects.length) throw Error('효과/키프레임 클립의 분할은 아직 지원하지 않습니다.');
+      if (clip.keyframes.length || clip.effects.some(e=>e.type!=='audioVisualizer')) throw Error('페이드/기타 효과 또는 키프레임 클립의 분할은 아직 지원하지 않습니다.');
       const at = frameTime(action.time, project.canvas.fps);
       const left = at - clip.startTime;
       if (left < frame - 1e-7 || clip.duration - left < frame - 1e-7) throw Error('클립 내부의 프레임에서 분할해 주세요.');
@@ -88,9 +97,14 @@ function command(project, action) {
     }
     case 'update': {
       const clip = writable(project, action.id);
-      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade'];
+      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer'];
       if (!action.values || Object.keys(action.values).some(key => !fields.includes(key))) throw Error('지원하지 않는 클립 속성입니다.');
       for (const [key, value] of Object.entries(action.values)) {
+        if (key === 'visualizer') {
+          const effect = clip.effects.find(e => e.type === 'audioVisualizer');
+          if (!effect) throw Error('시각화 클립을 선택해 주세요.');
+          const parameters = {...effect.parameters,...value};validateVisualizer(parameters);effect.parameters=parameters;continue;
+        }
         if (key === 'audioFade') {
           if (!value || Object.keys(value).some(k => !['fadeIn','fadeOut'].includes(k)) || [value.fadeIn,value.fadeOut].some(n => !Number.isFinite(n) || n < 0 || n > 28800)) throw Error('페이드 길이는 0–28800초여야 합니다.');
           clip.effects = clip.effects.filter(e => e.type !== 'audioFade');

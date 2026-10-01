@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('ocut', {
   startMusic: values => call('music:start', values),
   cancelMusic: () => ipcRenderer.send('music:cancel'),
   addMusic: id => call('music:add', id),
+  createMusicVideo: mediaId => call('visualizer:createVideo', mediaId),
   onMusicState: callback => {
     const listener = (_event, value) => callback(value); ipcRenderer.on('music:state', listener);
     return () => ipcRenderer.removeListener('music:state', listener);

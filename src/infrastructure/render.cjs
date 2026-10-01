@@ -5,14 +5,16 @@ const { spawn } = require('node:child_process');
 const { randomUUID } = require('node:crypto');
 const { renderPlan } = require('../core/render-plan.cjs');
 const { probe, tool, run } = require('./media.cjs');
-async function renderVideo({ project, library, target, cacheDir, textImage, onProgress, signal }) {
+const {visualizerVideo}=require('./visualizer-video.cjs');
+async function renderVideo({ project, library, target, cacheDir, textImage, visualImage, onProgress, signal }) {
   if (path.extname(target).toLowerCase() !== '.mp4') throw Error('출력 파일은 .mp4 형식이어야 합니다.');
   const parent = await fs.realpath(path.dirname(target)); target = path.join(parent, path.basename(target));
   for (const asset of library.assets.values()) if (asset.path.toLowerCase() === target.toLowerCase()) throw Error('원본 미디어에 덮어쓸 수 없습니다.');
   const previous = await fs.lstat(target).catch(e => { if (e.code === 'ENOENT') return null; throw e; });
   if (previous && (!previous.isFile() || previous.isSymbolicLink())) throw Error('일반 파일 경로를 선택해 주세요.');
   const job = path.join(cacheDir, 'render-' + randomUUID()); await fs.mkdir(job, { recursive: true });
-  const partial = path.join(parent, `.ocut-${randomUUID()}.mp4`), textFiles = new Map(), assets = new Map();
+  const partial = path.join(parent, `.ocut-${randomUUID()}.mp4`), textFiles = new Map(), assets = new Map(), visualFiles = new Map();
+  const visualClips=project.clips.filter(c=>c.effects.some(e=>e.type==='audioVisualizer'&&e.enabled)&&!project.tracks.find(t=>t.id===c.trackId).hidden);
   try {
     for (const c of project.clips) {
       if (signal?.aborted) throw Error('내보내기를 취소했습니다.');
@@ -28,7 +30,12 @@ async function renderVideo({ project, library, target, cacheDir, textImage, onPr
         const file = path.join(job, `${textFiles.size}.png`); await fs.writeFile(file, Buffer.from(data.split(',')[1], 'base64')); textFiles.set(c.id, file);
       }
     }
-    const plan = renderPlan(project, assets, textFiles);
+    for(const [index,clip] of visualClips.entries()){
+      const target=path.join(job,`visual-${index}.mov`);
+      await visualizerVideo({clip,canvas:project.canvas,output:project.exportSettings,target,image:visualImage,signal,onProgress:f=>onProgress?.(25*(index+f)/visualClips.length)});
+      visualFiles.set(clip.id,target);
+    }
+    const plan = renderPlan(project, assets, textFiles, visualFiles);
     const filter = path.join(job, 'filter.txt'); await fs.writeFile(filter, plan.graph);
     const args = ['-hide_banner', '-v', 'warning', '-nostdin', '-y', ...plan.args, '-filter_complex_threads', '2', '-/filter_complex', filter,
       '-map', '[vout]', '-map', '[aout]', '-c:v', 'libx264', '-preset', 'fast', '-crf', '20', '-threads', '4', '-pix_fmt', 'yuv420p', '-r', String(plan.fps),
@@ -44,7 +51,7 @@ async function renderVideo({ project, library, target, cacheDir, textImage, onPr
         for (const line of lines) if (line.startsWith('out_time_us=')) {
           const micros = Number(line.split('=')[1]);
           // FFmpeg reports N/A until its first timestamp is available.
-          if (Number.isFinite(micros)) onProgress?.(Math.min(99, Math.max(0, micros / 1e6 / plan.duration * 100)));
+          if (Number.isFinite(micros)) onProgress?.(Math.min(99, (visualClips.length?25:0)+Math.max(0, micros / 1e6 / plan.duration * (visualClips.length?74:100))));
         }
       });
       child.stderr.on('data', data => { error = (error + data).slice(-12000); });
