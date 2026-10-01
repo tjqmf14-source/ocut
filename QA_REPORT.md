@@ -1,6 +1,14 @@
 # QA 보고서
 
-## 현재 Studio 검증 — 2026-09-29
+## 현재 Studio 검증 — 2026-10-01
+
+0.4 자막 기능은 [CAPTION_REPORT.md](CAPTION_REPORT.md)를 기준으로 합니다. 53개 검사에서 실패/skip/취소 0. 한 번의 전체 Gate에서 shell 4개, timeline 7개, 복구 3개, 자막 7개와 실제 MP4 5개 검증을 통과했습니다. 현재 패키지는 `evidence/studio/gate.json`의 해시와 소스 manifest를 기준으로 합니다.
+
+SRT 가져오기·분할/병합·수정·Undo/Redo, VTT 변환 안내, 잘못된 파일 거절, 직접 작성·검색·SRT 재저장, 실제 자막 영상, 앱 재실행 복원을 검사했습니다. 자막 영상은 1920×1080 / 30fps / 7초 / H.264+AAC이며 전체 decode와 0.8/4.2/6.5초 프레임 비교 SSIM 0.993924 / 0.999579 / 0.999616을 통과했습니다.
+
+미디어 범위 응답 206/길이/실제 바이트를 실제 앱에서 검사했습니다. 자동 자막/STT, 서식 전체 호환성, Scenario C의 전환, Scenario D의 AI 패널/시각화 및 installer는 여전히 NOT RUN입니다.
+
+## 0.3 당시 Studio 검증 — 2026-09-29
 
 첫 편집 흐름은 [VERTICAL_SLICE_REPORT.md](VERTICAL_SLICE_REPORT.md)를 기준으로 합니다. 한 번의 `verify-studio.cjs` 실행에서 Build, 43개 검사(실패/skip/취소 0), 실제 앱 shell 4개, timeline 7개, 출력 복구 3개 및 실제 MP4 4개 검증을 모두 통과했습니다. `evidence/studio/gate.json`에 정확한 ASAR SHA-256과 소스 manifest가 있습니다.
 

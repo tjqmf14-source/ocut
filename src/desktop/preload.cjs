@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld('ocut', {
   redo: () => call('history:redo'),
   importMedia: () => call('media:import'),
   edit: action => call('timeline:edit', action),
+  importCaptions: () => call('captions:import'),
+  exportCaptions: trackId => call('captions:export', trackId),
   exportVideo: () => call('render:export'),
   cancelExport: () => ipcRenderer.send('render:cancel'),
   onExportProgress: callback => {

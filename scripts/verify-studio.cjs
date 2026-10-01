@@ -2,7 +2,7 @@
 const fs = require('node:fs'), path = require('node:path');
 const { spawnSync } = require('node:child_process'), { createHash } = require('node:crypto');
 const root = path.resolve(__dirname, '..'), evidence = path.join(root, 'evidence/studio');
-const stages = [ ['build','scripts/build-studio.cjs'], ['tests','--test','tests/*.test.cjs'], ['shell','scripts/qa-shell.cjs'], ['timeline','scripts/qa-timeline.cjs'], ['render','scripts/qa-studio-render.cjs'], ['image','scripts/qa-image-export.cjs'], ['recovery','scripts/qa-export-recovery.cjs'] ];
+const stages = [ ['build','scripts/build-studio.cjs'], ['tests','--test','tests/*.test.cjs'], ['shell','scripts/qa-shell.cjs'], ['timeline','scripts/qa-timeline.cjs'], ['render','scripts/qa-studio-render.cjs'], ['image','scripts/qa-image-export.cjs'], ['recovery','scripts/qa-export-recovery.cjs'], ['captions','scripts/qa-captions.cjs'] ];
 const checks=[];
 for(const [name,...args] of stages){
   const r=spawnSync(process.execPath,args,{cwd:root,windowsHide:true,encoding:'utf8',maxBuffer:8*1024*1024});

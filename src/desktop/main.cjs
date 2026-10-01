@@ -1,12 +1,14 @@
 'use strict';
-const { app, BrowserWindow, ipcMain, dialog, Menu, protocol, net } = require('electron');
-const { pathToFileURL } = require('node:url');
+const { app, BrowserWindow, ipcMain, dialog, Menu, protocol } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const { StudioSession } = require('./session.cjs');
 const { MediaLibrary } = require('../infrastructure/media.cjs');
 const { applyCommand } = require('../core/timeline.cjs');
 const { renderVideo } = require('../infrastructure/render.cjs');
+const { readCaptions, writeSrt } = require('../infrastructure/caption-files.cjs');
+const { serializeSrt } = require('../core/captions.cjs');
+const { mediaResponse } = require('../infrastructure/media-response.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -80,6 +82,20 @@ register('timeline:edit', action => {
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
 });
+register('captions:import', async () => {
+  const picked = await dialog.showOpenDialog(window, { title: 'SRT · VTT 자막 가져오기', properties: ['openFile'], filters: [{ name: '자막 파일', extensions: ['srt', 'vtt'] }] });
+  if (picked.canceled) return null;
+  const result = await readCaptions(picked.filePaths[0]);
+  const selectedId = applyCommand(session.history, { type: 'captions', segments: result.segments });
+  return snapshot({ selectedId, warning: result.warnings.join(' ') || null });
+});
+register('captions:export', async trackId => {
+  const text = serializeSrt(session.history.state, trackId);
+  const picked = await dialog.showSaveDialog(window, { title: 'SRT 자막 저장 · 텍스트와 시간만 저장', defaultPath: `${session.history.state.name}.srt`, filters: [{ name: 'SRT 자막', extensions: ['srt'] }] });
+  if (picked.canceled || !picked.filePath) return null;
+  const target = picked.filePath.toLowerCase().endsWith('.srt') ? picked.filePath : picked.filePath + '.srt';
+  await writeSrt(target, text); return { target };
+});
 register('render:export', async () => {
   const project = session.history.state;
   if (!project.clips.length) throw Error('타임라인에 클립을 추가해 주세요.');
@@ -116,9 +132,7 @@ app.whenReady().then(() => {
     const asset = library.assets.get(id);
     const file = url.hostname === 'asset' ? asset?.path : url.hostname === 'thumb' ? asset?.thumbnail : null;
     if (!file) return new Response('Not found', { status: 404 });
-    const response = await net.fetch(pathToFileURL(file).href, { method: request.method, headers: request.headers });
-    const headers = new Headers(response.headers); headers.set('Access-Control-Allow-Origin', '*');
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    return mediaResponse(request, file);
   });
   Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: '편집', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }]));
   window = new BrowserWindow({ width: 1540, height: 960, minWidth: 1100, minHeight: 760,

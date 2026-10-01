@@ -3,7 +3,7 @@ const $ = id => document.getElementById(id);
 let state, busy = false, selected = new Set(), zoom = 70, snap = true, ripple = false;
 let exporting = false;
 const clipNodes = new Map(), cardNodes = new Map();
-const symbols = { text: 'T', video: '▣', image: '▧', audio: '♫', music: '♫' };
+const symbols = { text: 'T', subtitle: 'CC', video: '▣', image: '▧', audio: '♫', music: '♫' };
 const clock = t => { const m = Math.floor(t / 60); return `${String(m).padStart(2, '0')}:${(t % 60).toFixed(3).padStart(6, '0')}`; };
 function message(text, error = false) { $('status').textContent = text; $('status').classList.toggle('error', error); }
 const playback = new StudioPlayback($('preview'), (time, playing) => {
@@ -35,7 +35,34 @@ function render(next) {
   $('duration').textContent = clock(playback.duration);
   $('previewEmpty').hidden = p.clips.length > 0;
   $('play').disabled = !p.clips.length;
-  renderLibrary(); renderTimeline(); renderInspector();
+  renderLibrary(); renderTimeline(); renderInspector(); renderCaptions();
+}
+function renderCaptions() {
+  const selector = $('captionTrack'), previous = selector.value, clip = selectedClip();
+  const tracks = state.project.tracks.filter(t => t.type === 'subtitle'); selector.replaceChildren();
+  for (const [i, track] of tracks.entries()) { const option = document.createElement('option'); option.value = track.id; option.textContent = `${track.name} ${i + 1}${track.locked ? ' · 잠김' : ''}`; selector.append(option); }
+  selector.value = clip?.type === 'subtitle' ? clip.trackId : tracks.some(t => t.id === previous) ? previous : tracks[0]?.id || '';
+  selector.disabled = !tracks.length;
+  const all = state.project.clips.filter(c => c.trackId === selector.value).sort((a, b) => a.startTime - b.startTime);
+  $('exportCaptions').disabled = !all.length;
+  const query = $('captionSearch').value.trim().toLocaleLowerCase(), clips = all.filter(c => c.text.toLocaleLowerCase().includes(query));
+  $('captionCount').textContent = `${all.length}개 구간${query ? ` · 검색 ${clips.length}개` : ''}${clips.length > 200 ? ' · 앞 200개 표시' : ''}`;
+  const list = $('captionList'); list.replaceChildren();
+  if (!clips.length) { const hint = document.createElement('p'); hint.className = 'caption-empty'; hint.textContent = query ? '검색 결과가 없습니다.' : '직접 작성하거나 SRT·VTT 파일을 가져오세요.'; list.append(hint); }
+  for (const c of clips.slice(0, 200)) {
+    const button = document.createElement('button'); button.className = 'caption-item'; button.dataset.clipId = c.id; button.classList.toggle('selected', selected.has(c.id));
+    const time = document.createElement('span'); time.textContent = `${clock(c.startTime)} → ${clock(c.startTime + c.duration)}`;
+    const text = document.createElement('p'); text.textContent = c.text; button.append(time, text);
+    button.onclick = event => { if (event.shiftKey) selected.has(c.id) ? selected.delete(c.id) : selected.add(c.id); else selected = new Set([c.id]); playback.seek(c.startTime); renderSelection(); renderInspector(); renderCaptions(); };
+    list.append(button);
+  }
+  updateCaptionSelection();
+}
+function updateCaptionSelection() {
+  if (!state) return;
+  const clips = state.project.clips.filter(c => selected.has(c.id));
+  $('mergeCaptions').disabled = clips.length < 2 || clips.some(c => c.type !== 'subtitle' || c.trackId !== clips[0].trackId || state.project.tracks.find(t => t.id === c.trackId).locked);
+  for (const node of $('captionList').children) node.classList.toggle('selected', selected.has(node.dataset.clipId));
 }
 function renderLibrary() {
   const holder = $('libraryContent'), ids = new Set(state.project.media.map(m => m.id));
@@ -125,6 +152,7 @@ function renderRuler() {
   for (let time = begin; time <= end; time += step) { const marker = document.createElement('span'); marker.textContent = `${String(Math.floor(time / 60)).padStart(2, '0')}:${String(time % 60).padStart(2, '0')}`; marker.style.left = `${time * zoom + 6}px`; ruler.append(marker); }
 }
 function renderSelection() {
+  updateCaptionSelection();
   for (const [id, node] of clipNodes) node.classList.toggle('selected', selected.has(id));
   const clip = selectedClip(), locked = clip && state.project.tracks.find(t => t.id === clip.trackId).locked;
   for (const id of ['split', 'duplicate', 'deleteClip']) $(id).disabled = !clip || locked;
@@ -133,7 +161,7 @@ function renderInspector() {
   const clip = selectedClip(); $('clipForm').hidden = !clip; $('projectForm').hidden = Boolean(clip); $('inspectorTitle').textContent = clip ? '클립 편집' : '프로젝트';
   if (!clip) return;
   const media = state.project.media.find(m => m.id === clip.source);
-  $('clipName').textContent = clip.type === 'text' ? '텍스트' : media?.name || clip.type;
+  $('clipName').textContent = clip.type === 'text' ? '텍스트' : clip.type === 'subtitle' ? '자막' : media?.name || clip.type;
   const values = { clipStart: clip.startTime, clipDuration: clip.duration, clipSourceStart: clip.sourceStart, clipSpeed: clip.speed, clipX: clip.transform.x, clipY: clip.transform.y, clipScale: clip.transform.scaleX * 100, clipRotation: clip.transform.rotation, clipOpacity: clip.opacity * 100, clipVolume: clip.volume * 100 };
   for (const [id, value] of Object.entries(values)) $(id).value = Number(value.toFixed(3));
   $('clipText').value = clip.text; $('textField').hidden = !['text', 'subtitle'].includes(clip.type);
@@ -200,6 +228,22 @@ $('undo').onclick = () => act(() => window.ocut.undo(), '실행을 취소했습�
 $('redo').onclick = () => act(() => window.ocut.redo(), '다시 실행했습니다.');
 $('importMedia').onclick = () => { message('미디어와 실제 파형을 분석하고 있습니다…'); act(() => window.ocut.importMedia(), '미디어를 가져왔습니다. 타임라인에 드래그하거나 ＋를 눌러 추가하세요.'); };
 $('addText').onclick = () => edit({ type: 'text', startTime: playback.time });
+$('addCaption').onclick = () => edit({ type: 'subtitle', startTime: playback.time });
+$('importCaptions').onclick = () => act(() => window.ocut.importCaptions(), '자막을 가져왔습니다.');
+$('mergeCaptions').onclick = () => edit({ type: 'mergeCaptions', ids: [...selected] });
+$('exportCaptions').onclick = async () => {
+  if (busy) return; busy = true;
+  try { const result = await window.ocut.exportCaptions($('captionTrack').value); if (result) message(`SRT 저장 완료: ${result.target}`); }
+  catch (error) { message(error.message, true); }
+  finally { busy = false; }
+};
+function showPane(captions) {
+  $('mediaPane').hidden = captions; $('captionsPane').hidden = !captions;
+  $('mediaTab').setAttribute('aria-selected', String(!captions)); $('captionsTab').setAttribute('aria-selected', String(captions));
+  if (captions) renderCaptions();
+}
+$('mediaTab').onclick = () => showPane(false); $('captionsTab').onclick = () => showPane(true);
+$('captionSearch').oninput = () => renderCaptions(); $('captionTrack').onchange = () => { selected.clear(); renderSelection(); renderInspector(); renderCaptions(); };
 $('split').onclick = () => { if (selectedClip()) edit({ type: 'split', id: selectedClip().id, time: playback.time }); };
 $('duplicate').onclick = () => { if (selectedClip()) edit({ type: 'duplicate', id: selectedClip().id }); };
 $('deleteClip').onclick = () => edit({ type: 'delete', ids: [...selected], ripple });

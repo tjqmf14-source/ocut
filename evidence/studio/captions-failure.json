@@ -1,0 +1,486 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: Caption frame 0.75 SSIM 0.94817\n    at main (D:\\O-CUT\\scripts\\qa-captions.cjs:81:69)",
+  "data": "D:\\O-CUT\\.runtime\\captions-1790849900150",
+  "checks": [
+    "native SRT import creates three editable timed captions with multiline Korean",
+    "actual caption split and Shift multi-selection merge retain timing/text",
+    "caption text edits undo redo through inspector",
+    "VTT timestamps/entities and unsupported-format warning; invalid SRT leaves project unchanged",
+    "manual caption, search and real SRT export roundtrip exact text/timing"
+  ],
+  "errors": [],
+  "diagnostic": {
+    "time": 6.5,
+    "duration": 7,
+    "status": "내보내기 완료: D:\\O-CUT\\.runtime\\captions-1790849900150\\O-CUT-captions-1080p.mp4",
+    "clips": [
+      {
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "trackId": "308ef1c1-0269-41f1-9b24-7c307928f3ec",
+        "type": "video",
+        "source": "35e8658b-3509-4501-b067-67d61b9b5743",
+        "startTime": 0,
+        "duration": 2,
+        "sourceStart": 0,
+        "sourceEnd": 2,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "422ed93c-d0ee-45fd-8b62-4e7139843d4e",
+        "trackId": "308ef1c1-0269-41f1-9b24-7c307928f3ec",
+        "type": "video",
+        "source": "35e8658b-3509-4501-b067-67d61b9b5743",
+        "startTime": 2,
+        "duration": 2,
+        "sourceStart": 2,
+        "sourceEnd": 4,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "trackId": "4d11fa84-2933-4a69-a96f-004272da02d2",
+        "type": "audio",
+        "source": "6d8207b9-b31d-4fbc-97a0-a1826a67d240",
+        "startTime": 0,
+        "duration": 6,
+        "sourceStart": 0,
+        "sourceEnd": 6,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 0,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": ""
+      },
+      {
+        "id": "ec4e3983-7643-4435-ac72-d3b8c17dbf90",
+        "trackId": "ab1c7764-7f71-4447-b650-8adde3875c07",
+        "type": "text",
+        "source": null,
+        "startTime": 2,
+        "duration": 3,
+        "sourceStart": 0,
+        "sourceEnd": 3,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 300,
+          "scaleX": 1,
+          "scaleY": 1,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "O-CUT 첫 번째 장면"
+      },
+      {
+        "id": "f914677a-6db8-4366-a4c8-ea7c7703e1ed",
+        "trackId": "243b4503-494a-4c0c-a831-683aec374607",
+        "type": "subtitle",
+        "source": null,
+        "startTime": 0.25,
+        "duration": 1.5,
+        "sourceStart": 0,
+        "sourceEnd": 1.5,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 378,
+          "scaleX": 0.7,
+          "scaleY": 0.7,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "수정한 한글 자막\n두 번째 줄"
+      },
+      {
+        "id": "98b5cc7d-b726-4e85-86d7-7b8a3fb58503",
+        "trackId": "243b4503-494a-4c0c-a831-683aec374607",
+        "type": "subtitle",
+        "source": null,
+        "startTime": 2,
+        "duration": 1.5,
+        "sourceStart": 0,
+        "sourceEnd": 1.5,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 378,
+          "scaleX": 0.7,
+          "scaleY": 0.7,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "두 번째 자막"
+      },
+      {
+        "id": "866b555f-144e-489a-afee-914023767fe0",
+        "trackId": "243b4503-494a-4c0c-a831-683aec374607",
+        "type": "subtitle",
+        "source": null,
+        "startTime": 4.5,
+        "duration": 1.25,
+        "sourceStart": 0,
+        "sourceEnd": 1.25,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 378,
+          "scaleX": 0.7,
+          "scaleY": 0.7,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "세 번째 자막"
+      },
+      {
+        "id": "8a8bf448-e039-4f6e-8eba-e3efda1b8af7",
+        "trackId": "243b4503-494a-4c0c-a831-683aec374607",
+        "type": "subtitle",
+        "source": null,
+        "startTime": 4,
+        "duration": 0.40000000000000036,
+        "sourceStart": 0,
+        "sourceEnd": 0.40000000000000036,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 378,
+          "scaleX": 0.7,
+          "scaleY": 0.7,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "WebVTT & 한글"
+      },
+      {
+        "id": "cb479656-26e0-4d31-a929-7797e221b543",
+        "trackId": "243b4503-494a-4c0c-a831-683aec374607",
+        "type": "subtitle",
+        "source": null,
+        "startTime": 6,
+        "duration": 1,
+        "sourceStart": 0,
+        "sourceEnd": 1,
+        "speed": 1,
+        "transform": {
+          "x": 0,
+          "y": 378,
+          "scaleX": 0.7,
+          "scaleY": 0.7,
+          "rotation": 0,
+          "flipX": false,
+          "flipY": false
+        },
+        "opacity": 1,
+        "volume": 1,
+        "effects": [],
+        "keyframes": [],
+        "text": "직접 작성한 마지막 자막"
+      }
+    ],
+    "trace": [
+      {
+        "event": "loadedmetadata",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0,
+        "time": 0,
+        "ready": 1
+      },
+      {
+        "event": "loadedmetadata",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0,
+        "time": 0,
+        "ready": 1
+      },
+      {
+        "event": "loadeddata",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0,
+        "time": 0,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0,
+        "time": 0,
+        "ready": 4
+      },
+      {
+        "event": "seeking",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 1
+      },
+      {
+        "event": "seeking",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 1
+      },
+      {
+        "event": "seeked",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "seeked",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "loadeddata",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "seeking",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 1
+      },
+      {
+        "event": "seeking",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 1
+      },
+      {
+        "event": "seeked",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 4
+      },
+      {
+        "event": "seeked",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.25,
+        "time": 0.25,
+        "ready": 4
+      },
+      {
+        "event": "seeking",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 1
+      },
+      {
+        "event": "seeking",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 1
+      },
+      {
+        "event": "seeked",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "seeked",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 1,
+        "time": 1,
+        "ready": 4
+      },
+      {
+        "event": "seeking",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 1
+      },
+      {
+        "event": "seeking",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 1
+      },
+      {
+        "event": "seeked",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 4
+      },
+      {
+        "event": "seeked",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "cursor": 0.75,
+        "time": 0.75,
+        "ready": 4
+      },
+      {
+        "event": "seeking",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 4.2,
+        "time": 4.2,
+        "ready": 1
+      },
+      {
+        "event": "seeked",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 4.2,
+        "time": 4.2,
+        "ready": 4
+      },
+      {
+        "event": "canplay",
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "cursor": 4.2,
+        "time": 4.2,
+        "ready": 4
+      }
+    ],
+    "nodes": [
+      {
+        "id": "c6c6ada2-4e22-4bfb-9cf7-c6ebd58fc5a6",
+        "type": "audio",
+        "time": 4.2,
+        "ready": 4,
+        "seeking": false
+      },
+      {
+        "id": "5cd94e87-79f8-4796-9fc1-12878180de04",
+        "type": "video",
+        "time": 0.75,
+        "ready": 4,
+        "seeking": false
+      }
+    ]
+  }
+}

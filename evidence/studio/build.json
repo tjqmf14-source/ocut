@@ -1,7 +1,11 @@
 {
-  "time": "2026-09-29T11:50:12.988Z",
+  "time": "2026-10-01T10:19:55.348Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
+    {
+      "file": "core/captions.cjs",
+      "sha256": "00039c815d1aa3c5bd371bd55d011cb764dcdfd3526194cb962a9de222bb22e3"
+    },
     {
       "file": "core/history.cjs",
       "sha256": "1c30a10a1fe73382c71dd454471e241bea7700857f664dd7c1d6d2c511315cd1"
@@ -16,19 +20,27 @@
     },
     {
       "file": "core/timeline.cjs",
-      "sha256": "5a314e5ceebad8688ef7264ccfa669179977b75e8acf8d2512ce02aebdde7e5d"
+      "sha256": "8f7a29d573b17b415f8555b23265aa93d70b2ec0d9e8bfd4655882d02eaf742a"
     },
     {
       "file": "desktop/main.cjs",
-      "sha256": "9160d44008791c14b99cce349b9c0af985dbd3f16f57d4e4e97909cecacda5a7"
+      "sha256": "1aa0b7917f0610758758993b03a976d175d2c39fd58933a749bbc900c7fc9650"
     },
     {
       "file": "desktop/preload.cjs",
-      "sha256": "98f61d2930ef79211f53c03b152bb94da54e4e23fb20280aa7fbeef6e64267db"
+      "sha256": "b9ec0fc8bdaf8322d64186e278bfffef9775258232cec86898be98ce0a8374bd"
     },
     {
       "file": "desktop/session.cjs",
       "sha256": "ae6fd338024e97e74f9f0ee5ef6861ce48ff770544de4154171eb609caca9d9d"
+    },
+    {
+      "file": "infrastructure/caption-files.cjs",
+      "sha256": "ab95806c923605476f06f08b1df7a2fac72501b119068b4d6d6619d57afb8e48"
+    },
+    {
+      "file": "infrastructure/media-response.cjs",
+      "sha256": "0bad32dabecaf0e08abc06c0015f04c5ccbba57ce7b39025badc723784d1504e"
     },
     {
       "file": "infrastructure/media.cjs",
@@ -44,11 +56,11 @@
     },
     {
       "file": "renderer/app.js",
-      "sha256": "fdf36f684fbc90437a01978b3e18d081a2a77f92780f5fb3379f0ab3a11b3786"
+      "sha256": "a52083bcd2de23ea8acc781f48a4c922ab1506a66842318f6da5ff4281420f0a"
     },
     {
       "file": "renderer/index.html",
-      "sha256": "a1c01837830531d0e4d34932093ff85967d924f20267a29238a561920987ba41"
+      "sha256": "cf2c2a61299bb8aa97d09bda1ded5dad7fb1c848e2e72ddeb39c9fe67aa40336"
     },
     {
       "file": "renderer/playback.js",
@@ -56,7 +68,7 @@
     },
     {
       "file": "renderer/styles.css",
-      "sha256": "d678c56fb55278efc110e26e8d5a8be2bfe7963b3e8d2efa8ab13e9bf7d189ab"
+      "sha256": "45739f6ef31892bbc062e46669fdfd7be3ae779f190a862197f5bbaec302f481"
     },
     {
       "file": "renderer/text.js",

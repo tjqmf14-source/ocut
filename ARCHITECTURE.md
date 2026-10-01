@@ -34,3 +34,11 @@ Preview는 HTMLVideoElement/Image, Canvas, Web Audio를 사용합니다. Export�
 FFmpeg는 shell 없이 인수 배열로 실행합니다. 필터는 생성한 파일로 전달하고 사용자 텍스트는 필터 문법에 삽입하지 않습니다. 결과는 임시 파일로 출력한 뒤 실제 metadata를 검사하고 대상 파일 변경 여부를 확인한 후 교체합니다. 취소 IPC는 출력 작업의 직렬 queue를 기다리지 않고 프로세스를 중단합니다. 작업 snapshot/filter/log는 앱 데이터의 exports 폴더에 보존합니다.
 
 공식 참고: [Electron protocol](https://www.electronjs.org/docs/latest/api/protocol), [FFmpeg filter graph](https://ffmpeg.org/ffmpeg-filters.html), [FFmpeg 파일 인수 옵션](https://ffmpeg.org/ffmpeg.html#Options).
+
+## 자막과 미디어 탐색
+
+`captions.cjs`는 SRT/VTT 시간·본문을 순수 데이터로 해석하고 SRT를 직렬화한다. `caption-files.cjs`는 UTF-8 검증, 제한된 크기 읽기, 임시 파일·fsync·rename 저장을 담당한다. 타임라인에 subtitle 클립을 추가하는 작업은 하나의 history transaction이다. `.ocut` v1의 기존 subtitle/text/transform 필드를 사용하므로 포맷 변경이나 migration은 없다. 자막 파일의 글꼴·CSS·화자·영역 설정은 코드나 HTML로 실행하지 않는다.
+
+`media-response.cjs`는 허용된 미디어 ID가 가리키는 파일에 200/206, Content-Length, Content-Range, Accept-Ranges를 명시한다. Electron의 file URL fetch는 부분 바이트를 반환하면서 200과 범위 헤더 없는 응답을 전달할 수 있어 기존 단순 중계 방식에서 영상 탐색 문제가 재현됐다. 현재 구현은 요청한 범위만 파일 스트림으로 읽고 범위 오류는 416으로 반환한다.
+
+자막 시간/구문 참고: [W3C WebVTT](https://www.w3.org/TR/webvtt1/). 전체 WebVTT 스타일/배치 호환성을 구현한 것은 아니며 미지원 설정은 가져오기 결과에서 알린다.

@@ -12,7 +12,7 @@ function writable(project, id) {
 function trackFor(project, type) {
   let track = project.tracks.find(item => item.type === type && !item.locked);
   if (!track) {
-    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', text: '텍스트' }[type] || type);
+    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', text: '텍스트', subtitle: '자막' }[type] || type);
     const rank = item => ['text', 'subtitle'].includes(item) ? 0 : ['audio', 'music'].includes(item) ? 2 : 1;
     const at = project.tracks.findIndex(item => rank(item.type) > rank(type));
     project.tracks.splice(at < 0 ? project.tracks.length : at, 0, track);
@@ -35,10 +35,34 @@ function command(project, action) {
       const clip = createClip({ trackId: track.id, type: track.type, source: media.id, startTime, duration });
       project.clips.push(clip); return clip.id;
     }
-    case 'text': {
-      const track = trackFor(project, 'text');
-      const clip = createClip({ trackId: track.id, type: 'text', startTime: frameTime(action.startTime || 0, project.canvas.fps), duration: 3, text: action.text || '나의 이야기' });
+    case 'text':
+    case 'subtitle': {
+      const track = trackFor(project, action.type);
+      const clip = createClip({ trackId: track.id, type: action.type, startTime: frameTime(action.startTime || 0, project.canvas.fps), duration: 3, text: action.text || (action.type === 'subtitle' ? '자막을 입력하세요' : '나의 이야기') });
+      if (action.type === 'subtitle') { clip.transform.y = project.canvas.height * .35; clip.transform.scaleX = clip.transform.scaleY = .7; }
       project.clips.push(clip); return clip.id;
+    }
+    case 'captions': {
+      if (!Array.isArray(action.segments) || !action.segments.length || action.segments.length > 5000) throw Error('자막 구간 수가 올바르지 않습니다.');
+      const track = trackFor(project, 'subtitle'); let first;
+      for (const segment of action.segments) {
+        if (typeof segment.text !== 'string' || !segment.text.trim() || segment.text.length > 2000 || segment.startTime + segment.duration > 28800) throw Error('자막 내용 또는 시간이 올바르지 않습니다.');
+        const clip = createClip({ trackId: track.id, type: 'subtitle', startTime: segment.startTime, duration: segment.duration, text: segment.text });
+        clip.transform.y = project.canvas.height * .35; clip.transform.scaleX = clip.transform.scaleY = .7;
+        project.clips.push(clip); first ||= clip.id;
+      }
+      return first;
+    }
+    case 'mergeCaptions': {
+      const clips = [...new Set(action.ids || [])].map(id => writable(project, id)).sort((a, b) => a.startTime - b.startTime);
+      if (clips.length < 2 || clips.some(c => c.type !== 'subtitle' || c.trackId !== clips[0].trackId)) throw Error('같은 자막 트랙의 구간을 두 개 이상 선택해 주세요.');
+      const first = clips[0], end = Math.max(...clips.map(c => c.startTime + c.duration));
+      if (project.clips.some(c => c.trackId === first.trackId && !clips.includes(c) && c.startTime < end && c.startTime + c.duration > first.startTime)) throw Error('선택한 자막 사이의 구간도 함께 선택해 주세요.');
+      if (clips.some(c => c.effects.length || c.keyframes.length || c.opacity !== first.opacity || JSON.stringify(c.transform) !== JSON.stringify(first.transform))) throw Error('같은 배치·불투명도의 자막만 병합할 수 있습니다.');
+      first.text = clips.map(c => c.text).filter((text, i, all) => i === 0 || text !== all[i - 1]).join('\n');
+      if (first.text.length > 2000) throw Error('병합한 자막은 2000자를 넘을 수 없습니다.');
+      first.duration = end - first.startTime; first.speed = 1; first.sourceStart = 0; first.sourceEnd = first.duration;
+      project.clips = project.clips.filter(c => !clips.includes(c) || c === first); return first.id;
     }
     case 'split': {
       const clip = writable(project, action.id);

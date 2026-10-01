@@ -2,10 +2,10 @@
 
 ## 현재 O-CUT Studio
 
-- `node scripts/verify-studio.cjs`: Build → 43개 검사 → 실제 shell/timeline → 1080p30/60·4K30 출력 → 이미지 조합 출력 → 취소/원본 보호를 순서대로 실행합니다. 하나라도 실패하면 종료 코드 1이며 PASS 증거를 새로 쓰지 않습니다.
+- `node scripts/verify-studio.cjs`: Build → 53개 검사 → 실제 shell/timeline → 1080p30/60·4K30 출력 → 이미지 조합 출력 → 취소/원본 보호 → 자막 편집·SRT·MP4 출력을 순서대로 실행합니다. 하나라도 실패하면 종료 코드 1이며 PASS 증거를 새로 쓰지 않습니다.
 - 앱: `dist/studio/O-CUT.exe`. 패키지의 현재 소스 바이트를 ASAR에서 꺼내 비교합니다. 빌드마다 독립 staging을 만들어 삭제된 소스가 남지 않도록 합니다.
 - FFmpeg/FFprobe: `OCUT_FFMPEG`/`OCUT_FFPROBE` 지정 경로 → `resources/tools/*.exe` → PATH 순서로 찾습니다. 현재 빌드는 도구를 자동 설치·동봉하지 않습니다. 이번 검증은 9.0으로 수행했습니다.
-- 개별 검사: `qa-shell.cjs`, `qa-timeline.cjs`, `qa-studio-render.cjs`, `qa-image-export.cjs`, `qa-export-recovery.cjs` (모두 `scripts` 폴더).
+- 개별 검사: `qa-shell.cjs`, `qa-timeline.cjs`, `qa-studio-render.cjs`, `qa-image-export.cjs`, `qa-export-recovery.cjs`, `qa-captions.cjs` (모두 `scripts` 폴더).
 - 원본을 바꾸지 않고 native 파일 선택 대화상자의 응답만 테스트 경로로 지정합니다. 실제 IPC·미디어 분석·편집·FFmpeg 출력 코드는 대체하지 않습니다.
 - 테스트용 파일과 앱 데이터는 `.runtime`에 격리됩니다. `evidence/studio/gate.json`에 패키지 해시 및 검사 결과를 기록합니다.
 - Windows PE 메타데이터/아이콘, 런타임 갱신, 도구 라이선스 패키징, installer 및 새 PC 설치 검사는 후속 단계입니다.
