@@ -1,11 +1,10 @@
 {
-  "time": "2026-10-01T15:29:32.498Z",
-  "data": "D:\\O-CUT\\.runtime\\music-1790868495006",
+  "time": "2026-10-02T10:36:18.774Z",
+  "data": "D:\\O-CUT\\.runtime\\music-1790937342685",
   "checks": [
     "existing local Python / CUDA / YuE2 environment checked in UI",
-    "timeline remains editable while real music generation runs",
-    "actual GPU-generated WAV fully decodes with nonzero PCM"
+    "timeline remains editable while real music generation runs"
   ],
   "errors": [],
-  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.music-job[data-job-id=\"36d0c7be-f0ae-47e4-b971-eefa93de1856\"] button')\u001b[22m\n\u001b[2m    - locator resolved to <button class=\"secondary full\">＋ 타임라인에 넣기</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at main (D:\\O-CUT\\scripts\\qa-music.cjs:27:68)"
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(stages.has('semantic')||stages.has('synth'))\n\n    at main (D:\\O-CUT\\scripts\\qa-music.cjs:22:10)"
 }

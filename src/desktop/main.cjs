@@ -173,7 +173,7 @@ register('render:export', async () => {
       textImage: (clip, canvas, output) => window.webContents.executeJavaScript(`window.OcutText.image(${JSON.stringify(clip)},${JSON.stringify(canvas)},${JSON.stringify(output)})`),
       visualImage: (clip,canvas,output,time) => window.webContents.executeJavaScript(`playback.visualImage(${JSON.stringify(clip)},${JSON.stringify(canvas)},${JSON.stringify(output)},${JSON.stringify(time)})`),
       onProgress: percent => { if (!window.isDestroyed()) window.webContents.send('render:progress', percent); } });
-  } finally { exportAbort = null; }
+  } finally { exportAbort = null;if(!window.isDestroyed())await window.webContents.executeJavaScript('playback.clearExport()').catch(error=>log(error.message)); }
 });
 ipcMain.on('render:cancel', event => {
   if (event.sender === window.webContents && event.senderFrame === window.webContents.mainFrame) exportAbort?.abort();

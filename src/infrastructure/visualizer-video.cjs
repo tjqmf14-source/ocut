@@ -12,11 +12,13 @@ async function visualizerVideo({clip,canvas,output,target,image,signal,onProgres
     for(let frame=0;frame<total;frame++){
       if(signal?.aborted)throw Error('내보내기를 취소했습니다.');if(failure)throw failure;
       const data=await image(clip,canvas,output,clip.startTime+frame/output.fps);
-      if(typeof data!=='string'||!data.startsWith('data:image/png;base64,')||data.length>48*1024*1024)throw Error('시각화 프레임 생성 실패');
+      if(signal?.aborted)throw Error('내보내기를 취소했습니다.');
+      if(typeof data!=='string'||!data.startsWith('data:image/png;base64,')||data.length>48*1024*1024)throw Error('애니메이션 프레임 생성 실패');
       await new Promise((resolve,reject)=>child.stdin.write(Buffer.from(data.split(',')[1],'base64'),err=>err?reject(err):resolve()));
       onProgress?.((frame+1)/total);
     }
     child.stdin.end();await done;
-  }finally{signal?.removeEventListener('abort',cancel);child.kill();await done.catch(()=>{});}
+  }catch(error){if(signal?.aborted)throw Error('내보내기를 취소했습니다.');throw error;}
+  finally{signal?.removeEventListener('abort',cancel);child.kill();await done.catch(()=>{});}
 }
 module.exports={visualizerVideo};

@@ -27,6 +27,12 @@ test('unsupported effects and missing sources cannot silently export', () => {
   assert.throws(() => renderPlan(p, new Map(), new Map()), /원본 미디어/);
   p.clips[0].keyframes = [{ property: 'opacity', time: 0, value: 0, interpolation: 'linear' }];
   assert.throws(() => renderPlan(p, assets, new Map()), /키프레임/);
+  p.clips[0].keyframes=[];p.clips[0].effects.push({id:'unknown',type:'unimplemented',enabled:true,parameters:{}});assert.throws(()=>renderPlan(p,assets,new Map()),/지원하지 않는 효과/);
+});
+
+test('animated video has one baked visual input and one original audio input with volume envelope',()=>{
+  const {p,assets}=fixture(),c=p.clips[0];c.volume=0;c.keyframes=[{property:'x',time:0,value:20,interpolation:'linear'},{property:'volume',time:0,value:1,interpolation:'linear'}];
+  const plan=renderPlan(p,assets,new Map(),new Map([[c.id,'D:/animated.mov']]));assert.equal(plan.args.filter(v=>v==='-i').length,2);assert.ok(plan.args.includes('D:/animated.mov'));assert.match(plan.graph,/\[1:a:0\]atrim/);assert.match(plan.graph,/eval=frame:precision=double/);assert.match(plan.graph,/overlay=x='0':y='0'/);
 });
 test('render paints track order bottom to top and keeps source path in argument not graph', () => {
   const { p, assets } = fixture(), text = createTrack('text'); p.tracks.unshift(text);

@@ -2,6 +2,7 @@
 const { validateProject } = require('./project.cjs');
 const { lengths } = require('./audio-fades.js');
 const {visualTrack}=require('./visualizer.js');
+const {animated,expression}=require('./keyframes.js');
 function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
   validateProject(project);
   const s = project.exportSettings, duration = Math.max(0, ...project.clips.map(c => c.startTime + c.duration));
@@ -13,18 +14,21 @@ function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
   graph.push(`color=c=${project.canvas.background}:s=${s.width}x${s.height}:r=${s.fps}:d=${duration},format=rgba[base0]`);
   const solo = project.tracks.some(t => t.solo && !visualTrack(project,t));
   for (const track of [...project.tracks].reverse()) for (const c of project.clips.filter(c => c.trackId === track.id)) {
-    if (c.effects.some(e => !['audioFade','audioVisualizer','textStyle'].includes(e.type)) || c.keyframes.length || c.type === 'effect') throw Error('지원하지 않는 효과 또는 키프레임 출력입니다.');
+    if (c.effects.some(e => !['audioFade','audioVisualizer','textStyle'].includes(e.type)) || c.type === 'effect') throw Error('지원하지 않는 효과 출력입니다.');
     if (c.speed < .25 || c.speed > 4) throw Error('현재 미리보기와 출력은 0.25–4배속을 지원합니다.');
     const text = ['text', 'subtitle'].includes(c.type), asset = assets.get(c.source);
     const viz = c.effects.find(e=>e.type==='audioVisualizer');
     if (!text && !asset) throw Error('출력에 필요한 원본 미디어가 없습니다.');
     const visual = !track.hidden && !['audio', 'music'].includes(c.type) && (!viz || viz.enabled);
-    const audible = !viz && asset?.hasAudio && !track.muted && (!solo || track.solo) && c.volume > 0;
+    const audible = !viz && asset?.hasAudio && !track.muted && (!solo || track.solo) && (c.volume > 0 || c.keyframes.some(k=>k.property==='volume'&&k.value>0));
     if (!visual && !audible) continue;
     const index = input++;
-    if (visual && viz && !visualFiles.has(c.id)) throw Error('시각화 영상 레이어가 없습니다.');
-    if (text || !viz && asset.type === 'image') args.push('-loop', '1', '-framerate', String(s.fps));
-    args.push('-protocol_whitelist', 'file,pipe', '-i', text ? textFiles.get(c.id) : viz ? visualFiles.get(c.id) : asset.path);
+    const baked=visual&&animated(c);
+    if (baked && !visualFiles.has(c.id)) throw Error(viz?'시각화 영상 레이어가 없습니다.':'키프레임 영상 레이어가 없습니다.');
+    if (!baked&&(text || !viz && asset.type === 'image')) args.push('-loop', '1', '-framerate', String(s.fps));
+    args.push('-protocol_whitelist', 'file,pipe', '-i', baked ? visualFiles.get(c.id) : text ? textFiles.get(c.id) : asset.path);
+    let audioIndex=index;
+    if(baked&&audible){audioIndex=input++;args.push('-protocol_whitelist','file,pipe','-i',asset.path);}
     if (audible) {
       let rate = c.speed; const tempo = [];
       while (rate < .5) { tempo.push('atempo=0.5'); rate /= .5; }
@@ -33,12 +37,13 @@ function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
       const tag = `a${index}`;
       const { fadeIn, fadeOut } = lengths(c);
       const fades = (fadeIn ? `,afade=t=in:st=0:d=${fadeIn}:curve=tri` : '') + (fadeOut ? `,afade=t=out:st=${c.duration-fadeOut}:d=${fadeOut}:curve=tri` : '');
-      graph.push(`[${index}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${c.volume}${fades},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1[${tag}]`);
+      const volume=c.keyframes.some(k=>k.property==='volume')?`'${expression(c,'volume')}':eval=frame:precision=double`:String(c.volume);
+      graph.push(`[${audioIndex}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${volume}${fades},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1[${tag}]`);
       audio.push(`[${tag}]`);
     }
     if (!visual) continue;
     let filter;
-    if (text || viz) filter = `trim=duration=${c.duration},setpts=PTS-STARTPTS+${c.startTime}/TB,format=rgba`;
+    if (text || baked) filter = `trim=duration=${c.duration},setpts=PTS-STARTPTS+${c.startTime}/TB,format=rgba`;
     else {
       const t = c.transform, fit = Math.min(project.canvas.width / asset.width, project.canvas.height / asset.height);
       const w = Math.max(1, Math.round(asset.width * fit * t.scaleX * scaleX)), h = Math.max(1, Math.round(asset.height * fit * t.scaleY * scaleY));
@@ -50,7 +55,7 @@ function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
       filter += `,colorchannelmixer=aa=${c.opacity}`;
     }
     graph.push(`[${index}:v:0]${filter}[v${index}]`);
-    const x = text || viz ? '0' : `(W-w)/2+${c.transform.x * scaleX}`, y = text || viz ? '0' : `(H-h)/2+${c.transform.y * scaleY}`;
+    const x = text || baked ? '0' : `(W-w)/2+${c.transform.x * scaleX}`, y = text || baked ? '0' : `(H-h)/2+${c.transform.y * scaleY}`;
     graph.push(`[base${layer}][v${index}]overlay=x='${x}':y='${y}':enable='gte(t,${c.startTime})*lt(t,${c.startTime + c.duration})':eof_action=pass:repeatlast=0:format=auto[base${++layer}]`);
   }
   graph.push(`[base${layer}]fps=${s.fps},scale=iw:ih:out_color_matrix=bt709:out_range=tv,format=yuv420p[vout]`);

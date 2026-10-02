@@ -6,6 +6,7 @@ const { randomUUID } = require('node:crypto');
 const { renderPlan } = require('../core/render-plan.cjs');
 const { probe, tool, run } = require('./media.cjs');
 const {visualizerVideo}=require('./visualizer-video.cjs');
+const {animated}=require('../core/keyframes.js');
 async function renderVideo({ project, library, target, cacheDir, textImage, visualImage, onProgress, signal }) {
   if (path.extname(target).toLowerCase() !== '.mp4') throw Error('출력 파일은 .mp4 형식이어야 합니다.');
   const parent = await fs.realpath(path.dirname(target)); target = path.join(parent, path.basename(target));
@@ -14,7 +15,7 @@ async function renderVideo({ project, library, target, cacheDir, textImage, visu
   if (previous && (!previous.isFile() || previous.isSymbolicLink())) throw Error('일반 파일 경로를 선택해 주세요.');
   const job = path.join(cacheDir, 'render-' + randomUUID()); await fs.mkdir(job, { recursive: true });
   const partial = path.join(parent, `.ocut-${randomUUID()}.mp4`), textFiles = new Map(), assets = new Map(), visualFiles = new Map();
-  const visualClips=project.clips.filter(c=>c.effects.some(e=>e.type==='audioVisualizer'&&e.enabled)&&!project.tracks.find(t=>t.id===c.trackId).hidden);
+  const visualClips=project.clips.filter(c=>animated(c)&&!['audio','music'].includes(c.type)&&!project.tracks.find(t=>t.id===c.trackId).hidden);
   try {
     for (const c of project.clips) {
       if (signal?.aborted) throw Error('내보내기를 취소했습니다.');

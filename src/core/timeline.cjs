@@ -3,6 +3,7 @@ const { randomUUID } = require('node:crypto');
 const { createTrack, createClip, validateProject } = require('./project.cjs');
 const { defaults: visualDefaults, validate: validateVisualizer } = require('./visualizer.js');
 const {defaults:textDefaults,validate:validateTextStyle,get:textStyle}=require('./text-style.js');
+const {split:splitKeyframes}=require('./keyframes.js');
 const durationOf = project => Math.max(0, ...project.clips.map(clip => clip.startTime + clip.duration));
 const frameTime = (time, fps) => Math.round(time * fps) / fps;
 function writable(project, id) {
@@ -25,6 +26,14 @@ function command(project, action) {
   if (!action || typeof action.type !== 'string') throw Error('잘못된 편집 명령입니다.');
   const frame = 1 / project.canvas.fps;
   switch (action.type) {
+    case 'keyframe': {
+      const clip=writable(project,action.id),{property,time}=action;
+      if(!Number.isFinite(time)||time<0||time>clip.duration)throw Error('키프레임 시간은 클립 범위 안이어야 합니다.');
+      if(!['set','delete','clear'].includes(action.operation))throw Error('지원하지 않는 키프레임 작업입니다.');
+      clip.keyframes=clip.keyframes.filter(k=>k.property!==property||action.operation!=='clear'&&Math.abs(k.time-time)>1e-7);
+      if(action.operation==='set')clip.keyframes.push({property,time,value:action.value,interpolation:action.interpolation});
+      clip.keyframes.sort((a,b)=>a.time-b.time||a.property.localeCompare(b.property));return clip.id;
+    }
     case 'visualizer': {
       const media = project.media.find(m => m.id === action.mediaId);
       if (!media || !['audio','video'].includes(media.type) || media.duration > 600) throw Error('10분 이하 오디오 소스를 선택해 주세요.');
@@ -87,11 +96,12 @@ function command(project, action) {
     }
     case 'split': {
       const clip = writable(project, action.id);
-      if (clip.keyframes.length || clip.effects.some(e=>!['audioVisualizer','textStyle'].includes(e.type))) throw Error('페이드/기타 효과 또는 키프레임 클립의 분할은 아직 지원하지 않습니다.');
+      if (clip.effects.some(e=>!['audioVisualizer','textStyle'].includes(e.type))) throw Error('페이드/기타 효과 클립의 분할은 아직 지원하지 않습니다.');
       const at = frameTime(action.time, project.canvas.fps);
       const left = at - clip.startTime;
       if (left < frame - 1e-7 || clip.duration - left < frame - 1e-7) throw Error('클립 내부의 프레임에서 분할해 주세요.');
       const right = structuredClone(clip); right.id = randomUUID();
+      const keys=splitKeyframes(clip,left);clip.keyframes=keys.left;right.keyframes=keys.right;
       right.startTime = at; right.duration = clip.duration - left; right.sourceStart = clip.sourceStart + left * clip.speed;
       clip.duration = left; clip.sourceEnd = right.sourceStart;
       project.clips.splice(project.clips.indexOf(clip) + 1, 0, right); return right.id;

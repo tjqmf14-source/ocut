@@ -1,10 +1,10 @@
 {
-  "time": "2026-10-02T10:19:18.766Z",
+  "time": "2026-10-02T10:37:50.023Z",
   "kind": "CommonJS core distribution; no UI or installer",
   "files": [
     {
       "file": "core/project.cjs",
-      "sha256": "aabbcea1c2319a8cb4d716b50781fbd90f28618ef8a9ba57bcf56dd56ea36b15"
+      "sha256": "258259aaca70720ad2b6dec71e0a1235162bda9b2418ae18b8d815ba24e1d8d5"
     },
     {
       "file": "core/history.cjs",
@@ -17,6 +17,10 @@
     {
       "file": "core/text-style.js",
       "sha256": "6660b180d30091057bd88d395f0d94612a93b4721af3b705f1a7e97457cb8caa"
+    },
+    {
+      "file": "core/keyframes.js",
+      "sha256": "1a8a1e8370c77302a42ddad8716f7f489518ac7e983f51dc93c38e9548c99fba"
     },
     {
       "file": "infrastructure/project-store.cjs",

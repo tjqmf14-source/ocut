@@ -1,5 +1,13 @@
 # O-CUT 아키텍처
 
+## 키프레임
+
+`core/keyframes.js`가 x/y/scaleX/scaleY/rotation/opacity/volume의 범위·선형/hold 보간·분할 경계값을 소유한다. 모든 시간은 clip-local이며 첫/마지막 값 밖은 상수이다. schema에서 미지원 속성과 비정상 값을 거부하고 timeline의 set/delete/clear 명령을 history transaction으로 처리한다. 기본 transform/opacity/volume은 보존하고 평가할 때만 사본에 보간값을 반영한다.
+
+시각적 키프레임이 있으면 기존 alpha MOV 프레임 출력을 재사용한다. 공통 `paintClip`으로 비디오/이미지/텍스트를 그리고 시각화도 같은 보간값을 받는다. 출력 전용 media element를 별도 Map에 보관해 미리보기 seeked 이벤트와 경합하지 않으며 성공/실패/취소 종료 시 해제한다. baked visual에 원본 음성이 들어 있지 않으므로 비디오의 음성은 별도 입력으로 정확히 한 번 믹스한다.
+
+볼륨은 clip-local t를 사용하는 FFmpeg volume eval=frame 수식으로 전달하며 atempo 다음, fade·delay 앞에서 적용한다. 128개 지점의 수식은 균형 잡힌 덧셈 트리로 구성한다. FFmpeg의 [공식 수식 처리 코드](https://github.com/FFmpeg/FFmpeg/blob/master/libavutil/eval.c)는 연산 트리 깊이를 제한하므로 단순 중첩 if나 일렬 덧셈을 피했다. 실제 FFmpeg 경계 검사와 출력 PCM 배율을 확인한다.
+
 ## 텍스트 서식과 로컬 STT
 
 `core/text-style.js`가 검증된 글꼴·색상·수치와 프리셋을 소유한다. text/subtitle clip의 단일 `textStyle` effect에 저장하며 임의 CSS/HTML은 받지 않는다. renderer `text.js`의 Canvas 그리기를 미리보기와 출력 PNG가 공유한다. 이전 서식 없는 문서는 기본 외관을 유지한다. 서식은 정규화해 비교한 뒤 동일 서식 자막만 병합한다.

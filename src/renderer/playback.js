@@ -2,7 +2,7 @@
 class StudioPlayback {
   constructor(canvas, onTime, onError) {
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.onTime = onTime; this.onError = onError;
-    this.time = 0; this.playing = false; this.nodes = new Map(); this.audioContext = null; this.spectra = new Map();
+    this.time = 0; this.playing = false; this.nodes = new Map(); this.exportNodes = new Map(); this.audioContext = null; this.spectra = new Map();
   }
   setProject(project, assets) {
     this.pause();
@@ -15,6 +15,7 @@ class StudioPlayback {
     this.seek(Math.min(this.time, this.duration));
   }
   clear() {
+    this.clearExport();
     for (const entry of this.nodes.values()) { entry.node.pause?.(); entry.node.removeAttribute('src'); entry.gain?.disconnect(); entry.source?.disconnect(); }
     this.nodes.clear(); this.spectra.clear(); this.time = 0;
   }
@@ -24,24 +25,58 @@ class StudioPlayback {
     const floats=base64=>{const bytes=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));return new Float32Array(bytes.buffer);};
     const data={...encoded,frames:floats(encoded.frames),waves:floats(encoded.waves)};this.spectra.set(id,{encoded:encoded.frames,data});return data;
   }
-  visualImage(clip,canvas,output,time) {
-    const data=this.visualData(clip.source);if(!data)throw Error('시각화 분석이 없습니다. 프로젝트를 다시 열어 주세요.');
+  async visualImage(clip,canvas,output,time) {
+    clip=OcutKeyframes.evaluate(clip,time-clip.startTime);
     const frame=document.createElement('canvas');frame.width=output.width;frame.height=output.height;
     const ctx=frame.getContext('2d');ctx.scale(output.width/canvas.width,output.height/canvas.height);
-    OcutVisualizer.paint(ctx,clip,canvas,data,time,clip.volume*OcutAudioFades.gain(clip,time-clip.startTime));return frame.toDataURL('image/png');
+    if(clip.effects.some(e=>e.type==='audioVisualizer')){
+      const data=this.visualData(clip.source);if(!data)throw Error('시각화 분석이 없습니다. 프로젝트를 다시 열어 주세요.');
+      OcutVisualizer.paint(ctx,clip,canvas,data,time,clip.volume*OcutAudioFades.gain(clip,time-clip.startTime));
+    }else{
+      const entry=clip.source?this.node(clip,true):null;
+      if(entry){
+        const node=entry.node,isImage=entry.media.type==='image';node.pause?.();
+        await this.waitMedia(node,()=>isImage?node.complete&&node.naturalWidth>0:node.readyState>=2);
+        if(!isImage){const target=clip.sourceStart+(time-clip.startTime)*clip.speed;if(Math.abs(node.currentTime-target)>1e-6){node.currentTime=target;await this.waitMedia(node,()=>!node.seeking&&node.readyState>=2);}}
+      }
+      this.paintClip(ctx,clip,canvas,entry);
+    }
+    return frame.toDataURL('image/png');
   }
-  node(clip) {
-    if (this.nodes.has(clip.id)) return this.nodes.get(clip.id);
+  waitMedia(node,ready){
+    if(ready())return Promise.resolve();
+    return new Promise((resolve,reject)=>{
+      const events=['loadeddata','load','seeked','canplay','error'];
+      const finish=error=>{clearTimeout(timer);for(const name of events)node.removeEventListener(name,check);error?reject(error):resolve();};
+      const check=()=>{if(node.error)finish(Error('애니메이션 출력에서 미디어를 읽을 수 없습니다.'));else if(ready())finish();};
+      const timer=setTimeout(()=>finish(Error('애니메이션 출력의 미디어 탐색 시간이 초과되었습니다.')),15000);
+      for(const name of events)node.addEventListener(name,check);check();
+    });
+  }
+  paintClip(ctx,clip,canvas,entry){
+    const {width,height}=canvas;ctx.save();ctx.globalAlpha=clip.opacity;
+    ctx.translate(width/2+clip.transform.x,height/2+clip.transform.y);ctx.rotate(clip.transform.rotation*Math.PI/180);
+    ctx.scale(clip.transform.scaleX*(clip.transform.flipX?-1:1),clip.transform.scaleY*(clip.transform.flipY?-1:1));
+    if(['text','subtitle'].includes(clip.type))OcutText.paint(ctx,clip,height);
+    else if(entry&&(entry.media.type==='image'?entry.node.complete&&entry.node.naturalWidth:entry.node.readyState>=2)){
+      const w=entry.node.videoWidth||entry.node.naturalWidth,h=entry.node.videoHeight||entry.node.naturalHeight,scale=Math.min(width/w,height/h);ctx.drawImage(entry.node,-w*scale/2,-h*scale/2,w*scale,h*scale);
+    }
+    ctx.restore();
+  }
+  clearExport(){for(const e of this.exportNodes.values()){e.node.pause?.();e.node.removeAttribute('src');e.node.load?.();}this.exportNodes.clear();}
+  node(clip, exporting=false) {
+    const nodes=exporting?this.exportNodes:this.nodes;
+    if (nodes.has(clip.id)) return nodes.get(clip.id);
     const media = this.project.media.find(m => m.id === clip.source), asset = this.assets[clip.source];
     if (!media || !asset) return null;
     const node = media.type === 'image' ? new Image() : document.createElement(media.type === 'audio' ? 'audio' : 'video');
     node.crossOrigin = 'anonymous';
     if (media.type !== 'image') { node.preload = 'auto'; node.playsInline = true; }
     const entry = { node, media, gain: null, source: null };
-    node.addEventListener(media.type === 'image' ? 'load' : 'loadeddata', () => this.draw());
-    node.addEventListener('seeked', () => { if (!this.playing) this.draw(); });
+    if(!exporting){node.addEventListener(media.type === 'image' ? 'load' : 'loadeddata', () => this.draw());
+    node.addEventListener('seeked', () => { if (!this.playing) this.draw(); });}
     node.addEventListener('error', () => this.onError(`${media.name}: 미리보기에서 재생할 수 없는 미디어입니다.`));
-    node.src = asset.url; this.nodes.set(clip.id, entry); return entry;
+    node.src = asset.url; nodes.set(clip.id, entry); return entry;
   }
   async play() {
     if (!this.duration) return;
@@ -67,7 +102,8 @@ class StudioPlayback {
     const solo = project.tracks.some(t => t.solo && !OcutVisualizer.visualTrack(project,t));
     // Track order is top-to-bottom in the editor; paint the bottom first.
     for (const track of [...project.tracks].reverse()) {
-      for (const clip of project.clips.filter(c => c.trackId === track.id)) {
+      for (const original of project.clips.filter(c => c.trackId === track.id)) {
+        const clip=OcutKeyframes.evaluate(original,this.time-original.startTime);
         const active = this.time >= clip.startTime - 1e-7 && this.time < clip.startTime + clip.duration - 1e-7;
         let entry = this.nodes.get(clip.id);
         if (!active) { entry?.node.pause?.(); continue; }
@@ -90,17 +126,7 @@ class StudioPlayback {
           if (this.playing && node.paused) node.play().catch(error => { if (error.name !== 'AbortError') this.onError(error.message); });
         }
         if (track.hidden || clip.type === 'audio' || clip.type === 'music') continue;
-        ctx.save(); ctx.globalAlpha = clip.opacity;
-        ctx.translate(width / 2 + clip.transform.x, height / 2 + clip.transform.y);
-        ctx.rotate(clip.transform.rotation * Math.PI / 180);
-        ctx.scale(clip.transform.scaleX * (clip.transform.flipX ? -1 : 1), clip.transform.scaleY * (clip.transform.flipY ? -1 : 1));
-        if (clip.type === 'text' || clip.type === 'subtitle') {
-          OcutText.paint(ctx, clip, height);
-        } else if (entry && (entry.media.type === 'image' ? entry.node.complete && entry.node.naturalWidth : entry.node.readyState >= 2)) {
-          const w = entry.node.videoWidth || entry.node.naturalWidth, h = entry.node.videoHeight || entry.node.naturalHeight;
-          const scale = Math.min(width / w, height / h); ctx.drawImage(entry.node, -w * scale / 2, -h * scale / 2, w * scale, h * scale);
-        }
-        ctx.restore();
+        this.paintClip(ctx,clip,project.canvas,entry);
       }
     }
   }

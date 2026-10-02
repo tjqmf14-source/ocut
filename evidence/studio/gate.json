@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-02T10:21:11.536Z",
-  "asarSha256": "af7bc553e653989d3fa096444fe7ecd3622101f620b3009f81a708a95f45d1c6",
+  "time": "2026-10-02T10:39:50.350Z",
+  "asarSha256": "7e834bfc6285a7873d926eaf33ab07aa5b016b4c457f747e39a78dc5295cf807",
   "checks": [
     {
       "name": "core",
@@ -53,10 +53,14 @@
     {
       "name": "transcription",
       "exitCode": 0
+    },
+    {
+      "name": "keyframes",
+      "exitCode": 0
     }
   ],
   "build": {
-    "time": "2026-10-02T10:19:19.724Z",
+    "time": "2026-10-02T10:37:51.054Z",
     "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
     "files": [
       {
@@ -72,12 +76,16 @@
         "sha256": "1c30a10a1fe73382c71dd454471e241bea7700857f664dd7c1d6d2c511315cd1"
       },
       {
+        "file": "core/keyframes.js",
+        "sha256": "1a8a1e8370c77302a42ddad8716f7f489518ac7e983f51dc93c38e9548c99fba"
+      },
+      {
         "file": "core/project.cjs",
-        "sha256": "aabbcea1c2319a8cb4d716b50781fbd90f28618ef8a9ba57bcf56dd56ea36b15"
+        "sha256": "258259aaca70720ad2b6dec71e0a1235162bda9b2418ae18b8d815ba24e1d8d5"
       },
       {
         "file": "core/render-plan.cjs",
-        "sha256": "761445c3d59d5befbc23d10b8a62cbff1da98aba630f8bf6dd17cc7386991bd3"
+        "sha256": "2dedcd524ec5af70ff00e1ae859cca295b9279520cdc4b56fc19a99fa307a890"
       },
       {
         "file": "core/spectrum-analysis.cjs",
@@ -89,7 +97,7 @@
       },
       {
         "file": "core/timeline.cjs",
-        "sha256": "0dff8fbe16c2750b545c65540c1b442410b824d9795ae843a624cd595bd1cafe"
+        "sha256": "43068fbf47df0551863e58227d9cc4a761addb5dafc4f1e8dd2f73bf1b329a36"
       },
       {
         "file": "core/visualizer.js",
@@ -97,7 +105,7 @@
       },
       {
         "file": "desktop/main.cjs",
-        "sha256": "a48c4bc38a78081f3b0e49895f2f8d764d3d1ebd85a79132cbc01c9b4f635edc"
+        "sha256": "6d1e57a496f0edf1d089c77d1f2fdd12e45599d98cf61112657a179ff0d31aa8"
       },
       {
         "file": "desktop/preload.cjs",
@@ -129,7 +137,7 @@
       },
       {
         "file": "infrastructure/render.cjs",
-        "sha256": "70fa0744086626d234a4e06975c9b8fdfe97f43d19aff4bfc93cf7379e63686c"
+        "sha256": "bb5af52caf64d1afef016ac91face3b4e5ca454129ec10e33b47ec852406df1f"
       },
       {
         "file": "infrastructure/transcribe.cjs",
@@ -141,7 +149,7 @@
       },
       {
         "file": "infrastructure/visualizer-video.cjs",
-        "sha256": "627c0b925d8241ff52b49d0e341f2b4cfa99327977adb5e2185eb1ff1303dfbe"
+        "sha256": "f42c5a7e4cc86d4722193753ed60e7eb0174a035fdce5c8f3db69f05e0037acf"
       },
       {
         "file": "infrastructure/visualizer-worker.cjs",
@@ -153,19 +161,19 @@
       },
       {
         "file": "renderer/app.js",
-        "sha256": "41bac40566d7ca851b296ab3ed2be118a83a2e0095a048fb2308395d345877f6"
+        "sha256": "6159af3e49deddc4b0e1ec6b63c372345cc8f9ea2bdfd89b013596f811520f39"
       },
       {
         "file": "renderer/index.html",
-        "sha256": "729803591b3579e2d91642c68153e80d6667166996fe1473fdbef3b589eac3f9"
+        "sha256": "02ca277ae5a0b813b8ccb7006203e2c5aaa7a7f0e4a1073a8f6a208dd347749b"
       },
       {
         "file": "renderer/playback.js",
-        "sha256": "52747f43b5c3c403d6af89da4000ab56cbb0d01da004bb81abc1c12520389f99"
+        "sha256": "ed451f8a0d7d3d97b28859936ce0387a38ed8273aaa889877bad769c0e4c07cb"
       },
       {
         "file": "renderer/styles.css",
-        "sha256": "e4fba5ee4c9ff5d99fdb63ec9861e483ab1343bd199ea7e1dc1e15e5972d4ab8"
+        "sha256": "bbb609940076189c6598cffcd61235ec02a97a3c6ec4cb7c4e2454da9dc62d86"
       },
       {
         "file": "renderer/text.js",

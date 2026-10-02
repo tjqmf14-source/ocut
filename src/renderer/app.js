@@ -184,8 +184,26 @@ function renderInspector() {
   const visual=clip.effects.find(e=>e.type==='audioVisualizer');$('visualizerFields').hidden=!visual;
   if(visual){const v=visual.parameters;for(const [id,key] of Object.entries({visualStyle:'style',visualColor:'color',visualBars:'barCount',visualThickness:'thickness',visualSensitivity:'sensitivity',visualSmoothing:'smoothing',visualMin:'minFrequency',visualMax:'maxFrequency',visualGlow:'glow'}))$(id).value=v[key];}
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
-  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button[type=submit]')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields'));
+  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields'));
+  renderKeyframes();
 }
+const keyPercent=property=>['scaleX','scaleY','opacity','volume'].includes(property)?100:1;
+function keyAtTime(time){const clip=selectedClip();if(!clip)return;const property=$('keyProperty').value,t=Math.max(0,Math.min(clip.duration,time));$('keyTime').value=Number(t.toFixed(6));$('keyValue').value=Number((OcutKeyframes.value(clip,property,t)*keyPercent(property)).toFixed(3));const point=clip.keyframes.find(k=>k.property===property&&Math.abs(k.time-t)<1e-6);$('keyInterpolation').value=point?.interpolation||'linear';}
+function renderKeyframes(){
+  const clip=selectedClip();if(!clip)return;const locked=state.project.tracks.find(t=>t.id===clip.trackId).locked;
+  for(const option of $('keyProperty').options)option.disabled=['audio','music'].includes(clip.type)&&option.value!=='volume'||option.value==='volume'&&!state.assets[clip.source]?.hasAudio;
+  if($('keyProperty').selectedOptions[0].disabled)$('keyProperty').value=['audio','music'].includes(clip.type)?'volume':'x';
+  const property=$('keyProperty').value,[min,max]=OcutKeyframes.ranges[property];$('keyTime').max=clip.duration;$('keyValue').min=min*keyPercent(property);$('keyValue').max=max*keyPercent(property);keyAtTime(playback.time-clip.startTime);
+  $('keyList').replaceChildren();for(const k of OcutKeyframes.frames(clip,property)){
+    const row=document.createElement('div'),go=document.createElement('button'),remove=document.createElement('button');row.className='key-row';go.type=remove.type='button';go.textContent=`${k.time.toFixed(3)}초 · ${(k.value*keyPercent(property)).toFixed(2)} · ${k.interpolation==='hold'?'유지':'선형'}`;remove.textContent='×';remove.setAttribute('aria-label',`${k.time}초 키프레임 삭제`);remove.disabled=locked;
+    go.onclick=()=>{playback.seek(clip.startTime+k.time);keyAtTime(k.time);};remove.onclick=()=>edit({type:'keyframe',id:clip.id,property,time:k.time,operation:'delete'});row.append(go,remove);$('keyList').append(row);
+  }
+  $('keyClear').disabled=locked||!clip.keyframes.some(k=>k.property===property);
+}
+$('keyProperty').onchange=renderKeyframes;
+$('keyAtCursor').onclick=()=>{const clip=selectedClip();if(clip)keyAtTime(playback.time-clip.startTime);};
+$('keySet').onclick=()=>{const clip=selectedClip();if(!clip)return;edit({type:'keyframe',id:clip.id,operation:'set',property:$('keyProperty').value,time:Number($('keyTime').value),value:Number($('keyValue').value)/keyPercent($('keyProperty').value),interpolation:$('keyInterpolation').value});};
+$('keyClear').onclick=()=>{const clip=selectedClip();if(clip)edit({type:'keyframe',id:clip.id,operation:'clear',property:$('keyProperty').value,time:0});};
 const textStyleFields={textFont:'font',textSize:'fontSize',textWeight:'weight',textTracking:'tracking',textLineHeight:'lineHeight',textAlign:'align',textFill:'fill',textGradient:'gradient',textGradientEnd:'gradientEnd',textStroke:'stroke',textStrokeWidth:'strokeWidth',textShadow:'shadow',textShadowBlur:'shadowBlur',textShadowX:'shadowX',textShadowY:'shadowY',textBackground:'background',textBackgroundOpacity:'backgroundOpacity',textPadding:'padding',textRadius:'radius'};
 function fillTextStyle(style){for(const [id,key] of Object.entries(textStyleFields)){if(key==='gradient')$(id).checked=style[key];else $(id).value=key==='backgroundOpacity'?style[key]*100:style[key];}}
 function readTextStyle(){const style={};for(const [id,key] of Object.entries(textStyleFields)){const field=$(id);style[key]=key==='gradient'?field.checked:typeof OcutTextStyle.defaults[key]==='number'?Number(field.value):field.value;if(key==='backgroundOpacity')style[key]/=100;}return style;}

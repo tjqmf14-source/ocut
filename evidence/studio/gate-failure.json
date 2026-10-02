@@ -1,0 +1,45 @@
+{
+  "time": "2026-10-02T10:36:18.923Z",
+  "checks": [
+    {
+      "name": "core",
+      "exitCode": 0
+    },
+    {
+      "name": "build",
+      "exitCode": 0
+    },
+    {
+      "name": "tests",
+      "exitCode": 0
+    },
+    {
+      "name": "shell",
+      "exitCode": 0
+    },
+    {
+      "name": "timeline",
+      "exitCode": 0
+    },
+    {
+      "name": "render",
+      "exitCode": 0
+    },
+    {
+      "name": "image",
+      "exitCode": 0
+    },
+    {
+      "name": "recovery",
+      "exitCode": 0
+    },
+    {
+      "name": "captions",
+      "exitCode": 0
+    },
+    {
+      "name": "music",
+      "exitCode": 1
+    }
+  ]
+}

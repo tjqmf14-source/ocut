@@ -1,9 +1,9 @@
 {
-  "time": "2026-10-02T10:19:50.434Z",
-  "data": "D:\\O-CUT\\.runtime\\captions-1790936385488",
-  "save": "D:\\O-CUT\\.runtime\\captions-1790936385488\\자막 프로젝트.ocut",
-  "outputSrt": "D:\\O-CUT\\.runtime\\captions-1790936385488\\편집 결과.srt",
-  "output": "D:\\O-CUT\\.runtime\\captions-1790936385488\\O-CUT-captions-1080p.mp4",
+  "time": "2026-10-02T10:38:22.745Z",
+  "data": "D:\\O-CUT\\.runtime\\captions-1790937497830",
+  "save": "D:\\O-CUT\\.runtime\\captions-1790937497830\\자막 프로젝트.ocut",
+  "outputSrt": "D:\\O-CUT\\.runtime\\captions-1790937497830\\편집 결과.srt",
+  "output": "D:\\O-CUT\\.runtime\\captions-1790937497830\\O-CUT-captions-1080p.mp4",
   "checks": [
     "native SRT import creates three editable timed captions with multiline Korean",
     "actual caption split and Shift multi-selection merge retain timing/text",
@@ -16,20 +16,20 @@
   "frames": [
     {
       "t": 0.8,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790936385488\\preview-0.8.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790936385488\\output-0.8.png",
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790937497830\\preview-0.8.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790937497830\\output-0.8.png",
       "ssim": 0.993924
     },
     {
       "t": 4.2,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790936385488\\preview-4.2.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790936385488\\output-4.2.png",
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790937497830\\preview-4.2.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790937497830\\output-4.2.png",
       "ssim": 0.99955
     },
     {
       "t": 6.5,
-      "preview": "D:\\O-CUT\\.runtime\\captions-1790936385488\\preview-6.5.png",
-      "output": "D:\\O-CUT\\.runtime\\captions-1790936385488\\output-6.5.png",
+      "preview": "D:\\O-CUT\\.runtime\\captions-1790937497830\\preview-6.5.png",
+      "output": "D:\\O-CUT\\.runtime\\captions-1790937497830\\output-6.5.png",
       "ssim": 0.999616
     }
   ],
@@ -152,7 +152,7 @@
       }
     ],
     "format": {
-      "filename": "D:\\O-CUT\\.runtime\\captions-1790936385488\\O-CUT-captions-1080p.mp4",
+      "filename": "D:\\O-CUT\\.runtime\\captions-1790937497830\\O-CUT-captions-1080p.mp4",
       "nb_streams": 2,
       "nb_programs": 0,
       "nb_stream_groups": 0,

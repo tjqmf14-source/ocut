@@ -1,0 +1,54 @@
+{
+  "time": "2026-10-02T10:39:50.263Z",
+  "status": "PASS",
+  "checks": [
+    "seven properties edited through UI with exact undo redo and actual Web Audio animated gain despite base volume zero",
+    "animated text and trimmed moving video create distinct real preview frames",
+    "actual animated H264 AAC MP4 fully decodes and three output frames match preview above .98 SSIM",
+    "decoded audio amplitude follows volume keyframe envelope without duplicate audio",
+    "animation layer cancellation preserves existing output",
+    "app restart restores exact animated project and real UI split preserves motion and source time"
+  ],
+  "data": "D:\\O-CUT\\.runtime\\keyframes-1790937583523",
+  "save": "D:\\O-CUT\\artifacts\\keyframes\\키프레임 편집.ocut",
+  "output": "D:\\O-CUT\\artifacts\\keyframes\\O-CUT-keyframes-720p30.mp4",
+  "frames": [
+    {
+      "time": 0.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-0.5.png",
+      "ssim": 0.99732,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-0.5.png"
+    },
+    {
+      "time": 1.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-1.5.png",
+      "ssim": 0.997073,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-1.5.png"
+    },
+    {
+      "time": 2.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-2.5.png",
+      "ssim": 0.996078,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-2.5.png"
+    }
+  ],
+  "audio": [
+    {
+      "time": 0.4,
+      "expected": 0.28800000000000003,
+      "actual": 0.2857718490031948
+    },
+    {
+      "time": 1.4,
+      "expected": 0.488,
+      "actual": 0.4897925978698862
+    },
+    {
+      "time": 2.4,
+      "expected": 0.688,
+      "actual": 0.6840034029083921
+    }
+  ],
+  "gain": 0.5,
+  "errors": []
+}

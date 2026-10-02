@@ -12,6 +12,7 @@ async function main(){
   await page.waitForFunction(()=>document.querySelector('#musicCheckResult').textContent.includes('환경 확인 완료'),null,{timeout:90000});
   const environment=await page.locator('#musicCheckResult').textContent();assert.match(environment,/RTX 5080/);checks.push('existing local Python / CUDA / YuE2 environment checked in UI');
   await page.locator('.music-environment summary').click();await page.locator('#musicTitle').fill('O-CUT 음악 실증');await page.locator('#musicSeed').fill('42');
+  await page.evaluate(()=>{window.qaMusicStages=[];window.ocut.onMusicState(s=>{if(s.current?.stage)qaMusicStages.push(s.current.stage);});});
   await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);
   timer=setInterval(async()=>{try{const s=await page.evaluate(()=>window.ocut.musicState());if(s.current){stages.add(s.current.stage);console.log('Music:',s.current.status,s.current.stage,JSON.stringify(s.current.progress||{}));}}catch{}},15000);
   await page.locator('#addText').click();await page.waitForFunction(()=>document.querySelectorAll('.clip.text').length===1);
@@ -19,6 +20,7 @@ async function main(){
   checks.push('timeline remains editable while real music generation runs');
   await page.waitForFunction(()=>musicState && !musicState.current && musicState.jobs.some(j=>['complete','failed','cancelled'].includes(j.status)),null,{timeout:1800000});clearInterval(timer);
   const music=await page.evaluate(()=>window.ocut.musicState()),job=music.jobs[0];assert.equal(job.status,'complete',job.message);assert.ok(job.duration>1);assert.equal(job.seed,42);
+  for(const stage of await page.evaluate(()=>qaMusicStages))stages.add(stage);
   assert.ok(stages.has('semantic')||stages.has('synth'));
   const pcm=run('ffmpeg',['-v','error','-i',job.audio,'-f','f32le','-ac','1','-ar','48000','pipe:1']);let power=0,peak=0;
   for(let i=0;i<pcm.length;i+=4){const v=pcm.readFloatLE(i);assert.ok(Number.isFinite(v));power+=v*v;peak=Math.max(peak,Math.abs(v));}
@@ -61,7 +63,7 @@ async function main(){
   await page.locator('#musicTab').click();await page.waitForFunction(()=>document.querySelectorAll('.music-job').length===2);assert.equal(await page.locator('.music-job button').count(),1);
   checks.push('app restart restores generated catalog and saved project with audio fade parameters');assert.deepEqual(errors,[]);
   fs.copyFileSync(job.audio,path.join(artifact,'O-CUT-generated-music.wav'));fs.copyFileSync(save,path.join(artifact,'음악 편집 프로젝트.ocut'));
-  const report={time:new Date().toISOString(),status:'PASS',checks,environment,data,save,output,job,pcm:{rms,peak,ratios},previewGain:measured,sha256:createHash('sha256').update(fs.readFileSync(output)).digest('hex')};
+  const report={time:new Date().toISOString(),status:'PASS',checks,environment,data,save,output,job,stages:[...stages],pcm:{rms,peak,ratios},previewGain:measured,sha256:createHash('sha256').update(fs.readFileSync(output)).digest('hex')};
   fs.writeFileSync(path.join(evidence,'music-qa.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,checks:checks.length,seconds:job.duration,rms,output},null,2));
 }
 main().catch(async e=>{console.error(e);fs.writeFileSync(path.join(evidence,'music-failure.json'),JSON.stringify({time:new Date().toISOString(),data,checks,errors,error:e.stack},null,2));if(page)await page.screenshot({path:path.join(evidence,'music-failure.png')}).catch(()=>{});if(app)await app.evaluate(({app})=>app.exit()).catch(()=>{});app=null;process.exitCode=1;}).finally(async()=>{clearInterval(timer);if(app)await app.close();});

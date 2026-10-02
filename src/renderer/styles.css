@@ -13,3 +13,8 @@ dialog progress { width: 100%; accent-color: #b4ead0; height: 9px; }
 .visualizer-tools{padding:20px 16px;display:grid;gap:18px;overflow:auto}.visualizer-tools>p{line-height:1.8;color:var(--muted);margin:0}.visualizer-tools label{display:grid;gap:8px}.visualizer-tools select{width:100%;min-width:0;background:var(--surface);color:var(--text);padding:9px;border:1px solid var(--line);border-radius:6px}.library-tabs{gap:3px;padding:8px}.library-tabs button{min-width:0;padding:6px 7px;font-size:11px}.clip.overlay{background-color:#303d49;border-color:#81b5c2}#visualizerFields input[type=color]{padding:3px;height:34px}
 #textStyleFields input[type=color]{padding:3px;height:34px}#textStyleFields .text-check{display:flex;align-items:center;gap:8px}#textStyleFields .text-check input{width:15px;height:15px;margin:0;accent-color:var(--accent)}
 .stt-tools{padding:12px 14px;border-bottom:1px solid var(--line);max-height:340px;overflow:auto;flex-shrink:0}.stt-tools summary{cursor:pointer;color:var(--accent);margin-bottom:10px}.stt-tools label{display:grid;gap:5px;margin-bottom:8px;color:var(--muted);font-size:11px}.stt-tools select{width:100%;min-width:0;padding:7px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:5px}.stt-tools p{font-size:10px;margin-top:8px;overflow-wrap:anywhere}
+.key-list { max-height:180px;overflow:auto;margin:10px 0; }
+.key-row { display:flex;gap:4px; }
+.key-row button:first-child { flex:1;text-align:left;font-size:11px; }
+#keyframeFields { margin-top:16px; }
+#keyframeFields summary { cursor:pointer;margin-bottom:12px;color:var(--accent); }

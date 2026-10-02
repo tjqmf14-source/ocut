@@ -1,0 +1,32 @@
+{
+  "time": "2026-10-02T10:34:09.087Z",
+  "data": "D:\\O-CUT\\.runtime\\keyframes-1790937242903",
+  "checks": [
+    "seven properties edited through UI with exact undo redo and actual Web Audio animated gain despite base volume zero",
+    "animated text and trimmed moving video create distinct real preview frames",
+    "actual animated H264 AAC MP4 fully decodes and three output frames match preview above .98 SSIM",
+    "decoded audio amplitude follows volume keyframe envelope without duplicate audio"
+  ],
+  "frames": [
+    {
+      "time": 0.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937242903\\preview-0.5.png",
+      "ssim": 0.99732,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-0.5.png"
+    },
+    {
+      "time": 1.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937242903\\preview-1.5.png",
+      "ssim": 0.997073,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-1.5.png"
+    },
+    {
+      "time": 2.5,
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937242903\\preview-2.5.png",
+      "ssim": 0.996078,
+      "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-2.5.png"
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /취소/. Input:\n\n'Cannot call write after a stream was destroyed'\n\n    at main (D:\\O-CUT\\scripts\\qa-keyframes.cjs:35:501)",
+  "errors": []
+}
