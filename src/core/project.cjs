@@ -3,6 +3,8 @@ const {randomUUID}=require('node:crypto');
 const {validate:validateVisualizer}=require('./visualizer.js');
 const {validate:validateTextStyle}=require('./text-style.js');
 const {validate:validateKeyframes}=require('./keyframes.js');
+const {validate:validateColor}=require('./color-filters.js');
+const {validate:validateTransition}=require('./transitions.js');
 const VERSION=1;
 const TRACK_TYPES=['video','image','audio','music','subtitle','text','overlay','effect'];
 const MEDIA_TYPES=['video','image','audio'];
@@ -82,6 +84,10 @@ function validateProject(p){
     const styles=c.effects.filter(e=>e.type==='textStyle');
     if(styles.length>1)fail('duplicate text style');
     for(const e of styles){if(!['text','subtitle'].includes(c.type))fail('text style requires text clip');validateTextStyle(e.parameters);}
+    const colors=c.effects.filter(e=>e.type==='colorCorrection');if(colors.length>1)fail('duplicate color correction');
+    for(const e of colors){if(!['video','image','overlay'].includes(c.type)||!['video','image'].includes(media.get(c.source)?.type)||visualizers.length)fail('color correction requires video or image');validateColor(e.parameters);}
+    const transitions=c.effects.filter(e=>e.type==='visualTransition');if(transitions.length>1)fail('duplicate visual transition');
+    for(const e of transitions){if(['audio','music','effect'].includes(c.type))fail('visual transition requires visual clip');validateTransition(e.parameters);}
     array(c.keyframes,'keyframes',10000);
     validateKeyframes(c);const seen=new Set();
     for(const k of c.keyframes){keys(k,['property','time','value','interpolation'],'keyframe');text(k.property,'keyframe property',128);number(k.time,'keyframe time',0,c.duration);number(k.value,'keyframe value',-1e9,1e9);if(!['linear','hold'].includes(k.interpolation))fail('interpolation');const key=k.property+':'+k.time;if(seen.has(key))fail('duplicate keyframe');seen.add(key);}

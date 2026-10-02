@@ -18,3 +18,8 @@ dialog progress { width: 100%; accent-color: #b4ead0; height: 9px; }
 .key-row button:first-child { flex:1;text-align:left;font-size:11px; }
 #keyframeFields { margin-top:16px; }
 #keyframeFields summary { cursor:pointer;margin-bottom:12px;color:var(--accent); }
+#colorInputs { display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+#colorFields { margin:16px 0; }
+#colorFields summary { color:var(--accent);cursor:pointer;margin-bottom:12px; }
+#transitionFields { margin:16px 0; }
+#transitionFields summary { color:var(--accent);cursor:pointer;margin-bottom:12px; }

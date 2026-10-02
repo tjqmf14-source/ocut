@@ -13,8 +13,8 @@ function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
   let input = 0, layer = 0;
   graph.push(`color=c=${project.canvas.background}:s=${s.width}x${s.height}:r=${s.fps}:d=${duration},format=rgba[base0]`);
   const solo = project.tracks.some(t => t.solo && !visualTrack(project,t));
-  for (const track of [...project.tracks].reverse()) for (const c of project.clips.filter(c => c.trackId === track.id)) {
-    if (c.effects.some(e => !['audioFade','audioVisualizer','textStyle'].includes(e.type)) || c.type === 'effect') throw Error('지원하지 않는 효과 출력입니다.');
+  for (const track of [...project.tracks].reverse()) for (const c of project.clips.filter(c => c.trackId === track.id).sort((a,b)=>a.startTime-b.startTime)) {
+    if (c.effects.some(e => !['audioFade','audioVisualizer','textStyle','colorCorrection','visualTransition'].includes(e.type)) || c.type === 'effect') throw Error('지원하지 않는 효과 출력입니다.');
     if (c.speed < .25 || c.speed > 4) throw Error('현재 미리보기와 출력은 0.25–4배속을 지원합니다.');
     const text = ['text', 'subtitle'].includes(c.type), asset = assets.get(c.source);
     const viz = c.effects.find(e=>e.type==='audioVisualizer');

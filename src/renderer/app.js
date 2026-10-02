@@ -182,12 +182,22 @@ function renderInspector() {
   const fades = clip.effects.find(e => e.type === 'audioFade' && e.enabled)?.parameters;
   $('clipFadeIn').value = fades?.fadeIn || 0; $('clipFadeOut').value = fades?.fadeOut || 0;
   const visual=clip.effects.find(e=>e.type==='audioVisualizer');$('visualizerFields').hidden=!visual;
+  const transition=OcutTransitions.get(clip);$('transitionFields').hidden=['audio','music','effect'].includes(clip.type);$('transitionIn').value=transition.inType;$('transitionOut').value=transition.outType;$('transitionInDuration').value=transition.inDuration;$('transitionOutDuration').value=transition.outDuration;
+  $('colorFields').hidden=!['video','image'].includes(state.project.media.find(m=>m.id===clip.source)?.type)||Boolean(visual);fillColor(OcutColorFilters.get(clip));$('colorPreset').value=clip.effects.some(e=>e.type==='colorCorrection')?'custom':'neutral';
   if(visual){const v=visual.parameters;for(const [id,key] of Object.entries({visualStyle:'style',visualColor:'color',visualBars:'barCount',visualThickness:'thickness',visualSensitivity:'sensitivity',visualSmoothing:'smoothing',visualMin:'minFrequency',visualMax:'maxFrequency',visualGlow:'glow'}))$(id).value=v[key];}
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
-  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields'));
+  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields')) || $('colorFields').hidden&&Boolean(field.closest('#colorFields')) || $('transitionFields').hidden&&Boolean(field.closest('#transitionFields'));
+  $('dissolvePrevious').disabled=locked||!['video','image'].includes(clip.type);
   renderKeyframes();
 }
 const keyPercent=property=>['scaleX','scaleY','opacity','volume'].includes(property)?100:1;
+for(const [key,label] of Object.entries({exposure:'노출 · 스톱',brightness:'밝기',contrast:'대비',saturation:'채도',temperature:'색온도',tint:'색조',highlights:'하이라이트',shadows:'그림자'})){
+  const node=document.createElement('label'),input=document.createElement('input');input.id='color-'+key;input.type='number';input.min=OcutColorFilters.ranges[key][0];input.max=OcutColorFilters.ranges[key][1];input.step=key==='exposure'?.1:1;input.value=OcutColorFilters.defaults[key];node.textContent=label;node.append(input);$('colorInputs').append(node);
+}
+function fillColor(color){for(const key of Object.keys(OcutColorFilters.defaults))$('color-'+key).value=color[key];}
+function readColor(){return Object.fromEntries(Object.keys(OcutColorFilters.defaults).map(k=>[k,Number($('color-'+k).value)]));}
+$('colorPreset').onchange=()=>{const preset=OcutColorFilters.presets[$('colorPreset').value];if(preset)fillColor(preset);};
+$('dissolvePrevious').onclick=()=>{const clip=selectedClip();if(clip)edit({type:'dissolve',id:clip.id,duration:Number($('transitionInDuration').value)});};
 function keyAtTime(time){const clip=selectedClip();if(!clip)return;const property=$('keyProperty').value,t=Math.max(0,Math.min(clip.duration,time));$('keyTime').value=Number(t.toFixed(6));$('keyValue').value=Number((OcutKeyframes.value(clip,property,t)*keyPercent(property)).toFixed(3));const point=clip.keyframes.find(k=>k.property===property&&Math.abs(k.time-t)<1e-6);$('keyInterpolation').value=point?.interpolation||'linear';}
 function renderKeyframes(){
   const clip=selectedClip();if(!clip)return;const locked=state.project.tracks.find(t=>t.id===clip.trackId).locked;
@@ -302,8 +312,8 @@ $('projectForm').onsubmit = event => {
 };
 $('clipForm').onsubmit = event => {
   event.preventDefault(); const clip = selectedClip(); if (!clip) return; const num = id => Number($(id).value);
-  const visual={...($('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}}),...($('textStyleFields').hidden?{}:{textStyle:readTextStyle()})};
-  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
+  const visual={...($('transitionFields').hidden?{}:{visualTransition:{inType:$('transitionIn').value,inDuration:num('transitionInDuration'),outType:$('transitionOut').value,outDuration:num('transitionOutDuration')}}),...($('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}}),...($('textStyleFields').hidden?{}:{textStyle:readTextStyle()})};
+  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('colorFields').hidden?{colorCorrection:readColor()}:{}), ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
   if (exporting) return;

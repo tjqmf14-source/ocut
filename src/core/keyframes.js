@@ -32,7 +32,7 @@
     const balanced=items=>items.length===1?items[0]:`(${balanced(items.slice(0,Math.floor(items.length/2)))}+${balanced(items.slice(Math.floor(items.length/2)))})`;
     return `if(isnan(t),${list[0].value},${balanced(terms)})`;
   }
-  const animated=clip=>clip.keyframes.some(k=>k.property!=='volume')||clip.effects.some(e=>e.type==='audioVisualizer'&&e.enabled);
+  const animated=clip=>clip.keyframes.some(k=>k.property!=='volume')||clip.effects.some(e=>['audioVisualizer','colorCorrection','visualTransition'].includes(e.type)&&e.enabled);
   function split(clip,time){
     const left=[],right=[];
     for(const property of new Set(clip.keyframes.map(k=>k.property))){

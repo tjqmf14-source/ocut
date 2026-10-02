@@ -1,9 +1,8 @@
 Music: running load {}
-Music: running synth {"step":8,"steps":8}
 {
   "status": "PASS",
   "checks": 7,
   "seconds": 19.998667,
-  "rms": 0.12839121017655483,
+  "rms": 0.08138855611586814,
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4"
 }

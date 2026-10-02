@@ -4,6 +4,8 @@ const { createTrack, createClip, validateProject } = require('./project.cjs');
 const { defaults: visualDefaults, validate: validateVisualizer } = require('./visualizer.js');
 const {defaults:textDefaults,validate:validateTextStyle,get:textStyle}=require('./text-style.js');
 const {split:splitKeyframes}=require('./keyframes.js');
+const {defaults:colorDefaults,validate:validateColor,active:colorActive}=require('./color-filters.js');
+const {defaults:transitionDefaults,validate:validateTransition,active:transitionActive,get:transitionGet}=require('./transitions.js');
 const durationOf = project => Math.max(0, ...project.clips.map(clip => clip.startTime + clip.duration));
 const frameTime = (time, fps) => Math.round(time * fps) / fps;
 function writable(project, id) {
@@ -26,6 +28,16 @@ function command(project, action) {
   if (!action || typeof action.type !== 'string') throw Error('잘못된 편집 명령입니다.');
   const frame = 1 / project.canvas.fps;
   switch (action.type) {
+    case 'dissolve': {
+      const clip=writable(project,action.id),duration=Number(action.duration);
+      if(!['video','image'].includes(clip.type)||!Number.isFinite(duration)||duration<=0||duration>30)throw Error('영상/이미지 클립과 30초 이하 전환 길이를 선택해 주세요.');
+      const peers=project.clips.filter(c=>c.trackId===clip.trackId).sort((a,b)=>a.startTime-b.startTime),index=peers.indexOf(clip),previous=peers[index-1];
+      if(!previous||Math.abs(previous.startTime+previous.duration-clip.startTime)>1e-6)throw Error('같은 트랙에서 바로 앞 클립과 경계를 맞춘 뒤 디졸브를 적용해 주세요.');
+      if(duration>=Math.min(clip.duration,previous.duration))throw Error('전환은 두 클립보다 짧아야 합니다.');
+      if(transitionGet(previous).outType!=='none')throw Error('앞 클립의 끝 전환을 먼저 없음으로 설정해 주세요.');
+      for(const item of peers.slice(index))item.startTime-=duration;
+      const parameters={...transitionGet(clip),inType:'dissolve',inDuration:duration};clip.effects=clip.effects.filter(e=>e.type!=='visualTransition');clip.effects.push({id:randomUUID(),type:'visualTransition',enabled:true,parameters});return clip.id;
+    }
     case 'keyframe': {
       const clip=writable(project,action.id),{property,time}=action;
       if(!Number.isFinite(time)||time<0||time>clip.duration)throw Error('키프레임 시간은 클립 범위 안이어야 합니다.');
@@ -96,7 +108,7 @@ function command(project, action) {
     }
     case 'split': {
       const clip = writable(project, action.id);
-      if (clip.effects.some(e=>!['audioVisualizer','textStyle'].includes(e.type))) throw Error('페이드/기타 효과 클립의 분할은 아직 지원하지 않습니다.');
+      if (clip.effects.some(e=>!['audioVisualizer','textStyle','colorCorrection'].includes(e.type))) throw Error('전환·페이드/기타 효과를 먼저 제거한 뒤 분할해 주세요.');
       const at = frameTime(action.time, project.canvas.fps);
       const left = at - clip.startTime;
       if (left < frame - 1e-7 || clip.duration - left < frame - 1e-7) throw Error('클립 내부의 프레임에서 분할해 주세요.');
@@ -108,9 +120,17 @@ function command(project, action) {
     }
     case 'update': {
       const clip = writable(project, action.id);
-      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle'];
+      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle', 'colorCorrection', 'visualTransition'];
       if (!action.values || Object.keys(action.values).some(key => !fields.includes(key))) throw Error('지원하지 않는 클립 속성입니다.');
       for (const [key, value] of Object.entries(action.values)) {
+        if(key==='visualTransition'){
+          const parameters={...transitionDefaults,...value};validateTransition(parameters);clip.effects=clip.effects.filter(e=>e.type!=='visualTransition');
+          if(transitionActive(parameters))clip.effects.push({id:randomUUID(),type:'visualTransition',enabled:true,parameters});continue;
+        }
+        if(key==='colorCorrection'){
+          const parameters={...colorDefaults,...value};validateColor(parameters);clip.effects=clip.effects.filter(e=>e.type!=='colorCorrection');
+          if(colorActive(parameters))clip.effects.push({id:randomUUID(),type:'colorCorrection',enabled:true,parameters});continue;
+        }
         if(key==='textStyle'){
           if(!['text','subtitle'].includes(clip.type))throw Error('텍스트 또는 자막 클립을 선택해 주세요.');
           const parameters={...textDefaults,...value};validateTextStyle(parameters);

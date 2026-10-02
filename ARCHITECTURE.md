@@ -1,5 +1,13 @@
 # O-CUT 아키텍처
 
+## 색 보정과 전환
+
+`color-filters.js`는 고정된 8개 수치 설정을 검증하고 8비트 RGBA 배열을 결정적으로 처리한다. exposure/brightness/contrast와 temperature/tint를 계산한 뒤 luma 기반 saturation/highlight/shadow를 적용하며 alpha를 유지한다. neutral은 바이트를 변경하지 않는다. renderer의 source별 WeakMap은 설정·크기·currentTime·seeking 상태로 중간 Canvas를 캐시한다. seek 시작 시 이전 영상 픽셀을 새 시점의 완료 캐시로 잘못 재사용하지 않는다.
+
+`transitions.js`는 clip-local time과 길이로 opacity/x/scale/wipe/blur를 계산한다. 공통 paintVisual이 효과를 합성하고 paintClip 또는 visualizer에 전달한다. schema는 visualTransition/colorCorrection의 중복·미지원 clip·수치 범위를 검사한다. 출력은 기존 alpha 프레임 경로를 사용하며 같은 파이프에서 keyframe과 결합한다.
+
+디졸브 명령은 경계가 붙은 같은 트랙 두 클립과 길이를 검증한 뒤 현재/뒤 클립을 overlap 길이만큼 이동하고 incoming fade를 하나의 transaction으로 추가한다. outgoing을 함께 fade하지 않아 두 alpha를 곱해 어두워지는 dip을 방지한다. 같은 트랙은 preview/render 모두 시작 시간 오름차순으로 합성한다. 다른 트랙·원본 범위·오디오 envelope를 자동 변경하지 않는다.
+
 ## 키프레임
 
 `core/keyframes.js`가 x/y/scaleX/scaleY/rotation/opacity/volume의 범위·선형/hold 보간·분할 경계값을 소유한다. 모든 시간은 clip-local이며 첫/마지막 값 밖은 상수이다. schema에서 미지원 속성과 비정상 값을 거부하고 timeline의 set/delete/clear 명령을 history transaction으로 처리한다. 기본 transform/opacity/volume은 보존하고 평가할 때만 사본에 보간값을 반영한다.

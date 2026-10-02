@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-02T10:39:50.263Z",
+  "time": "2026-10-02T11:19:48.410Z",
   "status": "PASS",
   "checks": [
     "seven properties edited through UI with exact undo redo and actual Web Audio animated gain despite base volume zero",
@@ -9,25 +9,25 @@
     "animation layer cancellation preserves existing output",
     "app restart restores exact animated project and real UI split preserves motion and source time"
   ],
-  "data": "D:\\O-CUT\\.runtime\\keyframes-1790937583523",
+  "data": "D:\\O-CUT\\.runtime\\keyframes-1790939981773",
   "save": "D:\\O-CUT\\artifacts\\keyframes\\키프레임 편집.ocut",
   "output": "D:\\O-CUT\\artifacts\\keyframes\\O-CUT-keyframes-720p30.mp4",
   "frames": [
     {
       "time": 0.5,
-      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-0.5.png",
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790939981773\\preview-0.5.png",
       "ssim": 0.99732,
       "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-0.5.png"
     },
     {
       "time": 1.5,
-      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-1.5.png",
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790939981773\\preview-1.5.png",
       "ssim": 0.997073,
       "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-1.5.png"
     },
     {
       "time": 2.5,
-      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790937583523\\preview-2.5.png",
+      "preview": "D:\\O-CUT\\.runtime\\keyframes-1790939981773\\preview-2.5.png",
       "ssim": 0.996078,
       "outputFrame": "D:\\O-CUT\\artifacts\\keyframes\\frame-2.5.png"
     }
