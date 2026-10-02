@@ -1,0 +1,17 @@
+{
+  "time": "2026-10-02T11:42:37.375Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\workspace-1790941346224",
+  "source": "D:\\O-CUT\\artifacts\\color-filters\\색 보정 편집.ocut",
+  "save": "D:\\O-CUT\\artifacts\\recovery\\복구한 편집.ocut",
+  "output": "D:\\O-CUT\\artifacts\\recovery\\O-CUT-recovered.mp4",
+  "checks": [
+    "dirty effects keyframes and styled text autosave to a separate exact recovery file while original project bytes remain unchanged",
+    "actual process termination and relaunch recover exact effects project as unsaved copy; corrupt backup remains visible as warning",
+    "recovered project exports actual fully decoded MP4 with its existing effects and keyframes",
+    "manual save preserves recovered document and clears only resolved valid backups",
+    "recent project opens the real saved file and restores exact state",
+    "real locked autosave target reports failure preserves previous backup and in-memory edits; next edit recovers after lock removal"
+  ],
+  "errors": []
+}

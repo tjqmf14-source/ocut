@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-02T11:19:08.248Z",
+  "time": "2026-10-02T11:41:28.784Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\visualizer-1790939928002",
-  "save": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\시각화 편집.ocut",
+  "data": "D:\\O-CUT\\.runtime\\visualizer-1790941268317",
+  "save": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\시각화 편집.ocut",
   "checks": [
     "actual packaged worker analyzes PCM and creates editable background/title/audio/visualizer/fade project",
     "actual audio playback advances time and changes deterministic visualizer frames",
@@ -21,27 +21,27 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\bars-0.5.png",
-          "colored": 63483,
-          "ssim": 0.999328,
-          "outputColored": 63233
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\bars-0.5.png",
+          "colored": 63497,
+          "ssim": 0.999319,
+          "outputColored": 63332
         },
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\bars-1.5.png",
-          "colored": 168780,
-          "ssim": 0.999218,
-          "outputColored": 168696
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\bars-1.5.png",
+          "colored": 168982,
+          "ssim": 0.99921,
+          "outputColored": 168811
         },
         {
           "time": 2.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\bars-2.5.png",
-          "colored": 52475,
-          "ssim": 0.999329,
-          "outputColored": 51882
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\bars-2.5.png",
+          "colored": 52026,
+          "ssim": 0.999309,
+          "outputColored": 51545
         }
       ],
-      "sha256": "4d5cc8a135b49c230c067c5b9019707dc791395cf1feec08dab277bd6f7c23b3"
+      "sha256": "6c3d01a58f3ffcc1ffa511b8308b48ecf7bb0edacfef964c8ab0de9feb3cafe8"
     },
     {
       "style": "wave",
@@ -52,13 +52,13 @@
       "frames": [
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\wave-1.5.png",
-          "colored": 4955,
-          "ssim": 0.998761,
-          "outputColored": 5219
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\wave-1.5.png",
+          "colored": 4792,
+          "ssim": 0.998793,
+          "outputColored": 5103
         }
       ],
-      "sha256": "1f5e571ca26ecbac0cb2ea4b90ad44cfa6d4763bf4a1a6483547e10052aa41d0"
+      "sha256": "29c7dea0c612c156077bb52a7a8fe52c4f523da37c16ef227b81a3e2f3a1fcfe"
     },
     {
       "style": "line",
@@ -69,13 +69,13 @@
       "frames": [
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\line-1.5.png",
-          "colored": 4223,
-          "ssim": 0.998972,
-          "outputColored": 4486
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\line-1.5.png",
+          "colored": 4249,
+          "ssim": 0.99897,
+          "outputColored": 4555
         }
       ],
-      "sha256": "f458b416fe9d6caead059d6ab6769a38d8812db2074358805e58fe4964f23daf"
+      "sha256": "eb59366d0ee9f0603159dc810a78c3693ef16f41738a85b8f3deab01f5e76629"
     },
     {
       "style": "circular",
@@ -86,13 +86,13 @@
       "frames": [
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\circular-1.5.png",
-          "colored": 33939,
-          "ssim": 0.999381,
-          "outputColored": 33996
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\circular-1.5.png",
+          "colored": 33980,
+          "ssim": 0.999371,
+          "outputColored": 34027
         }
       ],
-      "sha256": "d3d08a80c4d59f4b5f2802b247816ef4752b84b7a34a6a1c3a46c5f1ab77266f"
+      "sha256": "7d51f9c6d92ae0cf5ccb190c22ec80b57759b40c254ffd32b1d03d24696b50c3"
     },
     {
       "style": "mirror",
@@ -103,13 +103,13 @@
       "frames": [
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\mirror-1.5.png",
-          "colored": 156424,
-          "ssim": 0.999062,
-          "outputColored": 151574
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\mirror-1.5.png",
+          "colored": 156524,
+          "ssim": 0.999072,
+          "outputColored": 151816
         }
       ],
-      "sha256": "1a0514f99161de3fa46ab4ddcade5771718fcad7df9deabd82bf14174b006e5b"
+      "sha256": "be0a348308580d0e0b504fa9c6959e0632beb83ef952ece5dada67af40f503a1"
     },
     {
       "style": "spectrum",
@@ -120,13 +120,13 @@
       "frames": [
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790939928002\\spectrum-1.5.png",
-          "colored": 16740,
-          "ssim": 0.998946,
-          "outputColored": 16680
+          "preview": "D:\\O-CUT\\.runtime\\visualizer-1790941268317\\spectrum-1.5.png",
+          "colored": 16758,
+          "ssim": 0.99894,
+          "outputColored": 16713
         }
       ],
-      "sha256": "2b54cdd9ca120fcacadb1e7443dc7334f42b347fd72545ea4f6f66900defef1c"
+      "sha256": "3db0060257f4a571e018f75a139ee2a019432aa81913d48bb5ab8f936bb177d0"
     }
   ],
   "errors": []

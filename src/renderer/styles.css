@@ -23,3 +23,12 @@ dialog progress { width: 100%; accent-color: #b4ead0; height: 9px; }
 #colorFields summary { color:var(--accent);cursor:pointer;margin-bottom:12px; }
 #transitionFields { margin:16px 0; }
 #transitionFields summary { color:var(--accent);cursor:pointer;margin-bottom:12px; }
+#autosaveState { font-size:10px;white-space:nowrap; }
+#autosaveState.error { color:var(--danger); }
+#workspaceDialog { width:640px;max-height:80vh;overflow:auto; }
+.workspace-dialog-head { display:flex;align-items:center;justify-content:space-between; }
+.workspace-item { display:block;width:100%;text-align:left;background:var(--surface);margin:8px 0;padding:12px; }
+.workspace-item strong,.workspace-item span { display:block;overflow:hidden;text-overflow:ellipsis; }
+.workspace-item span { white-space:normal;color:var(--muted);font-size:11px;margin-top:6px; }
+#workspaceWarnings { color:var(--danger);white-space:pre-wrap; }
+@media(max-width:1400px){#autosaveState{display:none}.top-actions{gap:1px}.topbar{gap:12px}}

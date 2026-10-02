@@ -22,7 +22,7 @@ async function main() {
     }
   }
   copy(path.join(root, 'src'));
-  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.9.0', private: true, main: 'src/desktop/main.cjs' }));
+  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.10.0', private: true, main: 'src/desktop/main.cjs' }));
   fs.mkdirSync(out, { recursive: true });
   for (const e of fs.readdirSync(input)) {
     if (e === 'resources') continue;

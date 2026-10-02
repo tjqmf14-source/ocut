@@ -59,6 +59,12 @@ FFmpeg는 shell 없이 인수 배열로 실행합니다. 필터는 생성한 파
 
 공식 참고: [Electron protocol](https://www.electronjs.org/docs/latest/api/protocol), [FFmpeg filter graph](https://ffmpeg.org/ffmpeg-filters.html), [FFmpeg 파일 인수 옵션](https://ffmpeg.org/ffmpeg.html#Options).
 
+## 문서 자동 저장과 복구
+
+`Workspace`는 session과 분리된 개인 복구 저장소와 최근 목록을 관리한다. main의 성공한 문서 IPC 후 dirty snapshot을 복제하고 1초 간격으로 최신 revision을 직렬 저장한다. 상대 미디어 경로는 원래 문서 위치 기준 절대 경로로 바꾼다. 저장 완료 이벤트는 실제 durable revision을 포함하므로 후속 편집의 저장 완료로 오인하지 않는다.
+
+각 앱 인스턴스는 임의 UUID 복구 파일과 etag를 소유한다. 기존 ProjectStore의 검증·원자적 저장을 재사용한다. 정상 저장/폐기 후 소유 파일과 사용자가 선택한 복구 파일만 etag 확인 후 정리한다. 복원은 파일 위치가 없는 새 dirty session으로 구성하고, 미디어 준비 후 session을 교체한다. 최근 목록은 크기·행 수·절대 경로를 검사하고 임시 파일의 fsync/rename으로 저장한다. 자동 저장 실패는 원래 파일과 메모리 문서를 보존하며 다음 편집에서 재시도한다.
+
 ## 자막과 미디어 탐색
 
 `captions.cjs`는 SRT/VTT 시간·본문을 순수 데이터로 해석하고 SRT를 직렬화한다. `caption-files.cjs`는 UTF-8 검증, 제한된 크기 읽기, 임시 파일·fsync·rename 저장을 담당한다. 타임라인에 subtitle 클립을 추가하는 작업은 하나의 history transaction이다. `.ocut` v1의 기존 subtitle/text/transform 필드를 사용하므로 포맷 변경이나 migration은 없다. 자막 파일의 글꼴·CSS·화자·영역 설정은 코드나 HTML로 실행하지 않는다.

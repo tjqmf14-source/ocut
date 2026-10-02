@@ -7,6 +7,10 @@ async function call(channel, payload) {
 }
 contextBridge.exposeInMainWorld('ocut', {
   state: () => call('project:state'),
+  workspace:()=>call('workspace:list'),
+  openRecent:file=>call('workspace:recent',file),
+  recoverProject:id=>call('workspace:recover',id),
+  onAutosave:callback=>{const listener=(_event,status)=>callback(status);ipcRenderer.on('workspace:autosave',listener);return ()=>ipcRenderer.removeListener('workspace:autosave',listener);},
   settings: values => call('project:settings', values),
   newProject: () => call('project:new'),
   openProject: () => call('project:open'),

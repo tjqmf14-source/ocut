@@ -11,6 +11,19 @@ const playback = new StudioPlayback($('preview'), (time, playing) => {
   $('play').textContent = playing ? 'Ⅱ' : '▶'; $('play').setAttribute('aria-label', playing ? '일시정지' : '재생');
 }, error => message(error, true));
 const selectedClip = () => state?.project.clips.find(c => selected.has(c.id));
+function showAutosave(status){$('autosaveState').textContent=status.state==='saved'?`자동 저장 ${new Date(status.savedAt).toLocaleTimeString('ko-KR',{hour12:false})}`:status.state==='pending'?'자동 저장 중…':status.state==='error'?'자동 저장 실패':'자동 저장 대기';$('autosaveState').classList.toggle('error',status.state==='error');$('autosaveState').title=status.error||'원본과 별도로 저장하는 복구본';}
+window.ocut.onAutosave(showAutosave);
+async function showWorkspace(){
+  if(busy)return;try{const listing=await window.ocut.workspace();showAutosave(listing.autosave);$('workspaceWarnings').textContent=listing.warnings.join('\n');
+    for(const [id,rows,isRecovery] of [['recoveryList',listing.recovery,true],['recentList',listing.recent,false]]){
+      const holder=$(id);holder.replaceChildren();if(!rows.length){const p=document.createElement('p');p.className='muted';p.textContent=isRecovery?'복구할 편집이 없습니다.':'최근 프로젝트가 없습니다.';holder.append(p);}
+      for(const row of rows){const button=document.createElement('button'),title=document.createElement('strong'),detail=document.createElement('span');button.className='workspace-item';title.textContent=row.name;detail.textContent=(isRecovery?`${row.clips}개 클립 · `:row.path+' · ')+new Date(row.time).toLocaleString('ko-KR');button.append(title,detail);button.onclick=async()=>{if(busy)return;busy=true;try{const next=await(isRecovery?window.ocut.recoverProject(row.id):window.ocut.openRecent(row.path));if(next){$('workspaceDialog').close();render(next);message(next.warning||(isRecovery?'편집을 복구했습니다. 확인한 뒤 다른 이름으로 저장하세요.':'최근 프로젝트를 열었습니다.'));}}catch(error){$('workspaceWarnings').textContent=error.message;}finally{busy=false;}};holder.append(button);}
+    }
+    if(!$('workspaceDialog').open)$('workspaceDialog').showModal();
+  }catch(error){message(error.message,true);}
+}
+$('workspaceOpen').onclick=showWorkspace;$('workspaceClose').onclick=()=>$('workspaceDialog').close();
+window.ocut.workspace().then(listing=>{showAutosave(listing.autosave);if(listing.recovery.length)$('workspaceOpen').textContent=`복구 가능 ${listing.recovery.length} · 최근`;}).catch(error=>message(error.message,true));
 function render(next) {
   if (next) {
     if (next.reloadMedia) {
@@ -316,7 +329,7 @@ $('clipForm').onsubmit = event => {
   edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('colorFields').hidden?{colorCorrection:readColor()}:{}), ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
-  if (exporting) return;
+  if (exporting || $('workspaceDialog').open) return;
   const key = event.key.toLowerCase(), typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
   if ((event.ctrlKey || event.metaKey) && key === 's') { event.preventDefault(); $(event.shiftKey ? 'saveAs' : 'save').click(); return; }
   if (typing) return;

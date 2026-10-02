@@ -11,6 +11,7 @@ const { serializeSrt } = require('../core/captions.cjs');
 const { mediaResponse } = require('../infrastructure/media-response.cjs');
 const { MusicService } = require('../infrastructure/music.cjs');
 const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
+const {Workspace}=require('../infrastructure/workspace.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -20,6 +21,7 @@ let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache')
 protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
+const workspace=new Workspace(path.join(app.getPath('userData'),'workspace'),status=>{if(window&&!window.isDestroyed())window.webContents.send('workspace:autosave',status);});
 const music = new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py'),
   onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 let exportAbort;
@@ -37,7 +39,7 @@ function register(channel, action, prepare) {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame) throw Error('허용되지 않은 요청입니다.');
     const context = prepare?.();
     const work = serial.then(async () => {
-      try { return { ok: true, data: await action(payload, context) }; }
+      try { const data=await action(payload,context);if(data?.project)workspace.schedule(session.snapshot());return {ok:true,data}; }
       catch (error) { log(`${channel}: ${error.stack || error.message}`); return { ok: false, error: error.message }; }
     });
     serial = work.catch(() => {});
@@ -61,20 +63,24 @@ async function save(as) {
     file = picked.filePath.endsWith('.ocut') ? picked.filePath : picked.filePath + '.ocut';
   }
   await session.save(file);
+  await workspace.clear().catch(error=>{workspace.changed('error',error.message);log(error.message);});
+  await workspace.remember(file,session.history.state.name).catch(error=>{log(error.message);workspace.changed('error',error.message);});
   return snapshot();
 }
 register('project:state', () => snapshot());
 register('project:settings', values => { session.settings(values); return snapshot(); });
 register('project:new', async () => {
   if (!await mayDiscard()) return null;
-  session.newProject(); library.assets.clear(); return snapshot({ selectedId: null });
+  await workspace.clear();session.newProject(); library.assets.clear(); return snapshot({ selectedId: null });
 });
 register('project:open', async () => {
   if (!await mayDiscard()) return null;
   const picked = await dialog.showOpenDialog(window, { title: 'O-CUT 프로젝트 열기', properties: ['openFile'], filters: [{ name: 'O-CUT 프로젝트', extensions: ['ocut'] }] });
   if (picked.canceled) return null;
-  const file = picked.filePaths[0];
-  const next = new StudioSession(); await next.open(file);
+  return openProject(picked.filePaths[0]);
+});
+async function openProject(file,recovery){
+  const next = new StudioSession();if(recovery)next.restore(recovery.project);else await next.open(file);
   const assets = new MediaLibrary(library.cacheDir); const missing = [];
   for (const media of next.history.state.media) {
     try { await assets.prepare({ ...media, path: path.resolve(path.dirname(file), media.path) }); }
@@ -83,9 +89,13 @@ register('project:open', async () => {
   for(const clip of next.history.state.clips.filter(c=>c.effects.some(e=>e.type==='audioVisualizer'))) {
     try{await assets.ensureVisual(clip.source);}catch(error){missing.push(`시각화: ${error.message}`);}
   }
-  session = next; library = assets;
+  await workspace.clear();if(recovery)workspace.restored={name:recovery.name,etag:recovery.etag};session = next; library = assets;
+  if(!recovery)await workspace.remember(file,session.history.state.name).catch(error=>missing.push(error.message));
   return snapshot({ selectedId: null, reloadMedia: true, warning: missing.length ? `누락되거나 읽을 수 없는 미디어 ${missing.length}개: ${missing.join(' / ')}` : null });
-});
+}
+register('workspace:list',()=>workspace.list());
+register('workspace:recent',async file=>{const recent=await workspace.recent();if(!recent.some(r=>r.path===file))throw Error('최근 프로젝트 목록에서 선택해 주세요.');if(!await mayDiscard())return null;return openProject(file);});
+register('workspace:recover',async name=>{const recovery=await workspace.recover(name);if(!await mayDiscard())return null;return openProject(path.join(workspace.store.directory,name),recovery);});
 register('project:save', as => save(Boolean(as)));
 register('history:undo', () => { session.history.undo(); return snapshot(); });
 register('history:redo', () => { session.history.redo(); return snapshot(); });
@@ -109,7 +119,7 @@ register('visualizer:createVideo', async mediaId => {
   const title=applyCommand(next.history,{type:'text',text:media.name,startTime:0});
   applyCommand(next.history,{type:'update',id:title,values:{duration,transform:{y:-260,scaleX:.7,scaleY:.7}}});
   // Build before swapping: a failed analysis or validation never destroys the current document.
-  session=next;for(const id of library.assets.keys())if(id!==mediaId)library.assets.delete(id);
+  await workspace.clear();session=next;for(const id of library.assets.keys())if(id!==mediaId)library.assets.delete(id);
   return snapshot({selectedId:visualId,reloadMedia:true});
 });
 register('music:state', () => music.state());
@@ -213,7 +223,7 @@ app.whenReady().then(() => {
     if (exportAbort || sttAbort) { event.preventDefault(); return; }
     if (closing || !session.snapshot().dirty) return;
     event.preventDefault();
-    serial = serial.then(async () => { if (await mayDiscard()) { closing = true; window.close(); } }).catch(error => log(error.stack));
+    serial = serial.then(async () => { if (await mayDiscard()) {await workspace.clear();closing = true; window.close(); } }).catch(error => log(error.stack));
   });
   window.loadFile(rendererPath);
 }).catch(error => { log(error.stack); app.quit(); });

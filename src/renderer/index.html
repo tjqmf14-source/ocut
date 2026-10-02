@@ -10,8 +10,8 @@
 <body>
   <header class="topbar">
     <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M24 7a12 12 0 1 0 1 17"/><path d="M15 17 29 3"/></svg><span>O-CUT</span><span class="edition">STUDIO</span></div>
-    <div class="document-name"><span class="document-dot"></span><span id="documentTitle">새 프로젝트</span><span id="saveState" class="muted">저장 전</span></div>
-    <div class="top-actions"><button id="newProject" class="quiet">새 프로젝트</button><button id="openProject" class="quiet">열기</button><span class="divider"></span><button id="undo" class="icon-button" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소">↶</button><button id="redo" class="icon-button" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행">↷</button><button id="save" class="secondary">저장</button><button id="saveAs" class="quiet" title="다른 이름으로 저장">다른 이름으로</button><button id="exportVideo" class="primary">MP4 내보내기 ↗</button></div>
+    <div class="document-name"><span class="document-dot"></span><span id="documentTitle">새 프로젝트</span><span id="saveState" class="muted">저장 전</span><span id="autosaveState" class="muted" title="원본과 별도로 저장하는 복구본">자동 저장 대기</span></div>
+    <div class="top-actions"><button id="newProject" class="quiet">새 프로젝트</button><button id="openProject" class="quiet">열기</button><button id="workspaceOpen" class="quiet">최근 · 복구</button><span class="divider"></span><button id="undo" class="icon-button" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소">↶</button><button id="redo" class="icon-button" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행">↷</button><button id="save" class="secondary">저장</button><button id="saveAs" class="quiet" title="다른 이름으로 저장">다른 이름으로</button><button id="exportVideo" class="primary">MP4 내보내기 ↗</button></div>
   </header>
   <main class="workspace">
     <aside class="library">
@@ -94,6 +94,7 @@
     </section>
   </main>
   <footer class="statusbar"><span id="status" role="status" aria-live="polite">준비 중…</span><span>O-CUT · 로컬 스튜디오</span></footer>
+  <dialog id="workspaceDialog"><div class="workspace-dialog-head"><h2>최근 프로젝트 · 복구</h2><button id="workspaceClose" class="quiet" aria-label="최근 프로젝트 닫기">×</button></div><p id="workspaceWarnings" role="status"></p><h2>저장하지 못한 편집 복구</h2><p class="muted">복구본은 새 문서로 열립니다. 확인한 뒤 다른 이름으로 저장하세요.</p><div id="recoveryList"></div><h2>최근 프로젝트</h2><div id="recentList"></div></dialog>
   <dialog id="exportDialog"><div class="overline">O-CUT EXPORT</div><h2>영상을 만들고 있습니다</h2><p id="exportDescription"></p><progress id="exportProgress" max="100" value="0"></progress><p id="exportPercent" role="status">저장할 위치를 선택해 주세요.</p><button id="cancelExport" class="secondary">내보내기 취소</button></dialog>
   <dialog id="transcriptionDialog"><div class="overline">LOCAL TRANSCRIPTION</div><h2>자동 자막을 만들고 있습니다</h2><progress></progress><p id="transcriptionProgress" role="status" aria-live="polite">음성을 준비하고 있습니다…</p><button id="cancelTranscription" class="secondary">자막 생성 취소</button></dialog>
   <script src="../core/transitions.js"></script><script src="../core/color-filters.js"></script><script src="../core/keyframes.js"></script><script src="../core/audio-fades.js"></script><script src="../core/visualizer.js"></script><script src="../core/text-style.js"></script><script src="text.js"></script><script src="playback.js"></script><script src="app.js"></script>

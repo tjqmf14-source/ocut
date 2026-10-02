@@ -1,0 +1,9 @@
+{
+  "time": "2026-10-02T11:32:21.653Z",
+  "data": "D:\\O-CUT\\.runtime\\workspace-1790940628786",
+  "checks": [
+    "dirty effects keyframes and captions text autosave to a separate exact recovery file while original project bytes remain unchanged"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n\n    at main (D:\\O-CUT\\scripts\\qa-workspace.cjs:14:70)",
+  "errors": []
+}

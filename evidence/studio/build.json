@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-02T11:17:40.997Z",
+  "time": "2026-10-02T11:40:09.937Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
     {
@@ -52,15 +52,15 @@
     },
     {
       "file": "desktop/main.cjs",
-      "sha256": "6d1e57a496f0edf1d089c77d1f2fdd12e45599d98cf61112657a179ff0d31aa8"
+      "sha256": "170d9932bf1283f6c29fdb7435f439a3c7984848af6773273f4a796e5c5339ab"
     },
     {
       "file": "desktop/preload.cjs",
-      "sha256": "9b6e0babc2312e8291f540ac0bf6de3f3702d211320060ba2bdbf5dd46ab8394"
+      "sha256": "54184a4c8acaf9d5edb2d06364d6ef2835ffb9e1b2187606c778d766eb2b8596"
     },
     {
       "file": "desktop/session.cjs",
-      "sha256": "ae6fd338024e97e74f9f0ee5ef6861ce48ff770544de4154171eb609caca9d9d"
+      "sha256": "a946c423d7afe9da1071651242922a11ae27ffe69344b93a2edaf7679e682472"
     },
     {
       "file": "infrastructure/caption-files.cjs",
@@ -107,12 +107,16 @@
       "sha256": "6bba82950d924821e0b71c9e24b4aab654ea5b1fec165f84fb3520c455c5c55e"
     },
     {
+      "file": "infrastructure/workspace.cjs",
+      "sha256": "4daf63bafa8df5a4f43a55a9a2522c14afc6c5f61b6d9c46ad23631dad5fefdf"
+    },
+    {
       "file": "renderer/app.js",
-      "sha256": "75a682d88f52eb06110bf0770ab869bbf26101360d839d7834e79f2f166ce62c"
+      "sha256": "c29e10e4a32060ec9dab9680a7ff449a91a56d7f60600c65af04b1773e209129"
     },
     {
       "file": "renderer/index.html",
-      "sha256": "9fb577b17ce8f1c5cea62845291b563ab574bbb815eb607e088a268f7bfa828f"
+      "sha256": "759c208ce1e4f1e2eac0a40f03465b4ccebcc4604c176fe77a8738cee5f37846"
     },
     {
       "file": "renderer/playback.js",
@@ -120,7 +124,7 @@
     },
     {
       "file": "renderer/styles.css",
-      "sha256": "2627d38eaf61382686c5355c051f69cd24c529b756c94a734f4ee63db4c8ef97"
+      "sha256": "15d3bb2a2c8962ee3647bc2ab30a71c6f439b2d4260a734a0ab8979d8f9091ca"
     },
     {
       "file": "renderer/text.js",

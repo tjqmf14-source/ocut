@@ -37,6 +37,7 @@ class StudioSession {
     this.saved = serialize(result.project);
     return this.snapshot();
   }
+  restore(project){this.history=new ProjectHistory(project);this.location=null;this.etag=null;this.saved='';return this.snapshot();}
   async save(file = this.location) {
     if (!file) throw Error('저장 위치를 선택해 주세요.');
     const store = new ProjectStore(path.dirname(file));

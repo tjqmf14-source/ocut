@@ -1,0 +1,29 @@
+{
+  "time": "2026-10-02T11:42:40.232Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\performance-1790941357758",
+  "file": "D:\\O-CUT\\.runtime\\performance-1790941357758\\1000-clips.ocut",
+  "clips": 1000,
+  "loadMs": 153.16219999999998,
+  "editMs": 128.40940000000012,
+  "playback": {
+    "time": 1.4984000000003725,
+    "frames": 200,
+    "meanFrameMs": 7.5,
+    "p95FrameMs": 7,
+    "clipDomMutations": 0
+  },
+  "mainMemory": {
+    "rss": 121876480,
+    "heapTotal": 27508736,
+    "heapUsed": 14827224,
+    "external": 2763679,
+    "arrayBuffers": 0
+  },
+  "checks": [
+    "actual app opens and displays a 1000-clip project within 10 seconds",
+    "edit under two seconds reuses existing clip DOM and undo restores exact text",
+    "real playback advances without rebuilding clip children; measured frame p95 below 100ms",
+    "1000-clip edited project automatically saves the latest revision"
+  ]
+}
