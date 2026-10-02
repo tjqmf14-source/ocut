@@ -11,4 +11,5 @@ test('studio ASAR contains exactly current source bytes without stale files', as
   const packaged = asar.listPackage(archive).filter(f => f.startsWith('\\src\\') || f.startsWith('/src/')).filter(f => !asar.statFile(archive, f.slice(1)).files);
   assert.equal(packaged.length, files.length);
   assert.deepEqual(fs.readFileSync(path.join(root,'dist/studio/resources/music-worker/worker.py')),fs.readFileSync(path.join(root,'baseline/python/worker.py')),'preserved music worker must be byte-identical');
+  assert.deepEqual(fs.readFileSync(path.join(root,'dist/studio/resources/transcribe/transcribe.py')),fs.readFileSync(path.join(root,'src/infrastructure/transcribe.py')),'transcription worker must match current source');
 });

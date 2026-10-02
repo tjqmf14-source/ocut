@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-02T10:18:15.874Z",
+  "data": "D:\\O-CUT\\.runtime\\text-style-1790936294575",
+  "checks": [
+    "packaged Chromium really applies Canvas letter spacing"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: Invalid duration for option ss: .5\r\nError parsing options for input file D:\\O-CUT\\artifacts\\text-style\\O-CUT-title.mp4.\r\nError opening input files: Invalid argument\r\n\n\n4294967274 !== 0\n\n    at run (D:\\O-CUT\\scripts\\qa-text-style.cjs:5:101)\n    at main (D:\\O-CUT\\scripts\\qa-text-style.cjs:19:108)"
+}

@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-01T16:03:07.395Z",
-  "data": "D:\\O-CUT\\.runtime\\timeline-1790870583922",
-  "save": "D:\\O-CUT\\.runtime\\timeline-1790870583922\\timeline.ocut",
+  "time": "2026-10-02T10:19:25.137Z",
+  "data": "D:\\O-CUT\\.runtime\\timeline-1790936362196",
+  "save": "D:\\O-CUT\\.runtime\\timeline-1790936362196\\timeline.ocut",
   "checks": [
     "actual video/audio import, PCM waveform, thumbnails",
     "actual realtime playback and decoded canvas video",
@@ -15,10 +15,10 @@
   "project": {
     "format": "O-CUT",
     "version": 1,
-    "id": "683ca453-c85d-4a69-8200-c0b4965033d8",
+    "id": "50851cca-5293-4bc3-bfbf-8b4d4aa5be7a",
     "name": "새 프로젝트",
-    "createdAt": "2026-10-01T16:03:04.302Z",
-    "modifiedAt": "2026-10-01T16:03:06.449Z",
+    "createdAt": "2026-10-02T10:19:22.528Z",
+    "modifiedAt": "2026-10-02T10:19:24.299Z",
     "revision": 15,
     "canvas": {
       "width": 1920,
@@ -28,17 +28,17 @@
     },
     "media": [
       {
-        "id": "49873647-9304-457c-829c-fa0d81d9ebf0",
+        "id": "423c0099-3cf1-4425-a12a-2738c48b0d15",
         "type": "video",
-        "path": "D:\\O-CUT\\.runtime\\timeline-1790870583922\\motion.mp4",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1790936362196\\motion.mp4",
         "name": "motion.mp4",
         "duration": 6,
         "fingerprint": null
       },
       {
-        "id": "1e4db2db-5153-4cf2-a350-6db44d2d69b4",
+        "id": "7c3777e5-aacc-4323-b50f-ade51f905036",
         "type": "audio",
-        "path": "D:\\O-CUT\\.runtime\\timeline-1790870583922\\music.wav",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1790936362196\\music.wav",
         "name": "music.wav",
         "duration": 6,
         "fingerprint": null
@@ -46,7 +46,7 @@
     ],
     "tracks": [
       {
-        "id": "8a36d0bb-6273-44f7-982f-ed828b33263e",
+        "id": "66e1b4ff-51a9-419a-bbb9-e9d919dbd61c",
         "type": "text",
         "name": "텍스트",
         "locked": false,
@@ -55,7 +55,7 @@
         "solo": false
       },
       {
-        "id": "161595e9-4165-48f1-b0fc-0b839ad4b001",
+        "id": "159f9b47-ee98-4c08-a4d2-62973b5e81ce",
         "type": "video",
         "name": "영상",
         "locked": false,
@@ -64,7 +64,7 @@
         "solo": false
       },
       {
-        "id": "b189c1c9-025c-44d1-a9a2-21e162a99dd6",
+        "id": "69521469-113e-4f66-b4aa-1f89bc47264a",
         "type": "audio",
         "name": "오디오",
         "locked": false,
@@ -75,10 +75,10 @@
     ],
     "clips": [
       {
-        "id": "56443e7e-42b3-4ee8-a9e5-d66faf959052",
-        "trackId": "161595e9-4165-48f1-b0fc-0b839ad4b001",
+        "id": "cb0a6449-2a1e-42ca-8cf8-c6b3e989b5f8",
+        "trackId": "159f9b47-ee98-4c08-a4d2-62973b5e81ce",
         "type": "video",
-        "source": "49873647-9304-457c-829c-fa0d81d9ebf0",
+        "source": "423c0099-3cf1-4425-a12a-2738c48b0d15",
         "startTime": 0,
         "duration": 2,
         "sourceStart": 0,
@@ -100,10 +100,10 @@
         "text": ""
       },
       {
-        "id": "c7b8dba7-001c-46cb-a124-79662a1ff5f6",
-        "trackId": "161595e9-4165-48f1-b0fc-0b839ad4b001",
+        "id": "b51b9e09-7f58-4573-a84f-77c3aad5a6b2",
+        "trackId": "159f9b47-ee98-4c08-a4d2-62973b5e81ce",
         "type": "video",
-        "source": "49873647-9304-457c-829c-fa0d81d9ebf0",
+        "source": "423c0099-3cf1-4425-a12a-2738c48b0d15",
         "startTime": 2,
         "duration": 2,
         "sourceStart": 2,
@@ -125,10 +125,10 @@
         "text": ""
       },
       {
-        "id": "3e1d7fcb-e4b4-41cf-b32e-7b105eda4cbc",
-        "trackId": "b189c1c9-025c-44d1-a9a2-21e162a99dd6",
+        "id": "521b9281-449f-4891-aa19-d4cbb756452a",
+        "trackId": "69521469-113e-4f66-b4aa-1f89bc47264a",
         "type": "audio",
-        "source": "1e4db2db-5153-4cf2-a350-6db44d2d69b4",
+        "source": "7c3777e5-aacc-4323-b50f-ade51f905036",
         "startTime": 0,
         "duration": 6,
         "sourceStart": 0,
@@ -150,8 +150,8 @@
         "text": ""
       },
       {
-        "id": "2a45bad7-2308-4e69-bc16-18ea17a9631b",
-        "trackId": "8a36d0bb-6273-44f7-982f-ed828b33263e",
+        "id": "820183eb-e566-488e-8153-d5fb3d3b8265",
+        "trackId": "66e1b4ff-51a9-419a-bbb9-e9d919dbd61c",
         "type": "text",
         "source": null,
         "startTime": 2,
@@ -170,7 +170,34 @@
         },
         "opacity": 1,
         "volume": 1,
-        "effects": [],
+        "effects": [
+          {
+            "id": "23680aaf-fcba-4d9a-9f55-8036cd069bdc",
+            "type": "textStyle",
+            "enabled": true,
+            "parameters": {
+              "font": "Malgun Gothic",
+              "fontSize": 0,
+              "weight": 600,
+              "tracking": 0,
+              "lineHeight": 1.3,
+              "align": "center",
+              "fill": "#ffffff",
+              "gradient": false,
+              "gradientEnd": "#b9edcf",
+              "stroke": "#000000",
+              "strokeWidth": -1,
+              "shadow": "#000000",
+              "shadowBlur": 0,
+              "shadowX": 0,
+              "shadowY": 0,
+              "background": "#101215",
+              "backgroundOpacity": 0,
+              "padding": 20,
+              "radius": 8
+            }
+          }
+        ],
         "keyframes": [],
         "text": "O-CUT 첫 번째 장면"
       }

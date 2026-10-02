@@ -1,0 +1,69 @@
+{
+  "time": "2026-10-02T10:21:11.464Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\transcribe-1790936457668",
+  "save": "D:\\O-CUT\\.runtime\\transcribe-1790936457668\\자동 자막.ocut",
+  "output": "D:\\O-CUT\\artifacts\\transcription\\O-CUT-local-captions.mp4",
+  "srt": "D:\\O-CUT\\artifacts\\transcription\\자동 자막.srt",
+  "recognized": "안녕하세요. 오늘은 음악과 영상을 편집합니다. 자막을 만들고 내용을 확인합니다.",
+  "duration": 6.5,
+  "checks": [
+    "actual cached Whisper model transcribes Korean speech on GPU and maps trimmed speed-adjusted clip timestamps",
+    "real CPU transcription succeeds independently of GPU; one undo removes the generated caption transaction",
+    "cancelling real transcription leaves existing project and captions unchanged",
+    "cancelling after Python worker starts terminates processing and preserves the project",
+    "recognized captions accept text styling, SRT export and actual H264/AAC MP4 output",
+    "app restart restores exact automatically generated caption project"
+  ],
+  "logs": [
+    {
+      "clipId": "b1896260-9a9f-4e3e-9a5c-2aed44e53ad7",
+      "options": {
+        "language": "ko",
+        "device": "auto"
+      },
+      "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
+      "startedAt": "2026-10-02T10:20:59.070Z",
+      "status": "complete",
+      "device": "cuda:0",
+      "segments": [
+        {
+          "startTime": 1,
+          "duration": 4,
+          "text": "안녕하세요. 오늘은 음악과 영상을 편집합니다."
+        },
+        {
+          "startTime": 5,
+          "duration": 2.4821875,
+          "text": "자막을 만들고 내용을 확인합니다."
+        }
+      ],
+      "finishedAt": "2026-10-02T10:21:04.846Z"
+    },
+    {
+      "clipId": "b1896260-9a9f-4e3e-9a5c-2aed44e53ad7",
+      "options": {
+        "language": "ko",
+        "device": "cpu"
+      },
+      "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
+      "startedAt": "2026-10-02T10:21:05.028Z",
+      "status": "complete",
+      "device": "cpu",
+      "segments": [
+        {
+          "startTime": 1,
+          "duration": 4,
+          "text": "안녕하세요. 오늘은 음악과 영상을 편집합니다."
+        },
+        {
+          "startTime": 5,
+          "duration": 2.4821875,
+          "text": "자막을 만들고 내용을 확인합니다."
+        }
+      ],
+      "finishedAt": "2026-10-02T10:21:09.379Z"
+    }
+  ],
+  "errors": []
+}

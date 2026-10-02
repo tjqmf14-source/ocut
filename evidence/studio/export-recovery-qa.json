@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-01T16:03:30.129Z",
-  "data": "D:\\O-CUT\\.runtime\\export-recovery-1790870608358",
+  "time": "2026-10-02T10:19:45.145Z",
+  "data": "D:\\O-CUT\\.runtime\\export-recovery-1790936383543",
   "checks": [
     "cancel running FFmpeg preserves prior target bytes and removes partial file",
     "source video overwrite rejected with original bytes unchanged",

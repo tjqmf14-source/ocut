@@ -1,5 +1,13 @@
 # O-CUT 아키텍처
 
+## 텍스트 서식과 로컬 STT
+
+`core/text-style.js`가 검증된 글꼴·색상·수치와 프리셋을 소유한다. text/subtitle clip의 단일 `textStyle` effect에 저장하며 임의 CSS/HTML은 받지 않는다. renderer `text.js`의 Canvas 그리기를 미리보기와 출력 PNG가 공유한다. 이전 서식 없는 문서는 기본 외관을 유지한다. 서식은 정규화해 비교한 뒤 동일 서식 자막만 병합한다.
+
+`infrastructure/transcribe.cjs`는 허용된 media ID를 클립에 연결하고 트림/속도를 적용한 16 kHz mono PCM을 FFmpeg로 만든다. `transcribe.py`는 별도 Python 프로세스에서 offline/local_files_only/safetensors Whisper 모델로 인식하고 timestamp JSON Lines를 반환한다. 시작·종료 시 원본 fingerprint를 확인하고 시간/텍스트 범위를 검증한 뒤 하나의 captions transaction을 적용한다. 자막은 잠기지 않은 자막 트랙에 추가하며, 해당 트랙이 없으면 생성한다. 기존 구간을 덮어쓰지 않아 반복 인식 시 겹칠 수 있다.
+
+STT 작업은 30분 클립/20분 실행 제한이다. 음악 생성과 GPU를 동시에 점유하지 않는다. 취소 controller는 인증된 IPC 접수 즉시 만들어 직렬 queue 대기·사전 probe 중 취소도 처리하고, 적용 직전에도 확인한다. 실제 Python/FFmpeg 프로세스 종료 후 취소 완료를 알린다. private 작업 폴더에는 결과/오류 로그를 남기며 PCM은 finally에서 제거한다. Python 코드는 ASAR 밖 resources/transcribe에 복사하며 패키지 검사가 소스와 바이트 동일성을 확인한다. 기존 모델과 Python 환경은 읽기만 하며 자동 설치는 없다.
+
 ## 검증된 출발점
 
 `baseline/`은 복원 및 검증을 위한 경계입니다. 신규 제품 코드는 `src/`에 분리하고 필요한 처리 모듈만 adapter를 통해 가져옵니다. 원본 updater 및 legacy 사용자 데이터는 제품 경계를 넘기지 않습니다.

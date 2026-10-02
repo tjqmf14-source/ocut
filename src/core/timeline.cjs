@@ -2,6 +2,7 @@
 const { randomUUID } = require('node:crypto');
 const { createTrack, createClip, validateProject } = require('./project.cjs');
 const { defaults: visualDefaults, validate: validateVisualizer } = require('./visualizer.js');
+const {defaults:textDefaults,validate:validateTextStyle,get:textStyle}=require('./text-style.js');
 const durationOf = project => Math.max(0, ...project.clips.map(clip => clip.startTime + clip.duration));
 const frameTime = (time, fps) => Math.round(time * fps) / fps;
 function writable(project, id) {
@@ -78,7 +79,7 @@ function command(project, action) {
       if (clips.length < 2 || clips.some(c => c.type !== 'subtitle' || c.trackId !== clips[0].trackId)) throw Error('같은 자막 트랙의 구간을 두 개 이상 선택해 주세요.');
       const first = clips[0], end = Math.max(...clips.map(c => c.startTime + c.duration));
       if (project.clips.some(c => c.trackId === first.trackId && !clips.includes(c) && c.startTime < end && c.startTime + c.duration > first.startTime)) throw Error('선택한 자막 사이의 구간도 함께 선택해 주세요.');
-      if (clips.some(c => c.effects.length || c.keyframes.length || c.opacity !== first.opacity || JSON.stringify(c.transform) !== JSON.stringify(first.transform))) throw Error('같은 배치·불투명도의 자막만 병합할 수 있습니다.');
+      if (clips.some(c => c.effects.some(e=>e.type!=='textStyle') || c.keyframes.length || c.opacity !== first.opacity || JSON.stringify(c.transform) !== JSON.stringify(first.transform) || JSON.stringify(textStyle(c))!==JSON.stringify(textStyle(first)))) throw Error('같은 서식·배치·불투명도의 자막만 병합할 수 있습니다.');
       first.text = clips.map(c => c.text).filter((text, i, all) => i === 0 || text !== all[i - 1]).join('\n');
       if (first.text.length > 2000) throw Error('병합한 자막은 2000자를 넘을 수 없습니다.');
       first.duration = end - first.startTime; first.speed = 1; first.sourceStart = 0; first.sourceEnd = first.duration;
@@ -86,7 +87,7 @@ function command(project, action) {
     }
     case 'split': {
       const clip = writable(project, action.id);
-      if (clip.keyframes.length || clip.effects.some(e=>e.type!=='audioVisualizer')) throw Error('페이드/기타 효과 또는 키프레임 클립의 분할은 아직 지원하지 않습니다.');
+      if (clip.keyframes.length || clip.effects.some(e=>!['audioVisualizer','textStyle'].includes(e.type))) throw Error('페이드/기타 효과 또는 키프레임 클립의 분할은 아직 지원하지 않습니다.');
       const at = frameTime(action.time, project.canvas.fps);
       const left = at - clip.startTime;
       if (left < frame - 1e-7 || clip.duration - left < frame - 1e-7) throw Error('클립 내부의 프레임에서 분할해 주세요.');
@@ -97,9 +98,14 @@ function command(project, action) {
     }
     case 'update': {
       const clip = writable(project, action.id);
-      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer'];
+      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle'];
       if (!action.values || Object.keys(action.values).some(key => !fields.includes(key))) throw Error('지원하지 않는 클립 속성입니다.');
       for (const [key, value] of Object.entries(action.values)) {
+        if(key==='textStyle'){
+          if(!['text','subtitle'].includes(clip.type))throw Error('텍스트 또는 자막 클립을 선택해 주세요.');
+          const parameters={...textDefaults,...value};validateTextStyle(parameters);
+          clip.effects=clip.effects.filter(e=>e.type!=='textStyle');clip.effects.push({id:randomUUID(),type:'textStyle',enabled:true,parameters});continue;
+        }
         if (key === 'visualizer') {
           const effect = clip.effects.find(e => e.type === 'audioVisualizer');
           if (!effect) throw Error('시각화 클립을 선택해 주세요.');

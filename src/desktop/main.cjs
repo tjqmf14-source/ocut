@@ -3,13 +3,14 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, protocol } = require('electro
 const path = require('node:path');
 const fs = require('node:fs');
 const { StudioSession } = require('./session.cjs');
-const { MediaLibrary } = require('../infrastructure/media.cjs');
+const { MediaLibrary, probe } = require('../infrastructure/media.cjs');
 const { applyCommand } = require('../core/timeline.cjs');
 const { renderVideo } = require('../infrastructure/render.cjs');
 const { readCaptions, writeSrt } = require('../infrastructure/caption-files.cjs');
 const { serializeSrt } = require('../core/captions.cjs');
 const { mediaResponse } = require('../infrastructure/media-response.cjs');
 const { MusicService } = require('../infrastructure/music.cjs');
+const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -22,17 +23,21 @@ let window;
 const music = new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py'),
   onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 let exportAbort;
+let sttAbort;
+const sttSettings=path.join(app.getPath('userData'),'transcription-settings.json');
+async function sttModel(){try{const saved=JSON.parse(fs.readFileSync(sttSettings,'utf8'));if(typeof saved.model==='string')return saved.model;}catch{}return defaultModel();}
 let serial = Promise.resolve();
 const rendererPath = path.join(__dirname, '../renderer/index.html');
 const log = message => {
   fs.mkdirSync(app.getPath('userData'), { recursive: true });
   fs.appendFileSync(path.join(app.getPath('userData'), 'studio.log'), `${new Date().toISOString()} ${message}\n`);
 };
-function register(channel, action) {
+function register(channel, action, prepare) {
   ipcMain.handle(channel, (event, payload) => {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame) throw Error('허용되지 않은 요청입니다.');
+    const context = prepare?.();
     const work = serial.then(async () => {
-      try { return { ok: true, data: await action(payload) }; }
+      try { return { ok: true, data: await action(payload, context) }; }
       catch (error) { log(`${channel}: ${error.stack || error.message}`); return { ok: false, error: error.message }; }
     });
     serial = work.catch(() => {});
@@ -129,6 +134,26 @@ register('captions:import', async () => {
   const selectedId = applyCommand(session.history, { type: 'captions', segments: result.segments });
   return snapshot({ selectedId, warning: result.warnings.join(' ') || null });
 });
+register('captions:sttSettings',async()=>({model:await sttModel()}));
+register('captions:sttModel',async()=>{
+  const picked=await dialog.showOpenDialog(window,{title:'Whisper 모델 폴더 선택 · config.json이 있는 폴더',properties:['openDirectory']});if(picked.canceled)return null;
+  const model=fs.realpathSync(picked.filePaths[0]);if(!fs.existsSync(path.join(model,'model.safetensors'))||!fs.existsSync(path.join(model,'config.json')))throw Error('Whisper 모델 파일이 있는 폴더를 선택해 주세요.');
+  fs.mkdirSync(path.dirname(sttSettings),{recursive:true});fs.writeFileSync(sttSettings,JSON.stringify({model}));return {model};
+});
+register('captions:transcribe',async (values,controller)=>{
+  try{
+  if(controller.signal.aborted)throw Error('자동 자막 생성을 취소했습니다.');
+  if(music.current)throw Error('음악 생성이 끝난 뒤 자동 자막을 실행해 주세요.');
+  const clip=session.history.state.clips.find(c=>c.id===values?.clipId),asset=library.assets.get(clip?.source);
+  if(!asset)throw Error('음성이 있는 타임라인 클립을 선택해 주세요.');
+  if((await probe(asset.path)).key!==asset.key)throw Error('원본 미디어가 변경됐습니다. 프로젝트를 다시 열어 주세요.');
+    const segments=await transcribe({clip,asset,values,python:music.config.python,model:await sttModel(),directory:path.join(app.getPath('userData'),'transcription'),signal:controller.signal,onProgress:text=>{if(!window.isDestroyed())window.webContents.send('captions:sttProgress',text);}});
+    if((await probe(asset.path)).key!==asset.key)throw Error('인식 중 원본이 변경되어 자막을 적용하지 않았습니다.');
+    if(controller.signal.aborted)throw Error('자동 자막 생성을 취소했습니다.');
+    const selectedId=applyCommand(session.history,{type:'captions',segments});return snapshot({selectedId});
+  }finally{if(sttAbort===controller)sttAbort=null;}
+},()=>{if(sttAbort)throw Error('자동 자막을 이미 생성하고 있습니다.');sttAbort=new AbortController();return sttAbort;});
+ipcMain.on('captions:sttCancel',event=>{if(event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame)sttAbort?.abort();});
 register('captions:export', async trackId => {
   const text = serializeSrt(session.history.state, trackId);
   const picked = await dialog.showSaveDialog(window, { title: 'SRT 자막 저장 · 텍스트와 시간만 저장', defaultPath: `${session.history.state.name}.srt`, filters: [{ name: 'SRT 자막', extensions: ['srt'] }] });
@@ -185,7 +210,7 @@ app.whenReady().then(() => {
   window.webContents.on('render-process-gone', (_event, details) => log('renderer gone: ' + JSON.stringify(details)));
   let closing = false;
   window.on('close', event => {
-    if (exportAbort) { event.preventDefault(); return; }
+    if (exportAbort || sttAbort) { event.preventDefault(); return; }
     if (closing || !session.snapshot().dirty) return;
     event.preventDefault();
     serial = serial.then(async () => { if (await mayDiscard()) { closing = true; window.close(); } }).catch(error => log(error.stack));
@@ -193,4 +218,4 @@ app.whenReady().then(() => {
   window.loadFile(rendererPath);
 }).catch(error => { log(error.stack); app.quit(); });
 app.on('window-all-closed', () => app.quit());
-app.on('before-quit', () => music.dispose());
+app.on('before-quit', () => {music.dispose();sttAbort?.abort();});

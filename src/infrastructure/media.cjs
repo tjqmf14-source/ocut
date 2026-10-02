@@ -11,15 +11,17 @@ function tool(name) {
   const bundled = path.join(process.resourcesPath || '', 'tools', `${name}.exe`);
   return fs.existsSync(bundled) ? bundled : name;
 }
-function run(exe, args, { timeout = 120000, maxBytes = 8 * 1024 * 1024, onProgress } = {}) {
+function run(exe, args, { timeout = 120000, maxBytes = 8 * 1024 * 1024, onProgress, signal } = {}) {
   return new Promise((resolve, reject) => {
+    if(signal?.aborted)return reject(Error('작업을 취소했습니다.'));
     const child = spawn(exe, args, { windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
     const out = []; let size = 0; let error = ''; let failure;
     const timer = setTimeout(() => { failure = Error('미디어 처리 시간이 초과되었습니다.'); child.kill(); }, timeout);
+    const cancel=()=>{failure=Error('작업을 취소했습니다.');child.kill();};signal?.addEventListener('abort',cancel,{once:true});
     child.stdout.on('data', bytes => { size += bytes.length; if (size > maxBytes) { failure = Error('미디어 응답이 너무 큽니다.'); child.kill(); } else { out.push(bytes); onProgress?.(bytes.toString()); } });
     child.stderr.on('data', bytes => { error = (error + bytes.toString()).slice(-12000); });
-    child.on('error', e => { clearTimeout(timer); reject(e); });
-    child.on('close', code => { clearTimeout(timer); code === 0 && !failure ? resolve(Buffer.concat(out)) : reject(failure || Error(error.trim() || `${path.basename(exe)} 종료 코드 ${code}`)); });
+    child.on('error', e => { clearTimeout(timer);signal?.removeEventListener('abort',cancel);reject(e); });
+    child.on('close', code => { clearTimeout(timer);signal?.removeEventListener('abort',cancel);code === 0 && !failure ? resolve(Buffer.concat(out)) : reject(failure || Error(error.trim() || `${path.basename(exe)} 종료 코드 ${code}`)); });
   });
 }
 async function probe(file) {

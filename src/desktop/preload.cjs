@@ -17,6 +17,14 @@ contextBridge.exposeInMainWorld('ocut', {
   edit: action => call('timeline:edit', action),
   importCaptions: () => call('captions:import'),
   exportCaptions: trackId => call('captions:export', trackId),
+  sttSettings:()=>call('captions:sttSettings'),
+  sttModel:()=>call('captions:sttModel'),
+  transcribe:values=>call('captions:transcribe',values),
+  cancelTranscription:()=>ipcRenderer.send('captions:sttCancel'),
+  onTranscriptionProgress:callback=>{
+    const listener=(_event,text)=>callback(text);ipcRenderer.on('captions:sttProgress',listener);
+    return ()=>ipcRenderer.removeListener('captions:sttProgress',listener);
+  },
   musicState: () => call('music:state'),
   checkMusic: () => call('music:check'),
   configureMusic: key => call('music:configure', key),

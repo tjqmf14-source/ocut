@@ -22,7 +22,7 @@ async function main() {
     }
   }
   copy(path.join(root, 'src'));
-  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.6.0', private: true, main: 'src/desktop/main.cjs' }));
+  fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name: 'o-cut-studio', productName: 'O-CUT', version: '0.7.0', private: true, main: 'src/desktop/main.cjs' }));
   fs.mkdirSync(out, { recursive: true });
   for (const e of fs.readdirSync(input)) {
     if (e === 'resources') continue;
@@ -32,6 +32,7 @@ async function main() {
   const musicWorker=path.join(out,'resources/music-worker');fs.mkdirSync(musicWorker,{recursive:true});
   fs.copyFileSync(path.join(root,'baseline/python/worker.py'),path.join(musicWorker,'worker.py'));
   fs.writeFileSync(path.join(musicWorker,'PROVENANCE.txt'),'Preserved local generation worker from the supplied ssokMusic Free 0.50.2 archive. Source: baseline/python/worker.py. Unmodified; separate from the O-CUT UI.\n');
+  const transcription=path.join(out,'resources/transcribe');fs.mkdirSync(transcription,{recursive:true});fs.copyFileSync(path.join(root,'src/infrastructure/transcribe.py'),path.join(transcription,'transcribe.py'));
   await createPackageWithOptions(staging, path.join(out, 'resources/app.asar'), {});
   fs.mkdirSync(path.join(root, 'evidence/studio'), { recursive: true });
   fs.writeFileSync(path.join(root, 'evidence/studio/build.json'), JSON.stringify({ time: new Date().toISOString(), executable: path.join(out, 'O-CUT.exe'), files: manifest }, null, 2));

@@ -44,6 +44,10 @@ function renderVisualizerSources(){
   $('addVisualizer').disabled=$('createMusicVideo').disabled=!media.length;
 }
 function renderCaptions() {
+  const source=$('sttSource'),last=source.value;source.replaceChildren();
+  const spoken=state.project.clips.filter(c=>state.assets[c.source]?.hasAudio&&!c.effects.some(e=>e.type==='audioVisualizer'));
+  for(const c of spoken){const option=document.createElement('option');option.value=c.id;option.textContent=`${state.project.media.find(m=>m.id===c.source)?.name} · ${clock(c.startTime)}`;source.append(option);}
+  source.value=spoken.some(c=>c.id===last)?last:spoken[0]?.id||'';$('transcribe').disabled=!spoken.length;
   const selector = $('captionTrack'), previous = selector.value, clip = selectedClip();
   const tracks = state.project.tracks.filter(t => t.type === 'subtitle'); selector.replaceChildren();
   for (const [i, track] of tracks.entries()) { const option = document.createElement('option'); option.value = track.id; option.textContent = `${track.name} ${i + 1}${track.locked ? ' · 잠김' : ''}`; selector.append(option); }
@@ -172,6 +176,7 @@ function renderInspector() {
   const values = { clipStart: clip.startTime, clipDuration: clip.duration, clipSourceStart: clip.sourceStart, clipSpeed: clip.speed, clipX: clip.transform.x, clipY: clip.transform.y, clipScale: clip.transform.scaleX * 100, clipRotation: clip.transform.rotation, clipOpacity: clip.opacity * 100, clipVolume: clip.volume * 100 };
   for (const [id, value] of Object.entries(values)) $(id).value = Number(value.toFixed(3));
   $('clipText').value = clip.text; $('textField').hidden = !['text', 'subtitle'].includes(clip.type);
+  $('textStyleFields').hidden=$('textField').hidden;if(!$('textField').hidden)fillTextStyle(OcutTextStyle.get(clip));$('textPreset').value='';
   $('transformFields').hidden = ['audio', 'music'].includes(clip.type); $('volumeField').hidden = !state.assets?.[clip.source]?.hasAudio;
   $('fadeFields').hidden = $('volumeField').hidden;
   const fades = clip.effects.find(e => e.type === 'audioFade' && e.enabled)?.parameters;
@@ -179,8 +184,12 @@ function renderInspector() {
   const visual=clip.effects.find(e=>e.type==='audioVisualizer');$('visualizerFields').hidden=!visual;
   if(visual){const v=visual.parameters;for(const [id,key] of Object.entries({visualStyle:'style',visualColor:'color',visualBars:'barCount',visualThickness:'thickness',visualSensitivity:'sensitivity',visualSmoothing:'smoothing',visualMin:'minFrequency',visualMax:'maxFrequency',visualGlow:'glow'}))$(id).value=v[key];}
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
-  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button[type=submit]')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields'));
+  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button[type=submit]')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields'));
 }
+const textStyleFields={textFont:'font',textSize:'fontSize',textWeight:'weight',textTracking:'tracking',textLineHeight:'lineHeight',textAlign:'align',textFill:'fill',textGradient:'gradient',textGradientEnd:'gradientEnd',textStroke:'stroke',textStrokeWidth:'strokeWidth',textShadow:'shadow',textShadowBlur:'shadowBlur',textShadowX:'shadowX',textShadowY:'shadowY',textBackground:'background',textBackgroundOpacity:'backgroundOpacity',textPadding:'padding',textRadius:'radius'};
+function fillTextStyle(style){for(const [id,key] of Object.entries(textStyleFields)){if(key==='gradient')$(id).checked=style[key];else $(id).value=key==='backgroundOpacity'?style[key]*100:style[key];}}
+function readTextStyle(){const style={};for(const [id,key] of Object.entries(textStyleFields)){const field=$(id);style[key]=key==='gradient'?field.checked:typeof OcutTextStyle.defaults[key]==='number'?Number(field.value):field.value;if(key==='backgroundOpacity')style[key]/=100;}return style;}
+$('textPreset').onchange=()=>{const preset=OcutTextStyle.presets[$('textPreset').value];if(preset){fillTextStyle(preset);if($('textPreset').value==='lowerThird'){$('clipX').value=Math.round(-state.project.canvas.width*.35);$('clipY').value=Math.round(state.project.canvas.height*.3);}message('프리셋을 선택했습니다. 클립에 적용을 눌러 저장하세요.');}};
 function timeAt(x) { const box = $('timelineBody').getBoundingClientRect(); return Math.max(0, (x - box.left + $('timelineBody').scrollLeft) / zoom); }
 function snapped(delta, clip) {
   let value = delta; const threshold = 7 / zoom;
@@ -275,7 +284,7 @@ $('projectForm').onsubmit = event => {
 };
 $('clipForm').onsubmit = event => {
   event.preventDefault(); const clip = selectedClip(); if (!clip) return; const num = id => Number($(id).value);
-  const visual=$('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}};
+  const visual={...($('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}}),...($('textStyleFields').hidden?{}:{textStyle:readTextStyle()})};
   edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
@@ -360,3 +369,14 @@ $('checkMusic').onclick = async () => {
 };
 window.ocut.onMusicState(renderMusic);
 window.ocut.musicState().then(renderMusic).catch(error => message(error.message,true));
+window.ocut.sttSettings().then(value=>{$('sttModelPath').textContent=value.model||'Whisper 모델 연결 필요';}).catch(error=>message(error.message,true));
+$('sttModel').onclick=async()=>{try{const value=await window.ocut.sttModel();if(value)$('sttModelPath').textContent=value.model;}catch(error){message(error.message,true);}};
+window.ocut.onTranscriptionProgress(text=>{$('transcriptionProgress').textContent=text;});
+$('transcriptionDialog').addEventListener('cancel',event=>event.preventDefault());
+$('cancelTranscription').onclick=()=>{window.ocut.cancelTranscription();$('cancelTranscription').disabled=true;$('transcriptionProgress').textContent='취소하고 있습니다…';};
+$('transcribe').onclick=async()=>{
+  if(busy)return;busy=exporting=true;playback.pause();$('cancelTranscription').disabled=false;$('transcriptionProgress').textContent='음성을 준비하고 있습니다…';$('transcriptionDialog').showModal();
+  try{const next=await window.ocut.transcribe({clipId:$('sttSource').value,language:$('sttLanguage').value,device:$('sttDevice').value});render(next);message('자동 자막을 만들었습니다. 내용과 시간을 확인하고 수정해 주세요.');}
+  catch(error){message(error.message,true);}
+  finally{$('transcriptionDialog').close();busy=exporting=false;}
+};

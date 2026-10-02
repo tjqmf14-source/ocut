@@ -1,5 +1,14 @@
 # 변경 이력
 
+## 0.7 개발 빌드 — 2026-10-02
+
+- 글꼴·굵기·크기·자간·줄 간격·정렬·색상·그라데이션·외곽선·그림자·배경과 네 가지 텍스트 프리셋.
+- 같은 Canvas 그리기로 미리보기/MP4 서식 공유, 서식 Undo/Redo·분할·병합·저장 복원.
+- 기존 로컬 Whisper 모델을 사용하는 자동 자막: GPU 자동 선택/CPU, 언어 선택, 클립 트림·속도·시작 시간 반영.
+- 인식 결과를 한 번의 history transaction으로 추가하고 취소/실패 시 문서 보존. 즉시 취소 신호가 사전 파일 확인 중 누락되던 경합 수정.
+- Python worker 시작 후 취소, SRT/MP4 저장과 재실행 복원을 실제 앱에서 검증. 자세한 범위는 TEXT_STT_REPORT.md 참조.
+- 새 패키지 설치·모델 다운로드·유료 API·프로젝트 포맷 변경 없음. 기존 Python 환경의 Transformers/torch/numpy를 사용.
+
 ## 0.6 개발 빌드 — 2026-10-02
 
 - 실제 음원 FFT/파형으로 Wave, Bars, Line, Circular, Mirror, Spectrum 6종 시각화.
