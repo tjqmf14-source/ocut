@@ -7,6 +7,7 @@ const checks=[];
 stages.push(['keyframes','scripts/qa-keyframes.cjs']);
 stages.push(['color-filters','scripts/qa-color-filters.cjs'],['transitions','scripts/qa-transitions.cjs']);
 stages.push(['workspace','scripts/qa-workspace.cjs'],['performance','scripts/qa-performance.cjs']);
+stages.push(['music-queue','scripts/qa-music-queue.cjs']);
 for(const [name,...args] of stages){
   const r=spawnSync(process.execPath,args,{cwd:root,windowsHide:true,encoding:'utf8',maxBuffer:8*1024*1024});
   const output=(r.stdout||'')+(r.stderr||'');fs.writeFileSync(path.join(evidence,`gate-${name}.log`),output);

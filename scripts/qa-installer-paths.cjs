@@ -10,7 +10,7 @@ const un=path.join(data,'uninstall.nsh');fs.writeFileSync(un,'Push "$INSTDIR\\ap
 const run=(file,args,code=0,raw=false)=>{const r=spawnSync(file,args,{windowsHide:true,windowsVerbatimArguments:raw,encoding:'utf8',timeout:30000});assert.equal(r.status,code,r.stdout+r.stderr);return r;};
 const setup=(target,code=0)=>run(output,['/S','/LOCALONLY',`/D=${target}`],code,true);
 try{
-  const compiled=run(b.tools.nsis.path,['/NOCONFIG','/INPUTCHARSET','UTF8','/V3','/DVERSION=0.10.0',`/DPAYLOAD=${payload}`,`/DICON=${b.payload}\\resources\\ocut.ico`,`/DUNINSTALL_FILES=${un}`,`/DOUTPUT=${output}`,path.join(root,'packaging/installer.nsi')]);assert.doesNotMatch(compiled.stdout,/\bwarning[s]?:/i);
+  const compiled=run(b.tools.nsis.path,['/NOCONFIG','/INPUTCHARSET','UTF8','/V3',`/DVERSION=${b.manifest.version}`,`/DPAYLOAD=${payload}`,`/DICON=${b.payload}\\resources\\ocut.ico`,`/DUNINSTALL_FILES=${un}`,`/DOUTPUT=${output}`,path.join(root,'packaging/installer.nsi')]);assert.doesNotMatch(compiled.stdout,/\bwarning[s]?:/i);
   for(const name of ['새 폴더','nested/새 폴더','existing']){const target=path.join(data,name);if(name==='existing')fs.mkdirSync(target);setup(target);assert.equal(fs.readFileSync(path.join(target,'app/fixture.txt'),'utf8'),'test payload');checks.push('install '+name);}
   const foreign=path.join(data,'foreign');fs.mkdirSync(foreign);fs.writeFileSync(path.join(foreign,'keep.txt'),'keep');setup(foreign,11);
   setup(path.join(foreign,'keep.txt'),11);assert.equal(fs.readFileSync(path.join(foreign,'keep.txt'),'utf8'),'keep');assert.deepEqual(fs.readdirSync(foreign),['keep.txt']);

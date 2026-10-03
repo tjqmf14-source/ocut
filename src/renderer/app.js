@@ -366,9 +366,17 @@ let musicState, musicPending = false;
 function renderMusic(next) {
   if (next) musicState = next;
   if (!musicState) return;
-  const job = musicState.current, running = Boolean(job);
-  for (const field of $('musicForm').querySelectorAll('input,textarea,select,button')) field.disabled = running || musicPending;
-  for (const id of ['musicPython','musicModels','checkMusic']) $(id).disabled = running || musicPending;
+  const job = musicState.current, running = Boolean(job), queue=musicState.queue||[], occupied=running||musicState.queueActive||(!musicState.paused&&queue.length);
+  for (const field of $('musicForm').querySelectorAll('input,textarea,select,button')) field.disabled = musicPending;
+  $('generateMusic').disabled=Boolean(occupied||queue.length||musicPending);
+  for (const id of ['musicPython','musicModels','checkMusic']) $(id).disabled = Boolean(occupied||musicPending);
+  $('musicQueueStatus').textContent=`대기 ${queue.length}곡 · ${musicState.paused?'일시 정지':occupied?'생성 중':'준비됨'}`;
+  $('musicQueueError').textContent=musicState.queueError||'';
+  $('resumeMusic').disabled=musicPending||!musicState.paused||!queue.length;
+  $('pauseMusic').disabled=musicPending||musicState.paused||!occupied;
+  $('clearMusicQueue').disabled=musicPending||!queue.length;
+  $('musicQueue').replaceChildren();
+  for(const item of queue){const row=document.createElement('li'),title=document.createElement('span'),remove=document.createElement('button');title.textContent=`${item.input.title} · 시드 ${item.input.seed}`;remove.textContent='삭제';remove.className='quiet';remove.disabled=musicPending;remove.setAttribute('aria-label',`${item.input.title} 예약 삭제`);remove.onclick=()=>musicAction(()=>window.ocut.removeQueuedMusic(item.id),'예약을 삭제했습니다.');row.dataset.queueId=item.id;row.append(title,remove);$('musicQueue').append(row);}
   $('musicProgress').hidden = !running;
   if (job) {
     const stage = {load:'엔진 준비',plan:'작곡 계획',semantic:'멜로디 생성',synth:'악기 소리 합성',decode:'오디오 생성',save:'음원 저장'}[job.stage] || '음악 생성';
@@ -384,7 +392,7 @@ function renderMusic(next) {
     const card = document.createElement('article'); card.className = 'music-job'; card.dataset.jobId = item.id;
     const title = document.createElement('strong'); title.textContent = item.title;
     const info = document.createElement('p');
-    info.textContent = item.status === 'complete' ? `${item.duration.toFixed(2)}초 · 시드 ${item.seed}${item.meta?.truncated?.semantic ? ' · 길이 상한 도달' : ''}` : item.message;
+    info.textContent = item.status === 'complete' ? `${Number.isFinite(item.duration)?item.duration.toFixed(2):'?'}초 · 시드 ${item.seed}${item.meta?.truncated?.semantic ? ' · 길이 상한 도달' : ''}` : item.message;
     const tag = document.createElement('span'); tag.className = 'music-job-status'; tag.textContent = {complete:'완료',failed:'실패',cancelled:'취소',interrupted:'중단'}[item.status] || item.status;
     card.append(title, tag, info);
     if (item.status === 'complete') { const add = document.createElement('button'); add.className = 'secondary full'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(() => window.ocut.addMusic(item.id), '생성한 음악을 타임라인에 추가했습니다.'); card.append(add); }
@@ -392,9 +400,15 @@ function renderMusic(next) {
   }
 }
 $('musicInstrumental').onchange = () => { $('musicLyricsField').hidden = $('musicInstrumental').checked; $('musicLyrics').required = !$('musicInstrumental').checked; };
+const musicInput=()=>({title:$('musicTitle').value,style:$('musicStyle').value,lyrics:$('musicLyrics').value,instrumental:$('musicInstrumental').checked,seconds:Number($('musicSeconds').value),quality:$('musicQuality').value,seed:$('musicSeed').value});
+async function musicAction(action,text){if(musicPending)return;musicPending=true;renderMusic();try{renderMusic(await action());message(text);}catch(error){message(error.message,true);}finally{musicPending=false;renderMusic();}}
+$('enqueueMusic').onclick=()=>{if($('musicForm').reportValidity())musicAction(()=>window.ocut.enqueueMusic(musicInput(),Number($('musicCount').value)),'대기열에 추가했습니다.');};
+$('resumeMusic').onclick=()=>musicAction(()=>window.ocut.resumeMusic(),'대기열을 재개했습니다.');
+$('pauseMusic').onclick=()=>musicAction(()=>window.ocut.pauseMusic(),'현재 곡이 끝나면 대기합니다.');
+$('clearMusicQueue').onclick=()=>musicAction(()=>window.ocut.clearMusicQueue(),'대기 목록을 비웠습니다.');
 $('musicForm').onsubmit = async event => {
   event.preventDefault(); if (musicPending || musicState?.current) return; musicPending = true; renderMusic();
-  try { renderMusic(await window.ocut.startMusic({title:$('musicTitle').value,style:$('musicStyle').value,lyrics:$('musicLyrics').value,instrumental:$('musicInstrumental').checked,seconds:Number($('musicSeconds').value),quality:$('musicQuality').value,seed:$('musicSeed').value})); message('음악 생성을 시작했습니다. 생성 중에도 프로젝트를 편집할 수 있습니다.'); }
+  try { renderMusic(await window.ocut.startMusic(musicInput())); message('음악 생성을 시작했습니다. 생성 중에도 프로젝트를 편집할 수 있습니다.'); }
   catch (error) { message(error.message,true); }
   finally { musicPending = false; renderMusic(); }
 };

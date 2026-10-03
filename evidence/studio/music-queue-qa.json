@@ -1,0 +1,112 @@
+{
+  "time": "2026-10-03T09:45:00.188Z",
+  "status": "PASS",
+  "checks": [
+    "UI batch uses distinct seeds, persists pending songs and removes selected reservation",
+    "injected save lock rejects addition without changing pending songs or saved bytes",
+    "second app instance exits without altering the active user data queue",
+    "real GPU first song completes; pause keeps the second pending and editing remains enabled",
+    "restart stays paused; missing runtime fails visibly and preserves the reservation",
+    "two actual GPU songs fully decode to finite nonzero different audio with preserved seeds",
+    "forced termination recovers one pending song paused and marks dispatched song interrupted without replay",
+    "real worker cancellation automatically advances to next reservation; pause plus cancel stops queue",
+    "both queue results add to editable timeline, save as project and mix into decodable non-silent 1080p AAC MP4"
+  ],
+  "data": "D:\\O-CUT\\.runtime\\music-queue-1791020621375",
+  "songs": [
+    {
+      "id": "92a9a903-bae1-4032-b340-be08953b639d",
+      "title": "대기열 실증 · 1/3",
+      "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+      "lyrics": "[Instrumental]",
+      "instrumental": true,
+      "seconds": 20,
+      "quality": "draft",
+      "seed": 42,
+      "batchId": "41907173-2d5a-4ef0-b89f-fbd3ff77d3cb",
+      "status": "complete",
+      "stage": "decode",
+      "createdAt": "2026-10-03T09:43:42.191Z",
+      "message": "음악을 생성했습니다.",
+      "gpu": "NVIDIA GeForce RTX 5080",
+      "progress": {},
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791020621375\\user\\music\\92a9a903-bae1-4032-b340-be08953b639d\\audio.wav",
+      "duration": 19.998667,
+      "meta": {
+        "id": "song",
+        "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 42,
+        "advanced": {
+          "maxTokens": 500,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 31,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-03T18:44:14"
+      },
+      "finishedAt": "2026-10-03T09:44:14.562Z",
+      "qa": {
+        "rms": 0.08823849480102366,
+        "sha256": "c42b3d70ee948a0537f5849f50a432f9dfe668b23cc765efd2c8277a1f0cc9d2"
+      }
+    },
+    {
+      "id": "ad304218-f133-4299-ba86-f50f9d698f5d",
+      "title": "대기열 실증 · 2/3",
+      "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+      "lyrics": "[Instrumental]",
+      "instrumental": true,
+      "seconds": 20,
+      "quality": "draft",
+      "seed": 43,
+      "batchId": "41907173-2d5a-4ef0-b89f-fbd3ff77d3cb",
+      "status": "complete",
+      "stage": "decode",
+      "createdAt": "2026-10-03T09:44:16.253Z",
+      "message": "음악을 생성했습니다.",
+      "gpu": "NVIDIA GeForce RTX 5080",
+      "progress": {},
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791020621375\\user\\music\\ad304218-f133-4299-ba86-f50f9d698f5d\\audio.wav",
+      "duration": 19.998667,
+      "meta": {
+        "id": "song",
+        "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 43,
+        "advanced": {
+          "maxTokens": 500,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 35.5,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-03T18:44:53"
+      },
+      "finishedAt": "2026-10-03T09:44:53.435Z",
+      "qa": {
+        "rms": 0.07200281147873579,
+        "sha256": "67843410896728e86b8f9329a02fa0bfcd109611c88a059e044df7bba8d1b234"
+      }
+    }
+  ],
+  "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-queue-mix-1080p.mp4",
+  "mixRms": 0.05880690051153243,
+  "outputSha256": "3246f745a12a0d7c742d6617e280d88eeb2f831f17616ae9d621b047b8e22801",
+  "asarSha256": "a5bfd70d66ae8ee7d2db121febfc3220192700120310a6f56f69f8222e32dbf1"
+}

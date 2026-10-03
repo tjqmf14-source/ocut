@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const root=path.resolve(__dirname,'..'),hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const buildInputs=Object.fromEntries(['scripts/build-installer.cjs','packaging/installer.nsi','packaging/NOTICE.ko.txt'].map(f=>[f,hash(path.join(root,f))]));
 const run=(file,args)=>execFileSync(file,args,{cwd:root,windowsHide:true,maxBuffer:16*1024*1024,encoding:'utf8'});
-const version='0.10.0',gate=JSON.parse(fs.readFileSync(path.join(root,'evidence/studio/gate.json')));
+const version='0.11.0',gate=JSON.parse(fs.readFileSync(path.join(root,'evidence/studio/gate.json')));
 function tree(dir,base=dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>{const p=path.join(dir,e.name);if(e.isSymbolicLink())throw Error('Package symlink rejected');return e.isDirectory()?tree(p,base):[path.relative(base,p)];});}
 const nsis=process.env.OCUT_MAKENSIS||path.join(process.env.LOCALAPPDATA,'electron-builder/Cache/nsis-3.0.4.1/nsis-3.0.4.1-1mx3n/Bin/makensis.exe');
 const rcedit=process.env.OCUT_RCEDIT||path.join(root,'.runtime/build-tools/rcedit-x64-2.0.0.exe');
@@ -32,6 +32,7 @@ async function icon(){
   }finally{await app.evaluate(({app})=>app.exit());}
 }
 async function main(){
+  const asar=await import('@electron/asar');if(JSON.parse(asar.extractFile(path.join(root,'dist/studio/resources/app.asar'),'package.json')).version!==version)throw Error('Installer version must match packaged app version');
   const ico=await icon();run(rcedit,[path.join(payload,'O-CUT.exe'),'--set-icon',ico,'--set-version-string','ProductName','O-CUT','--set-version-string','FileDescription','O-CUT AI Music & Video Studio','--set-version-string','InternalName','O-CUT','--set-version-string','OriginalFilename','O-CUT.exe','--set-version-string','CompanyName','','--set-version-string','LegalCopyright','See THIRD-PARTY-NOTICES.txt','--set-file-version',version,'--set-product-version',version]);
   fs.writeFileSync(path.join(payload,'ocut-app.id'),'studio.ocut.desktop');
   const files=tree(payload).sort().map(file=>({file:file.replaceAll('\\','/'),bytes:fs.statSync(path.join(payload,file)).size,sha256:hash(path.join(payload,file))}));

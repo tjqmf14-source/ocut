@@ -10,22 +10,25 @@ const { readCaptions, writeSrt } = require('../infrastructure/caption-files.cjs'
 const { serializeSrt } = require('../core/captions.cjs');
 const { mediaResponse } = require('../infrastructure/media-response.cjs');
 const { MusicService } = require('../infrastructure/music.cjs');
+const { MusicQueue } = require('../infrastructure/music-queue.cjs');
 const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
 const {Workspace}=require('../infrastructure/workspace.cjs');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
 app.setPath('userData', process.env.OCUT_DATA_DIR || path.join(app.getPath('appData'), 'O-CUT'));
+if(!app.requestSingleInstanceLock())app.exit(0);
 let session = new StudioSession();
 let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache'));
 protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
+app.on('second-instance',()=>{if(window&&!window.isDestroyed()){if(window.isMinimized())window.restore();window.focus();}});
 const workspace=new Workspace(path.join(app.getPath('userData'),'workspace'),status=>{if(window&&!window.isDestroyed())window.webContents.send('workspace:autosave',status);});
-const music = new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py'),
-  onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 let exportAbort;
 let sttAbort;
+const music = new MusicQueue({engine:new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py') }),canRun:()=>!sttAbort,
+  onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 const sttSettings=path.join(app.getPath('userData'),'transcription-settings.json');
 async function sttModel(){try{const saved=JSON.parse(fs.readFileSync(sttSettings,'utf8'));if(typeof saved.model==='string')return saved.model;}catch{}return defaultModel();}
 let serial = Promise.resolve();
@@ -125,6 +128,11 @@ register('visualizer:createVideo', async mediaId => {
 register('music:state', () => music.state());
 register('music:check', () => music.check());
 register('music:start', values => music.start(values));
+register('music:enqueue', values => music.enqueue(values?.input,values?.count));
+register('music:resume', () => music.resume());
+register('music:pause', () => music.pause());
+register('music:remove', id => music.remove(id));
+register('music:clear', () => music.clear());
 register('music:configure', async key => {
   if (!['python','models'].includes(key)) throw Error('잘못된 환경 설정입니다.');
   const picked = await dialog.showOpenDialog(window, { title: key === 'python' ? '음악 생성용 Python 선택' : '저장된 YuE2 모델 폴더 선택', properties: [key === 'python' ? 'openFile' : 'openDirectory'] });
@@ -153,7 +161,7 @@ register('captions:sttModel',async()=>{
 register('captions:transcribe',async (values,controller)=>{
   try{
   if(controller.signal.aborted)throw Error('자동 자막 생성을 취소했습니다.');
-  if(music.current)throw Error('음악 생성이 끝난 뒤 자동 자막을 실행해 주세요.');
+  if(music.occupied)throw Error('음악 대기열을 일시 정지하고 현재 생성이 끝난 뒤 자동 자막을 실행해 주세요.');
   const clip=session.history.state.clips.find(c=>c.id===values?.clipId),asset=library.assets.get(clip?.source);
   if(!asset)throw Error('음성이 있는 타임라인 클립을 선택해 주세요.');
   if((await probe(asset.path)).key!==asset.key)throw Error('원본 미디어가 변경됐습니다. 프로젝트를 다시 열어 주세요.');

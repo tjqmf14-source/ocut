@@ -1,5 +1,11 @@
 # QA 보고서
 
+## Studio 0.11 음악 대기열 — 2026-10-03
+
+전체 19단계, 108/108 검사(실패·skip·취소·todo 0), 대기열 실제 앱 시나리오 9개 통과. 실제 GPU 음원 2곡, 정지·재실행·Python 누락·강제 종료 복원·취소 후 다음 곡 전환과 1080p MP4 출력을 검증했다. 기존 회귀를 모두 새로 실행했다.
+
+소스 33개, ASAR `a5bfd70d66ae8ee7d2db121febfc3220192700120310a6f56f69f8222e32dbf1`. 정확한 범위, 수정 내용과 미검증 사항은 [MUSIC_QUEUE_REPORT.md](MUSIC_QUEUE_REPORT.md) 및 `evidence/studio/music-queue-qa.json` 참조. 아래 0.10 기록은 이전 버전의 이력이다.
+
 ## Windows 설치 후보 — 2026-10-03
 
 [RELEASE_REPORT.md](RELEASE_REPORT.md) 및 `evidence/release/gate.json`을 기준으로 설치 후보를 검증했다. 96/96 검사(실패·skip·취소·todo 0), 경로 보호 6개와 실제 설치 9개 시나리오를 통과했다. 설치된 앱의 실제 import/편집/저장/1080p MP4 전체 decode, 실행 중 교체/제거 거절, 같은 버전 재설치 백업 실행, 사용자 파일 보존, 시작 메뉴·제거 등록과 기본 제거 프로그램의 자체 정리를 확인했다.

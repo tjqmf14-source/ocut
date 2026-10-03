@@ -38,8 +38,11 @@
             <label>시드 · 비워두면 무작위<input id="musicSeed" type="number" min="0" max="2147483647" step="1" placeholder="매번 새로운 곡"></label>
             <p class="music-hint">저장된 모델로 내 PC에서 생성합니다. 실제 길이는 곡에 따라 달라지며, 길이 상한에서 끝부분이 잘릴 수 있습니다.</p>
             <button id="generateMusic" type="submit" class="primary full">음악 생성</button>
+            <div class="field-pair"><label>예약 곡 수<input id="musicCount" type="number" min="1" max="10" step="1" value="1"></label><button id="enqueueMusic" type="button" class="secondary">대기열에 추가</button></div>
+            <p class="music-hint">같은 설정에 서로 다른 시드로 예약합니다. 대기열에서 재개를 누르면 차례로 생성합니다.</p>
           </form>
-          <div id="musicProgress" class="music-progress" hidden><strong id="musicStage"></strong><p id="musicDetail" role="status" aria-live="polite"></p><button id="cancelMusic" class="secondary">생성 취소</button></div>
+          <div id="musicProgress" class="music-progress" hidden><strong id="musicStage"></strong><p id="musicDetail" role="status" aria-live="polite"></p><button id="cancelMusic" class="secondary">현재 곡 취소</button></div>
+          <section class="music-queue" aria-label="음악 생성 대기열"><strong id="musicQueueStatus" role="status" aria-live="polite"></strong><p id="musicQueueError" role="alert"></p><div class="queue-actions"><button id="resumeMusic" class="secondary">재개</button><button id="pauseMusic" class="secondary">일시 정지</button><button id="clearMusicQueue" class="quiet">대기 목록 비우기</button></div><p class="music-hint">일시 정지하면 현재 곡까지 마칩니다. 현재 곡을 취소하면 다음 곡으로 넘어갑니다. 앱을 다시 열면 남은 목록은 일시 정지됩니다.</p><ol id="musicQueue"></ol></section>
           <details class="music-environment"><summary>로컬 실행 환경</summary><p id="musicEnvironment"></p><div><button id="musicPython" class="quiet">Python 선택</button><button id="musicModels" class="quiet">모델 폴더 선택</button><button id="checkMusic" class="secondary">환경 확인</button></div><p id="musicCheckResult"></p></details>
           <div class="section-caption">생성한 음악 · 최근 50곡</div><div id="musicJobs"></div>
         </div>

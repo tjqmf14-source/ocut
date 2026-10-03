@@ -51,26 +51,30 @@ class MusicService {
     const dir = path.join(this.directory,job.id); await fsp.mkdir(dir,{recursive:true});
     const temporary = path.join(dir,'job.json.tmp'); await fsp.writeFile(temporary,JSON.stringify(job,null,2)); await fsp.rename(temporary,path.join(dir,'job.json'));
   }
-  async start(values) {
+  async start(values, identity = {}) {
     if (this.current) throw Error('진행 중인 음악 생성을 먼저 완료하거나 취소해 주세요.');
     const input = request(values);
     if (!fs.existsSync(this.config.python) || !fs.existsSync(this.config.models) || !fs.existsSync(this.workerPath)) throw Error('로컬 Python 환경과 YuE2 모델 폴더를 먼저 연결해 주세요.');
-    const job = { id: randomUUID(), ...input, status:'starting', stage:'load', createdAt:new Date().toISOString(), message:'생성 엔진을 불러오고 있습니다.' };
+    if(identity.id && !/^[a-f0-9-]{36}$/.test(identity.id))throw Error('잘못된 생성 작업 ID입니다.');
+    const job = { id: identity.id || randomUUID(), ...input, ...(identity.batchId?{batchId:identity.batchId}:{}), status:'starting', stage:'load', createdAt:new Date().toISOString(), message:'생성 엔진을 불러오고 있습니다.' };
     this.current = job;
     try { await this.persist(job); } catch (error) { this.current = null; throw error; }
     const outDir = path.join(this.directory,job.id), env = { ...process.env, HF_HOME:this.config.models, HF_HUB_OFFLINE:'1', TRANSFORMERS_OFFLINE:'1', PYTHONDONTWRITEBYTECODE:'1', PYTHONUTF8:'1', PYTHONIOENCODING:'utf-8' };
     const child = spawn(this.config.python,['-u',this.workerPath],{windowsHide:true,env,stdio:['pipe','pipe','pipe']}); this.child = child;
+    const closed=new Promise(resolve=>child.once('close',resolve));
+    let complete;this.completion=new Promise(resolve=>{complete=resolve;});
     let buffer = '', stderr = '', settled = false, sent = false, cancelled = false;
     const timeout = setTimeout(() => finish('failed','생성이 30분을 초과해 중단했습니다.'),30*60*1000);
     let cancelTimer;
     const finish = async (status, message, details = {}) => {
       if (settled) return; settled = true; clearTimeout(timeout); clearTimeout(cancelTimer);
       try { child.stdin.end(JSON.stringify({cmd:'quit'})+'\n'); } catch {}
-      child.kill(); this.child = null;
+      child.kill(); await closed;this.child = null;
       Object.assign(job,details,{status,message,finishedAt:new Date().toISOString()});
       try { await fsp.writeFile(path.join(outDir,'worker.stderr.log'),stderr); await this.persist(job); }
       catch (error) { job.status='failed'; job.message=`작업 기록 저장 실패: ${error.message}`; }
-      this.current = null; this.cancelCurrent = null; await this.changed();
+      this.current = null; this.cancelCurrent = null;
+      try{await this.changed();}finally{complete(structuredClone(job));}
     };
     this.cancelCurrent = () => {
       if (settled || cancelled) return; cancelled = true; job.message = '음악 생성을 취소하고 있습니다.';

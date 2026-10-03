@@ -1,22 +1,22 @@
 {
-  "time": "2026-10-02T11:42:40.232Z",
+  "time": "2026-10-03T09:43:41.020Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\performance-1790941357758",
-  "file": "D:\\O-CUT\\.runtime\\performance-1790941357758\\1000-clips.ocut",
+  "data": "D:\\O-CUT\\.runtime\\performance-1791020618469",
+  "file": "D:\\O-CUT\\.runtime\\performance-1791020618469\\1000-clips.ocut",
   "clips": 1000,
-  "loadMs": 153.16219999999998,
-  "editMs": 128.40940000000012,
+  "loadMs": 178.90920000000006,
+  "editMs": 133.21759999999995,
   "playback": {
-    "time": 1.4984000000003725,
-    "frames": 200,
-    "meanFrameMs": 7.5,
+    "time": 1.5,
+    "frames": 199,
+    "meanFrameMs": 7.538190954773869,
     "p95FrameMs": 7,
     "clipDomMutations": 0
   },
   "mainMemory": {
-    "rss": 121876480,
-    "heapTotal": 27508736,
-    "heapUsed": 14827224,
+    "rss": 121008128,
+    "heapTotal": 26648576,
+    "heapUsed": 11375996,
     "external": 2763679,
     "arrayBuffers": 0
   },

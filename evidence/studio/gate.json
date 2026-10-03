@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-02T11:42:40.298Z",
-  "asarSha256": "1035a284b7a1ef3d63aa69a87dde31cc315f422b0cfd6179e7a31d32f3251bc0",
+  "time": "2026-10-03T09:45:00.319Z",
+  "asarSha256": "a5bfd70d66ae8ee7d2db121febfc3220192700120310a6f56f69f8222e32dbf1",
   "checks": [
     {
       "name": "core",
@@ -73,10 +73,14 @@
     {
       "name": "performance",
       "exitCode": 0
+    },
+    {
+      "name": "music-queue",
+      "exitCode": 0
     }
   ],
   "build": {
-    "time": "2026-10-02T11:40:09.937Z",
+    "time": "2026-10-03T09:40:18.444Z",
     "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
     "files": [
       {
@@ -129,11 +133,11 @@
       },
       {
         "file": "desktop/main.cjs",
-        "sha256": "170d9932bf1283f6c29fdb7435f439a3c7984848af6773273f4a796e5c5339ab"
+        "sha256": "b4361b805548ebaef130f97596949dc930ba4eaf0fd57644fc10deb729107835"
       },
       {
         "file": "desktop/preload.cjs",
-        "sha256": "54184a4c8acaf9d5edb2d06364d6ef2835ffb9e1b2187606c778d766eb2b8596"
+        "sha256": "b6d4f49c45ff06348b1ed40df57a62ed6bf1dbae8cf7f4b412f63eb62d6b8c01"
       },
       {
         "file": "desktop/session.cjs",
@@ -152,8 +156,12 @@
         "sha256": "c85ca139c846574565ea8d6cb2404e8169b956869345f1745321237844add55d"
       },
       {
+        "file": "infrastructure/music-queue.cjs",
+        "sha256": "7afed21ddee0cdf5065cee69e8c078857f10fe8edd698890e34b4b862e0db45a"
+      },
+      {
         "file": "infrastructure/music.cjs",
-        "sha256": "45b55237dfa27f3266798cf4f9e5c2bf99b0da378f44ca529ecfa2d95e43e337"
+        "sha256": "5db9df095e1b20a6daf1cd848f5e041b3dd30bb9ca750b621544d8a1f1cd8efd"
       },
       {
         "file": "infrastructure/project-store.cjs",
@@ -189,11 +197,11 @@
       },
       {
         "file": "renderer/app.js",
-        "sha256": "c29e10e4a32060ec9dab9680a7ff449a91a56d7f60600c65af04b1773e209129"
+        "sha256": "70f4dd526d6ee5004eaa15765ac92ecc9b1056be04011ceb910cf0857ab696f9"
       },
       {
         "file": "renderer/index.html",
-        "sha256": "759c208ce1e4f1e2eac0a40f03465b4ccebcc4604c176fe77a8738cee5f37846"
+        "sha256": "7b45dfa3b26feb0985c0aead658d45e710655e4f2514f123573983f3850454de"
       },
       {
         "file": "renderer/playback.js",
@@ -201,7 +209,7 @@
       },
       {
         "file": "renderer/styles.css",
-        "sha256": "15d3bb2a2c8962ee3647bc2ab30a71c6f439b2d4260a734a0ab8979d8f9091ca"
+        "sha256": "f6c772c1ab6b37d27cbe27039574b482adaf86ff0dc68bbe0ff65c53e734c448"
       },
       {
         "file": "renderer/text.js",
