@@ -1,0 +1,9 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 11\n\n    at run (D:\\O-CUT\\scripts\\qa-installer-paths.cjs:7:156)\n    at setup (D:\\O-CUT\\scripts\\qa-installer-paths.cjs:8:30)\n    at Object.<anonymous> (D:\\O-CUT\\scripts\\qa-installer-paths.cjs:12:138)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47",
+  "data": "D:\\O-CUT\\.runtime\\installer-paths-Qnw44B",
+  "checks": [
+    "install 새 폴더",
+    "install nested/새 폴더",
+    "install existing"
+  ]
+}

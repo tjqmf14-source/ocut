@@ -1,0 +1,14 @@
+{
+  "time": "2026-10-03T06:29:48.132Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\installer-paths-TmzsJ8",
+  "checks": [
+    "install 새 폴더",
+    "install nested/새 폴더",
+    "install existing",
+    "nonempty folder, regular file, junction and nested junction rejected without mutation",
+    "uninstaller rejects redirected nested application directory before deleting any package files",
+    "invalid file and incorrectly quoted destination never fall back to or change the default installation folder"
+  ],
+  "scope": "actual NSIS script; tiny fixture payload; not full package lifecycle"
+}

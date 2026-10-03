@@ -1,0 +1,463 @@
+{
+  "time": "2026-10-03T01:40:30.428Z",
+  "stage": "D:\\O-CUT\\.runtime\\release-z6uBSM",
+  "payload": "D:\\O-CUT\\.runtime\\release-z6uBSM\\payload",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.10.0.exe",
+  "installerSha256": "081a01cbd145bf425cec87768aec4f0004639ce629727ebddb71641d0f4b150f",
+  "installerBytes": 199670447,
+  "manifest": {
+    "version": "0.10.0",
+    "sourceCommit": "289374f1d84a982fe53676be2f469708fbffc3dd",
+    "asarSha256": "1035a284b7a1ef3d63aa69a87dde31cc315f422b0cfd6179e7a31d32f3251bc0",
+    "files": [
+      {
+        "file": "LICENSE.electron.txt",
+        "bytes": 1096,
+        "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+      },
+      {
+        "file": "LICENSES.chromium.html",
+        "bytes": 9170910,
+        "sha256": "c6080d60736384a4a8fdd23404d59ae2d939e5124d80df89f8fd4e450bb9bd6f"
+      },
+      {
+        "file": "O-CUT.exe",
+        "bytes": 188758016,
+        "sha256": "aa6363b3c7a8778a8de8b10080ec4f0c0dd5342c3ddd099416dfd3a4e0cdbf56"
+      },
+      {
+        "file": "RECOVERY_REPORT.md",
+        "bytes": 3550,
+        "sha256": "e24c62e30f04b26b78de9356e2c19ff71a018e80d65cebfdb2f3739874611103"
+      },
+      {
+        "file": "STUDIO_GUIDE.md",
+        "bytes": 16602,
+        "sha256": "bc26ee1b799f7ab12726a6555e2ba2b428222df7515254a87eb190677b04ee4d"
+      },
+      {
+        "file": "THIRD-PARTY-NOTICES.txt",
+        "bytes": 815,
+        "sha256": "e948c6f55b2bcbce384c247a19c102d0c93d886379811bb0c6b6a1e992040407"
+      },
+      {
+        "file": "chrome_100_percent.pak",
+        "bytes": 151599,
+        "sha256": "a659ee9eb38636f85f5336587c578fb29740d3effaff9b92852c8a210e92978c"
+      },
+      {
+        "file": "chrome_200_percent.pak",
+        "bytes": 228644,
+        "sha256": "2c1b3e4b8a0cf837ae0a390fca54f45d7d22418e040f1dfea979622383acced6"
+      },
+      {
+        "file": "d3dcompiler_47.dll",
+        "bytes": 4916728,
+        "sha256": "af7b99be1b8770c0e4d18e43b04e81d11bdeb667fa6b07ade7a88f4c5676bf9a"
+      },
+      {
+        "file": "ffmpeg.dll",
+        "bytes": 2927616,
+        "sha256": "4fcdedbc68eae4b4cfe0eed275316fdf66c9d4a57a98d29a77d0e8f4149cfcbc"
+      },
+      {
+        "file": "icudtl.dat",
+        "bytes": 10468208,
+        "sha256": "9ae98c06cbb0ea43c5cd6b5725310c008c65e46072421a1118cb88e1de9a8b92"
+      },
+      {
+        "file": "libEGL.dll",
+        "bytes": 493056,
+        "sha256": "d9d2f5b5fae60a63523f92c07539dd93893ff7d9ffa41f0bb57caca4be9f2220"
+      },
+      {
+        "file": "libGLESv2.dll",
+        "bytes": 8417792,
+        "sha256": "4b4dcbc7bb19449ec89d2bf06e7b05af9352a4e6f97f4444183dc3080e6c0f1d"
+      },
+      {
+        "file": "locales/af.pak",
+        "bytes": 533447,
+        "sha256": "c56cb2841ee2e40fbdd6b7e293a1ce74bd10fd500465fcf99d1e07f8d69f8ce7"
+      },
+      {
+        "file": "locales/am.pak",
+        "bytes": 860998,
+        "sha256": "49a2095ad9ffac0b7ffaadba64d2c2b51a05e0695e21d1c428735485757bd11c"
+      },
+      {
+        "file": "locales/ar.pak",
+        "bytes": 943105,
+        "sha256": "817829ad75dbc7d59b5042d7f056fa2485f82d1ae2af50ed83fd89f86f3d58fc"
+      },
+      {
+        "file": "locales/bg.pak",
+        "bytes": 982837,
+        "sha256": "f08de6909faf88465c28388aa03fdf08e165866a5a23c738ed33382275c4ec83"
+      },
+      {
+        "file": "locales/bn.pak",
+        "bytes": 1267377,
+        "sha256": "5a57265ebac6df683f0279684909755ad71ea70fea71c6ecc1810eac61d1cb3d"
+      },
+      {
+        "file": "locales/ca.pak",
+        "bytes": 598914,
+        "sha256": "bc2b7d6a769c69b27a81cc09a1babd4ccaf003fae32f8294a38e498f2c529c89"
+      },
+      {
+        "file": "locales/cs.pak",
+        "bytes": 617061,
+        "sha256": "db040e9f17d2792801c07a7bb3ac96c21d8189c98e9ab34210c5888b2ee53aa1"
+      },
+      {
+        "file": "locales/da.pak",
+        "bytes": 558874,
+        "sha256": "e32681cdd03db28eb360b1b4203c2988190b7b6f77679ca807cd95a1967ded04"
+      },
+      {
+        "file": "locales/de.pak",
+        "bytes": 596668,
+        "sha256": "4f123245b062d71d56819ac1198d13a3d7953decd4491fca0fbd22c5e129c3bd"
+      },
+      {
+        "file": "locales/el.pak",
+        "bytes": 1076226,
+        "sha256": "b8707f2511c4ec5533077009771f3aa92b0fb5b395b13907f5860a9151b2431d"
+      },
+      {
+        "file": "locales/en-GB.pak",
+        "bytes": 485870,
+        "sha256": "3bf7e7e02c40dac55ce9bd5b4789eaa99e57271b2d907a5ce2ca90b979a58c39"
+      },
+      {
+        "file": "locales/en-US.pak",
+        "bytes": 490357,
+        "sha256": "75db989561e145d0d990c4918502316c77ce66b344d3dce4739e3a6db43fde82"
+      },
+      {
+        "file": "locales/es-419.pak",
+        "bytes": 589661,
+        "sha256": "4dedec1ac933c73773b1e54caab1c4d606d12f3788cbeef4d6a2a382138cc907"
+      },
+      {
+        "file": "locales/es.pak",
+        "bytes": 589252,
+        "sha256": "a32221be9b65aead3fa779dc54e5ca483a7d73c4815e5c7c3b53711f560bd301"
+      },
+      {
+        "file": "locales/et.pak",
+        "bytes": 536353,
+        "sha256": "a4d1fe9903641540b11e0d00e574a6665a1602ad81f6aae9a083ebd04bc768c7"
+      },
+      {
+        "file": "locales/fa.pak",
+        "bytes": 875804,
+        "sha256": "ef9e5b71063c26b1a5d512f5e14c3f7fe5a1925ff25ca799c51f8073c33bb90a"
+      },
+      {
+        "file": "locales/fi.pak",
+        "bytes": 547254,
+        "sha256": "93c49ec40accea8e1f4f9b7db68b9b818f8db0b7591cea67ae9bf663c1c57728"
+      },
+      {
+        "file": "locales/fil.pak",
+        "bytes": 618873,
+        "sha256": "9b69d82f50c159d1ec5603ef45dc139143b4f05761f38f263a66fffedd28ff5e"
+      },
+      {
+        "file": "locales/fr.pak",
+        "bytes": 637402,
+        "sha256": "8bf019aed30d972883d5c29d3f44c8b0d8fc6425ab48ae3354d71e4762a0cf01"
+      },
+      {
+        "file": "locales/gu.pak",
+        "bytes": 1247883,
+        "sha256": "1adaaacf2f9ab872fb35932fd1ed3b005f370f0ec22b95b42039b4c58660675c"
+      },
+      {
+        "file": "locales/he.pak",
+        "bytes": 769514,
+        "sha256": "df1b83384ad42d4ca9f47aebc909baa8a6dde79fa1b0706023a279698e302e89"
+      },
+      {
+        "file": "locales/hi.pak",
+        "bytes": 1316123,
+        "sha256": "f73ccac3debba20fb225209805ff2383609853111f931e6b82095c1eb56a6ce4"
+      },
+      {
+        "file": "locales/hr.pak",
+        "bytes": 595033,
+        "sha256": "630277358f658c9c39a775dee247f38ac0a0a618a5645260f445ac89d7ac7a46"
+      },
+      {
+        "file": "locales/hu.pak",
+        "bytes": 640919,
+        "sha256": "ec81ac981af0e962654ad4f65030064a6369dc2316cb1b10bb24b473808ad1e9"
+      },
+      {
+        "file": "locales/id.pak",
+        "bytes": 529377,
+        "sha256": "aeb815a3dc6ce3cd1edf2c158a3b16e9c8039af25752367bf13826516a295cb9"
+      },
+      {
+        "file": "locales/it.pak",
+        "bytes": 581039,
+        "sha256": "1b16b0af558629dd53e35d1b4bb7b18dc1d8cb5353a4261112d2cd3b0a4c55ea"
+      },
+      {
+        "file": "locales/ja.pak",
+        "bytes": 708056,
+        "sha256": "b2afe7e5f6ebba31248ea00a157c9f5752cd6855194a0d122b3a6c90a1d9be83"
+      },
+      {
+        "file": "locales/kn.pak",
+        "bytes": 1424041,
+        "sha256": "4e323def774ac53daf99d2075878456d8885c3380c7895ecf3ab10a2953d532a"
+      },
+      {
+        "file": "locales/ko.pak",
+        "bytes": 599155,
+        "sha256": "dc1d4b203674269f00aeb303f74e2948bc74e5956b1770acd2fbb517ad4274a2"
+      },
+      {
+        "file": "locales/lt.pak",
+        "bytes": 644271,
+        "sha256": "9fe73d75dd155d0bda60a638b8f8d48048d17fadfd2d746bac597e5ac3b7f6dd"
+      },
+      {
+        "file": "locales/lv.pak",
+        "bytes": 643341,
+        "sha256": "5c74465b83cef9aae45a6b61499e79b745a91a6038fdd61a3321425056f77b5b"
+      },
+      {
+        "file": "locales/ml.pak",
+        "bytes": 1481389,
+        "sha256": "67d9ae2dbfecdfddc4c23a206828010c6d42b8094477a03ce04b60a8d110eea2"
+      },
+      {
+        "file": "locales/mr.pak",
+        "bytes": 1222183,
+        "sha256": "7181c3bc7a369d2d0b8ae6c1cf8f160603ec56996d20b266833edc3acce4c78e"
+      },
+      {
+        "file": "locales/ms.pak",
+        "bytes": 554828,
+        "sha256": "6a3ced7828f0608297da29c99832a389ec9d0d03060ddb20304cd081be494adb"
+      },
+      {
+        "file": "locales/nb.pak",
+        "bytes": 537826,
+        "sha256": "697882ac2da78894e449cb1f75da43e7115c2481bbd2fee3bdaa425e82fc232c"
+      },
+      {
+        "file": "locales/nl.pak",
+        "bytes": 556192,
+        "sha256": "ac22005c476adbb7f3bcf0b17597a7a1595b83c4e6a8760d5553b630f0833305"
+      },
+      {
+        "file": "locales/pl.pak",
+        "bytes": 619358,
+        "sha256": "e8a107b3568a289a6e60118e4b8e2f27338116dafcef078311bc16f0857b1f35"
+      },
+      {
+        "file": "locales/pt-BR.pak",
+        "bytes": 581605,
+        "sha256": "1c0d67a4259df36655aa97761e71e02bb0407e7bb1fe1319394e0916c7d76f7f"
+      },
+      {
+        "file": "locales/pt-PT.pak",
+        "bytes": 585543,
+        "sha256": "9ebafb943bf20c66f8d9ca533633fdc63519e8ad38d78a3dd28b4457c38ba79d"
+      },
+      {
+        "file": "locales/ro.pak",
+        "bytes": 606334,
+        "sha256": "cf59cd7c26cfe3d87ed2b3a2ef254c3a3667824bbf06cd591bfc9dbf2a83ab91"
+      },
+      {
+        "file": "locales/ru.pak",
+        "bytes": 996183,
+        "sha256": "2d682d4a3ee1157085086c839cf55e500ec1d1674f66be7088eb25768a30c7a1"
+      },
+      {
+        "file": "locales/sk.pak",
+        "bytes": 626642,
+        "sha256": "347196c447db2926f9e410905ff47fc0900ca97645e43236ba3b49f0550cfa24"
+      },
+      {
+        "file": "locales/sl.pak",
+        "bytes": 601760,
+        "sha256": "e8b877b4830b3a1163618107342e55756efe494adcdc82d10d963ad900b9f572"
+      },
+      {
+        "file": "locales/sr.pak",
+        "bytes": 924879,
+        "sha256": "6f3d0c4ea29880624f07f0f794a6ea1ef735255dc218a241be1557331ebc3c28"
+      },
+      {
+        "file": "locales/sv.pak",
+        "bytes": 541011,
+        "sha256": "d6ad9726da354174df5eb7ea3ceba202df17936c5075a4b8e096de35f1abbe42"
+      },
+      {
+        "file": "locales/sw.pak",
+        "bytes": 570564,
+        "sha256": "434879a83079fba562af9dac928ad2fcc1033e0a6a5a1f4822d36e710decdd2b"
+      },
+      {
+        "file": "locales/ta.pak",
+        "bytes": 1468553,
+        "sha256": "0e1d7c0fa1eab312b42ff5e8978b7146d6cac313603fcaf101bef2eedc70313b"
+      },
+      {
+        "file": "locales/te.pak",
+        "bytes": 1359284,
+        "sha256": "1faa8cb780908552f3ca0d2b0e20eb6aaa902cb5bd759c18ed1238beb0bb34dd"
+      },
+      {
+        "file": "locales/th.pak",
+        "bytes": 1142647,
+        "sha256": "9210c77f0024c705018f5292b3021d3eca58bb290604b116e2d4e355b8ebfc59"
+      },
+      {
+        "file": "locales/tr.pak",
+        "bytes": 581314,
+        "sha256": "25d1667b691b5a950b8b42652f7763338cfd238b22d6bd35a5c38da8cb73a67a"
+      },
+      {
+        "file": "locales/uk.pak",
+        "bytes": 996327,
+        "sha256": "017e34397fd52f4e42bb99ab1d7c4624055312a16d58da03aafffdcae770aecd"
+      },
+      {
+        "file": "locales/ur.pak",
+        "bytes": 870802,
+        "sha256": "ace832351fb9392fc308730ff74e5063caefe9903c5a01d9083a3ddf2ba93755"
+      },
+      {
+        "file": "locales/vi.pak",
+        "bytes": 689431,
+        "sha256": "536538d1704c7b23d3b21beddcd4669151de276d259a9ea7192132696e54e146"
+      },
+      {
+        "file": "locales/zh-CN.pak",
+        "bytes": 496347,
+        "sha256": "6446826e1e9f38f06ab85bf2abe05af88fa7fd5c636c2c74aa2b989c458b879b"
+      },
+      {
+        "file": "locales/zh-TW.pak",
+        "bytes": 491043,
+        "sha256": "514d6a95fc7094ff00cb7700bca2b10191df866c18c551e1d2c07050ddee80bf"
+      },
+      {
+        "file": "ocut-app.id",
+        "bytes": 19,
+        "sha256": "c5da8b764171dac8d35bee773e38cab775570d8ebc86c14226bc10511192f54f"
+      },
+      {
+        "file": "resources.pak",
+        "bytes": 5756465,
+        "sha256": "ffaeea94c6594d4e66fc523c218c161c58aee1f59b9cb006bbb45d9a49e3a6a1"
+      },
+      {
+        "file": "resources/app.asar",
+        "bytes": 233436,
+        "sha256": "1035a284b7a1ef3d63aa69a87dde31cc315f422b0cfd6179e7a31d32f3251bc0"
+      },
+      {
+        "file": "resources/music-worker/PROVENANCE.txt",
+        "bytes": 158,
+        "sha256": "b324c461815364dbdd6cd2d296f462c11f374221316f6300c309a2cd996a8506"
+      },
+      {
+        "file": "resources/music-worker/worker.py",
+        "bytes": 19753,
+        "sha256": "40d36991c548e21556a6b9303e18ae062426a31789455c9ad3347ccacf96edaf"
+      },
+      {
+        "file": "resources/ocut.ico",
+        "bytes": 11172,
+        "sha256": "dca3c2c92211220534f02464dc014b0a027e27ca5d771c97c83332430b6d5dff"
+      },
+      {
+        "file": "resources/tools/FFmpeg-LICENSE",
+        "bytes": 35147,
+        "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      {
+        "file": "resources/tools/FFmpeg-README.txt",
+        "bytes": 45310,
+        "sha256": "c9dd4a230f66f8f15f43fbfa56fa9d15edfac2b19a52297e03237f5988cbdac7"
+      },
+      {
+        "file": "resources/tools/ffmpeg.exe",
+        "bytes": 222248960,
+        "sha256": "05f4251bce9293c2ab492cb17ca7724a0ffd0d06c881ba2ee83b82a89c2fc740"
+      },
+      {
+        "file": "resources/tools/ffprobe.exe",
+        "bytes": 222044160,
+        "sha256": "51e0780cd881f83749b029ed716cbb841c2eac6289f418050f2f2961b158896b"
+      },
+      {
+        "file": "resources/transcribe/transcribe.py",
+        "bytes": 2060,
+        "sha256": "da2efee0ed927e2781a87fb52c1690c3b44b280375ca09fe53408d56f7e400e4"
+      },
+      {
+        "file": "snapshot_blob.bin",
+        "bytes": 316538,
+        "sha256": "397bfb1c55eb98bc8c1e1ba1155e24efc105c155def665c678ac3a135f4bbcc7"
+      },
+      {
+        "file": "v8_context_snapshot.bin",
+        "bytes": 687473,
+        "sha256": "e8fac5817d9b33ae78b0bd2863750047cbbda211bc28342d0cbea97a07656757"
+      },
+      {
+        "file": "vk_swiftshader.dll",
+        "bytes": 5533184,
+        "sha256": "409a0fa76f055a87ae70434414586d144502beb25fa3004866ee70abd9a8547e"
+      },
+      {
+        "file": "vk_swiftshader_icd.json",
+        "bytes": 106,
+        "sha256": "32d83ff113fef532a9f97e0d2831f8656628ab1c99e9060f0332b1532839afd9"
+      },
+      {
+        "file": "vulkan-1.dll",
+        "bytes": 894976,
+        "sha256": "f6c99137c3d6af45bc2262815867d6d37f5dcb0552caffc90cd77fb6561b7491"
+      },
+      {
+        "file": "먼저 읽어주세요.txt",
+        "bytes": 1318,
+        "sha256": "1bd510cf17430c4e14333150fc7ba962876d51f2268600d060969963f95830c3"
+      }
+    ]
+  },
+  "buildInputs": {
+    "scripts/build-installer.cjs": "f9b871c06faf5a71bd39d153afa2a78beaf5aa9dc6371fc879511f2890a0ac7a",
+    "packaging/installer.nsi": "d7a9ed12185dc6dfa5ea9c83969d5eae44cc02ebc69a57938dfe4821f0c4029e",
+    "packaging/NOTICE.ko.txt": "1bd510cf17430c4e14333150fc7ba962876d51f2268600d060969963f95830c3"
+  },
+  "tools": {
+    "nsis": {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\electron-builder\\Cache\\nsis-3.0.4.1\\nsis-3.0.4.1-1mx3n\\Bin\\makensis.exe",
+      "sha256": "e277b7378931b74392015f5ad6b1d744dcd8a347baa4480350a75ebeab8d8e3d"
+    },
+    "rcedit": {
+      "path": "D:\\O-CUT\\.runtime\\build-tools\\rcedit-x64-2.0.0.exe",
+      "sha256": "3e7801db1a5edbec91b49a24a094aad776cb4515488ea5a4ca2289c400eade2a"
+    },
+    "ffmpeg": {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin\\ffmpeg.exe",
+      "sha256": "05f4251bce9293c2ab492cb17ca7724a0ffd0d06c881ba2ee83b82a89c2fc740"
+    },
+    "ffprobe": {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-9.0-full_build\\bin\\ffprobe.exe",
+      "sha256": "51e0780cd881f83749b029ed716cbb841c2eac6289f418050f2f2961b158896b"
+    }
+  }
+}

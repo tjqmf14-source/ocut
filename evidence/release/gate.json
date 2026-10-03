@@ -1,0 +1,37 @@
+{
+  "time": "2026-10-03T06:30:38.689Z",
+  "status": "PASS",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.10.0.exe",
+  "installerSha256": "081a01cbd145bf425cec87768aec4f0004639ce629727ebddb71641d0f4b150f",
+  "asarSha256": "1035a284b7a1ef3d63aa69a87dde31cc315f422b0cfd6179e7a31d32f3251bc0",
+  "buildTime": "2026-10-03T01:40:30.428Z",
+  "buildInputs": {
+    "scripts/build-installer.cjs": "f9b871c06faf5a71bd39d153afa2a78beaf5aa9dc6371fc879511f2890a0ac7a",
+    "packaging/installer.nsi": "d7a9ed12185dc6dfa5ea9c83969d5eae44cc02ebc69a57938dfe4821f0c4029e",
+    "packaging/NOTICE.ko.txt": "1bd510cf17430c4e14333150fc7ba962876d51f2268600d060969963f95830c3"
+  },
+  "verificationInputs": {
+    "scripts/verify-release.cjs": "e06b936b41637e73f97caf08ea5465d468a53af9b5d19f3f6bbc5af7b9e6fcd6",
+    "scripts/qa-installer.cjs": "af3b5e72d2cf9a452d52c0152408e5c1a6f1a6b0962ce413d63d8321c9be198c",
+    "scripts/qa-installer-paths.cjs": "b7f6681a356c51dce282dad0cc253eede5f630646967e611eb1abd18a8f562eb"
+  },
+  "checks": [
+    {
+      "name": "exact artifact and source identity",
+      "exitCode": 0
+    },
+    {
+      "name": "tests",
+      "exitCode": 0
+    },
+    {
+      "name": "paths",
+      "exitCode": 0
+    },
+    {
+      "name": "installer",
+      "exitCode": 0
+    }
+  ],
+  "scope": "this Windows host; clean PC VM, signing, power-loss and disk-full NOT RUN"
+}

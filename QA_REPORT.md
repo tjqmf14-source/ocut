@@ -1,5 +1,13 @@
 # QA 보고서
 
+## Windows 설치 후보 — 2026-10-03
+
+[RELEASE_REPORT.md](RELEASE_REPORT.md) 및 `evidence/release/gate.json`을 기준으로 설치 후보를 검증했다. 96/96 검사(실패·skip·취소·todo 0), 경로 보호 6개와 실제 설치 9개 시나리오를 통과했다. 설치된 앱의 실제 import/편집/저장/1080p MP4 전체 decode, 실행 중 교체/제거 거절, 같은 버전 재설치 백업 실행, 사용자 파일 보존, 시작 메뉴·제거 등록과 기본 제거 프로그램의 자체 정리를 확인했다.
+
+설치 파일 SHA-256: `081a01cbd145bf425cec87768aec4f0004639ce629727ebddb71641d0f4b150f`. 소스 ASAR는 아래 0.10 Gate와 바이트가 같으며, 설치본은 FFmpeg/FFprobe를 동봉하고 PE 이름·버전·아이콘을 변경했다. 일반 파일/잘못 인용된 경로의 기본 폴더 fallback을 차단하고 기본 위치 불변 검사도 추가했다. 잘못된 초기 시험이 만든 작은 fixture 파일은 전부 식별해 격리 보관했다.
+
+개발 의존성 audit 0건, 새 npm 의존성 없음. 새 PC/VM·전자 서명·GUI 마법사 클릭·전원 차단·디스크 부족·전체 Electron/FFmpeg 공급망 보안 검증: NOT RUN. 설치 후 초기 앱 실행은 Python이 없는 환경 설정에서도 검사했지만 새 PC 테스트를 대신하지 않는다.
+
 ## 현재 Studio 검증 — 2026-10-02
 
 0.10 자동 저장/복구는 [RECOVERY_REPORT.md](RECOVERY_REPORT.md)를 기준으로 한다. 전체 Gate **18단계**, **96/96 검사(실패/skip/취소/todo 0)**와 실제 복구 6개·성능 4개 시나리오가 통과했다. 기존 회귀 및 복원 문서 출력까지 실제 MP4 31개를 생성하고 전체 decode했다.

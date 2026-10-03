@@ -1,0 +1,73 @@
+{
+  "validation": "all paths and text bytes checked; uninstaller matches an isolated QA build",
+  "reason": "NSIS invalid file destination fallback created only owned QA fixtures",
+  "source": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "archive": "D:\\O-CUT\\.runtime\\isolated-default-fixture-1790991393903",
+  "files": [
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\ocut-install.ini",
+      "sha256": "FF799B30853E5620B1F202A56E80AD6131DFC8F1F7C924BEAE10379F286D9A01"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\Uninstall O-CUT.exe",
+      "sha256": "82F4751623B6DC1C2A72ECFEA5B2DA04DDD5A059143E3F0AC1CB1FA8C2986A84"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\app\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\app\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-1215343\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-1215343\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-404015\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-404015\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-418968\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-418968\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-644390\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-644390\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-897453\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-897453\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-990546\\fixture.txt",
+      "sha256": "813CA5285C28CCEE5CAB8B10EBDA9C908FD6D78ED9DC94CC65EA6CB67A7F13AE"
+    },
+    {
+      "path": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-990546\\resources\\data.txt",
+      "sha256": "2BD1EACF7B8C15EC38F3D3BBB8E2BD00D0B889926C42ABBDD1C8D71DFB88961C"
+    }
+  ],
+  "time": "2026-10-03T01:36:34.3693520+00:00"
+}
