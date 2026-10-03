@@ -1,4 +1,18 @@
-# Windows 설치 후보 — O-CUT 0.10.0
+# Windows 설치 후보 — O-CUT 0.11.0
+
+2026-10-03: **Studio 전체 19단계 및 108/108 검사 PASS**. 새 설치 파일의 해시·소스 일치, 설치 경로 6개, 격리된 실제 설치 수명주기 8개 검사는 통과했다. 설치된 앱에서 도구를 PATH/Python에 의존하지 않고 영상 import·편집·프로젝트 저장·1080p H.264/AAC 전체 decode를 확인했다. 새 음악 대기열은 Python 누락을 표시하고 재설치·백업 앱 실행·제거 뒤에도 보존됐다.
+
+**최종 release Gate: BLOCKED.** 이 PC에는 사용자 O-CUT 0.10.0 설치와 시작 메뉴가 이미 있다. 이를 덮어쓰거나 제거하지 않아 Windows 등록 및 시작 메뉴의 생성·제거 두 시나리오는 **NOT RUN**이다. 8개 격리 검사를 전체 설치 Gate PASS로 취급하지 않는다. `evidence/release/gate.json`은 이번 파일의 BLOCKED 상태를 기록하며 이전 0.10 PASS 기록을 최신 결과처럼 남기지 않도록 검증 스크립트를 수정했다. 기존 앱의 패키지 파일은 원래 manifest와 일치한다(`existing-install-preserved.json`).
+
+- 설치 파일: `artifacts/release/O-CUT-Setup-0.11.0.exe`, 199,699,117바이트.
+- 설치 파일 SHA-256: `01ba80a1e4a831777a0dfd7c87feacbf60ea835c0448a3c1da6f11fe1cfecece`.
+- 앱 ASAR: `a5bfd70d66ae8ee7d2db121febfc3220192700120310a6f56f69f8222e32dbf1`, 소스 33개.
+- 앱 소스 체크포인트: `b3b5f914d55037e80342050b12e04e32f3748725`.
+- 상세 기능 검증: [MUSIC_QUEUE_REPORT.md](MUSIC_QUEUE_REPORT.md). npm 의존성 추가·제거 없음, 개발 의존성 audit 0건.
+
+새 PC/VM·전자 서명·GUI 마법사 클릭·정전·디스크 부족·실제 0.10→0.11 설치 교체·최신 Electron 공급망 검증: **NOT RUN**. 기존 0.10 설치 파일을 보존했다. 격리 재설치의 이전 앱 폴더는 `backup-*`으로 보존하고 실제 실행을 확인했다. 사용자 기존 설치를 자동 교체하거나 외부 배포하지 않았다. 아래는 이전 0.10 검증 이력이며 현재 0.11의 누락 검사를 대신하지 않는다.
+
+## 0.10.0 설치 검증 이력
 
 2026-10-03 최종 후보는 **96/96 자동 검사(실패·skip·취소·todo 0)**, **설치 경로 6개** 및 **실제 설치 9개 시나리오**를 통과했다. 설치본에서 시스템 PATH의 FFmpeg와 Python 없이 실제 영상/음원 import, 텍스트 편집, 프로젝트 저장, 1920×1080 30fps H.264/AAC MP4 출력과 전체 decode를 확인했다.
 

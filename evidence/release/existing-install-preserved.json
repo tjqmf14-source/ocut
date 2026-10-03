@@ -1,0 +1,18 @@
+{
+  "time": "2026-10-03T12:18:32.041Z",
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "version": "0.10.0",
+  "asarSha256": "1035a284b7a1ef3d63aa69a87dde31cc315f422b0cfd6179e7a31d32f3251bc0",
+  "manifestFilesMatched": 85,
+  "shortcuts": [
+    {
+      "name": "O-CUT 제거.lnk",
+      "sha256": "23d26daf676bf8f34ff9dc9f7f91fd47e85910689f00610ffa06f04ab146cbfe"
+    },
+    {
+      "name": "O-CUT.lnk",
+      "sha256": "1bf92b7f0f04c49be9a3b474f5311c993f967352e7efc7812c058d9fa5bff613"
+    }
+  ],
+  "scope": "Read-only comparison of existing user installation to its original package manifest. No existing installation or shortcut changes performed."
+}

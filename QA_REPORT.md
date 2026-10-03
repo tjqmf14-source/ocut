@@ -1,5 +1,11 @@
 # QA 보고서
 
+## 0.11 설치 후보 — 2026-10-03
+
+108/108 검사, 경로 보호 6개, 격리 설치·실행·MP4·재설치·제거·대기열 보존 8개 검사 통과. 기존 사용자 0.10 설치와 시작 메뉴를 유지하므로 Windows 등록 2개 시나리오 NOT RUN, **최종 release Gate BLOCKED**. 이전 PASS 결과를 최신으로 남기지 않도록 실패·보류 결과도 현재 gate.json에 기록한다. 기존 설치의 모든 manifest 파일은 원래 해시와 일치한다.
+
+설치 파일 SHA-256: `01ba80a1e4a831777a0dfd7c87feacbf60ea835c0448a3c1da6f11fe1cfecece`. [RELEASE_REPORT.md](RELEASE_REPORT.md)와 `evidence/release/gate.json`에 현재 한계를 명시했다. 개발 기능 Gate와 최종 배포 Gate를 구분한다.
+
 ## Studio 0.11 음악 대기열 — 2026-10-03
 
 전체 19단계, 108/108 검사(실패·skip·취소·todo 0), 대기열 실제 앱 시나리오 9개 통과. 실제 GPU 음원 2곡, 정지·재실행·Python 누락·강제 종료 복원·취소 후 다음 곡 전환과 1080p MP4 출력을 검증했다. 기존 회귀를 모두 새로 실행했다.

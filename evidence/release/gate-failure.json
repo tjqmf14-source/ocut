@@ -1,0 +1,26 @@
+{
+  "time": "2026-10-03T12:16:49.168Z",
+  "status": "BLOCKED",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.11.0.exe",
+  "installerSha256": "01ba80a1e4a831777a0dfd7c87feacbf60ea835c0448a3c1da6f11fe1cfecece",
+  "asarSha256": "a5bfd70d66ae8ee7d2db121febfc3220192700120310a6f56f69f8222e32dbf1",
+  "error": "Error: Windows integration NOT RUN: existing user registration or shortcut folder preserved\n    at Object.<anonymous> (D:\\O-CUT\\scripts\\verify-release.cjs:16:50)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47",
+  "checks": [
+    {
+      "name": "exact artifact and source identity",
+      "exitCode": 0
+    },
+    {
+      "name": "tests",
+      "exitCode": 0
+    },
+    {
+      "name": "paths",
+      "exitCode": 0
+    },
+    {
+      "name": "installer",
+      "exitCode": 0
+    }
+  ]
+}
