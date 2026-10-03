@@ -13,6 +13,8 @@ const { MusicService } = require('../infrastructure/music.cjs');
 const { MusicQueue } = require('../infrastructure/music-queue.cjs');
 const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
 const {Workspace}=require('../infrastructure/workspace.cjs');
+const {UpdateService}=require('../infrastructure/updates.cjs');
+const updateChannel=require('./update-channel.json');
 
 app.setName('O-CUT');
 app.setAppUserModelId('studio.ocut.desktop');
@@ -23,6 +25,8 @@ let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache')
 protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
+const updates=new UpdateService({root:path.dirname(path.dirname(process.execPath)),executable:process.execPath,directory:path.join(app.getPath('userData'),'updates'),version:app.getVersion(),feed:process.env.OCUT_UPDATE_FEED||updateChannel.feed,publicKey:updateChannel.publicKey,onChange:status=>{if(window&&!window.isDestroyed())window.webContents.send('updates:state',status);}});
+let restartAfterUpdate=false;
 app.on('second-instance',()=>{if(window&&!window.isDestroyed()){if(window.isMinimized())window.restore();window.focus();}});
 const workspace=new Workspace(path.join(app.getPath('userData'),'workspace'),status=>{if(window&&!window.isDestroyed())window.webContents.send('workspace:autosave',status);});
 let exportAbort;
@@ -71,6 +75,9 @@ async function save(as) {
   return snapshot();
 }
 register('project:state', () => snapshot());
+register('updates:state',()=>updates.state());
+register('updates:check',()=>updates.check(true));
+register('updates:restart',()=>{if(!updates.pending)throw Error('준비된 업데이트가 없습니다.');if(exportAbort||sttAbort||music.occupied)throw Error('출력·자막·음악 작업을 마치거나 정지한 뒤 업데이트해 주세요.');restartAfterUpdate=true;window.close();return updates.state();});
 register('project:settings', values => { session.settings(values); return snapshot(); });
 register('project:new', async () => {
   if (!await mayDiscard()) return null;
@@ -229,11 +236,13 @@ app.whenReady().then(() => {
   let closing = false;
   window.on('close', event => {
     if (exportAbort || sttAbort) { event.preventDefault(); return; }
-    if (closing || !session.snapshot().dirty) return;
+    if (closing || (!session.snapshot().dirty&&!updates.pending)) return;
     event.preventDefault();
-    serial = serial.then(async () => { if (await mayDiscard()) {await workspace.clear();closing = true; window.close(); } }).catch(error => log(error.stack));
+    serial = serial.then(async () => { if (await mayDiscard()) {await workspace.clear();await updates.schedule(restartAfterUpdate);closing = true; window.close(); }else restartAfterUpdate=false; }).catch(error => {restartAfterUpdate=false;log(error.stack);updates.changed({status:'error',message:error.message});});
   });
   window.loadFile(rendererPath);
+  updates.check().catch(error=>log(error.message));
+  const updateTimer=setInterval(()=>updates.check().catch(error=>log(error.message)),5*60*1000);updateTimer.unref();
 }).catch(error => { log(error.stack); app.quit(); });
 app.on('window-all-closed', () => app.quit());
 app.on('before-quit', () => {music.dispose();sttAbort?.abort();});

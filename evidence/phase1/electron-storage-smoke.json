@@ -1,11 +1,11 @@
 {
-  "time": "2026-10-03T12:16:13.595Z",
+  "time": "2026-10-03T12:41:03.919Z",
   "result": {
     "saved": "Electron project",
     "recovered": "Recovered project",
     "node": "20.18.3",
     "electron": "33.4.11"
   },
-  "directory": "D:\\O-CUT\\.runtime\\phase1\\case-VcbRtP",
+  "directory": "D:\\O-CUT\\.runtime\\phase1\\case-ZCnCDD",
   "mode": "ELECTRON_RUN_AS_NODE; storage runtime verification, not new UI verification"
 }

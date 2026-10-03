@@ -423,6 +423,11 @@ $('checkMusic').onclick = async () => {
   finally { musicPending = false; renderMusic(); }
 };
 window.ocut.onMusicState(renderMusic);
+function renderUpdate(value){$('updatesOpen').textContent=value.status==='ready'?'업데이트 준비됨':value.status==='error'?'업데이트 확인 필요':`O-CUT ${value.currentVersion}`;$('updatesOpen').title=value.message;$('updateVersion').textContent=`현재 버전 ${value.currentVersion}`;$('updateMessage').textContent=value.message;$('updatesRestart').disabled=value.status!=='ready';$('updatesCheck').disabled=['checking','preparing','scheduled'].includes(value.status)||!value.enabled;}
+window.ocut.onUpdateState(renderUpdate);window.ocut.updateState().then(renderUpdate).catch(error=>message(error.message,true));
+$('updatesOpen').onclick=()=>{$('updatesDialog').showModal();};$('updatesClose').onclick=()=>$('updatesDialog').close();
+$('updatesCheck').onclick=async()=>{try{renderUpdate(await window.ocut.checkUpdates());}catch(error){$('updateMessage').textContent=error.message;}};
+$('updatesRestart').onclick=async()=>{try{await window.ocut.restartToUpdate();}catch(error){$('updateMessage').textContent=error.message;}};
 window.ocut.musicState().then(renderMusic).catch(error => message(error.message,true));
 window.ocut.sttSettings().then(value=>{$('sttModelPath').textContent=value.model||'Whisper 모델 연결 필요';}).catch(error=>message(error.message,true));
 $('sttModel').onclick=async()=>{try{const value=await window.ocut.sttModel();if(value)$('sttModelPath').textContent=value.model;}catch(error){message(error.message,true);}};

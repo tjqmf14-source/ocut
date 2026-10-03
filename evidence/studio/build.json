@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-03T09:40:18.444Z",
+  "time": "2026-10-03T12:41:03.356Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
     {
@@ -52,15 +52,23 @@
     },
     {
       "file": "desktop/main.cjs",
-      "sha256": "b4361b805548ebaef130f97596949dc930ba4eaf0fd57644fc10deb729107835"
+      "sha256": "1feb98786693b8677688d92697e26cf33b8acc8310c989a157440056fbe97eeb"
     },
     {
       "file": "desktop/preload.cjs",
-      "sha256": "b6d4f49c45ff06348b1ed40df57a62ed6bf1dbae8cf7f4b412f63eb62d6b8c01"
+      "sha256": "7ae52255bce332d5470c4c6cb6912f169ee9332e758d6603a8055c0dcd8bca29"
     },
     {
       "file": "desktop/session.cjs",
       "sha256": "a946c423d7afe9da1071651242922a11ae27ffe69344b93a2edaf7679e682472"
+    },
+    {
+      "file": "desktop/update-channel.json",
+      "sha256": "ce5bc62749bb9bf94ca9050b5831245566c1aa5d2ad7c4f96e7bfc3f1398589a"
+    },
+    {
+      "file": "infrastructure/apply-update.ps1",
+      "sha256": "67735452a07897840581feee6072c34096a75fb83e96a7ea4687e9655200ec83"
     },
     {
       "file": "infrastructure/caption-files.cjs",
@@ -99,6 +107,10 @@
       "sha256": "da2efee0ed927e2781a87fb52c1690c3b44b280375ca09fe53408d56f7e400e4"
     },
     {
+      "file": "infrastructure/updates.cjs",
+      "sha256": "f7487fd66464708ebb9e9284f7bd0e1372d5b1af89d19c76c351410bbfe5e26e"
+    },
+    {
       "file": "infrastructure/visualizer-video.cjs",
       "sha256": "f42c5a7e4cc86d4722193753ed60e7eb0174a035fdce5c8f3db69f05e0037acf"
     },
@@ -116,11 +128,11 @@
     },
     {
       "file": "renderer/app.js",
-      "sha256": "70f4dd526d6ee5004eaa15765ac92ecc9b1056be04011ceb910cf0857ab696f9"
+      "sha256": "e9a6d4de54eedb9ae31e305935fdfbcab8cf83dfe3144287349b60819bf08f07"
     },
     {
       "file": "renderer/index.html",
-      "sha256": "7b45dfa3b26feb0985c0aead658d45e710655e4f2514f123573983f3850454de"
+      "sha256": "e93c804cb3c25e864ab75fd0ca7d83521d2e31f9f7d599d9eb3b12ff54788a8e"
     },
     {
       "file": "renderer/playback.js",
@@ -128,7 +140,7 @@
     },
     {
       "file": "renderer/styles.css",
-      "sha256": "f6c772c1ab6b37d27cbe27039574b482adaf86ff0dc68bbe0ff65c53e734c448"
+      "sha256": "ed2c93a5c2304fda2f324c892ff24f6e7c1fbb377cd9a0ce525a78877aaf8a3f"
     },
     {
       "file": "renderer/text.js",

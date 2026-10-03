@@ -1,0 +1,17 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process');
+const root=path.resolve(__dirname,'..'),hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+function tree(directory,base=directory){return fs.readdirSync(directory,{withFileTypes:true}).flatMap(entry=>{const file=path.join(directory,entry.name);if(entry.isSymbolicLink())throw Error('Linked package entry rejected');return entry.isDirectory()?tree(file,base):[path.relative(base,file).replaceAll('\\','/')];});}
+function buildManifest(directory,version){const files=tree(directory).filter(f=>f!=='UPDATE-MANIFEST.json').sort().map(file=>({file,bytes:fs.statSync(path.join(directory,file)).size,sha256:hash(path.join(directory,file))}));const manifest={version,asarSha256:hash(path.join(directory,'app/resources/app.asar')),files};fs.writeFileSync(path.join(directory,'UPDATE-MANIFEST.json'),JSON.stringify(manifest,null,2),{flag:'wx'});return manifest;}
+async function main(){
+  const b=JSON.parse(fs.readFileSync(path.join(root,'evidence/release/build.json'))),gate=JSON.parse(fs.readFileSync(path.join(root,'evidence/studio/gate.json'))),qa=JSON.parse(fs.readFileSync(path.join(root,'evidence/release/installer-qa.json')));
+  if(hash(b.installer)!==b.installerSha256||b.manifest.asarSha256!==gate.asarSha256||gate.checks.some(c=>c.exitCode!==0)||qa.installerSha256!==b.installerSha256||qa.errors.length||qa.checks.length<8)throw Error('Exact app and local installer checks must pass before preparing update');
+  const installed=fs.mkdtempSync(path.join(root,'.runtime/update-package-')),destination=path.join(root,'artifacts/updates/packages',b.manifest.version);
+  if(fs.existsSync(destination))throw Error('Update versions are immutable. Bump version or inspect existing package.');
+  const r=spawnSync(b.installer,['/S','/LOCALONLY',`/D=${installed}`],{windowsHide:true,windowsVerbatimArguments:true,timeout:180000,encoding:'utf8'});if(r.status!==0)throw Error('Isolated package extraction failed: '+r.status+' '+r.stderr);
+  const actual=JSON.parse(fs.readFileSync(path.join(installed,'app/PACKAGE-MANIFEST.json')));if(JSON.stringify(actual)!==JSON.stringify(b.manifest))throw Error('Installed package manifest mismatch');for(const f of actual.files)if(hash(path.join(installed,'app',f.file))!==f.sha256)throw Error('Installed update payload mismatch');
+  fs.mkdirSync(destination,{recursive:true});fs.cpSync(path.join(installed,'app'),path.join(destination,'app'),{recursive:true});fs.copyFileSync(path.join(installed,'Uninstall O-CUT.exe'),path.join(destination,'Uninstall O-CUT.exe'));
+  const manifest=buildManifest(destination,b.manifest.version),item={channel:'local-development',version:manifest.version,directory:destination,manifestSha256:hash(path.join(destination,'UPDATE-MANIFEST.json')),asarSha256:manifest.asarSha256,createdAt:new Date().toISOString()};
+  fs.mkdirSync(path.join(root,'evidence/updates'),{recursive:true});fs.writeFileSync(path.join(root,'evidence/updates/candidate.json'),JSON.stringify({item,installerSha256:b.installerSha256,files:manifest.files.length,sourceCommit:b.manifest.sourceCommit},null,2));console.log('Prepared unsigned update candidate',item.version,manifest.files.length,'files');
+}
+if(require.main===module)main().catch(e=>{console.error(e);process.exitCode=1;});module.exports={buildManifest,tree,hash};
