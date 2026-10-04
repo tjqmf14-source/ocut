@@ -16,6 +16,11 @@ async function fixture(t){
 test('batch validates count, titles and deterministic distinct wrapped seeds',()=>{
   const list=batch({...input,title:'x'.repeat(100),seed:2**31-1},3);assert.deepEqual(list.map(i=>i.input.seed),[2**31-1,0,1]);assert.equal(new Set(list.map(i=>i.id)).size,3);assert.equal(new Set(list.map(i=>i.batchId)).size,1);assert.ok(list.every(i=>i.input.title.length<=100));for(const n of [0,11,1.5,'2',null])assert.throws(()=>batch(input,n));
 });
+test('one start dispatches ten long-target songs sequentially with distinct seeds',async t=>{
+  const {queue:q,engine:e}=await fixture(t);await q.start({...input,seconds:420},10);
+  for(let i=0;i<10;i++){await until(()=>e.current);assert.equal(e.current.seconds,420);assert.equal(e.current.seed,(input.seed+i)%2**31);await e.end();}
+  await until(()=>!q.pumping);assert.equal(e.starts.length,10);assert.equal(new Set(e.starts).size,10);assert.equal(e.maxRunning,1);assert.equal(q.items.length,0);assert.equal(q.paused,true);
+});
 test('FIFO waits for completion, pause retains next song and resume runs it once',async t=>{
   const {queue:q,engine:e}=await fixture(t);await q.enqueue(input,2);const ids=q.items.map(i=>i.id);assert.equal(e.starts.length,0);await q.resume();await until(()=>e.current);await q.pause();await e.end();await until(()=>!q.pumping);assert.deepEqual(e.starts,[ids[0]]);assert.equal(q.items[0].id,ids[1]);await q.resume();await until(()=>e.current);await e.end();await until(()=>!q.pumping);assert.deepEqual(e.starts,ids);assert.equal(q.items.length,0);assert.equal(e.maxRunning,1);
 });

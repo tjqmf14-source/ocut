@@ -31,6 +31,7 @@ async function main() {
   fs.mkdirSync(path.join(out, 'resources'), { recursive: true });
   const musicWorker=path.join(out,'resources/music-worker');fs.mkdirSync(musicWorker,{recursive:true});
   fs.copyFileSync(path.join(root,'baseline/python/worker.py'),path.join(musicWorker,'worker.py'));
+  fs.copyFileSync(path.join(root,'src/infrastructure/ocut-worker.py'),path.join(musicWorker,'ocut-worker.py'));
   fs.writeFileSync(path.join(musicWorker,'PROVENANCE.txt'),'Preserved local generation worker from the supplied ssokMusic Free 0.50.2 archive. Source: baseline/python/worker.py. Unmodified; separate from the O-CUT UI.\n');
   const transcription=path.join(out,'resources/transcribe');fs.mkdirSync(transcription,{recursive:true});fs.copyFileSync(path.join(root,'src/infrastructure/transcribe.py'),path.join(transcription,'transcribe.py'));
   await createPackageWithOptions(staging, path.join(out, 'resources/app.asar'), {});

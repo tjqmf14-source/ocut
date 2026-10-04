@@ -11,7 +11,7 @@ async function main(){
   await page.locator('#musicTab').click();await page.locator('.music-environment summary').click();await page.locator('#checkMusic').click();
   await page.waitForFunction(()=>document.querySelector('#musicCheckResult').textContent.includes('환경 확인 완료'),null,{timeout:90000});
   const environment=await page.locator('#musicCheckResult').textContent();assert.match(environment,/RTX 5080/);checks.push('existing local Python / CUDA / YuE2 environment checked in UI');
-  await page.locator('.music-environment summary').click();await page.locator('#musicTitle').fill('O-CUT 음악 실증');await page.locator('#musicSeed').fill('42');
+  await page.locator('.music-environment summary').click();await page.locator('#musicCount').fill('1');await page.locator('#musicTitle').fill('O-CUT 음악 실증');await page.locator('#musicSeed').fill('42');
   await page.evaluate(()=>{window.qaMusicStages=[];window.ocut.onMusicState(s=>{if(s.current?.stage)qaMusicStages.push(s.current.stage);});});
   await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);
   timer=setInterval(async()=>{try{const s=await page.evaluate(()=>window.ocut.musicState());if(s.current){stages.add(s.current.stage);console.log('Music:',s.current.status,s.current.stage,JSON.stringify(s.current.progress||{}));}}catch{}},15000);

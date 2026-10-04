@@ -31,15 +31,21 @@
         <div class="music-content">
           <form id="musicForm">
             <label>곡 제목<input id="musicTitle" value="새로운 시작" maxlength="100" required></label>
-            <label>스타일<textarea id="musicStyle" rows="2" maxlength="2000" required placeholder="분위기, 악기, 장르를 적어 주세요">Warm piano, gentle acoustic guitar, hopeful cinematic instrumental</textarea></label>
+            <div class="music-style-head"><strong>스타일 · 장르</strong><button id="musicStyleClear" type="button" class="quiet">선택 지우기</button></div>
+            <div id="musicGenres" class="music-genres" role="group" aria-label="스타일과 장르 · 최대 3개"></div>
+            <div class="field-pair"><label>분위기<select id="musicMood"><option value="hopeful">희망찬</option><option value="calm">차분한</option><option value="emotional">감성적인</option><option value="bright">경쾌한</option><option value="dreamy">몽환적인</option><option value="powerful">강렬한</option></select></label><label>보컬<select id="musicVoice" disabled><option value="female">여성 보컬</option><option value="male">남성 보컬</option><option value="duet">듀엣</option></select></label></div>
+            <label>추가 키워드<input id="musicExtra" maxlength="500" placeholder="예: slow tempo, saxophone solo"></label>
+            <label>자동 스타일 프롬프트<textarea id="musicStyle" rows="4" maxlength="2000" required placeholder="장르를 선택하면 영어 프롬프트가 작성됩니다.">Warm piano, gentle acoustic guitar, hopeful cinematic instrumental</textarea></label>
+            <p class="music-hint">장르를 최대 3개 조합하세요. 선택을 바꾸면 영어 프롬프트를 새로 작성합니다. 직접 수정도 가능합니다.</p>
             <label class="check-label"><input id="musicInstrumental" type="checkbox" checked>연주곡</label>
             <label id="musicLyricsField" hidden>가사<textarea id="musicLyrics" rows="4" maxlength="8000" placeholder="[Verse]&#10;가사를 입력하세요"></textarea></label>
-            <div class="field-pair"><label>길이 상한 · 약<select id="musicSeconds"><option value="20">20초</option><option value="40">40초</option><option value="60">60초</option></select></label><label>생성 품질<select id="musicQuality"><option value="draft">빠른 시안</option><option value="standard">표준</option></select></label></div>
+            <div class="field-pair"><label>목표 길이 · 최대 7분<select id="musicSeconds"><option value="20">20초</option><option value="40">40초</option><option value="60">1분</option><option value="120">2분</option><option value="180">3분</option><option value="240">4분</option><option value="300">5분</option><option value="360">6분</option><option value="420">7분</option></select></label><label>생성 품질<select id="musicQuality"><option value="draft">빠른 시안</option><option value="standard">표준</option></select></label></div>
             <label>시드 · 비워두면 무작위<input id="musicSeed" type="number" min="0" max="2147483647" step="1" placeholder="매번 새로운 곡"></label>
-            <p class="music-hint">저장된 모델로 내 PC에서 생성합니다. 실제 길이는 곡에 따라 달라지며, 길이 상한에서 끝부분이 잘릴 수 있습니다.</p>
-            <button id="generateMusic" type="submit" class="primary full">음악 생성</button>
-            <div class="field-pair"><label>예약 곡 수<input id="musicCount" type="number" min="1" max="10" step="1" value="1"></label><button id="enqueueMusic" type="button" class="secondary">대기열에 추가</button></div>
-            <p class="music-hint">같은 설정에 서로 다른 시드로 예약합니다. 대기열에서 재개를 누르면 차례로 생성합니다.</p>
+            <p class="music-hint">내 PC에서 생성합니다. 2–7분은 목표 길이까지 생성을 유지합니다. 짧은 곡은 일찍 끝날 수 있고, 목표 길이에서 끝부분이 잘릴 수 있습니다.</p>
+            <label>한 번에 생성 · 1~10곡<input id="musicCount" type="number" min="1" max="10" step="1" value="10"></label>
+            <button id="generateMusic" type="submit" class="primary full">10곡 생성</button>
+            <button id="enqueueMusic" type="button" class="secondary full">시작하지 않고 대기열에 추가</button>
+            <p class="music-hint">생성을 누르면 서로 다른 시드로 한 곡씩 자동 생성합니다. 긴 곡 10개는 시간이 오래 걸릴 수 있습니다. 일시 정지·취소할 수 있습니다.</p>
           </form>
           <div id="musicProgress" class="music-progress" hidden><strong id="musicStage"></strong><p id="musicDetail" role="status" aria-live="polite"></p><button id="cancelMusic" class="secondary">현재 곡 취소</button></div>
           <section class="music-queue" aria-label="음악 생성 대기열"><strong id="musicQueueStatus" role="status" aria-live="polite"></strong><p id="musicQueueError" role="alert"></p><div class="queue-actions"><button id="resumeMusic" class="secondary">재개</button><button id="pauseMusic" class="secondary">일시 정지</button><button id="clearMusicQueue" class="quiet">대기 목록 비우기</button></div><p class="music-hint">일시 정지하면 현재 곡까지 마칩니다. 현재 곡을 취소하면 다음 곡으로 넘어갑니다. 앱을 다시 열면 남은 목록은 일시 정지됩니다.</p><ol id="musicQueue"></ol></section>
@@ -96,6 +102,7 @@
       <div id="timeline" class="timeline"><div id="trackHeaders" class="track-headers"></div><div id="timelineBody" class="timeline-body"><div id="timelineContent"><div id="ruler" class="ruler"></div><div id="tracks"></div><div id="playhead" class="playhead"></div></div></div></div>
     </section>
   </main>
+  <script src="../core/music-styles.js"></script>
   <footer class="statusbar"><span id="status" role="status" aria-live="polite">준비 중…</span><button id="updatesOpen" class="update-status" title="자동 업데이트 상태">업데이트</button></footer>
   <dialog id="updatesDialog"><div class="workspace-dialog-head"><h2>자동 업데이트</h2><button id="updatesClose" class="quiet" aria-label="업데이트 닫기">×</button></div><p id="updateVersion"></p><p id="updateMessage" role="status" aria-live="polite"></p><p class="music-hint">이 PC에서 검증된 새 빌드를 자동으로 준비합니다. 편집 중에는 재시작하지 않으며 앱 종료 후 적용합니다. 프로젝트·음악·모델은 유지하고 이전 앱은 백업합니다.</p><div class="queue-actions"><button id="updatesCheck" class="secondary">다시 확인</button><button id="updatesRestart" class="primary">지금 업데이트 후 다시 열기</button></div></dialog>
   <dialog id="workspaceDialog"><div class="workspace-dialog-head"><h2>최근 프로젝트 · 복구</h2><button id="workspaceClose" class="quiet" aria-label="최근 프로젝트 닫기">×</button></div><p id="workspaceWarnings" role="status"></p><h2>저장하지 못한 편집 복구</h2><p class="muted">복구본은 새 문서로 열립니다. 확인한 뒤 다른 이름으로 저장하세요.</p><div id="recoveryList"></div><h2>최근 프로젝트</h2><div id="recentList"></div></dialog>

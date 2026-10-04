@@ -8,7 +8,7 @@ function request(values) {
   const style = typeof values.style === 'string' ? values.style.trim() : '';
   const lyrics = typeof values.lyrics === 'string' ? values.lyrics.trim() : '';
   if (!title || title.length > 100 || !style || style.length > 2000 || lyrics.length > 8000) throw Error('제목 100자, 스타일 2000자, 가사 8000자 이내로 입력해 주세요.');
-  if (![20,40,60].includes(values.seconds) || !['draft','standard'].includes(values.quality)) throw Error('지원하지 않는 음악 길이 또는 품질입니다.');
+  if (![20,40,60,120,180,240,300,360,420].includes(values.seconds) || !['draft','standard'].includes(values.quality)) throw Error('지원하지 않는 음악 길이 또는 품질입니다.');
   if (typeof values.instrumental !== 'boolean') throw Error('연주곡 여부를 선택해 주세요.');
   const seed = values.seed === '' || values.seed == null ? Math.floor(Math.random() * 2 ** 31) : Number(values.seed);
   if (!Number.isInteger(seed) || seed < 0 || seed >= 2 ** 31) throw Error('시드는 0–2147483647의 정수여야 합니다.');
@@ -64,7 +64,8 @@ class MusicService {
     const closed=new Promise(resolve=>child.once('close',resolve));
     let complete;this.completion=new Promise(resolve=>{complete=resolve;});
     let buffer = '', stderr = '', settled = false, sent = false, cancelled = false;
-    const timeout = setTimeout(() => finish('failed','생성이 30분을 초과해 중단했습니다.'),30*60*1000);
+    const timeoutMinutes=input.seconds>60?90:30;
+    const timeout = setTimeout(() => finish('failed',`생성이 ${timeoutMinutes}분을 초과해 중단했습니다.`),timeoutMinutes*60*1000);
     let cancelTimer;
     const finish = async (status, message, details = {}) => {
       if (settled) return; settled = true; clearTimeout(timeout); clearTimeout(cancelTimer);
@@ -90,7 +91,7 @@ class MusicService {
       if (item.type === 'ready' && !sent) {
         if (!item.cuda) return finish('failed','이 음악 엔진에는 CUDA를 지원하는 NVIDIA GPU가 필요합니다. 영상 편집은 계속 사용할 수 있습니다.');
         sent = true; job.gpu=item.gpu; job.status='running';
-        child.stdin.write(JSON.stringify({cmd:'generate',jobId:job.id,outDir,id:'song',style:input.style,lyrics:input.lyrics,instrumental:input.instrumental,seed:input.seed,cot:input.quality==='draft'?'off':'full',targetSeconds:input.seconds,advanced:{maxTokens:Math.max(500,input.seconds*25),abcMaxTokens:input.quality==='draft'?256:1024,odeSteps:input.quality==='draft'?8:32}})+'\n');
+        child.stdin.write(JSON.stringify({cmd:'generate',jobId:job.id,outDir,id:'song',style:input.style,lyrics:input.lyrics,instrumental:input.instrumental,seed:input.seed,cot:input.quality==='draft'?'off':'full',targetSeconds:input.seconds,advanced:{maxTokens:Math.max(500,input.seconds*25),minTokens:input.seconds>60?input.seconds*25-1:200,abcMaxTokens:input.quality==='draft'?256:1024,odeSteps:input.quality==='draft'?8:32}})+'\n');
         if (cancelled) child.stdin.write(JSON.stringify({cmd:'cancel',jobId:job.id})+'\n');
       }
       if (item.jobId && item.jobId !== job.id) return;

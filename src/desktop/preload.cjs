@@ -36,7 +36,7 @@ contextBridge.exposeInMainWorld('ocut', {
   musicState: () => call('music:state'),
   checkMusic: () => call('music:check'),
   configureMusic: key => call('music:configure', key),
-  startMusic: values => call('music:start', values),
+  startMusic: (values,count=1) => call('music:start', {...values,count}),
   enqueueMusic: (input,count) => call('music:enqueue',{input,count}),
   resumeMusic: () => call('music:resume'),
   pauseMusic: () => call('music:pause'),

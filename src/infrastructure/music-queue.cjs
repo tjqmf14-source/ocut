@@ -56,11 +56,11 @@ class MusicQueue {
     await this.mutate(async()=>{if(this.closed)throw Error('앱이 종료 중입니다.');if(this.items.length+incoming.length>MAX_QUEUE)throw Error('진행 중인 곡을 포함해 최대 20곡까지 예약할 수 있습니다.');const next=[...this.items,...incoming];await this.save(next);this.items=next;this.error=null;});
     await this.changed();return this.state();
   }
-  async start(values){
+  async start(values,count=1){
     await this.ready;
     if(this.occupied)throw Error('대기열이 진행 중입니다. 대기열에 추가해 주세요.');
     if(this.items.length)throw Error('남은 대기열을 재개하거나 비운 뒤 바로 생성해 주세요.');
-    await this.enqueue(values,1);return this.resume();
+    await this.enqueue(values,count);return this.resume();
   }
   async resume(){
     await this.mutate(async()=>{if(this.closed)throw Error('앱이 종료 중입니다.');if(!this.canRun())throw Error('자동 자막 작업이 끝난 뒤 음악 대기열을 재개해 주세요.');this.paused=false;this.error=null;});

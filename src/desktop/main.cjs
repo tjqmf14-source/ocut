@@ -31,7 +31,7 @@ app.on('second-instance',()=>{if(window&&!window.isDestroyed()){if(window.isMini
 const workspace=new Workspace(path.join(app.getPath('userData'),'workspace'),status=>{if(window&&!window.isDestroyed())window.webContents.send('workspace:autosave',status);});
 let exportAbort;
 let sttAbort;
-const music = new MusicQueue({engine:new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/worker.py') }),canRun:()=>!sttAbort,
+const music = new MusicQueue({engine:new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/ocut-worker.py') }),canRun:()=>!sttAbort,
   onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 const sttSettings=path.join(app.getPath('userData'),'transcription-settings.json');
 async function sttModel(){try{const saved=JSON.parse(fs.readFileSync(sttSettings,'utf8'));if(typeof saved.model==='string')return saved.model;}catch{}return defaultModel();}
@@ -134,7 +134,7 @@ register('visualizer:createVideo', async mediaId => {
 });
 register('music:state', () => music.state());
 register('music:check', () => music.check());
-register('music:start', values => music.start(values));
+register('music:start', values => music.start(values,values?.count ?? 1));
 register('music:enqueue', values => music.enqueue(values?.input,values?.count));
 register('music:resume', () => music.resume());
 register('music:pause', () => music.pause());
