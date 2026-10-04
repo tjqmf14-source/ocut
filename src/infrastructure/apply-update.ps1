@@ -91,7 +91,9 @@ try {
     if ($registered.InstallLocation -and $registered.InstallLocation.TrimEnd('\').Equals($root,[StringComparison]::OrdinalIgnoreCase)) { $oldDisplayVersion=$registered.DisplayVersion;Set-ItemProperty -LiteralPath $key -Name DisplayVersion -Value $job.version;$registrationChanged=$true }
   }
   $phase='activated';Write-Result 'applied' 'Update installed. Previous app and uninstaller are preserved in backup.'
-  if ($job.restart) { $env:ELECTRON_RUN_AS_NODE=$null; Start-Process -FilePath $executable -WindowStyle Hidden }
+  # restart is set only by the user's explicit "update and reopen" action.
+  # The helper stays hidden; the requested interactive app must be visible.
+  if ($job.restart) { $env:ELECTRON_RUN_AS_NODE=$null; Start-Process -FilePath $executable -WindowStyle Normal }
 } catch {
   $failure=$_.Exception.Message; $rollbackFailure=$null
   try {
