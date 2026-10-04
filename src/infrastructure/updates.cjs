@@ -1,5 +1,7 @@
 'use strict';
-const fs=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto'),{spawn}=require('node:child_process');
+const bundledFs=require('node:fs/promises'),fs=process.versions.electron?require('original-fs').promises:bundledFs,path=require('node:path'),crypto=require('node:crypto'),{spawn}=require('node:child_process');
+// Electron virtualizes .asar paths as directories. Update payloads must use real
+// disk bytes; only our own bundled helper is read through Electron's ASAR layer.
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function version(value){if(typeof value!=='string'||!/^\d{1,5}\.\d{1,5}\.\d{1,5}$/.test(value))throw Error('업데이트 버전이 올바르지 않습니다.');return value.split('.').map(Number);}
 function newer(a,b){const x=version(a),y=version(b);for(let i=0;i<3;i++)if(x[i]!==y[i])return x[i]>y[i];return false;}
@@ -38,7 +40,7 @@ class UpdateService {
       const stage=await fs.mkdtemp(path.join(this.root,'.ocut-update-'));await copyVerified(item.directory,stage,item);
       const ini=await fs.readFile(path.join(this.root,'ocut-install.ini'),'utf8');await fs.writeFile(path.join(stage,'ocut-install.ini'),ini.replace(/^version=.*$/m,`version=${item.version}`),{flag:'wx'});
       await fs.mkdir(this.directory,{recursive:true});await safeDirectory(this.directory);
-      const helper=path.join(this.directory,'apply-update.ps1');await fs.writeFile(helper,await fs.readFile(path.join(__dirname,'apply-update.ps1')));
+      const helper=path.join(this.directory,'apply-update.ps1');await fs.writeFile(helper,await bundledFs.readFile(path.join(__dirname,'apply-update.ps1')));
       const job={root:this.root,stage,version:item.version,manifestSha256:item.manifestSha256,asarSha256:item.asarSha256,result:path.join(this.directory,'result.json'),restart:false,waitSeconds:86400};
       const jobFile=path.join(this.directory,`job-${crypto.randomUUID()}.json`);await fs.writeFile(jobFile,JSON.stringify(job),{flag:'wx'});
       this.pending={job,jobFile,helper};return this.changed({status:'ready',message:`${item.version} 준비됨 · 앱 종료 후 자동 적용`});
