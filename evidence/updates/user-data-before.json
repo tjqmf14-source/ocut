@@ -1,0 +1,50 @@
+{
+  "time": "2026-10-04T05:46:15.093Z",
+  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-updates-0Aljdh",
+  "files": [
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/audio.wav",
+      "sha256": "1a98a4de8a8e6ff20cb6e2d3219f68a34a4026f8e6cb35794d43dd0b2e38ca1a"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/job.json",
+      "sha256": "030fc425f6f042b8054ea5008b4d10ca419817bfc02c6d23cb083f536f7d2b24"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/latent.npy",
+      "sha256": "d7cccdde0dfb6571a33d950454a250a3f72dc86f495ddd6a0b686a2ff12ec0f3"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/plan/abc_tokens.npy",
+      "sha256": "040ce28f7590a34af85fbdb8115c90c9a0529a73b047533889c859c2f2c6e627"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/plan/plan.json",
+      "sha256": "94d940b7aeb1068baf20f0c286ce1bb601e922b30758e05b6947aff2d53433cf"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/plan/plan_manifest.json",
+      "sha256": "42ad246abb9e74fbbe45599d0b7540b52aec54960e74defa66f7bba8b0c6dd5b"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/plan/prefix.npy",
+      "sha256": "ea8786c0f9c40e87c35574f877dd2a70dfa9f95092ea90ab7077ce6937603019"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/result.json",
+      "sha256": "fbbb628c43888e0d12a18fc19d95a6b597f9bcf6a0bbc85513f22fe538d7a164"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/semantic.npy",
+      "sha256": "8371d27f001f6c70f0fffe89a075e37a73e744ce068273e0a71a17483a62375c"
+    },
+    {
+      "file": "music/4c3de62d-d19b-41ea-a728-1035236dc573/worker.stderr.log",
+      "sha256": "b072648150a2e06d3865a7a34c52154ad49ed4f5a51afb9ad585341180723501"
+    },
+    {
+      "file": "music/queue.json",
+      "sha256": "a16c8d90d68c47856912b4cab9ce2872bdd8bffc6f7c8f14d070a7ee0b4b82c8"
+    }
+  ]
+}

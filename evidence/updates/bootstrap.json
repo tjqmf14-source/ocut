@@ -1,0 +1,10 @@
+{
+  "time": "2026-10-04T05:46:30.064Z",
+  "status": "CURRENT",
+  "freshInstallation": true,
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "previousVersion": null,
+  "nextVersion": "0.12.3",
+  "updateResult": "C:\\Users\\tjqmf\\AppData\\Roaming\\O-CUT\\updates\\result.json",
+  "message": "Verified installer activated in previously absent app directory. Existing user data preserved."
+}

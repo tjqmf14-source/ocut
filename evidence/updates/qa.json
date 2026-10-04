@@ -1,0 +1,30 @@
+{
+  "time": "2026-10-04T01:26:27.823Z",
+  "status": "PASS",
+  "version": "0.12.3",
+  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
+  "manifestSha256": "16c7baa3be231e3acd920f39570fcaf95a93394b02cb63fd942b39ca17f4f092",
+  "data": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe",
+  "checks": [
+    "signed exact candidate prepares beside running 0.11; helper waits while real app remains usable",
+    "real 0.11 upgrades to exact candidate after exit; previous app, matching uninstaller, custom file, project and queue preserved",
+    "updated app launches at correct version, reopens saved project and restores pending music queue paused",
+    "new updater discovers future signed build in UI; unsaved-edit cancel keeps app and document open",
+    "save-before-update keeps edits; actual helper restarts app automatically and next launch confirms future version with project and queue",
+    "preserved exact previous app remains runnable for rollback"
+  ],
+  "firstUpdate": {
+    "version": "0.12.3",
+    "message": "Update installed. Previous app and uninstaller are preserved in backup.",
+    "root": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe\\한글 설치",
+    "phase": "activated",
+    "backup": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe\\한글 설치\\backup-update-0.11.0-c3f007fdb20842f0bda9cb3277a00616",
+    "time": "2026-10-04T01:26:19.8803630Z",
+    "status": "applied"
+  },
+  "futureFixture": {
+    "version": "0.12.4",
+    "asarSha256": "2b4b7dcc0bc3a9de8f63c3ec1583aeba596d2e96354cd56b2278a07252642159"
+  },
+  "scope": "Real isolated apps and actual helper; future version is test-only; no user installation mutation"
+}

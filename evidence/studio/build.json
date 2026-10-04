@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-03T12:41:03.356Z",
+  "time": "2026-10-04T01:17:15.480Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
     {
@@ -68,7 +68,7 @@
     },
     {
       "file": "infrastructure/apply-update.ps1",
-      "sha256": "67735452a07897840581feee6072c34096a75fb83e96a7ea4687e9655200ec83"
+      "sha256": "0823c39adb2aadce35ee957c2a9cbce840be2cfd8617949e2dc4d2038c4d0233"
     },
     {
       "file": "infrastructure/caption-files.cjs",
@@ -108,7 +108,7 @@
     },
     {
       "file": "infrastructure/updates.cjs",
-      "sha256": "f7487fd66464708ebb9e9284f7bd0e1372d5b1af89d19c76c351410bbfe5e26e"
+      "sha256": "8dec2f859e453a630be652a921fa583effc29a1a08e54104c949019dec91f400"
     },
     {
       "file": "infrastructure/visualizer-video.cjs",

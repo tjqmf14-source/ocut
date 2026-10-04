@@ -1,0 +1,11 @@
+{
+  "time": "2026-10-04T01:26:28.711Z",
+  "status": "PASS",
+  "channel": "local-development",
+  "version": "0.12.3",
+  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
+  "manifestSha256": "16c7baa3be231e3acd920f39570fcaf95a93394b02cb63fd942b39ca17f4f092",
+  "feed": "D:\\O-CUT\\artifacts\\updates\\latest.json",
+  "keyAccess": "Protected ACL: current user, SYSTEM and Administrators only",
+  "scope": "This PC only; no external service or public distribution"
+}
