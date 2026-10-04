@@ -48,8 +48,13 @@ class UpdateService {
   async schedule(restart=false){
     if(!this.pending)return false;const {job,jobFile,helper}=this.pending;await fs.writeFile(jobFile,JSON.stringify({...job,restart}));
     const powershell=path.join(process.env.SystemRoot,'System32/WindowsPowerShell/v1.0/powershell.exe');
-    const child=spawn(powershell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',helper,'-JobFile',jobFile],{detached:true,windowsHide:true,stdio:'ignore'});
-    await new Promise((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject);});child.unref();this.pending=null;this.changed({status:'scheduled',message:'앱 종료를 기다린 뒤 업데이트합니다.'});return true;
+    // Start-Process gives the helper its own hidden console, surviving the app's
+    // exit. Node's DETACHED_PROCESS flag can make Windows PowerShell exit early.
+    const quote=value=>"'"+value.replaceAll("'","''")+"'";
+    const args=`-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "${helper}" -JobFile "${jobFile}"`;
+    const command=`$ErrorActionPreference='Stop'; Start-Process -FilePath ${quote(powershell)} -WindowStyle Hidden -ArgumentList ${quote(args)}`;
+    const child=spawn(powershell,['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(command,'utf16le').toString('base64')],{windowsHide:true,stdio:'ignore'});
+    await new Promise((resolve,reject)=>{child.once('error',reject);child.once('exit',code=>code===0?resolve():reject(Error('업데이트 도우미를 시작하지 못했습니다.')));});this.pending=null;this.changed({status:'scheduled',message:'앱 종료를 기다린 뒤 업데이트합니다.'});return true;
   }
 }
 module.exports={UpdateService,version,newer,verifyFeed,manifestAt,copyVerified,contained,safeDirectory,hash};

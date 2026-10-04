@@ -26,4 +26,13 @@ test('locked old uninstaller causes actual mid-swap rollback without deleting pr
   const r=spawnSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',script],{windowsHide:true,encoding:'utf8',timeout:30000});assert.equal(r.status,1,r.stderr);const result=JSON.parse(await fs.readFile(path.join(f.state,'result.json'),'utf8'));assert.equal(result.status,'failed');assert.equal(result.phase,'old-app-moved',result.message);assert.ok(result.backup);assert.equal(await fs.readFile(path.join(f.root,'app/resources/app.asar'),'utf8'),'old asar');assert.equal(await fs.readFile(path.join(f.root,'Uninstall O-CUT.exe'),'utf8'),'old uninstaller');assert.match(await fs.readFile(path.join(f.root,'ocut-install.ini'),'utf8'),/0.11.0/);
 });
 test('previous failed version is not retried automatically but explicit retry can prepare it',async t=>{const f=await fixture(t);await fs.writeFile(path.join(f.state,'result.json'),JSON.stringify({version:'0.12.0',status:'failed'}));assert.equal((await f.updater.check()).status,'error');assert.equal(f.updater.pending,null);assert.equal((await f.updater.check(true)).status,'ready');});
+test('scheduled helper completes after its scheduling parent exits',async t=>{
+  const f=await fixture(t);await f.updater.check();
+  const script=path.join(f.dir,'schedule.cjs');
+  await fs.writeFile(script,`const {UpdateService}=require(${JSON.stringify(require.resolve('../src/infrastructure/updates.cjs'))});const u=new UpdateService(${JSON.stringify({root:f.root,directory:f.state,version:'0.11.0'})});u.pending=${JSON.stringify(f.updater.pending)};u.schedule().catch(e=>{console.error(e);process.exitCode=1;});`);
+  const parent=spawnSync(process.execPath,[script],{windowsHide:true,encoding:'utf8',timeout:10000});assert.equal(parent.status,0,parent.stderr);
+  const end=Date.now()+30000;let result;
+  while(Date.now()<end){try{result=JSON.parse(await fs.readFile(path.join(f.state,'result.json'),'utf8'));}catch{}if(result&&result.status!=='waiting')break;await new Promise(r=>setTimeout(r,100));}
+  assert.equal(result?.status,'applied',JSON.stringify(result));assert.equal(await fs.readFile(path.join(f.root,'app/resources/app.asar'),'utf8'),'new asar');
+});
 
