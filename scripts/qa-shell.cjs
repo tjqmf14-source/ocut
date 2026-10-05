@@ -13,6 +13,7 @@ async function main() {
   app = await _electron.launch({ executablePath: path.join(root, 'dist/studio/O-CUT.exe'), env });
   app.process().stderr.on('data', chunk => fs.appendFileSync(path.join(evidence, 'shell-stderr.log'), chunk));
   const page = await app.firstWindow(); page.on('pageerror', error => errors.push(error.message));
+  await page.waitForSelector('#status');
   await page.waitForFunction(() => document.querySelector('#status').textContent === '프로젝트 준비됨');
   assert.ok((await page.title()).includes('O-CUT'));
   assert.equal(await page.evaluate(() => typeof require), 'undefined');
