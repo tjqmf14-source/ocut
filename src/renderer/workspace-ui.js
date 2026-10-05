@@ -6,6 +6,7 @@
   function sizes(){workspace.style.setProperty('--library-width',$('libraryWidth').value+'px');workspace.style.setProperty('--timeline-height',$('timelineHeight').value+'px');saveLayout();}
   function layout(mode){workspace.dataset.layout=mode;$('layoutMode').value=mode;$('musicResults').hidden=mode!=='music';if(mode!=='music')previousLayout=mode;saveLayout();}
   window.addEventListener('ocut-pane',event=>{const name=event.detail;layout(name==='music'?'music':previousLayout);for(const tab of tabs)tab.tabIndex=tab.getAttribute('aria-selected')==='true'?0:-1;});
+  window.addEventListener('ocut-inspect',()=>{if(workspace.dataset.layout==='music')showPane('media');if(workspace.dataset.layout!=='edit')layout('edit');});
   $('layoutMode').onchange=()=>{const mode=$('layoutMode').value;if(mode==='music')showPane('music');else{layout(mode);if(!$('musicPane').hidden)showPane('media');}};
   $('libraryWidth').oninput=sizes;$('timelineHeight').oninput=sizes;
   $('resetLayout').onclick=()=>{$('libraryWidth').value='320';$('timelineHeight').value='230';previousLayout='edit';showPane('media');sizes();};

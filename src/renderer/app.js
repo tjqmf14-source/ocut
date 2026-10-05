@@ -182,6 +182,7 @@ function renderSelection() {
   for (const id of ['split', 'duplicate', 'deleteClip']) $(id).disabled = !clip || locked;
 }
 function renderInspector() {
+  if(selectedClip())window.dispatchEvent(new Event('ocut-inspect'));
   const clip = selectedClip(); $('clipForm').hidden = !clip; $('projectForm').hidden = Boolean(clip); $('inspectorTitle').textContent = clip ? '클립 편집' : '프로젝트';
   if (!clip) return;
   const media = state.project.media.find(m => m.id === clip.source);

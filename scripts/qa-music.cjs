@@ -51,6 +51,7 @@ async function main(){
   for(const time of [.3,2,5.5]){let a=0,b=0;for(let i=Math.round(time*48000);i<Math.round((time+.15)*48000);i++){const t=i/48000,g=.75*Math.min(1,t)*Math.min(1,(6-t)/2),x=pcm.readFloatLE(i*4)*g,y=outPcm.readFloatLE(i*4);a+=x*x;b+=y*y;}const ratio=Math.sqrt(b/a);assert.ok(ratio>.82&&ratio<1.18,`fade PCM ratio ${time}: ${ratio}`);ratios.push({time,ratio});}
   checks.push('1080p MP4 decodes with source-matched generated music and measured fade envelope');
   // Start then cancel a real worker; no generated success card may appear for it.
+  await page.locator('#musicTab').click();
   await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);await page.locator('#cancelMusic').click();
   await page.waitForFunction(()=>!musicState.current&&musicState.jobs[0]?.status==='cancelled',null,{timeout:20000});
   checks.push('real generation cancellation recorded without publishing a completed song');
