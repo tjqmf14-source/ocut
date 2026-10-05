@@ -13,7 +13,7 @@ const { MusicService } = require('../infrastructure/music.cjs');
 const { MusicQueue } = require('../infrastructure/music-queue.cjs');
 const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
 const {Workspace}=require('../infrastructure/workspace.cjs');
-const {UpdateService}=require('../infrastructure/updates.cjs');
+const {UpdateService,safeDirectory}=require('../infrastructure/updates.cjs');
 const updateChannel=require('./update-channel.json');
 
 app.setName('O-CUT');
@@ -111,6 +111,7 @@ register('history:undo', () => { session.history.undo(); return snapshot(); });
 register('history:redo', () => { session.history.redo(); return snapshot(); });
 register('timeline:edit', async action => {
   if (action?.type === 'music') throw Error('완료된 생성 작업에서 음악을 추가해 주세요.');
+  if (action?.type === 'sticker') throw Error('장식 목록에서 추가해 주세요.');
   if (action?.type === 'visualizer') await library.ensureVisual(action.mediaId);
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
@@ -202,6 +203,15 @@ register('render:export', async () => {
 });
 ipcMain.on('render:cancel', event => {
   if (event.sender === window.webContents && event.senderFrame === window.webContents.mainFrame) exportAbort?.abort();
+});
+register('media:sticker',async values=>{
+  const names={moon:'초승달',stars:'별빛',vinyl:'레코드',window:'창문 프레임'};
+  if(!values||!Object.hasOwn(names,values.id)||!Number.isFinite(values.startTime)||values.startTime<0)throw Error('장식을 다시 선택해 주세요.');
+  const bytes=fs.readFileSync(path.join(__dirname,'../assets',values.id+'.png')),digest=require('node:crypto').createHash('sha256').update(bytes).digest('hex');
+  const directory=path.join(app.getPath('userData'),'decorations');fs.mkdirSync(directory,{recursive:true});await safeDirectory(directory);
+  const file=path.join(directory,values.id+'-'+digest.slice(0,16)+'.png');
+  if(fs.existsSync(file)){const stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||!fs.readFileSync(file).equals(bytes))throw Error('기존 장식 파일이 변경되었습니다.');}else fs.writeFileSync(file,bytes,{flag:'wx'});
+  const media=await library.import(file);media.name=names[values.id];const selectedId=applyCommand(session.history,{type:'sticker',media,startTime:values.startTime});return snapshot({selectedId});
 });
 register('media:import', async () => {
   const picked = await dialog.showOpenDialog(window, { title: '영상 · 이미지 · 오디오 가져오기', properties: ['openFile', 'multiSelections'], filters: [{ name: '미디어', extensions: ['mp4', 'mov', 'mkv', 'webm', 'avi', 'wav', 'mp3', 'm4a', 'flac', 'ogg', 'aac', 'png', 'jpg', 'jpeg', 'webp'] }] });

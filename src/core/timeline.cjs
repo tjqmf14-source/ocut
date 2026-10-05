@@ -5,6 +5,7 @@ const { defaults: visualDefaults, validate: validateVisualizer } = require('./vi
 const {defaults:textDefaults,validate:validateTextStyle,get:textStyle}=require('./text-style.js');
 const {split:splitKeyframes}=require('./keyframes.js');
 const {defaults:colorDefaults,validate:validateColor,active:colorActive}=require('./color-filters.js');
+const {defaults:textureDefaults,validate:validateTexture,active:textureActive}=require('./texture.js');
 const {defaults:transitionDefaults,validate:validateTransition,active:transitionActive,get:transitionGet}=require('./transitions.js');
 const durationOf = project => Math.max(0, ...project.clips.map(clip => clip.startTime + clip.duration));
 const frameTime = (time, fps) => Math.round(time * fps) / fps;
@@ -17,7 +18,7 @@ function writable(project, id) {
 function trackFor(project, type) {
   let track = project.tracks.find(item => item.type === type && !item.locked);
   if (!track) {
-    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', music: 'AI 음악', text: '텍스트', subtitle: '자막', overlay: '시각화' }[type] || type);
+    track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', music: 'AI 음악', text: '텍스트', subtitle: '자막', overlay: '장식 · 시각화' }[type] || type);
     const rank = item => ['text', 'subtitle'].includes(item) ? 0 : item === 'overlay' ? 1 : ['audio', 'music'].includes(item) ? 3 : 2;
     const at = project.tracks.findIndex(item => rank(item.type) > rank(type));
     project.tracks.splice(at < 0 ? project.tracks.length : at, 0, track);
@@ -65,6 +66,13 @@ function command(project, action) {
       const clip = createClip({ trackId: track.id, type: 'music', source: media.id, startTime, duration });
       project.clips.push(clip); return clip.id;
     }
+    case 'sticker': {
+      const media=action.media;
+      if(!media||media.type!=='image')throw Error('장식 이미지를 읽을 수 없습니다.');
+      project.media.push(media);const track=trackFor(project,'overlay');
+      const clip=createClip({trackId:track.id,type:'overlay',source:media.id,startTime:frameTime(action.startTime||0,project.canvas.fps),duration:5});
+      clip.transform.scaleX=.2;clip.transform.scaleY=.2;project.clips.push(clip);return clip.id;
+    }
     case 'add': {
       const media = project.media.find(item => item.id === action.mediaId);
       if (!media) throw Error('미디어를 찾을 수 없습니다.');
@@ -108,7 +116,7 @@ function command(project, action) {
     }
     case 'split': {
       const clip = writable(project, action.id);
-      if (clip.effects.some(e=>!['audioVisualizer','textStyle','colorCorrection'].includes(e.type))) throw Error('전환·페이드/기타 효과를 먼저 제거한 뒤 분할해 주세요.');
+      if (clip.effects.some(e=>!['audioVisualizer','textStyle','colorCorrection'].includes(e.type))) throw Error('전환·질감·페이드/기타 효과를 먼저 제거한 뒤 분할해 주세요.');
       const at = frameTime(action.time, project.canvas.fps);
       const left = at - clip.startTime;
       if (left < frame - 1e-7 || clip.duration - left < frame - 1e-7) throw Error('클립 내부의 프레임에서 분할해 주세요.');
@@ -120,12 +128,16 @@ function command(project, action) {
     }
     case 'update': {
       const clip = writable(project, action.id);
-      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle', 'colorCorrection', 'visualTransition'];
+      const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle', 'colorCorrection', 'visualTransition','texture'];
       if (!action.values || Object.keys(action.values).some(key => !fields.includes(key))) throw Error('지원하지 않는 클립 속성입니다.');
       for (const [key, value] of Object.entries(action.values)) {
         if(key==='visualTransition'){
           const parameters={...transitionDefaults,...value};validateTransition(parameters);clip.effects=clip.effects.filter(e=>e.type!=='visualTransition');
           if(transitionActive(parameters))clip.effects.push({id:randomUUID(),type:'visualTransition',enabled:true,parameters});continue;
+        }
+        if(key==='texture'){
+          const parameters={...textureDefaults,...value};validateTexture(parameters);clip.effects=clip.effects.filter(e=>e.type!=='texture');
+          if(textureActive(parameters))clip.effects.push({id:randomUUID(),type:'texture',enabled:true,parameters});continue;
         }
         if(key==='colorCorrection'){
           const parameters={...colorDefaults,...value};validateColor(parameters);clip.effects=clip.effects.filter(e=>e.type!=='colorCorrection');

@@ -4,6 +4,7 @@ const {validate:validateVisualizer}=require('./visualizer.js');
 const {validate:validateTextStyle}=require('./text-style.js');
 const {validate:validateKeyframes}=require('./keyframes.js');
 const {validate:validateColor}=require('./color-filters.js');
+const {validate:validateTexture}=require('./texture.js');
 const {validate:validateTransition}=require('./transitions.js');
 const VERSION=1;
 const TRACK_TYPES=['video','image','audio','music','subtitle','text','overlay','effect'];
@@ -86,6 +87,8 @@ function validateProject(p){
     for(const e of styles){if(!['text','subtitle'].includes(c.type))fail('text style requires text clip');validateTextStyle(e.parameters);}
     const colors=c.effects.filter(e=>e.type==='colorCorrection');if(colors.length>1)fail('duplicate color correction');
     for(const e of colors){if(!['video','image','overlay'].includes(c.type)||!['video','image'].includes(media.get(c.source)?.type)||visualizers.length)fail('color correction requires video or image');validateColor(e.parameters);}
+    const textures=c.effects.filter(e=>e.type==='texture');if(textures.length>1)fail('duplicate texture');
+    for(const e of textures){if(!['video','image','overlay'].includes(c.type)||!['video','image'].includes(media.get(c.source)?.type)||visualizers.length)fail('texture requires video or image');validateTexture(e.parameters);}
     const transitions=c.effects.filter(e=>e.type==='visualTransition');if(transitions.length>1)fail('duplicate visual transition');
     for(const e of transitions){if(['audio','music','effect'].includes(c.type))fail('visual transition requires visual clip');validateTransition(e.parameters);}
     array(c.keyframes,'keyframes',10000);

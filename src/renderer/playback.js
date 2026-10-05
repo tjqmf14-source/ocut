@@ -53,14 +53,14 @@ class StudioPlayback {
       for(const name of events)node.addEventListener(name,check);check();
     });
   }
-  paintClip(ctx,clip,canvas,entry){
+  paintClip(ctx,clip,canvas,entry,time=0){
     const {width,height}=canvas;ctx.save();ctx.globalAlpha=clip.opacity;
     ctx.translate(width/2+clip.transform.x,height/2+clip.transform.y);ctx.rotate(clip.transform.rotation*Math.PI/180);
     ctx.scale(clip.transform.scaleX*(clip.transform.flipX?-1:1),clip.transform.scaleY*(clip.transform.flipY?-1:1));
     if(['text','subtitle'].includes(clip.type))OcutText.paint(ctx,clip,height);
     else if(entry&&(entry.media.type==='image'?entry.node.complete&&entry.node.naturalWidth:entry.node.readyState>=2)){
       const w=entry.node.videoWidth||entry.node.naturalWidth,h=entry.node.videoHeight||entry.node.naturalHeight,scale=Math.min(width/w,height/h);
-      const color=OcutColorFilters.get(clip),source=OcutColorFilters.active(color)?this.colorSurface(entry,Math.max(1,Math.round(w*scale)),Math.max(1,Math.round(h*scale)),color):entry.node;
+      const color=OcutColorFilters.get(clip),texture=OcutTexture.get(clip),source=OcutColorFilters.active(color)||OcutTexture.active(texture)?this.colorSurface(entry,Math.max(1,Math.round(w*scale)),Math.max(1,Math.round(h*scale)),color,texture,time-clip.startTime):entry.node;
       ctx.drawImage(source,-w*scale/2,-h*scale/2,w*scale,h*scale);
     }
     ctx.restore();
@@ -70,13 +70,13 @@ class StudioPlayback {
     if(t.wipe<1){ctx.beginPath();ctx.rect(0,0,canvas.width*t.wipe,canvas.height);ctx.clip();}
     if(t.blur>0){const m=ctx.getTransform();ctx.filter=`blur(${t.blur*Math.hypot(m.a,m.b)}px)`;}
     const next={...clip,opacity:clip.opacity*t.opacity,transform:{...clip.transform,x:clip.transform.x+t.x,scaleX:clip.transform.scaleX*t.scale,scaleY:clip.transform.scaleY*t.scale}};
-    if(clip.effects.some(e=>e.type==='audioVisualizer'))OcutVisualizer.paint(ctx,next,canvas,this.visualData(clip.source),time,clip.volume*OcutAudioFades.gain(clip,time-clip.startTime));else this.paintClip(ctx,next,canvas,entry);
+    if(clip.effects.some(e=>e.type==='audioVisualizer'))OcutVisualizer.paint(ctx,next,canvas,this.visualData(clip.source),time,clip.volume*OcutAudioFades.gain(clip,time-clip.startTime));else this.paintClip(ctx,next,canvas,entry,time);
     ctx.restore();
   }
-  colorSurface(entry,width,height,color){
-    const key=JSON.stringify(color)+':'+width+':'+height+':'+(entry.node.currentTime||0)+':'+Boolean(entry.node.seeking),cached=this.colorCache.get(entry.node);if(cached?.key===key)return cached.canvas;
+  colorSurface(entry,width,height,color,texture,time){
+    const key=JSON.stringify([color,texture,texture.grain+texture.noise>0?Math.floor(Math.max(0,time)*12+1e-6):0])+':'+width+':'+height+':'+(entry.node.currentTime||0)+':'+Boolean(entry.node.seeking),cached=this.colorCache.get(entry.node);if(cached?.key===key)return cached.canvas;
     const canvas=cached?.canvas||document.createElement('canvas');if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;
-    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,width,height);ctx.drawImage(entry.node,0,0,width,height);const pixels=ctx.getImageData(0,0,width,height);OcutColorFilters.pixels(pixels.data,color);ctx.putImageData(pixels,0,0);this.colorCache.set(entry.node,{key,canvas});return canvas;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,width,height);ctx.drawImage(entry.node,0,0,width,height);const pixels=ctx.getImageData(0,0,width,height);OcutColorFilters.pixels(pixels.data,color);OcutTexture.pixels(pixels.data,width,height,texture,time);ctx.putImageData(pixels,0,0);this.colorCache.set(entry.node,{key,canvas});return canvas;
   }
   clearExport(){for(const e of this.exportNodes.values()){e.node.pause?.();e.node.removeAttribute('src');e.node.load?.();}this.exportNodes.clear();}
   node(clip, exporting=false) {

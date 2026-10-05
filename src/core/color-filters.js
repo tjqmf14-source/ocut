@@ -2,6 +2,7 @@
 (function(root){
   const defaults={exposure:0,brightness:0,contrast:100,saturation:100,temperature:0,tint:0,highlights:0,shadows:0};
   const presets={neutral:{...defaults},vivid:{...defaults,contrast:115,saturation:125},warm:{...defaults,temperature:35,tint:5,contrast:105},mono:{...defaults,saturation:0,contrast:115},soft:{...defaults,contrast:85,saturation:85,shadows:15,highlights:-15}};
+  Object.assign(presets,{cafe:{...defaults,temperature:24,saturation:78,contrast:92,shadows:12},night:{...defaults,temperature:-26,tint:12,saturation:72,brightness:-5,shadows:8},faded:{...defaults,contrast:78,saturation:65,shadows:22,highlights:-18},sunset:{...defaults,temperature:40,tint:18,saturation:110,highlights:-12}});
   const ranges={exposure:[-4,4],brightness:[-100,100],contrast:[0,200],saturation:[0,200],temperature:[-100,100],tint:[-100,100],highlights:[-100,100],shadows:[-100,100]};
   function validate(s){if(!s||Object.keys(s).length!==Object.keys(defaults).length)throw Error('색 보정 설정을 확인해 주세요.');for(const [key,[min,max]] of Object.entries(ranges))if(!Number.isFinite(s[key])||s[key]<min||s[key]>max)throw Error('색 보정 범위를 확인해 주세요: '+key);}
   const get=clip=>clip.effects.find(e=>e.type==='colorCorrection'&&e.enabled)?.parameters||defaults;

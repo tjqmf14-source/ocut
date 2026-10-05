@@ -196,10 +196,10 @@ function renderInspector() {
   $('clipFadeIn').value = fades?.fadeIn || 0; $('clipFadeOut').value = fades?.fadeOut || 0;
   const visual=clip.effects.find(e=>e.type==='audioVisualizer');$('visualizerFields').hidden=!visual;
   const transition=OcutTransitions.get(clip);$('transitionFields').hidden=['audio','music','effect'].includes(clip.type);$('transitionIn').value=transition.inType;$('transitionOut').value=transition.outType;$('transitionInDuration').value=transition.inDuration;$('transitionOutDuration').value=transition.outDuration;
-  $('colorFields').hidden=!['video','image'].includes(state.project.media.find(m=>m.id===clip.source)?.type)||Boolean(visual);fillColor(OcutColorFilters.get(clip));$('colorPreset').value=clip.effects.some(e=>e.type==='colorCorrection')?'custom':'neutral';
+  $('colorFields').hidden=!['video','image'].includes(state.project.media.find(m=>m.id===clip.source)?.type)||Boolean(visual);fillColor(OcutColorFilters.get(clip));$('textureFields').hidden=$('colorFields').hidden;for(const [key,value] of Object.entries(OcutTexture.get(clip)))if($('texture-'+key))$('texture-'+key).value=value;$('colorPreset').value=clip.effects.some(e=>e.type==='colorCorrection')?'custom':'neutral';
   if(visual){const v=visual.parameters;for(const [id,key] of Object.entries({visualStyle:'style',visualColor:'color',visualBars:'barCount',visualThickness:'thickness',visualSensitivity:'sensitivity',visualSmoothing:'smoothing',visualMin:'minFrequency',visualMax:'maxFrequency',visualGlow:'glow'}))$(id).value=v[key];}
   const locked = state.project.tracks.find(t => t.id === clip.trackId).locked;
-  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields')) || $('colorFields').hidden&&Boolean(field.closest('#colorFields')) || $('transitionFields').hidden&&Boolean(field.closest('#transitionFields'));
+  for (const field of $('clipForm').querySelectorAll('input,textarea,select,button')) field.disabled = locked || !visual && Boolean(field.closest('#visualizerFields')) || $('textField').hidden && Boolean(field.closest('#textStyleFields')) || $('colorFields').hidden&&Boolean(field.closest('#colorFields')) || $('textureFields').hidden&&Boolean(field.closest('#textureFields')) || $('transitionFields').hidden&&Boolean(field.closest('#transitionFields'));
   $('dissolvePrevious').disabled=locked||!['video','image'].includes(clip.type);
   renderKeyframes();
 }
@@ -300,10 +300,11 @@ $('exportCaptions').onclick = async () => {
   finally { busy = false; }
 };
 function showPane(name) {
-  for (const pane of ['media','captions','music','visualizer']) { $(pane + 'Pane').hidden = pane !== name; $(pane + 'Tab').setAttribute('aria-selected', String(pane === name)); }
+  for (const pane of ['media','captions','music','visualizer','text','stickers','filters','adjustments','transitions']) { $(pane + 'Pane').hidden = pane !== name; $(pane + 'Tab').setAttribute('aria-selected', String(pane === name)); }
   if (name === 'captions') renderCaptions();
+  window.dispatchEvent(new CustomEvent('ocut-pane',{detail:name}));
 }
-for (const pane of ['media','captions','music','visualizer']) $(pane + 'Tab').onclick = () => showPane(pane);
+for (const pane of ['media','captions','music','visualizer','text','stickers','filters','adjustments','transitions']) $(pane + 'Tab').onclick = () => showPane(pane);
 $('addVisualizer').onclick=()=>{message('음원의 파형과 주파수를 분석하고 있습니다…');edit({type:'visualizer',mediaId:$('visualizerSource').value,startTime:playback.time});};
 $('createMusicVideo').onclick=()=>{message('음원을 분석하고 음악 영상 프로젝트를 준비하고 있습니다…');act(()=>window.ocut.createMusicVideo($('visualizerSource').value),'음악 영상 프로젝트를 만들었습니다. 각 트랙을 자유롭게 편집하세요.');};
 $('captionSearch').oninput = () => renderCaptions(); $('captionTrack').onchange = () => { selected.clear(); renderSelection(); renderInspector(); renderCaptions(); };
@@ -326,7 +327,7 @@ $('projectForm').onsubmit = event => {
 $('clipForm').onsubmit = event => {
   event.preventDefault(); const clip = selectedClip(); if (!clip) return; const num = id => Number($(id).value);
   const visual={...($('transitionFields').hidden?{}:{visualTransition:{inType:$('transitionIn').value,inDuration:num('transitionInDuration'),outType:$('transitionOut').value,outDuration:num('transitionOutDuration')}}),...($('visualizerFields').hidden?{}:{visualizer:{style:$('visualStyle').value,color:$('visualColor').value,barCount:num('visualBars'),thickness:num('visualThickness'),sensitivity:num('visualSensitivity'),smoothing:num('visualSmoothing'),minFrequency:num('visualMin'),maxFrequency:num('visualMax'),glow:num('visualGlow')}}),...($('textStyleFields').hidden?{}:{textStyle:readTextStyle()})};
-  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('colorFields').hidden?{colorCorrection:readColor()}:{}), ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
+  edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('colorFields').hidden?{colorCorrection:readColor(),texture:Object.fromEntries(Object.keys(OcutTexture.defaults).map(k=>[k,Number($('texture-'+k).value)]))}:{}), ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
   if (exporting || $('workspaceDialog').open) return;
@@ -367,8 +368,9 @@ function renderMusic(next) {
   if (next) musicState = next;
   if (!musicState) return;
   const job = musicState.current, running = Boolean(job), queue=musicState.queue||[], occupied=running||musicState.queueActive||(!musicState.paused&&queue.length);
-  for (const field of $('musicForm').querySelectorAll('input,textarea,select,button')) field.disabled = musicPending;
+  for (const field of $('musicPane').querySelectorAll('input,textarea,select,button')) field.disabled = musicPending;
   $('musicVoice').disabled=musicPending||$('musicInstrumental').checked;
+  $('musicLyrics').disabled=musicPending||$('musicInstrumental').checked;
   $('generateMusic').disabled=Boolean(occupied||queue.length||musicPending);
   for (const id of ['musicPython','musicModels','checkMusic']) $(id).disabled = Boolean(occupied||musicPending);
   $('musicQueueStatus').textContent=`대기 ${queue.length}곡 · ${musicState.paused?'일시 정지':occupied?'생성 중':'준비됨'}`;
@@ -396,23 +398,26 @@ function renderMusic(next) {
     info.textContent = item.status === 'complete' ? `${Number.isFinite(item.duration)?item.duration.toFixed(2):'?'}초 · 시드 ${item.seed}${item.meta?.truncated?.semantic ? ' · 길이 상한 도달' : ''}` : item.message;
     const tag = document.createElement('span'); tag.className = 'music-job-status'; tag.textContent = {complete:'완료',failed:'실패',cancelled:'취소',interrupted:'중단'}[item.status] || item.status;
     card.append(title, tag, info);
-    if (item.status === 'complete') { const add = document.createElement('button'); add.className = 'secondary full'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(() => window.ocut.addMusic(item.id), '생성한 음악을 타임라인에 추가했습니다.'); card.append(add); }
+    if (item.status === 'complete') { const add = document.createElement('button'); add.className = 'secondary full'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(async()=>{const next=await window.ocut.addMusic(item.id);showPane('media');return next;}, '생성한 음악을 타임라인에 추가했습니다.'); card.append(add); }
     holder.append(card);
   }
 }
 const musicGenres=new Set(['acoustic']);
-function writeMusicStyle(){
-  $('musicStyle').value=OcutMusicStyles.compose({selected:[...musicGenres],mood:$('musicMood').value,instrumental:$('musicInstrumental').checked,voice:$('musicVoice').value,extra:$('musicExtra').value});
+let musicStyleEdited=false;
+function writeMusicStyle(force=false){
+  if(force===true||!musicStyleEdited)$('musicStyle').value=OcutMusicStyles.compose({selected:[...musicGenres],mood:$('musicMood').value,instrumental:$('musicInstrumental').checked,voice:$('musicVoice').value});
   for(const button of $('musicGenres').children)button.setAttribute('aria-pressed',String(musicGenres.has(button.dataset.genre)));
   $('musicVoice').disabled=musicPending||$('musicInstrumental').checked;
 }
 for(const genre of OcutMusicStyles.genres){const button=document.createElement('button');button.type='button';button.textContent=genre.label;button.dataset.genre=genre.id;button.onclick=()=>{if(musicGenres.has(genre.id))musicGenres.delete(genre.id);else if(musicGenres.size<3)musicGenres.add(genre.id);else{message('장르는 최대 3개까지 조합할 수 있습니다.',true);return;}writeMusicStyle();};$('musicGenres').append(button);}
 $('musicStyleClear').onclick=()=>{musicGenres.clear();writeMusicStyle();};
-$('musicMood').onchange=writeMusicStyle;$('musicVoice').onchange=writeMusicStyle;$('musicExtra').oninput=writeMusicStyle;
-$('musicInstrumental').onchange = () => { $('musicLyricsField').hidden = $('musicInstrumental').checked; $('musicLyrics').required = !$('musicInstrumental').checked;writeMusicStyle(); };
+$('musicMood').onchange=()=>writeMusicStyle();$('musicVoice').onchange=()=>writeMusicStyle();
+$('musicStyle').oninput=()=>{musicStyleEdited=true;$('promptHint').textContent='직접 작성한 프롬프트를 유지합니다. 장르 선택으로 바꾸려면 아래 버튼을 누르세요.';};
+$('musicStyleBuild').onclick=()=>{musicStyleEdited=false;writeMusicStyle(true);$('promptHint').textContent='선택한 장르로 작성했습니다. 직접 수정할 수 있습니다.';};
+$('musicInstrumental').onchange = () => { const instrumental=$('musicInstrumental').checked;$('musicLyrics').disabled=instrumental;$('musicLyrics').required=!instrumental;$('lyricsHint').textContent=instrumental?'가사는 보관하지만 생성에는 사용하지 않습니다. 로파이·BGM 연주곡을 만듭니다.':'[Verse] · [Chorus] · [Bridge]로 구간을 나눠 작성하세요.';writeMusicStyle(); };
 writeMusicStyle();
 $('musicCount').oninput=()=>{const count=Number($('musicCount').value);$('generateMusic').textContent=Number.isInteger(count)&&count>=1&&count<=10?`${count}곡 생성`:'곡 수를 확인해 주세요';};
-const musicInput=()=>({title:$('musicTitle').value,style:$('musicStyle').value,lyrics:$('musicLyrics').value,instrumental:$('musicInstrumental').checked,seconds:Number($('musicSeconds').value),quality:$('musicQuality').value,seed:$('musicSeed').value});
+const musicInput=()=>({title:$('musicTitle').value,style:$('musicStyle').value,lyrics:$('musicInstrumental').checked?'':$('musicLyrics').value,instrumental:$('musicInstrumental').checked,seconds:Number($('musicSeconds').value),quality:$('musicQuality').value,seed:$('musicSeed').value});
 async function musicAction(action,text){if(musicPending)return;musicPending=true;renderMusic();try{renderMusic(await action());message(text);}catch(error){message(error.message,true);}finally{musicPending=false;renderMusic();}}
 $('enqueueMusic').onclick=()=>{if($('musicForm').reportValidity())musicAction(()=>window.ocut.enqueueMusic(musicInput(),Number($('musicCount').value)),'대기열에 추가했습니다.');};
 $('resumeMusic').onclick=()=>musicAction(()=>window.ocut.resumeMusic(),'대기열을 재개했습니다.');

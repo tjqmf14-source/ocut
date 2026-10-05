@@ -3,7 +3,7 @@ const path=require('node:path');
 const {execFileSync}=require('node:child_process');
 const {createHash}=require('node:crypto');
 const root=path.resolve(__dirname,'..');
-const files=['core/project.cjs','core/history.cjs','core/visualizer.js','core/text-style.js','core/keyframes.js','core/color-filters.js','core/transitions.js','infrastructure/project-store.cjs'];
+const files=['core/project.cjs','core/history.cjs','core/visualizer.js','core/text-style.js','core/keyframes.js','core/color-filters.js','core/texture.js','core/transitions.js','infrastructure/project-store.cjs'];
 const manifest=[];
 for(const file of files){
   const source=path.join(root,'src',file);execFileSync(process.execPath,['--check',source]);

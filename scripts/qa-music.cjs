@@ -13,7 +13,7 @@ async function main(){
   const environment=await page.locator('#musicCheckResult').textContent();assert.match(environment,/RTX 5080/);checks.push('existing local Python / CUDA / YuE2 environment checked in UI');
   await page.locator('.music-environment summary').click();await page.locator('#musicCount').fill('1');await page.locator('#musicTitle').fill('O-CUT 음악 실증');await page.locator('#musicSeed').fill('42');
   await page.evaluate(()=>{window.qaMusicStages=[];window.ocut.onMusicState(s=>{if(s.current?.stage)qaMusicStages.push(s.current.stage);});});
-  await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);
+  await page.locator('#musicTab').click();await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);
   timer=setInterval(async()=>{try{const s=await page.evaluate(()=>window.ocut.musicState());if(s.current){stages.add(s.current.stage);console.log('Music:',s.current.status,s.current.stage,JSON.stringify(s.current.progress||{}));}}catch{}},15000);
   await page.locator('#addText').click();await page.waitForFunction(()=>document.querySelectorAll('.clip.text').length===1);
   await page.locator('#clipText').fill('O-CUT\n내 PC에서 만든 음악');await page.locator('#clipDuration').fill('6');await page.locator('#clipForm button[type=submit]').click();

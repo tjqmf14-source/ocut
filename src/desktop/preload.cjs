@@ -7,6 +7,7 @@ async function call(channel, payload) {
 }
 contextBridge.exposeInMainWorld('ocut', {
   state: () => call('project:state'),
+  addSticker:(id,startTime)=>call('media:sticker',{id,startTime}),
   updateState:()=>call('updates:state'),
   checkUpdates:()=>call('updates:check'),
   restartToUpdate:()=>call('updates:restart'),

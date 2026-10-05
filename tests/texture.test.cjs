@@ -1,0 +1,17 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),texture=require('../src/core/texture.js'),{createProject,createTrack,createClip,validateProject}=require('../src/core/project.cjs'),{ProjectHistory}=require('../src/core/history.cjs'),{applyCommand}=require('../src/core/timeline.cjs'),{animated}=require('../src/core/keyframes.js'),{request}=require('../src/infrastructure/music.cjs');
+test('texture neutral is exact; film is monochrome, noise deterministic, alpha preserved and frames vary',()=>{
+ const p=new Uint8ClampedArray(16*16*4).fill(127),run=(s,t)=>texture.pixels(p.slice(),16,16,{...texture.defaults,...s},t);
+ assert.deepEqual(run({},0),p);const film=run({grain:40},.25);assert.notDeepEqual(film,p);assert.deepEqual(film,run({grain:40},.25));assert.notDeepEqual(film,run({grain:40},.5));for(let i=0;i<film.length;i+=4){assert.equal(film[i],film[i+1]);assert.equal(film[i+1],film[i+2]);assert.equal(film[i+3],127);}
+ const noise=run({noise:80},1);assert.ok(noise.some((v,i)=>i%4===0&&v!==noise[i+1]));assert.equal(noise[3],127);const vignette=run({vignette:100},0);assert.ok(vignette[0]<vignette[(8*16+8)*4]);
+});
+test('texture rejects invalid settings and text clips; removal and undo preserve source',()=>{
+ for(const s of [{grain:101},{noise:NaN},{size:2.5},{vignette:-1},{extra:0}])assert.throws(()=>texture.validate({...texture.defaults,...s}));
+ const p=createProject(),t=createTrack('image');p.tracks.push(t);p.media.push({id:'m',type:'image',path:'D:/image.png',name:'photo',duration:null,fingerprint:null});p.clips.push(createClip({type:'image',trackId:t.id,source:'m',duration:3}));const h=new ProjectHistory(p),id=p.clips[0].id;applyCommand(h,{type:'update',id,values:{texture:{grain:30}}});assert.ok(animated(h.state.clips[0]));assert.throws(()=>applyCommand(h,{type:'split',id,time:1}),/질감/);applyCommand(h,{type:'update',id,values:{texture:texture.defaults}});assert.equal(h.state.clips[0].effects.length,0);h.undo();assert.equal(texture.get(h.state.clips[0]).grain,30);assert.equal(h.state.media[0].path,'D:/image.png');
+ const text=createProject(),tr=createTrack('text');text.tracks.push(tr);text.clips.push(createClip({type:'text',trackId:tr.id,duration:2,text:'x'}));text.clips[0].effects.push({id:'t',type:'texture',enabled:true,parameters:{...texture.defaults,grain:10}});assert.throws(()=>validateProject(text),/video or image/);
+});
+test('decorations use foreground overlay tracks, atomic undo, and no source schema change',()=>{
+ const h=new ProjectHistory(createProject()),before=JSON.stringify(h.state);const id=applyCommand(h,{type:'sticker',media:{id:'s',type:'image',path:'D:/moon.png',name:'moon',duration:null,fingerprint:null},startTime:1});const c=h.state.clips.find(c=>c.id===id);assert.equal(c.type,'overlay');assert.equal(c.startTime,1);assert.equal(c.transform.scaleX,.2);validateProject(h.state);h.undo();assert.equal(h.state.clips.length,0);assert.equal(h.state.media.length,0);h.redo();assert.equal(h.state.clips[0].id,id);
+});
+test('no-lyrics request discards stored lyrics while vocal request preserves all section text',()=>{
+ const lyrics='[Verse]\n창문 너머 별빛\n[Chorus]\n조용한 밤',base={title:'밤',style:'lofi piano',lyrics,seconds:20,quality:'draft',seed:42};assert.equal(request({...base,instrumental:true}).lyrics,'[Instrumental]');assert.equal(request({...base,instrumental:false}).lyrics,lyrics);assert.throws(()=>request({...base,instrumental:false,lyrics:''}),/가사/);
+});
