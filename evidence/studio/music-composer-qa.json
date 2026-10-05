@@ -1,0 +1,351 @@
+{
+  "time": "2026-10-04T06:12:09.152Z",
+  "status": "PASS",
+  "identity": {
+    "dist/studio/resources/app.asar": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
+    "dist/studio/resources/music-worker/worker.py": "40d36991c548e21556a6b9303e18ae062426a31789455c9ad3347ccacf96edaf",
+    "dist/studio/resources/music-worker/ocut-worker.py": "6178a9326d5ce6d39d467546de1c92e25d27b62f2a741b8e9e37c84ef7c779e7",
+    "scripts/qa-music-composer.cjs": "7a70d7e379bc99267953b6fd71da440b2f8173548a36f0cf802ab0bc1aa32beb"
+  },
+  "data": "D:\\O-CUT\\.runtime\\music-composer-23jAyd",
+  "checks": [
+    "16 selectable genres generate editable English blend with mood, custom keywords and correct instrumental or vocal tags",
+    "seven-minute request begins from product UI",
+    "actual 7-minute GPU generation fully decodes to nonzero finite 48kHz audio without looping or padding",
+    "one generate click starts ten distinct seeded reservations without a separate resume click",
+    "ten actual GPU songs complete sequentially; all files decode and are non-silent and byte-distinct"
+  ],
+  "long": {
+    "id": "c571ebb6-af0d-419b-82a2-e90b6cb56171",
+    "seed": 42,
+    "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\c571ebb6-af0d-419b-82a2-e90b6cb56171\\audio.wav",
+    "seconds": 419.998667,
+    "sha256": "6f0add47f02a469dc6a5fe2b1f6e637cc5e1542b71554645837b3e59a88161da",
+    "rms": 0.15226274264383877,
+    "meta": {
+      "id": "song",
+      "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+      "lyrics": "[Instrumental]",
+      "cot": "off",
+      "seed": 42,
+      "advanced": {
+        "maxTokens": 10500,
+        "minTokens": 10499,
+        "abcMaxTokens": 256,
+        "odeSteps": 8
+      },
+      "engine": "yue2-infer 0.1.6",
+      "abc": null,
+      "seconds": 420,
+      "wallSeconds": 168.1,
+      "truncated": {
+        "abc": false,
+        "semantic": true
+      },
+      "createdAt": "2026-10-04T15:08:50"
+    }
+  },
+  "batch": [
+    {
+      "id": "04c31ca4-528a-4cf9-a060-4136c1bea3bc",
+      "seed": 100,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\04c31ca4-528a-4cf9-a060-4136c1bea3bc\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "becaabe464c0fa59c2ef892af1b5749f150b356dd439ca407ed037e5512a8456",
+      "rms": 0.20721001819758536,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 100,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 19.3,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:09:12"
+      }
+    },
+    {
+      "id": "b94c2bfd-4d61-4420-8a6d-035be0bef2d0",
+      "seed": 101,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\b94c2bfd-4d61-4420-8a6d-035be0bef2d0\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "d46613cdf012425b3756f10bb9057bff554648169f89268e87c3c899d6e7d91b",
+      "rms": 0.27374863842748615,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 101,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.2,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:09:31"
+      }
+    },
+    {
+      "id": "d354f7fb-25ae-4792-b968-e73ca8bf92ca",
+      "seed": 102,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\d354f7fb-25ae-4792-b968-e73ca8bf92ca\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "8fc41c638268de228c42349651ea3d6b8c539d6247221e8e2776f700419f0cfd",
+      "rms": 0.20374809461217117,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 102,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.1,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:09:51"
+      }
+    },
+    {
+      "id": "ef684324-81cd-4d7e-91af-9809b0593021",
+      "seed": 103,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\ef684324-81cd-4d7e-91af-9809b0593021\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "6a187b25717ee4f1e958a1ded9fc1d2d1f41f1cfa9d4a7bf435d5346056881fc",
+      "rms": 0.1676364780897587,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 103,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.2,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:10:10"
+      }
+    },
+    {
+      "id": "f128f4c0-aab8-44ca-b8a7-2771ce64b5d3",
+      "seed": 104,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\f128f4c0-aab8-44ca-b8a7-2771ce64b5d3\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "9697851514f46c4cb666bb1252d9f85c041fb1839b61b3c6ff5ddc31b5e90f94",
+      "rms": 0.2084165586517075,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 104,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.2,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:10:30"
+      }
+    },
+    {
+      "id": "42873ebc-93b0-4403-945d-beb39347b521",
+      "seed": 105,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\42873ebc-93b0-4403-945d-beb39347b521\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "ae0d5d79fc945f7741269ec44a994f68caf36303717092b3fb299e4e7fd624d5",
+      "rms": 0.14714752815822635,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 105,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.2,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:10:49"
+      }
+    },
+    {
+      "id": "01cd852a-3a78-43f7-9feb-c57160756cbf",
+      "seed": 106,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\01cd852a-3a78-43f7-9feb-c57160756cbf\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "f061d4f7be5bdff24d8ba859efdb73e688ab03cd1c3720dc3c503930adae2b18",
+      "rms": 0.19570349074914117,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 106,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.2,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:11:08"
+      }
+    },
+    {
+      "id": "492d9578-9296-47a1-8b46-6a6e191e4564",
+      "seed": 107,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\492d9578-9296-47a1-8b46-6a6e191e4564\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "47b8a55868389458dd5833b3c75fe0b1f9eb47ed23cc728393344547fec62573",
+      "rms": 0.1434292429834385,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 107,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.3,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:11:28"
+      }
+    },
+    {
+      "id": "cf8e225d-cc94-4941-81f5-6cd68fde37a3",
+      "seed": 108,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\cf8e225d-cc94-4941-81f5-6cd68fde37a3\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "e692562c3b3f1d5fa1861b9bec2accc2c4e5393970a31d82e7bc9cf3bfae3abc",
+      "rms": 0.17893803421202112,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 108,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.3,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:11:48"
+      }
+    },
+    {
+      "id": "3533f8d6-a8d0-4a06-bc9d-98ba30cd5ec6",
+      "seed": 109,
+      "audio": "D:\\O-CUT\\.runtime\\music-composer-23jAyd\\user\\music\\3533f8d6-a8d0-4a06-bc9d-98ba30cd5ec6\\audio.wav",
+      "seconds": 19.998667,
+      "sha256": "7854a48ae553c848b8a3ccbe6f5dff8f4e331c63f6d211f952fe7c197f859b28",
+      "rms": 0.20632419903838473,
+      "meta": {
+        "id": "song",
+        "style": "bossa nova jazz, nylon-string guitar, mellow piano, brushed drums, warm upright bass, lo-fi hip hop, dusty drum groove, mellow jazz chords, soft piano, relaxed bass, calm and relaxed atmosphere, instrumental, no vocals, saxophone solo",
+        "lyrics": "[Instrumental]",
+        "cot": "off",
+        "seed": 109,
+        "advanced": {
+          "maxTokens": 500,
+          "minTokens": 200,
+          "abcMaxTokens": 256,
+          "odeSteps": 8
+        },
+        "engine": "yue2-infer 0.1.6",
+        "abc": null,
+        "seconds": 20,
+        "wallSeconds": 18.7,
+        "truncated": {
+          "abc": false,
+          "semantic": true
+        },
+        "createdAt": "2026-10-04T15:12:08"
+      }
+    }
+  ],
+  "scope": "One actual seven-minute draft instrumental and ten actual 20-second draft songs. Ten seven-minute songs and seven-minute standard/vocal musical quality NOT RUN."
+}

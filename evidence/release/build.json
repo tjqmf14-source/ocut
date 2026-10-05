@@ -1,14 +1,14 @@
 {
-  "time": "2026-10-04T01:24:54.508Z",
-  "stage": "D:\\O-CUT\\.runtime\\release-ko0Jzt",
-  "payload": "D:\\O-CUT\\.runtime\\release-ko0Jzt\\payload",
-  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.12.3.exe",
-  "installerSha256": "71346e60bafbc2a5b36629a47d7fc2b8adcfd6d5f30fe82e88ba2b6446c87055",
-  "installerBytes": 199700328,
+  "time": "2026-10-04T06:22:40.402Z",
+  "stage": "D:\\O-CUT\\.runtime\\release-ACyyyq",
+  "payload": "D:\\O-CUT\\.runtime\\release-ACyyyq\\payload",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.13.0.exe",
+  "installerSha256": "6642154550f37a00086ea44b1554d461ca937a42ad4663a11cd0ec129cde9083",
+  "installerBytes": 199745841,
   "manifest": {
-    "version": "0.12.3",
-    "sourceCommit": "962f8d36704f4531dfed98c756228f51037f6659",
-    "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
+    "version": "0.13.0",
+    "sourceCommit": "72c79943f1b1b7182de1040bc2bb9f9fc0b72e96",
+    "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
     "files": [
       {
         "file": "LICENSE.electron.txt",
@@ -23,7 +23,7 @@
       {
         "file": "O-CUT.exe",
         "bytes": 188758016,
-        "sha256": "0c3c436a3cc0037c66480911dc5cccf947a71b23fd9a64f433b311db4575e454"
+        "sha256": "c1145ce8c9ac732abc147d85ee98f80c02acbdd7d52a8ef32aa7e578a925a433"
       },
       {
         "file": "RECOVERY_REPORT.md",
@@ -32,13 +32,13 @@
       },
       {
         "file": "STUDIO_GUIDE.md",
-        "bytes": 20120,
-        "sha256": "91aac3013a2fc838aad9a73123dd95954437ae049abbb8f58a0fa4fe8e09f208"
+        "bytes": 21049,
+        "sha256": "60fe24bd4a721222a3eae4e20d9fe84dc81e1043e79867097a9f7cb3b37b4f39"
       },
       {
         "file": "THIRD-PARTY-NOTICES.txt",
         "bytes": 815,
-        "sha256": "6f80b22868c813bad0f423c796fe1a39df172f74119d41f2c80eaf950d1df597"
+        "sha256": "4420b7fff098d3b122a728afc5cf56cb035b2361cfec2f4c443eb497012444dd"
       },
       {
         "file": "chrome_100_percent.pak",
@@ -362,13 +362,18 @@
       },
       {
         "file": "resources/app.asar",
-        "bytes": 270788,
-        "sha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179"
+        "bytes": 279234,
+        "sha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988"
       },
       {
         "file": "resources/music-worker/PROVENANCE.txt",
         "bytes": 158,
         "sha256": "b324c461815364dbdd6cd2d296f462c11f374221316f6300c309a2cd996a8506"
+      },
+      {
+        "file": "resources/music-worker/ocut-worker.py",
+        "bytes": 528,
+        "sha256": "6178a9326d5ce6d39d467546de1c92e25d27b62f2a741b8e9e37c84ef7c779e7"
       },
       {
         "file": "resources/music-worker/worker.py",
@@ -438,7 +443,7 @@
     ]
   },
   "buildInputs": {
-    "version.json": "88efa716040a040cbcb8c4056668315c89a85a5643258901b1311f9ba7388d7b",
+    "version.json": "f112c7ca7695fb4b108da4e663415ba951aeda29341d14515a0f49e5efedfe4f",
     "scripts/build-installer.cjs": "ddc27daee2f1fff1d8627f82d070a5f86abeefdb7b92d4d9b9059fd0490f4a32",
     "packaging/installer.nsi": "d7a9ed12185dc6dfa5ea9c83969d5eae44cc02ebc69a57938dfe4821f0c4029e",
     "packaging/NOTICE.ko.txt": "4bfd2983935514a883a7e83f9e6082ee04e229f70032ee4ce0c58007ddf041b7"

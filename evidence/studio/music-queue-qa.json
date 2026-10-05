@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-04T01:21:18.803Z",
+  "time": "2026-10-04T06:19:13.443Z",
   "status": "PASS",
   "checks": [
     "UI batch uses distinct seeds, persists pending songs and removes selected reservation",
@@ -12,101 +12,103 @@
     "real worker cancellation automatically advances to next reservation; pause plus cancel stops queue",
     "both queue results add to editable timeline, save as project and mix into decodable non-silent 1080p AAC MP4"
   ],
-  "data": "D:\\O-CUT\\.runtime\\music-queue-1791076805023",
+  "data": "D:\\O-CUT\\.runtime\\music-queue-1791094679278",
   "songs": [
     {
-      "id": "b08b7c85-bb71-47ae-b93b-e391e77ae21d",
+      "id": "6ea5c623-37f1-48da-afe7-12ecda12d9d2",
       "title": "대기열 실증 · 1/3",
-      "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+      "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
       "instrumental": true,
       "seconds": 20,
       "quality": "draft",
       "seed": 42,
-      "batchId": "65e3bf1b-797b-44e3-9627-3f3e007b86af",
+      "batchId": "19a09f91-3887-44ee-ae88-82e67a6ddd9f",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-04T01:20:05.704Z",
+      "createdAt": "2026-10-04T06:18:00.012Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {},
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791076805023\\user\\music\\b08b7c85-bb71-47ae-b93b-e391e77ae21d\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791094679278\\user\\music\\6ea5c623-37f1-48da-afe7-12ecda12d9d2\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
-        "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+        "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
         "lyrics": "[Instrumental]",
         "cot": "off",
         "seed": 42,
         "advanced": {
           "maxTokens": 500,
+          "minTokens": 200,
           "abcMaxTokens": 256,
           "odeSteps": 8
         },
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 35.1,
+        "wallSeconds": 33.8,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-04T10:20:42"
+        "createdAt": "2026-10-04T15:18:34"
       },
-      "finishedAt": "2026-10-04T01:20:42.134Z",
+      "finishedAt": "2026-10-04T06:18:35.043Z",
       "qa": {
-        "rms": 0.09805863220754872,
-        "sha256": "a4d7d922a1a14e15bca1ef2707276501193ff21f17f4a1d22a7c07b68da6a5ef"
+        "rms": 0.12079401723053043,
+        "sha256": "d0315396a2a76cdad2eb084e87cd9438973a48021005ada11e1ddc4d72585e87"
       }
     },
     {
-      "id": "ef4ef633-d62c-4dd5-9ef0-2e5db1bd761d",
+      "id": "4d742bdc-b372-43aa-a065-a2c20d069886",
       "title": "대기열 실증 · 2/3",
-      "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+      "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
       "instrumental": true,
       "seconds": 20,
       "quality": "draft",
       "seed": 43,
-      "batchId": "65e3bf1b-797b-44e3-9627-3f3e007b86af",
+      "batchId": "19a09f91-3887-44ee-ae88-82e67a6ddd9f",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-04T01:20:43.432Z",
+      "createdAt": "2026-10-04T06:18:36.243Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {},
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791076805023\\user\\music\\ef4ef633-d62c-4dd5-9ef0-2e5db1bd761d\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791094679278\\user\\music\\4d742bdc-b372-43aa-a065-a2c20d069886\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
-        "style": "Warm piano, gentle acoustic guitar, hopeful cinematic instrumental",
+        "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
         "lyrics": "[Instrumental]",
         "cot": "off",
         "seed": 43,
         "advanced": {
           "maxTokens": 500,
+          "minTokens": 200,
           "abcMaxTokens": 256,
           "odeSteps": 8
         },
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 28.2,
+        "wallSeconds": 30.7,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-04T10:21:13"
+        "createdAt": "2026-10-04T15:19:08"
       },
-      "finishedAt": "2026-10-04T01:21:13.217Z",
+      "finishedAt": "2026-10-04T06:19:08.249Z",
       "qa": {
-        "rms": 0.08393557702510787,
-        "sha256": "5c590f714e13d5d0496e4b69d973ca0e0e91d29b3085b415a7966fa8e0404499"
+        "rms": 0.13347241239770705,
+        "sha256": "cfcef684efbed240632fef620999767b18f1aeb0cea7291fbb90ea9b921206a4"
       }
     }
   ],
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-queue-mix-1080p.mp4",
-  "mixRms": 0.06973145551566139,
-  "outputSha256": "b28f53c49c6afce175e5d031c7cba2f16dda3e6fbf1c43d763cf98a0e4165df3",
-  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179"
+  "mixRms": 0.10028123815882191,
+  "outputSha256": "6e706b8986ffb1a1739c64118919ef5812605fbfb38815ec6f4d7eed8114c49d",
+  "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988"
 }

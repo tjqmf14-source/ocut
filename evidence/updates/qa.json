@@ -1,10 +1,10 @@
 {
-  "time": "2026-10-04T01:26:27.823Z",
+  "time": "2026-10-04T06:24:02.966Z",
   "status": "PASS",
-  "version": "0.12.3",
-  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
-  "manifestSha256": "16c7baa3be231e3acd920f39570fcaf95a93394b02cb63fd942b39ca17f4f092",
-  "data": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe",
+  "version": "0.13.0",
+  "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
+  "manifestSha256": "a9edfd0ebb2fdf84b05e77700d8906a59c418e3a25db49fba213f812cdf3f1bd",
+  "data": "D:\\O-CUT\\.runtime\\update-qa-iL4uIn",
   "checks": [
     "signed exact candidate prepares beside running 0.11; helper waits while real app remains usable",
     "real 0.11 upgrades to exact candidate after exit; previous app, matching uninstaller, custom file, project and queue preserved",
@@ -14,17 +14,17 @@
     "preserved exact previous app remains runnable for rollback"
   ],
   "firstUpdate": {
-    "version": "0.12.3",
+    "version": "0.13.0",
     "message": "Update installed. Previous app and uninstaller are preserved in backup.",
-    "root": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe\\한글 설치",
+    "root": "D:\\O-CUT\\.runtime\\update-qa-iL4uIn\\한글 설치",
     "phase": "activated",
-    "backup": "D:\\O-CUT\\.runtime\\update-qa-LwMqBe\\한글 설치\\backup-update-0.11.0-c3f007fdb20842f0bda9cb3277a00616",
-    "time": "2026-10-04T01:26:19.8803630Z",
+    "backup": "D:\\O-CUT\\.runtime\\update-qa-iL4uIn\\한글 설치\\backup-update-0.11.0-0a885ba69a174d93b60dca6b4d8a0812",
+    "time": "2026-10-04T06:23:54.4436283Z",
     "status": "applied"
   },
   "futureFixture": {
-    "version": "0.12.4",
-    "asarSha256": "2b4b7dcc0bc3a9de8f63c3ec1583aeba596d2e96354cd56b2278a07252642159"
+    "version": "0.13.1",
+    "asarSha256": "f74c91865b8c44ced66f0d9fc9a9e5b50089527d63a407bbd8cc8f57f487bb77"
   },
   "scope": "Real isolated apps and actual helper; future version is test-only; no user installation mutation"
 }

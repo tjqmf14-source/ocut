@@ -1,25 +1,33 @@
 {
-  "time": "2026-10-04T05:46:31.612Z",
+  "time": "2026-10-05T03:18:50.962Z",
   "status": "PASS",
-  "version": "0.12.3",
+  "version": "0.13.0",
+  "beforeVersion": "0.12.3",
   "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
-  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
-  "verifiedPackageFiles": 85,
-  "userDataFilesUnchangedDuringInstall": 11,
-  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-updates-0Aljdh",
+  "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
+  "verifiedPackageFiles": 86,
+  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-music-update-ifl4s4",
+  "userDataFilesUnchangedAfterRuntime": 11,
   "update": {
     "status": "current",
-    "currentVersion": "0.12.3",
+    "currentVersion": "0.13.0",
     "enabled": true,
-    "message": "최신 버전 0.12.3"
+    "message": "최신 버전 0.13.0"
+  },
+  "applied": {
+    "version": "0.13.0",
+    "message": "Update installed. Previous app and uninstaller are preserved in backup.",
+    "root": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+    "phase": "activated",
+    "backup": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-update-0.12.3-e81d737850844d15bd02d69490f06b15",
+    "time": "2026-10-05T03:18:49.2443905Z",
+    "status": "applied"
   },
   "checks": [
-    "existing music/workspace/settings checkpoint before connection",
-    "all checkpointed user files unchanged after installer",
-    "actual default installed app launched with real user data",
-    "bundled local update channel reports current version",
-    "all installed manifest file hashes verified after runtime"
-  ],
-  "userDataFilesUnchangedAfterRuntime": 11,
-  "startMenuShortcutPresent": true
+    "existing app package verified and user music/workspace checkpointed",
+    "previous installed app used its own signed local updater",
+    "normal clean window close applies update without reinstall",
+    "installed 0.13 opens with real user data and 16 genre chips, seven-minute option and default ten songs",
+    "all prior user music/workspace files and installed package hashes verified"
+  ]
 }

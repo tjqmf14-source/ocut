@@ -1,4 +1,17 @@
-# Windows 설치 후보 — O-CUT 0.12.3
+# Windows 설치 후보 — O-CUT 0.13.0
+
+2026-10-04 검증 / 2026-10-05 사용자 앱 적용: **전체 release Gate BLOCKED, 이 PC의 로컬 업데이트 PASS 및 적용 완료**. Studio 20단계·124/124 검사, 설치 경로 6개와 격리 설치·실행·출력·재설치·제거·대기열 보존 8개 검사는 통과했다. 기존 사용자 설치와 Windows 등록·시작 메뉴를 보존하므로 신규 등록/제거 2개 시나리오는 NOT RUN이다. 이 미검증 범위를 전체 설치 PASS로 표시하지 않는다.
+
+- 설치 파일: D:\O-CUT\artifacts\release\O-CUT-Setup-0.13.0.exe; 199745841바이트.
+- 설치 SHA-256: 6642154550f37a00086ea44b1554d461ca937a42ad4663a11cd0ec129cde9083.
+- ASAR SHA-256: 1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988.
+- 앱 소스 체크포인트: 72c79943f1b1b7182de1040bc2bb9f9fc0b72e96.
+- 기존 0.12.3의 자체 업데이트로 설치된 0.13.0을 실제 실행해 장르 16개·7분 옵션·기본 10곡을 확인했다. 설치 파일 86개와 사용자 음악 관련 파일 11개 해시를 검증했다.
+- 이전 앱 복구 경로: C:\Users\tjqmf\AppData\Local\Programs\O-CUT\backup-update-0.12.3-e81d737850844d15bd02d69490f06b15 (app/O-CUT.exe). 사용자 자료 체크포인트: D:\O-CUT\.runtime\user-data-before-music-update-ifl4s4.
+
+새 npm/Python 의존성·모델 다운로드 없음. 원격 CI·새 PC/VM·Windows Authenticode·정전·디스크 부족 검사는 NOT RUN이다. 변경하지 않은 의존성의 audit는 이번에 재실행하지 않았다. 정확한 증거는 evidence/release/gate.json, installer-qa.json 및 evidence/updates/activation.json에 있다. 아래는 이전 버전의 이력이다.
+
+## 0.12.3 설치 검증 이력
 
 2026-10-04: **최종 release Gate PASS**. Studio 19단계, 119/119 검사, 경로 보호 6개, 실제 설치·실행·출력·재설치·제거 및 Windows 등록 10개를 이번 파일로 검증했다. 초기 0.11 검증 당시와 달리 이번 검사 시점에는 기존 기본 설치·등록·시작 메뉴가 없어 격리 대상의 Windows 통합 검사도 수행했다.
 

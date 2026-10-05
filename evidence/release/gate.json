@@ -1,21 +1,10 @@
 {
-  "time": "2026-10-04T01:25:48.213Z",
-  "status": "PASS",
-  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.12.3.exe",
-  "installerSha256": "71346e60bafbc2a5b36629a47d7fc2b8adcfd6d5f30fe82e88ba2b6446c87055",
-  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
-  "buildTime": "2026-10-04T01:24:54.508Z",
-  "buildInputs": {
-    "version.json": "88efa716040a040cbcb8c4056668315c89a85a5643258901b1311f9ba7388d7b",
-    "scripts/build-installer.cjs": "ddc27daee2f1fff1d8627f82d070a5f86abeefdb7b92d4d9b9059fd0490f4a32",
-    "packaging/installer.nsi": "d7a9ed12185dc6dfa5ea9c83969d5eae44cc02ebc69a57938dfe4821f0c4029e",
-    "packaging/NOTICE.ko.txt": "4bfd2983935514a883a7e83f9e6082ee04e229f70032ee4ce0c58007ddf041b7"
-  },
-  "verificationInputs": {
-    "scripts/verify-release.cjs": "fa24af1d05df351311c936bccb4e2166db200bb484ef6ab958bd939ffc9b7275",
-    "scripts/qa-installer.cjs": "f12effeda28f6c588b454d6aee2452d02a0cc0652c74b00e25a5710f0bb9b907",
-    "scripts/qa-installer-paths.cjs": "e50277e8c672fd9e25f0f60d4dc4386c774752fc95383121781186d42854c003"
-  },
+  "time": "2026-10-04T06:23:21.157Z",
+  "status": "BLOCKED",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.13.0.exe",
+  "installerSha256": "6642154550f37a00086ea44b1554d461ca937a42ad4663a11cd0ec129cde9083",
+  "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
+  "error": "Error: Windows integration NOT RUN: existing user registration or shortcut folder preserved\n    at Object.<anonymous> (D:\\O-CUT\\scripts\\verify-release.cjs:16:50)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47",
   "checks": [
     {
       "name": "build",
@@ -37,6 +26,5 @@
       "name": "installer",
       "exitCode": 0
     }
-  ],
-  "scope": "this Windows host; clean PC VM, signing, power-loss and disk-full NOT RUN"
+  ]
 }

@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-04T01:17:23.162Z",
-  "data": "D:\\O-CUT\\.runtime\\timeline-1791076639982",
-  "save": "D:\\O-CUT\\.runtime\\timeline-1791076639982\\timeline.ocut",
+  "time": "2026-10-04T06:15:33.169Z",
+  "data": "D:\\O-CUT\\.runtime\\timeline-1791094529915",
+  "save": "D:\\O-CUT\\.runtime\\timeline-1791094529915\\timeline.ocut",
   "checks": [
     "actual video/audio import, PCM waveform, thumbnails",
     "actual realtime playback and decoded canvas video",
@@ -15,10 +15,10 @@
   "project": {
     "format": "O-CUT",
     "version": 1,
-    "id": "225c3de9-dbb9-45d7-9791-f797d0b80dc8",
+    "id": "117a1150-0c87-4120-80ed-e3c942028335",
     "name": "새 프로젝트",
-    "createdAt": "2026-10-04T01:17:20.334Z",
-    "modifiedAt": "2026-10-04T01:17:22.277Z",
+    "createdAt": "2026-10-04T06:15:30.289Z",
+    "modifiedAt": "2026-10-04T06:15:32.232Z",
     "revision": 15,
     "canvas": {
       "width": 1920,
@@ -28,17 +28,17 @@
     },
     "media": [
       {
-        "id": "24598dc0-6afb-4016-9256-5aa45c337b3c",
+        "id": "901ffef5-2846-429f-ac69-da164fc6acbc",
         "type": "video",
-        "path": "D:\\O-CUT\\.runtime\\timeline-1791076639982\\motion.mp4",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1791094529915\\motion.mp4",
         "name": "motion.mp4",
         "duration": 6,
         "fingerprint": null
       },
       {
-        "id": "e42b2c83-696a-4151-93ba-e5a321180f48",
+        "id": "755bb084-b95e-4b40-9e8d-8fde2df63746",
         "type": "audio",
-        "path": "D:\\O-CUT\\.runtime\\timeline-1791076639982\\music.wav",
+        "path": "D:\\O-CUT\\.runtime\\timeline-1791094529915\\music.wav",
         "name": "music.wav",
         "duration": 6,
         "fingerprint": null
@@ -46,7 +46,7 @@
     ],
     "tracks": [
       {
-        "id": "c53e27d5-7e39-4464-9485-8b967be70a33",
+        "id": "5476011c-9d47-42cb-b45a-0c56c8c9bdc9",
         "type": "text",
         "name": "텍스트",
         "locked": false,
@@ -55,7 +55,7 @@
         "solo": false
       },
       {
-        "id": "20079a48-d1a7-4d2d-8acb-d4556dd43075",
+        "id": "c9f583ed-ff00-44c3-bcbe-2c4d09faceaa",
         "type": "video",
         "name": "영상",
         "locked": false,
@@ -64,7 +64,7 @@
         "solo": false
       },
       {
-        "id": "c9021656-0077-4a46-acfc-5e6bcbbd643f",
+        "id": "06bd1e1f-5b8b-4d0f-8db8-117473c55c2b",
         "type": "audio",
         "name": "오디오",
         "locked": false,
@@ -75,10 +75,10 @@
     ],
     "clips": [
       {
-        "id": "8ea0b1d2-74b7-4b7f-add7-d98ee07f09ce",
-        "trackId": "20079a48-d1a7-4d2d-8acb-d4556dd43075",
+        "id": "bfa1a343-4276-4f3b-bf1f-e73914b71d0e",
+        "trackId": "c9f583ed-ff00-44c3-bcbe-2c4d09faceaa",
         "type": "video",
-        "source": "24598dc0-6afb-4016-9256-5aa45c337b3c",
+        "source": "901ffef5-2846-429f-ac69-da164fc6acbc",
         "startTime": 0,
         "duration": 2,
         "sourceStart": 0,
@@ -100,10 +100,10 @@
         "text": ""
       },
       {
-        "id": "d01e025f-82a5-43ad-9db9-5e047b5e6103",
-        "trackId": "20079a48-d1a7-4d2d-8acb-d4556dd43075",
+        "id": "2eed877c-4cbb-45de-980a-b99f4614a904",
+        "trackId": "c9f583ed-ff00-44c3-bcbe-2c4d09faceaa",
         "type": "video",
-        "source": "24598dc0-6afb-4016-9256-5aa45c337b3c",
+        "source": "901ffef5-2846-429f-ac69-da164fc6acbc",
         "startTime": 2,
         "duration": 2,
         "sourceStart": 2,
@@ -125,10 +125,10 @@
         "text": ""
       },
       {
-        "id": "1d4dd845-f9b4-4f29-afca-5b41abe15ea4",
-        "trackId": "c9021656-0077-4a46-acfc-5e6bcbbd643f",
+        "id": "b0a4853b-db90-4385-9bbe-c3cc40935356",
+        "trackId": "06bd1e1f-5b8b-4d0f-8db8-117473c55c2b",
         "type": "audio",
-        "source": "e42b2c83-696a-4151-93ba-e5a321180f48",
+        "source": "755bb084-b95e-4b40-9e8d-8fde2df63746",
         "startTime": 0,
         "duration": 6,
         "sourceStart": 0,
@@ -150,8 +150,8 @@
         "text": ""
       },
       {
-        "id": "0dadbb2e-fa23-4e73-afc0-e44bea2e8aff",
-        "trackId": "c53e27d5-7e39-4464-9485-8b967be70a33",
+        "id": "4ea3c5a5-4a64-4e94-a245-f15ddcd28169",
+        "trackId": "5476011c-9d47-42cb-b45a-0c56c8c9bdc9",
         "type": "text",
         "source": null,
         "startTime": 2,
@@ -172,7 +172,7 @@
         "volume": 1,
         "effects": [
           {
-            "id": "99ca7878-5c5b-44cf-93eb-2f227c0f6611",
+            "id": "f5faaf00-aa48-4be7-acf5-63179291c242",
             "type": "textStyle",
             "enabled": true,
             "parameters": {

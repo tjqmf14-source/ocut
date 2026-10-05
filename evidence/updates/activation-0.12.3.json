@@ -1,0 +1,25 @@
+{
+  "time": "2026-10-04T05:46:31.612Z",
+  "status": "PASS",
+  "version": "0.12.3",
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "asarSha256": "988342cc32c38342bb81a2f616de1e104231486c9b7d9a5af62068166fe27179",
+  "verifiedPackageFiles": 85,
+  "userDataFilesUnchangedDuringInstall": 11,
+  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-updates-0Aljdh",
+  "update": {
+    "status": "current",
+    "currentVersion": "0.12.3",
+    "enabled": true,
+    "message": "최신 버전 0.12.3"
+  },
+  "checks": [
+    "existing music/workspace/settings checkpoint before connection",
+    "all checkpointed user files unchanged after installer",
+    "actual default installed app launched with real user data",
+    "bundled local update channel reports current version",
+    "all installed manifest file hashes verified after runtime"
+  ],
+  "userDataFilesUnchangedAfterRuntime": 11,
+  "startMenuShortcutPresent": true
+}
