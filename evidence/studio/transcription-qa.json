@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-04T06:17:11.414Z",
+  "time": "2026-10-05T04:12:00.718Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\transcribe-1791094611770",
-  "save": "D:\\O-CUT\\.runtime\\transcribe-1791094611770\\자동 자막.ocut",
+  "data": "D:\\O-CUT\\.runtime\\transcribe-1791173490868",
+  "save": "D:\\O-CUT\\.runtime\\transcribe-1791173490868\\자동 자막.ocut",
   "output": "D:\\O-CUT\\artifacts\\transcription\\O-CUT-local-captions.mp4",
   "srt": "D:\\O-CUT\\artifacts\\transcription\\자동 자막.srt",
   "recognized": "안녕하세요. 오늘은 음악과 영상을 편집합니다. 자막을 만들고 내용을 확인합니다.",
@@ -17,37 +17,13 @@
   ],
   "logs": [
     {
-      "clipId": "af568fd4-fe3e-4b27-9ddd-9feb5dcdbfeb",
-      "options": {
-        "language": "ko",
-        "device": "auto"
-      },
-      "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
-      "startedAt": "2026-10-04T06:16:53.207Z",
-      "status": "complete",
-      "device": "cuda:0",
-      "segments": [
-        {
-          "startTime": 1,
-          "duration": 4,
-          "text": "안녕하세요. 오늘은 음악과 영상을 편집합니다."
-        },
-        {
-          "startTime": 5,
-          "duration": 2.4821875,
-          "text": "자막을 만들고 내용을 확인합니다."
-        }
-      ],
-      "finishedAt": "2026-10-04T06:17:04.541Z"
-    },
-    {
-      "clipId": "af568fd4-fe3e-4b27-9ddd-9feb5dcdbfeb",
+      "clipId": "01769282-15a4-47ea-82d6-cf5b83fca44d",
       "options": {
         "language": "ko",
         "device": "cpu"
       },
       "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
-      "startedAt": "2026-10-04T06:17:04.731Z",
+      "startedAt": "2026-10-05T04:11:53.727Z",
       "status": "complete",
       "device": "cpu",
       "segments": [
@@ -62,7 +38,31 @@
           "text": "자막을 만들고 내용을 확인합니다."
         }
       ],
-      "finishedAt": "2026-10-04T06:17:09.157Z"
+      "finishedAt": "2026-10-05T04:11:58.433Z"
+    },
+    {
+      "clipId": "01769282-15a4-47ea-82d6-cf5b83fca44d",
+      "options": {
+        "language": "ko",
+        "device": "auto"
+      },
+      "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
+      "startedAt": "2026-10-05T04:11:32.440Z",
+      "status": "complete",
+      "device": "cuda:0",
+      "segments": [
+        {
+          "startTime": 1,
+          "duration": 4,
+          "text": "안녕하세요. 오늘은 음악과 영상을 편집합니다."
+        },
+        {
+          "startTime": 5,
+          "duration": 2.4821875,
+          "text": "자막을 만들고 내용을 확인합니다."
+        }
+      ],
+      "finishedAt": "2026-10-05T04:11:53.549Z"
     }
   ],
   "errors": []

@@ -1,10 +1,10 @@
 {
-  "time": "2026-10-04T06:15:23.884Z",
+  "time": "2026-10-05T04:09:55.660Z",
   "kind": "CommonJS core distribution; no UI or installer",
   "files": [
     {
       "file": "core/project.cjs",
-      "sha256": "1aa542b967a905fb2845d128d71fa2c59668ed79448b8dfc134d3edd4e9cd0b1"
+      "sha256": "c9c882edf501a60147f8b45551fc0a63b355730f99bbed78f50436926f179c27"
     },
     {
       "file": "core/history.cjs",
@@ -20,11 +20,15 @@
     },
     {
       "file": "core/keyframes.js",
-      "sha256": "e3ad0b64e8e70402f0063528c2d38521acecfae1381d3ad72b4c42abd48e5262"
+      "sha256": "5173e5d8620182b167506c81e9d0c92f5ed8982017c61acbce13a99c12bcd9c2"
     },
     {
       "file": "core/color-filters.js",
-      "sha256": "88fc4fb1c3957469fcc222507315aff952efc55ec9679133221eb7cdbf52ddad"
+      "sha256": "493c0c11617a12f0ced0c365e75235eab52e379851804c1d358ed2e4d4807ed8"
+    },
+    {
+      "file": "core/texture.js",
+      "sha256": "d2baa9ddf46eb2bb8ac647df29b9e17f63f5c3cac6aff05a2653e5cb7360aea5"
     },
     {
       "file": "core/transitions.js",

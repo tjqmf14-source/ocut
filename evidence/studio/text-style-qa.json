@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-04T06:16:51.437Z",
+  "time": "2026-10-05T04:11:30.522Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\text-style-1791094607070",
+  "data": "D:\\O-CUT\\.runtime\\text-style-1791173485974",
   "save": "D:\\O-CUT\\artifacts\\text-style\\텍스트 서식.ocut",
   "metrics": {
     "supported": true,
@@ -18,7 +18,7 @@
     {
       "preset": "title",
       "output": "D:\\O-CUT\\artifacts\\text-style\\O-CUT-title.mp4",
-      "preview": "D:\\O-CUT\\.runtime\\text-style-1791094607070\\title-preview.png",
+      "preview": "D:\\O-CUT\\.runtime\\text-style-1791173485974\\title-preview.png",
       "frame": "D:\\O-CUT\\artifacts\\text-style\\title.png",
       "ssim": 0.999511,
       "pixels": 13783,
@@ -27,7 +27,7 @@
     {
       "preset": "subtitle",
       "output": "D:\\O-CUT\\artifacts\\text-style\\O-CUT-subtitle.mp4",
-      "preview": "D:\\O-CUT\\.runtime\\text-style-1791094607070\\subtitle-preview.png",
+      "preview": "D:\\O-CUT\\.runtime\\text-style-1791173485974\\subtitle-preview.png",
       "frame": "D:\\O-CUT\\artifacts\\text-style\\subtitle.png",
       "ssim": 0.999562,
       "pixels": 15506,
@@ -36,7 +36,7 @@
     {
       "preset": "lyrics",
       "output": "D:\\O-CUT\\artifacts\\text-style\\O-CUT-lyrics.mp4",
-      "preview": "D:\\O-CUT\\.runtime\\text-style-1791094607070\\lyrics-preview.png",
+      "preview": "D:\\O-CUT\\.runtime\\text-style-1791173485974\\lyrics-preview.png",
       "frame": "D:\\O-CUT\\artifacts\\text-style\\lyrics.png",
       "ssim": 0.999484,
       "pixels": 9805,
@@ -45,7 +45,7 @@
     {
       "preset": "lowerThird",
       "output": "D:\\O-CUT\\artifacts\\text-style\\O-CUT-lowerThird.mp4",
-      "preview": "D:\\O-CUT\\.runtime\\text-style-1791094607070\\lowerThird-preview.png",
+      "preview": "D:\\O-CUT\\.runtime\\text-style-1791173485974\\lowerThird-preview.png",
       "frame": "D:\\O-CUT\\artifacts\\text-style\\lowerThird.png",
       "ssim": 0.999431,
       "pixels": 76605,

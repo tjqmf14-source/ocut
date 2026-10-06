@@ -1,4 +1,24 @@
-# Windows 설치 후보 — O-CUT 0.13.0
+# Windows 설치 후보 — O-CUT 0.14.0
+
+2026-10-06: 기존 Windows 등록·시작 메뉴를 보존하므로 신규 등록/제거 2개 시나리오는 NOT RUN, 전체 설치 Gate BLOCKED. 별도의 실제 로컬 업데이트 Gate는 PASS.
+
+Studio 21단계·128/128 검사, 경로 보호 6개·격리 설치 8개 통과. 설치된 앱 0.13.0→0.14.0 자동 업데이트 적용 완료. 실제 사용자 데이터로 재실행해 9개 도구 탭·항상 보이는 가사창·연주곡 체크·16개 장르·7분·기본 10곡을 확인했다. 설치 파일 86개와 기존 사용자 자료 11개 해시가 일치한다.
+
+설치 파일: D:\O-CUT\artifacts\release\O-CUT-Setup-0.14.0.exe (199669303바이트).
+
+설치 SHA-256: f38b2f51cd10bf6b8b51bb519e57e3ba0860a346bb6666ef7d65e5952133bd0d.
+
+ASAR SHA-256: c1c934c1e4fadb2657a9e630d06647fcbcd84c308b0f9869c50732c58359897a.
+
+업데이트 manifest SHA-256: 51914b451e730988eaf17fa436c0e39ec24e05caf638fd2d3c1cf31a35ec18aa.
+
+앱 소스 체크포인트: f207a2ec7f3aba1d782c5e75caf2ab25ff34d80c.
+
+이전 앱: C:\Users\tjqmf\AppData\Local\Programs\O-CUT\backup-update-0.13.0-4bf6217128384ac7a76377c4e1951416. 사용자 자료 체크포인트: D:\O-CUT\.runtime\user-data-before-editor-update-32ES3E.
+
+새 의존성·모델·유료 서비스 없음. 새 PC/VM·원격 CI·Windows Authenticode·정전·디스크 부족은 NOT RUN. 긴 영상/4K 질감 출력 속도와 가사 정확도는 미검증이다. 전체 설치 Gate와 이 PC의 로컬 업데이트 Gate를 구분한다. 아래는 이전 이력이다.
+
+## 0.13.0 설치 검증 이력
 
 2026-10-04 검증 / 2026-10-05 사용자 앱 적용: **전체 release Gate BLOCKED, 이 PC의 로컬 업데이트 PASS 및 적용 완료**. Studio 20단계·124/124 검사, 설치 경로 6개와 격리 설치·실행·출력·재설치·제거·대기열 보존 8개 검사는 통과했다. 기존 사용자 설치와 Windows 등록·시작 메뉴를 보존하므로 신규 등록/제거 2개 시나리오는 NOT RUN이다. 이 미검증 범위를 전체 설치 PASS로 표시하지 않는다.
 

@@ -1,0 +1,33 @@
+{
+  "time": "2026-10-05T03:18:50.962Z",
+  "status": "PASS",
+  "version": "0.13.0",
+  "beforeVersion": "0.12.3",
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "asarSha256": "1cf5fe25abffe19407e79e1b4774ebbea167eff91591fe88ed23cc48e341a988",
+  "verifiedPackageFiles": 86,
+  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-music-update-ifl4s4",
+  "userDataFilesUnchangedAfterRuntime": 11,
+  "update": {
+    "status": "current",
+    "currentVersion": "0.13.0",
+    "enabled": true,
+    "message": "최신 버전 0.13.0"
+  },
+  "applied": {
+    "version": "0.13.0",
+    "message": "Update installed. Previous app and uninstaller are preserved in backup.",
+    "root": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+    "phase": "activated",
+    "backup": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-update-0.12.3-e81d737850844d15bd02d69490f06b15",
+    "time": "2026-10-05T03:18:49.2443905Z",
+    "status": "applied"
+  },
+  "checks": [
+    "existing app package verified and user music/workspace checkpointed",
+    "previous installed app used its own signed local updater",
+    "normal clean window close applies update without reinstall",
+    "installed 0.13 opens with real user data and 16 genre chips, seven-minute option and default ten songs",
+    "all prior user music/workspace files and installed package hashes verified"
+  ]
+}

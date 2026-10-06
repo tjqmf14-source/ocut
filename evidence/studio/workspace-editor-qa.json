@@ -1,0 +1,44 @@
+{
+  "time": "2026-10-05T04:14:40.337Z",
+  "status": "PASS",
+  "checks": [
+    "visible lyrics input; vocal lyrics persist; no-lyrics toggle preserves text but excludes it from real queued request; manual style survives genre change",
+    "three layouts at 1100, 1366 and 1920 widths keep visible regions non-overlapping and inside viewport",
+    "keyboard tab navigation and size controls work",
+    "filter/texture cards and granular controls edit real selected clip with undo/redo",
+    "four original transparent decorations enter foreground overlay track; invalid asset ID rejected",
+    "text and transition tool tabs create and edit real timeline content",
+    "actual MP4 with grading, animated grain/noise/vignette, original decorations and text fade fully decodes and matches preview at three times",
+    "saved project and layout restore after restart with identical textured preview"
+  ],
+  "data": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu",
+  "project": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\로파이 편집.ocut",
+  "outputs": [
+    {
+      "output": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\로파이 편집.mp4",
+      "frames": [
+        {
+          "time": 0.25,
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\preview-0.25.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\export-0.25.png",
+          "ssim": 0.954068
+        },
+        {
+          "time": 0.5,
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\preview-0.5.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\export-0.5.png",
+          "ssim": 0.958012
+        },
+        {
+          "time": 1.5,
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\preview-1.5.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-YlLOlu\\export-1.5.png",
+          "ssim": 0.953123
+        }
+      ],
+      "fullDecode": true
+    }
+  ],
+  "errors": [],
+  "scope": "Actual local editor and 2-second 720p export. Long/4K texture export and subjective music vocal quality NOT RUN."
+}
