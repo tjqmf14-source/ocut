@@ -95,7 +95,7 @@ class MusicService {
         if (cancelled) child.stdin.write(JSON.stringify({cmd:'cancel',jobId:job.id})+'\n');
       }
       if (item.jobId && item.jobId !== job.id) return;
-      if (item.type==='stage' || item.type==='progress') { job.stage=item.stage; job.progress={step:item.step,steps:item.steps,tokens:item.tokens}; }
+      if (item.type==='stage' || item.type==='progress') { job.stage=item.stage; job.progress={step:item.step,steps:item.steps,tokens:item.tokens,status:item.status}; }
       if (item.type==='notice') job.message=String(item.message).slice(0,1000);
       if (item.type==='error') return finish(cancelled||item.cancelled?'cancelled':'failed',String(item.message || '음악 생성 실패'));
       if (item.type==='done') {
@@ -121,6 +121,16 @@ class MusicService {
   }
   cancel() { this.cancelCurrent?.(); }
   dispose() { this.cancel(); this.child?.kill(); }
+  async folder(id) {
+    const {safeDirectory}=require('./updates.cjs');
+    await fsp.mkdir(this.directory,{recursive:true});
+    const root=await safeDirectory(this.directory);
+    if(id===undefined||id===null)return root;
+    if(typeof id!=='string'||!/^[a-f0-9-]{36}$/.test(id))throw Error('잘못된 음악 ID입니다.');
+    const directory=await safeDirectory(path.join(root,id));
+    await this.audio(id);
+    return directory;
+  }
   async audio(id) {
     if (typeof id!=='string'||!/^[\da-f-]{36}$/.test(id)) throw Error('잘못된 음악 ID입니다.');
     const job=JSON.parse(await fsp.readFile(path.join(this.directory,id,'job.json'),'utf8'));

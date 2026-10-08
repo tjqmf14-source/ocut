@@ -12,7 +12,7 @@ async function main(){
   await page.waitForFunction(()=>document.querySelector('#musicCheckResult').textContent.includes('환경 확인 완료'),null,{timeout:90000});
   const environment=await page.locator('#musicCheckResult').textContent();assert.match(environment,/RTX 5080/);checks.push('existing local Python / CUDA / YuE2 environment checked in UI');
   await page.locator('.music-environment summary').click();await page.locator('#musicCount').fill('1');await page.locator('#musicTitle').fill('O-CUT 음악 실증');await page.locator('#musicSeed').fill('42');
-  await page.evaluate(()=>{window.qaMusicStages=[];window.ocut.onMusicState(s=>{if(s.current?.stage)qaMusicStages.push(s.current.stage);});});
+  await page.evaluate(()=>{window.qaMusicStages=[];window.qaProgress=[];window.ocut.onMusicState(s=>{if(s.current?.stage){qaMusicStages.push(s.current.stage);qaProgress.push({stage:s.current.stage,progress:s.current.progress,label:document.querySelector('#musicStage').textContent,value:document.querySelector('#musicProgressBar').getAttribute('value'),activity:!document.querySelector('#musicActivity').hidden});}});});
   await page.locator('#musicTab').click();await page.locator('#generateMusic').click();await page.waitForFunction(()=>!document.querySelector('#musicProgress').hidden);
   timer=setInterval(async()=>{try{const s=await page.evaluate(()=>window.ocut.musicState());if(s.current){stages.add(s.current.stage);console.log('Music:',s.current.status,s.current.stage,JSON.stringify(s.current.progress||{}));}}catch{}},15000);
   await page.locator('#addText').click();await page.waitForFunction(()=>document.querySelectorAll('.clip.text').length===1);
@@ -22,12 +22,25 @@ async function main(){
   const music=await page.evaluate(()=>window.ocut.musicState()),job=music.jobs[0];assert.equal(job.status,'complete',job.message);assert.ok(job.duration>1);assert.equal(job.seed,42);
   for(const stage of await page.evaluate(()=>qaMusicStages))stages.add(stage);
   assert.ok(stages.has('semantic')||stages.has('synth'));
+  const feedback=await page.evaluate(()=>qaProgress);
+  assert.ok(feedback.some(x=>x.stage==='load'&&x.value===null&&x.activity));
+  assert.ok(feedback.some(x=>x.stage==='semantic'&&Number(x.progress?.tokens)>0&&x.label.includes('%')));
+  assert.ok(feedback.some(x=>x.stage==='synth'&&Number(x.progress?.steps)>0&&x.label.includes('%')));
+  assert.equal(await page.locator('#musicActivity').isHidden(),true);
+  checks.push('real worker token and synthesis counters appear as phase percentages; preparation is indeterminate and editing activity ends on completion');
   const pcm=run('ffmpeg',['-v','error','-i',job.audio,'-f','f32le','-ac','1','-ar','48000','pipe:1']);let power=0,peak=0;
   for(let i=0;i<pcm.length;i+=4){const v=pcm.readFloatLE(i);assert.ok(Number.isFinite(v));power+=v*v;peak=Math.max(peak,Math.abs(v));}
   const rms=Math.sqrt(power/(pcm.length/4));assert.ok(rms>.0001&&peak>.001,'generated audio must contain real nonzero samples');
   checks.push('actual GPU-generated WAV fully decodes with nonzero PCM');
   await page.locator('#musicTab').click();
-  await page.locator(`.music-job[data-job-id="${job.id}"] button`).click();await page.waitForFunction(()=>document.querySelectorAll('.clip.music').length===1);
+  await app.evaluate(({shell})=>{global.qaFolders=[];shell.openPath=async p=>{qaFolders.push(p);return '';};});
+  await page.locator('#musicFolder').click();await page.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('저장 폴더:'));
+  await page.locator(`.music-job[data-job-id="${job.id}"] .music-folder`).click();await page.waitForFunction(id=>document.querySelector('#status').textContent.endsWith(id),job.id);
+  assert.deepEqual(await app.evaluate(()=>qaFolders),[path.join(data,'user/music'),path.dirname(job.audio)]);
+  await assert.rejects(page.evaluate(()=>window.ocut.openMusicFolder('../escape')));
+  await app.evaluate(({shell})=>{shell.openPath=async()=> 'fixture shell failure';});await page.locator('#musicFolder').click();await page.waitForFunction(()=>document.querySelector('#status').textContent.includes('fixture shell failure'));
+  checks.push('folder buttons dispatch validated root and completed-song directories to OS shell; traversal and shell errors surface (shell mocked to avoid Explorer windows in QA)');
+  await page.locator(`.music-job[data-job-id="${job.id}"] .music-add`).click();await page.waitForFunction(()=>document.querySelectorAll('.clip.music').length===1);
   let state=await page.evaluate(()=>window.ocut.state());assert.ok(Object.values(state.assets).some(a=>a.waveform?.peaks.some(v=>v>0)));
   const clipId=state.project.clips.find(c=>c.type==='music').id;
   await page.locator('#clipDuration').fill('6');await page.locator('#clipFadeIn').fill('1');await page.locator('#clipFadeOut').fill('2');await page.locator('#clipVolume').fill('75');await page.locator('#clipForm button[type=submit]').click();
@@ -61,7 +74,7 @@ async function main(){
   await app.evaluate(({dialog},file)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});},save);
   await page.locator('#openProject').click();await page.waitForFunction(()=>document.querySelectorAll('.clip.music').length===1);
   state=await page.evaluate(()=>window.ocut.state());assert.equal(state.project.clips.find(c=>c.type==='music').effects[0].parameters.fadeOut,2);
-  await page.locator('#musicTab').click();await page.waitForFunction(()=>document.querySelectorAll('.music-job').length===2);assert.equal(await page.locator('.music-job button').count(),1);
+  await page.locator('#musicTab').click();await page.waitForFunction(()=>document.querySelectorAll('.music-job').length===2);assert.equal(await page.locator('.music-job .music-add').count(),1);
   checks.push('app restart restores generated catalog and saved project with audio fade parameters');assert.deepEqual(errors,[]);
   fs.copyFileSync(job.audio,path.join(artifact,'O-CUT-generated-music.wav'));fs.copyFileSync(save,path.join(artifact,'음악 편집 프로젝트.ocut'));
   const report={time:new Date().toISOString(),status:'PASS',checks,environment,data,save,output,job,stages:[...stages],pcm:{rms,peak,ratios},previewGain:measured,sha256:createHash('sha256').update(fs.readFileSync(output)).digest('hex')};

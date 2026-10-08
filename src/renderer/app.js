@@ -4,7 +4,7 @@ let state, busy = false, selected = new Set(), zoom = 70, snap = true, ripple = 
 let exporting = false;
 const clipNodes = new Map(), cardNodes = new Map();
 const symbols = { text: 'T', subtitle: 'CC', video: '▣', image: '▧', audio: '♫', music: '♫', overlay: '▥' };
-const clock = t => { const m = Math.floor(t / 60); return `${String(m).padStart(2, '0')}:${(t % 60).toFixed(3).padStart(6, '0')}`; };
+const clock = OcutStudioView.timecode;
 function message(text, error = false) { $('status').textContent = text; $('status').classList.toggle('error', error); }
 const playback = new StudioPlayback($('preview'), (time, playing) => {
   $('timecode').textContent = clock(time); $('playhead').style.left = `${time * zoom}px`;
@@ -171,9 +171,9 @@ function renderTimeline() {
   renderRuler(); renderSelection(); $('playhead').style.left = `${playback.time * zoom}px`;
 }
 function renderRuler() {
-  const ruler = $('ruler'); ruler.replaceChildren(); const step = zoom > 100 ? 1 : zoom > 40 ? 2 : 5;
+  const ruler = $('ruler'); ruler.replaceChildren(); const step = OcutStudioView.rulerStep(zoom);
   const body = $('timelineBody'), begin = Math.floor(body.scrollLeft / zoom / step) * step, end = (body.scrollLeft + body.clientWidth) / zoom + step;
-  for (let time = begin; time <= end; time += step) { const marker = document.createElement('span'); marker.textContent = `${String(Math.floor(time / 60)).padStart(2, '0')}:${String(time % 60).padStart(2, '0')}`; marker.style.left = `${time * zoom + 6}px`; ruler.append(marker); }
+  for (let time = begin; time <= end; time += step) { const marker = document.createElement('span'); marker.textContent = OcutStudioView.timeLabel(time); marker.style.left = `${time * zoom + 6}px`; ruler.append(marker); }
 }
 function renderSelection() {
   updateCaptionSelection();
@@ -315,7 +315,20 @@ $('deleteClip').onclick = () => edit({ type: 'delete', ids: [...selected], rippl
 $('deselect').onclick = () => { selected.clear(); renderSelection(); renderInspector(); };
 $('snap').onclick = () => { snap = !snap; $('snap').setAttribute('aria-pressed', String(snap)); };
 $('ripple').onclick = () => { ripple = !ripple; $('ripple').setAttribute('aria-pressed', String(ripple)); };
-$('zoom').oninput = () => { zoom = Number($('zoom').value); renderTimeline(); };
+function setTimelineZoom(value,anchor=$('timelineBody').clientWidth/2){
+  if(!state)return;const body=$('timelineBody'),time=(body.scrollLeft+anchor)/zoom;
+  zoom=OcutStudioView.clampZoom(value);$('zoom').value=OcutStudioView.toSlider(zoom);
+  $('zoom').setAttribute('aria-valuetext',`화면에 약 ${OcutStudioView.timeLabel(body.clientWidth/zoom)}`);
+  renderTimeline();body.scrollLeft=Math.max(0,time*zoom-anchor);renderRuler();
+}
+$('zoom').value=OcutStudioView.toSlider(zoom);
+$('zoom').oninput=()=>setTimelineZoom(OcutStudioView.fromSlider(Number($('zoom').value)));
+$('fitTimeline').onclick=()=>{setTimelineZoom(OcutStudioView.fit(playback.duration,$('timelineBody').clientWidth),0);$('timelineBody').scrollLeft=0;renderRuler();};
+$('timelineBody').addEventListener('wheel',event=>{
+  if(!event.ctrlKey)return;event.preventDefault();
+  const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?$('timelineBody').clientHeight:1);
+  setTimelineZoom(zoom*Math.exp(-Math.max(-200,Math.min(200,delta))*.005),event.clientX-$('timelineBody').getBoundingClientRect().left);
+},{passive:false});
 $('timelineBody').onscroll = () => { $('trackHeaders').scrollTop = $('timelineBody').scrollTop; renderRuler(); };
 $('ruler').onpointerdown = event => { playback.pause(); playback.seek(timeAt(event.clientX)); $('ruler').setPointerCapture(event.pointerId); $('ruler').onpointermove = e => playback.seek(timeAt(e.clientX)); $('ruler').onpointerup = () => { $('ruler').onpointermove = null; }; };
 $('play').onclick = () => playback.playing ? playback.pause() : playback.play().catch(error => message(error.message, true));
@@ -382,11 +395,17 @@ function renderMusic(next) {
   $('musicQueue').replaceChildren();
   for(const item of queue){const row=document.createElement('li'),title=document.createElement('span'),remove=document.createElement('button');title.textContent=`${item.input.title} · 시드 ${item.input.seed}`;remove.textContent='삭제';remove.className='quiet';remove.disabled=musicPending;remove.setAttribute('aria-label',`${item.input.title} 예약 삭제`);remove.onclick=()=>musicAction(()=>window.ocut.removeQueuedMusic(item.id),'예약을 삭제했습니다.');row.dataset.queueId=item.id;row.append(title,remove);$('musicQueue').append(row);}
   $('musicProgress').hidden = !running;
+  $('musicActivity').hidden = !running;
   if (job) {
-    const stage = {load:'엔진 준비',plan:'작곡 계획',semantic:'멜로디 생성',synth:'악기 소리 합성',decode:'오디오 생성',save:'음원 저장'}[job.stage] || '음악 생성';
-    $('musicStage').textContent = job.status === 'checking' ? '음원 확인' : stage;
-    const progress = job.progress;
-    $('musicDetail').textContent = progress?.steps ? `${progress.step || 0} / ${progress.steps} 단계` : progress?.tokens ? `${progress.tokens} 토큰 생성` : job.message;
+    const progress=OcutStudioView.musicProgress(job);
+    $('musicJobTitle').textContent=job.title;
+    $('musicStage').textContent=progress.label;
+    $('musicActivity').textContent=`♫ ${progress.label}`;
+    $('musicActivity').title=`${job.title} · 음악 생성 상태 보기`;
+    if(progress.percent===null)$('musicProgressBar').removeAttribute('value');else $('musicProgressBar').value=progress.percent;
+    $('musicProgressBar').setAttribute('aria-label',progress.label);
+    $('musicDetail').textContent=progress.detail;
+    updateMusicElapsed();
   }
   $('musicEnvironment').textContent = `${musicState.configured ? '로컬 경로 연결됨' : '실행 환경 연결 필요'}\nPython: ${musicState.config.python}\n모델: ${musicState.config.models}`;
   const holder = $('musicJobs'); holder.replaceChildren();
@@ -399,10 +418,18 @@ function renderMusic(next) {
     info.textContent = item.status === 'complete' ? `${Number.isFinite(item.duration)?item.duration.toFixed(2):'?'}초 · 시드 ${item.seed}${item.meta?.truncated?.semantic ? ' · 길이 상한 도달' : ''}` : item.message;
     const tag = document.createElement('span'); tag.className = 'music-job-status'; tag.textContent = {complete:'완료',failed:'실패',cancelled:'취소',interrupted:'중단'}[item.status] || item.status;
     card.append(title, tag, info);
-    if (item.status === 'complete') { const add = document.createElement('button'); add.className = 'secondary full'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(async()=>{const next=await window.ocut.addMusic(item.id);showPane('media');return next;}, '생성한 음악을 타임라인에 추가했습니다.'); card.append(add); }
+    if (item.status === 'complete') {
+      const add = document.createElement('button'); add.className = 'secondary full music-add'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(async()=>{const next=await window.ocut.addMusic(item.id);showPane('media');return next;}, '생성한 음악을 타임라인에 추가했습니다.');
+      const folder=document.createElement('button');folder.className='secondary full music-folder';folder.textContent='저장 폴더 열기';folder.onclick=()=>openMusicFolder(item.id);card.append(add,folder);
+    }
     holder.append(card);
   }
 }
+async function openMusicFolder(id){try{const directory=await window.ocut.openMusicFolder(id);message(`저장 폴더: ${directory}`);}catch(error){message(error.message,true);}}
+$('musicFolder').onclick=()=>openMusicFolder();
+$('musicActivity').onclick=()=>showPane('music');
+function updateMusicElapsed(){if(musicState?.current){const seconds=Math.max(0,(Date.now()-Date.parse(musicState.current.createdAt))/1000);$('musicElapsed').textContent=`경과 ${OcutStudioView.timeLabel(Number.isFinite(seconds)?seconds:0)} · 현재 단계 진행률`;}}
+setInterval(updateMusicElapsed,1000);
 const musicGenres=new Set(['acoustic']);
 let musicStyleEdited=false;
 function writeMusicStyle(force=false){

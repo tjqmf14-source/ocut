@@ -1,5 +1,5 @@
 'use strict';
-const { app, BrowserWindow, ipcMain, dialog, Menu, protocol } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu, protocol, shell } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const { StudioSession } = require('./session.cjs');
@@ -134,6 +134,11 @@ register('visualizer:createVideo', async mediaId => {
   return snapshot({selectedId:visualId,reloadMedia:true});
 });
 register('music:state', () => music.state());
+register('music:folder', async id => {
+  const directory=await music.engine.folder(id),error=await shell.openPath(directory);
+  if(error)throw Error(`저장 폴더를 열지 못했습니다: ${error}`);
+  return directory;
+});
 register('music:check', () => music.check());
 register('music:start', values => music.start(values,values?.count ?? 1));
 register('music:enqueue', values => music.enqueue(values?.input,values?.count));

@@ -29,3 +29,15 @@ test('missing worker cannot leave an active music job or change project state',a
   const service=new MusicService({directory:path.join(os.tmpdir(),'ocut-no-write'),workerPath:'missing-worker'});
   await assert.rejects(service.start(input),/먼저 연결/);assert.equal(service.current,null);
 });
+test('music folder lookup only exposes its own completed job and rejects path traversal or junctions',async()=>{
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'ocut-folder-')),outside=await fs.mkdtemp(path.join(os.tmpdir(),'ocut-outside-'));
+  const service=new MusicService({directory:dir,workerPath:'missing'}),id='22222222-2222-2222-2222-222222222222';
+  try{
+    assert.equal(await service.folder(),await fs.realpath(dir));
+    await assert.rejects(service.folder('../escape'));await assert.rejects(service.folder({path:outside}));
+    await service.persist({id,title:'saved',status:'complete'});await fs.writeFile(path.join(dir,id,'audio.wav'),'fixture');
+    assert.equal(await service.folder(id),path.join(await fs.realpath(dir),id));
+    const link='33333333-3333-3333-3333-333333333333';await fs.symlink(outside,path.join(dir,link),'junction');
+    await assert.rejects(service.folder(link),/폴더/);await fs.unlink(path.join(dir,link));
+  }finally{await fs.rm(dir,{recursive:true,force:true});await fs.rm(outside,{recursive:true,force:true});}
+});

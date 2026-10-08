@@ -35,6 +35,7 @@ contextBridge.exposeInMainWorld('ocut', {
     return ()=>ipcRenderer.removeListener('captions:sttProgress',listener);
   },
   musicState: () => call('music:state'),
+  openMusicFolder: id => call('music:folder',id),
   checkMusic: () => call('music:check'),
   configureMusic: key => call('music:configure', key),
   startMusic: (values,count=1) => call('music:start', {...values,count}),
