@@ -11,7 +11,7 @@ async function state(){return page.evaluate(()=>window.ocut.musicState());}
 async function main(){
   await launch();await page.locator('#musicTitle').fill('대기열 실증');await page.locator('#musicSeed').fill('42');await page.locator('#musicCount').fill('3');await page.locator('#enqueueMusic').click();await page.waitForFunction(()=>musicState.queue.length===3);
   let s=await state();assert.equal(s.paused,true);assert.deepEqual(s.queue.map(i=>i.input.seed),[42,43,44]);const ids=s.queue.map(i=>i.id);assert.equal(s.jobs.length,0);
-  await page.locator(`#musicQueue li[data-queue-id="${ids[2]}"] .music-add`).click();await page.waitForFunction(()=>musicState.queue.length===2);checks.push('UI batch uses distinct seeds, persists pending songs and removes selected reservation');
+  await page.locator(`#musicQueue li[data-queue-id="${ids[2]}"]`).getByRole('button',{name:'대기열 실증 · 3/3 예약 삭제',exact:true}).click();await page.waitForFunction(()=>musicState.queue.length===2);checks.push('UI batch uses distinct seeds, persists pending songs and removes selected reservation');
   const queueFile=path.join(user,'music/queue.json'),original=fs.readFileSync(queueFile);fs.writeFileSync(queueFile+'.lock','QA lock');await page.locator('#enqueueMusic').click();await page.waitForFunction(()=>document.querySelector('#status').classList.contains('error'));assert.deepEqual(fs.readFileSync(queueFile),original);assert.equal((await state()).queue.length,2);fs.unlinkSync(queueFile+'.lock');checks.push('injected save lock rejects addition without changing pending songs or saved bytes');
   // A second process must not load or mutate this instance's queue.
   const second=spawn(exe,[],{windowsHide:true,env:{...process.env,OCUT_DATA_DIR:user,ELECTRON_RUN_AS_NODE:''},stdio:'ignore'});
