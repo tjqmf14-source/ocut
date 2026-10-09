@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const {spawnSync}=require('node:child_process'),{createHash}=require('node:crypto'),{_electron}=require('playwright-core');
+const {spawnSync}=require('node:child_process'),{createHash}=require('node:crypto'),{_electron}=require('./qa-electron.cjs');
 const root=path.resolve(__dirname,'..'),evidence=path.join(root,'evidence/studio'),data=path.join(root,'.runtime','music-'+Date.now());
 fs.mkdirSync(data,{recursive:true});const checks=[],errors=[],stages=new Set();let app,page,timer;
 const run=(exe,args)=>{const r=spawnSync(exe,args,{windowsHide:true,maxBuffer:32*1024*1024});assert.equal(r.status,0,r.stderr?.toString());return r.stdout;};

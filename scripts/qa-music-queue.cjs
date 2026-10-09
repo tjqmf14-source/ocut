@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const {spawnSync,spawn}=require('node:child_process'),{createHash}=require('node:crypto'),{_electron}=require('playwright-core');
+const {spawnSync,spawn}=require('node:child_process'),{createHash}=require('node:crypto'),{_electron}=require('./qa-electron.cjs');
 const root=path.resolve(__dirname,'..'),evidence=path.join(root,'evidence/studio'),data=path.join(root,'.runtime','music-queue-'+Date.now()),user=path.join(data,'user'),exe=path.join(root,'dist/studio/O-CUT.exe');
 fs.mkdirSync(data,{recursive:true});fs.mkdirSync(path.join(root,'artifacts/music'),{recursive:true});const checks=[],errors=[],songs=[];let app,page,timer;
 const hash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
