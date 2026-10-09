@@ -1,18 +1,16 @@
 'use strict';
 (() => {
   const workspace=document.querySelector('.workspace'),tabs=[...document.querySelectorAll('.library-tabs [role=tab]')];
-  let previousLayout='edit';
-  function saveLayout(){try{localStorage.setItem('ocut.layout.v1',JSON.stringify({mode:$('layoutMode').value,width:Number($('libraryWidth').value),height:Number($('timelineHeight').value)}));}catch{}}
-  function sizes(){workspace.style.setProperty('--library-width',$('libraryWidth').value+'px');workspace.style.setProperty('--timeline-height',$('timelineHeight').value+'px');saveLayout();}
-  function layout(mode){workspace.dataset.layout=mode;$('layoutMode').value=mode;$('musicResults').hidden=mode!=='music';if(mode!=='music')previousLayout=mode;saveLayout();}
+  const panels=new OcutWorkspacePanels(workspace),savedMode=panels.mode;
+  let previousLayout=['edit','focus'].includes(savedMode)?savedMode:'edit';
+  function layout(mode){workspace.dataset.layout=mode;$('layoutMode').value=mode;$('musicResults').hidden=mode!=='music';if(mode!=='music')previousLayout=mode;panels.setMode(mode);}
   window.addEventListener('ocut-pane',event=>{const name=event.detail;layout(name==='music'?'music':previousLayout);for(const tab of tabs)tab.tabIndex=tab.getAttribute('aria-selected')==='true'?0:-1;});
   window.addEventListener('ocut-inspect',()=>{if(workspace.dataset.layout==='music')showPane('media');if(workspace.dataset.layout!=='edit')layout('edit');});
   $('layoutMode').onchange=()=>{const mode=$('layoutMode').value;if(mode==='music')showPane('music');else{layout(mode);if(!$('musicPane').hidden)showPane('media');}};
-  $('libraryWidth').oninput=sizes;$('timelineHeight').oninput=sizes;
-  $('resetLayout').onclick=()=>{$('libraryWidth').value='320';$('timelineHeight').value='230';previousLayout='edit';showPane('media');sizes();};
+  $('libraryWidth').oninput=()=>panels.setLeft(Number($('libraryWidth').value));$('timelineHeight').oninput=()=>panels.setBottom(Number($('timelineHeight').value));
+  $('resetLayout').onclick=()=>{panels.reset();previousLayout='edit';showPane('media');};
   document.querySelector('.library-tabs').onkeydown=event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();event.stopPropagation();const i=tabs.indexOf(document.activeElement),next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(i+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].click();tabs[next].focus();};
-  try{const saved=JSON.parse(localStorage.getItem('ocut.layout.v1'));if(saved){if(Number.isFinite(saved.width))$('libraryWidth').value=String(Math.max(280,Math.min(480,saved.width)));if(Number.isFinite(saved.height))$('timelineHeight').value=String(Math.max(150,Math.min(380,saved.height)));if(['edit','focus'].includes(saved.mode))previousLayout=saved.mode;if(saved.mode==='music')showPane('music');else layout(previousLayout);}}catch{}
-  if(!workspace.dataset.layout||workspace.dataset.layout==='edit')layout(previousLayout);sizes();tabs.forEach(t=>t.tabIndex=t.getAttribute('aria-selected')==='true'?0:-1);
+  if(savedMode==='music')showPane('music');else layout(previousLayout);tabs.forEach(t=>t.tabIndex=t.getAttribute('aria-selected')==='true'?0:-1);
   function card(holder,label,detail,action,appearance){const button=document.createElement('button');button.type='button';button.className='preset-card';const art=document.createElement('span');art.className='preset-art '+(appearance||'');art.textContent=detail;const name=document.createElement('strong');name.textContent=label;button.append(art,name);button.onclick=action;$(holder).append(button);return button;}
   function visualClip(){const c=selectedClip(),m=state?.project.media.find(m=>m.id===c?.source);if(!c||!['image','video'].includes(m?.type)||c.effects.some(e=>e.type==='audioVisualizer')){message('타임라인에서 영상이나 이미지 클립을 먼저 선택해 주세요.',true);return null;}return c;}
   const filters=[['neutral','원본','ORIGINAL'],['cafe','따뜻한 카페','WARM CAFE'],['night','푸른 밤','MIDNIGHT'],['faded','빛바랜 필름','FADED FILM'],['sunset','노을','GOLDEN HOUR'],['mono','흑백','MONO'],['soft','부드럽게','SOFT'],['vivid','선명하게','VIVID']];

@@ -10,6 +10,7 @@ stages.push(['workspace','scripts/qa-workspace.cjs'],['performance','scripts/qa-
 stages.push(['music-queue','scripts/qa-music-queue.cjs']);
 stages.push(['workspace-editor','scripts/qa-workspace-editor.cjs']);
 stages.push(['timeline-navigation','scripts/qa-timeline-navigation.cjs']);
+stages.push(['panel-resize','scripts/qa-panel-resize.cjs']);
 stages.push(['music-composer','scripts/qa-music-composer.cjs','--reuse-exact']);
 for(const [name,...args] of stages){
   const r=spawnSync(process.execPath,args,{cwd:root,windowsHide:true,encoding:'utf8',maxBuffer:8*1024*1024});

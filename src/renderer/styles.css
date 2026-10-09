@@ -59,20 +59,23 @@ body{grid-template-rows:58px 56px minmax(0,1fr) 25px}
 @media(max-height:800px){.workspace{grid-template-rows:minmax(210px,1fr) min(var(--timeline-height),190px)}.music-content #musicLyrics{height:125px;min-height:125px}.topbar{gap:10px}.panel-head{height:40px}}
 .composer-controls{padding:12px 16px;border-top:1px solid #3a4841;background:#1c2521;display:grid;grid-template-columns:1fr 1fr;gap:9px;flex-shrink:0}.composer-controls>.field-pair,.composer-controls>.music-hint{grid-column:1/-1}.composer-controls label{display:grid;gap:5px;font-size:10px;color:#b4c3ba}.composer-controls input,.composer-controls select{padding:6px 8px}.composer-controls .music-hint{font-size:10px}.composer-controls #generateMusic{position:static;box-shadow:none;min-height:35px}.composer-controls #enqueueMusic{font-size:10px;white-space:normal}.inspector-form{padding-bottom:65px}.workspace[data-layout=music]{grid-template-rows:minmax(220px,1fr) min(var(--timeline-height),150px)}
 @media(max-height:800px){.composer-controls{padding:8px 12px;gap:6px}.composer-controls>.music-hint{display:none}.composer-controls input,.composer-controls select{padding:4px 6px}}
-@media(min-width:1600px) and (min-height:850px){
+@media(min-height:850px){
   .workspace[data-layout=music]{grid-template-columns:minmax(760px,1.7fr) minmax(260px,.65fr) minmax(360px,1fr)}
-  .workspace[data-layout=music] #musicForm{height:100%;grid-template-areas:"lyrics title" "lyrics heading" "lyrics genres" "lyrics voices" "lyrics prompt" "lyrics action";grid-template-rows:auto auto auto auto minmax(90px,1fr) auto;align-items:stretch}
-  .workspace[data-layout=music] #musicForm>.composer-lyrics{grid-area:lyrics;display:flex;flex-direction:column;min-height:300px;padding:12px}
-  .workspace[data-layout=music] #musicForm>.composer-lyrics>label{flex:1;min-height:0}.workspace[data-layout=music] #musicLyrics{height:100%;max-height:none;resize:none}
-  .workspace[data-layout=music] #musicForm>label:has(#musicTitle){grid-area:title}
-  .workspace[data-layout=music] #musicForm>.music-style-head{grid-area:heading}
-  .workspace[data-layout=music] #musicForm>.music-genres{grid-area:genres;align-content:start}
-  .workspace[data-layout=music] #musicForm>.field-pair{grid-area:voices}
-  .workspace[data-layout=music] #musicForm>label:has(#musicStyle){grid-area:prompt;min-height:0;grid-template-rows:auto 1fr}
-  .workspace[data-layout=music] #musicStyle{height:100%;resize:none}
-  .workspace[data-layout=music] #musicForm>.prompt-actions{grid-area:action;flex-direction:column;gap:5px;align-items:stretch}
-  .workspace[data-layout=music] .prompt-actions button{width:100%}
+  .workspace.wide-composer[data-layout=music] #musicForm{height:100%;grid-template-areas:"lyrics title" "lyrics heading" "lyrics genres" "lyrics voices" "lyrics prompt" "lyrics action";grid-template-rows:auto auto auto auto minmax(90px,1fr) auto;align-items:stretch}
+  .workspace.wide-composer[data-layout=music] #musicForm>.composer-lyrics{grid-area:lyrics;display:flex;flex-direction:column;min-height:300px;padding:12px}
+  .workspace.wide-composer[data-layout=music] #musicForm>.composer-lyrics>label{flex:1;min-height:0}.workspace.wide-composer[data-layout=music] #musicLyrics{height:100%;max-height:none;resize:none}
+  .workspace.wide-composer[data-layout=music] #musicForm>label:has(#musicTitle){grid-area:title}
+  .workspace.wide-composer[data-layout=music] #musicForm>.music-style-head{grid-area:heading}
+  .workspace.wide-composer[data-layout=music] #musicForm>.music-genres{grid-area:genres;align-content:start}
+  .workspace.wide-composer[data-layout=music] #musicForm>.field-pair{grid-area:voices}
+  .workspace.wide-composer[data-layout=music] #musicForm>label:has(#musicStyle){grid-area:prompt;min-height:0;grid-template-rows:auto 1fr}
+  .workspace.wide-composer[data-layout=music] #musicStyle{height:100%;resize:none}
+  .workspace.wide-composer[data-layout=music] #musicForm>.prompt-actions{grid-area:action;flex-direction:column;gap:5px;align-items:stretch}
+  .workspace.wide-composer[data-layout=music] .prompt-actions button{width:100%}
 }
 
 /* Generation feedback and wide-range timeline navigation. */
 #musicProgressBar{width:100%;height:10px;accent-color:var(--accent)}#musicJobTitle{display:block;overflow-wrap:anywhere}#musicStage{color:var(--accent);font-variant-numeric:tabular-nums}#musicElapsed{font-variant-numeric:tabular-nums}.music-folder{margin-top:6px}#musicActivity{color:var(--accent);max-width:240px;overflow:hidden;text-overflow:ellipsis;margin-left:auto}#musicActivity[hidden]{display:none}.zoom-tools #zoom{width:90px}.zoom-tools #fitTimeline{font-size:11px;padding:5px 7px}.timeline-toolbar{flex-wrap:wrap;min-height:44px;height:auto}.timeline-toolbar .edit-tools{min-width:0}.timeline-toolbar .zoom-tools{margin-left:auto}
+
+.workspace-splitters{position:fixed;inset:0;z-index:30;pointer-events:none}.panel-resizer{position:absolute;pointer-events:auto;touch-action:none;outline:none}.panel-resizer[hidden]{display:none}.panel-resizer.vertical{width:8px;cursor:col-resize}.panel-resizer.horizontal{height:8px;cursor:row-resize}.panel-resizer:after{content:'';position:absolute;background:#46544d;opacity:.55;border-radius:4px}.panel-resizer.vertical:after{left:3px;top:35%;bottom:35%;width:2px}.panel-resizer.horizontal:after{top:3px;left:45%;right:45%;height:2px}.panel-resizer:hover,.panel-resizer:focus-visible,.panel-resizer.dragging{background:#bdeed144}.panel-resizer:focus-visible:after,.panel-resizer.dragging:after{background:var(--accent);opacity:1}.resizing-columns,.resizing-columns *{cursor:col-resize!important;user-select:none!important}.resizing-rows,.resizing-rows *{cursor:row-resize!important;user-select:none!important}.workspace>.library,.workspace>.monitor-panel,.workspace>.inspector{min-width:0;min-height:0}
+.workspace{gap:0}.workspace>.library,.workspace>.music-results,.workspace>.monitor-panel{box-shadow:inset -1px 0 var(--line)}.workspace>.timeline-panel{border-top:1px solid var(--line)}
