@@ -1,0 +1,10 @@
+{
+  "time": "2026-10-09T00:56:25.341Z",
+  "data": "D:\\O-CUT\\.runtime\\editor-014-hRVpuh",
+  "checks": [
+    "visible lyrics input; vocal lyrics persist; no-lyrics toggle preserves text but excludes it from real queued request; manual style survives genre change"
+  ],
+  "outputs": [],
+  "errors": [],
+  "error": "AssertionError [ERR_ASSERTION]: {\"main\":{\"x\":0,\"right\":1084,\"bottom\":696},\"panels\":[{\"id\":\"library\",\"x\":0,\"right\":320,\"y\":114,\"bottom\":465,\"w\":320,\"h\":351},{\"id\":\"monitor-panel\",\"x\":321,\"right\":805,\"y\":114,\"bottom\":465,\"w\":484,\"h\":351},{\"id\":\"inspector\",\"x\":806,\"right\":1086,\"y\":114,\"bottom\":465,\"w\":280,\"h\":351},{\"id\":\"timeline-panel\",\"x\":0,\"right\":1086,\"y\":466,\"bottom\":696,\"w\":1086,\"h\":230}],\"width\":1084,\"height\":721,\"scroll\":1084}\n    at main (D:\\O-CUT\\scripts\\qa-workspace-editor.cjs:11:1054)"
+}

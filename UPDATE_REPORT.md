@@ -1,4 +1,24 @@
-# O-CUT 0.14.0 자동 업데이트 검증
+# O-CUT 0.14.1 자동 업데이트 — 2026-10-09
+
+설치된 앱 0.14.0 → 0.14.1 자동 업데이트 적용과 실제 사용자 데이터 재실행을 확인했다. 설치 파일 86개와 기존 사용자 자료 22개 해시가 일치한다. 설치 앱의 음악 폴더 버튼과 완료된 곡 폴더 버튼도 실제 OS shell 호출에서 오류 없이 반환됐다.
+
+133/133 검사·Studio 23단계 PASS. 기존 Windows 등록·시작 메뉴를 보존하므로 신규 등록/제거 2개 시나리오는 NOT RUN, 전체 설치 Gate BLOCKED. 별도 로컬 업데이트 Gate는 PASS.
+
+설치 파일: D:\O-CUT\artifacts\release\O-CUT-Setup-0.14.1.exe (199716562바이트).
+
+설치 SHA-256: 4a768e642a24907123d2f91c74219ffa4fd82e6ac44211c995f2ea1d076201cf.
+
+ASAR SHA-256: b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9.
+
+업데이트 manifest SHA-256: b59b9fe116982d3d353ea52fd3a3044d061aad241eb43bcb807cb7ff0d9578c0.
+
+앱 소스 커밋: b32c2021590822027576c079775c4fd2bbef89c3.
+
+복구: 이전 앱: C:\Users\tjqmf\AppData\Local\Programs\O-CUT\backup-update-0.14.0-f65c0b484b0d470db61aed651d95c417. 사용자 자료: D:\O-CUT\.runtime\user-data-before-navigation-update-WY4vN9.
+
+기능·검증 범위·미검증 항목: [생성 상태와 타임라인 보고서](PROGRESS_NAVIGATION_REPORT.md). 아래는 이전 버전 이력이다.
+
+## O-CUT 0.14.0 자동 업데이트 검증
 
 2026-10-06: 설치된 앱 0.13.0→0.14.0 자동 업데이트 적용 완료. 실제 사용자 데이터로 재실행해 9개 도구 탭·항상 보이는 가사창·연주곡 체크·16개 장르·7분·기본 10곡을 확인했다. 설치 파일 86개와 기존 사용자 자료 11개 해시가 일치한다.
 

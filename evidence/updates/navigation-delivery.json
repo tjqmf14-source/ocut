@@ -1,0 +1,35 @@
+{
+  "time": "2026-10-09T06:00:59.521Z",
+  "status": "PASS",
+  "version": "0.14.1",
+  "beforeVersion": "0.14.0",
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9",
+  "verifiedPackageFiles": 86,
+  "checkpoint": "D:\\O-CUT\\.runtime\\user-data-before-navigation-update-WY4vN9",
+  "userDataFilesUnchangedAfterRuntime": 22,
+  "foldersOpened": 2,
+  "update": {
+    "status": "current",
+    "currentVersion": "0.14.1",
+    "enabled": true,
+    "message": "최신 버전 0.14.1"
+  },
+  "applied": {
+    "version": "0.14.1",
+    "message": "Update installed. Previous app and uninstaller are preserved in backup.",
+    "root": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+    "phase": "activated",
+    "backup": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-update-0.14.0-f65c0b484b0d470db61aed651d95c417",
+    "time": "2026-10-09T06:00:26.1892922Z",
+    "status": "applied"
+  },
+  "checks": [
+    "existing app package verified and user music/workspace checkpointed",
+    "previous installed app used its own signed local updater",
+    "normal clean window close applies update without reinstall",
+    "installed 0.14.1 opens with real user data, progress controls, music folder buttons and wide-range timeline zoom",
+    "all prior user music/workspace files and installed package hashes verified",
+    "activation helper initially read a previous failed result before the current updater completed; fresh applied result timestamp and preserved previous package verified"
+  ]
+}

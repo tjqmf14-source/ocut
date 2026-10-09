@@ -1,8 +1,8 @@
-Music: running semantic {"tokens":370}
+Music: running semantic {"tokens":259}
 {
   "status": "PASS",
-  "checks": 7,
+  "checks": 9,
   "seconds": 19.998667,
-  "rms": 0.1342174128828626,
+  "rms": 0.08882908794049024,
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4"
 }

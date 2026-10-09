@@ -1,33 +1,34 @@
-Composer QA: 7분 생성 검증 semantic {"tokens":688} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":2438} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":3931} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":4905} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":5838} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":6785} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":7674} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":8364} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":9406} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":10356} waiting 0
-Composer QA: 7분 생성 검증 synth {"step":1,"steps":8} waiting 0
-Composer QA: 7분 생성 검증 synth {"step":5,"steps":8} waiting 0
-Composer QA: 7분 생성 검증 synth {"step":8,"steps":8} waiting 0
-Composer QA: 10곡 일괄 검증 · 1/10 semantic {} waiting 9
-Composer QA: 10곡 일괄 검증 · 1/10 semantic {"tokens":124} waiting 9
+Composer QA: 7분 생성 검증 semantic {"tokens":935} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":1848} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":2631} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":3223} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":4216} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":5181} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":6082} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":7010} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":7943} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":8514} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":9101} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":10039} waiting 0
+Composer QA: 7분 생성 검증 synth {"status":"start"} waiting 0
+Composer QA: 7분 생성 검증 synth {"step":3,"steps":8} waiting 0
+Composer QA: 7분 생성 검증 synth {"step":6,"steps":8} waiting 0
+Composer QA: 7분 생성 검증 decode {"status":"start"} waiting 0
+Composer QA: 10곡 일괄 검증 · 1/10 semantic {"tokens":271} waiting 9
 Composer QA: 10곡 일괄 검증 · 2/10 load {} waiting 8
-Composer QA: 10곡 일괄 검증 · 2/10 semantic {"tokens":225} waiting 8
-Composer QA: 10곡 일괄 검증 · 3/10 load {} waiting 7
-Composer QA: 10곡 일괄 검증 · 3/10 load {} waiting 7
-Composer QA: 10곡 일괄 검증 · 3/10 decode {} waiting 7
-Composer QA: 10곡 일괄 검증 · 4/10 semantic {"tokens":196} waiting 6
+Composer QA: 10곡 일괄 검증 · 2/10 semantic {"tokens":493} waiting 8
+Composer QA: 10곡 일괄 검증 · 3/10 load {"status":"done"} waiting 7
+Composer QA: 10곡 일괄 검증 · 3/10 synth {"step":1,"steps":8} waiting 7
+Composer QA: 10곡 일괄 검증 · 4/10 semantic {"tokens":218} waiting 6
 Composer QA: 10곡 일괄 검증 · 5/10 load {} waiting 5
-Composer QA: 10곡 일괄 검증 · 5/10 semantic {"tokens":477} waiting 5
-Composer QA: 10곡 일괄 검증 · 6/10 load {} waiting 4
+Composer QA: 10곡 일괄 검증 · 5/10 semantic {"tokens":470} waiting 5
+Composer QA: 10곡 일괄 검증 · 6/10 load {"status":"done"} waiting 4
 Composer QA: 10곡 일괄 검증 · 7/10 load {} waiting 3
-Composer QA: 10곡 일괄 검증 · 7/10 synth {} waiting 3
-Composer QA: 10곡 일괄 검증 · 8/10 load {} waiting 2
-Composer QA: 10곡 일괄 검증 · 8/10 decode {} waiting 2
-Composer QA: 10곡 일괄 검증 · 9/10 semantic {"tokens":294} waiting 1
-Composer QA: 10곡 일괄 검증 · 10/10 semantic {} waiting 0
-Composer QA: 10곡 일괄 검증 · 10/10 synth {} waiting 0
-Composer QA: 가사 전달 검증 load {} waiting 0
-{"status":"PASS","checks":["16 selectable genres generate editable English blend with mood and correct instrumental or vocal tags","seven-minute request begins from product UI","actual 7-minute GPU generation fully decodes to nonzero finite 48kHz audio without looping or padding","one generate click starts ten distinct seeded reservations without a separate resume click","ten actual GPU songs complete sequentially; all files decode and are non-silent and byte-distinct","visible lyrics form sends exact verse/chorus text to actual GPU worker; vocal request returns non-silent decodable audio"],"longSeconds":419.998667,"batch":10,"data":"D:\\O-CUT\\.runtime\\music-composer-SJVbFd"}
+Composer QA: 10곡 일괄 검증 · 7/10 synth {"status":"start"} waiting 3
+Composer QA: 10곡 일괄 검증 · 8/10 semantic {"tokens":1} waiting 2
+Composer QA: 10곡 일괄 검증 · 8/10 synth {"step":8,"steps":8} waiting 2
+Composer QA: 10곡 일괄 검증 · 9/10 semantic {"tokens":99} waiting 1
+Composer QA: 10곡 일괄 검증 · 10/10 load {} waiting 0
+Composer QA: 10곡 일괄 검증 · 10/10 synth {"status":"start"} waiting 0
+Composer QA: 가사 전달 검증 load {"status":"done"} waiting 0
+{"status":"PASS","checks":["16 selectable genres generate editable English blend with mood and correct instrumental or vocal tags","seven-minute request begins from product UI","actual 7-minute GPU generation fully decodes to nonzero finite 48kHz audio without looping or padding","one generate click starts ten distinct seeded reservations without a separate resume click","ten actual GPU songs complete sequentially; all files decode and are non-silent and byte-distinct","visible lyrics form sends exact verse/chorus text to actual GPU worker; vocal request returns non-silent decodable audio"],"longSeconds":419.998667,"batch":10,"data":"D:\\O-CUT\\.runtime\\music-composer-fpSMci"}

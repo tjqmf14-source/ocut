@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-05T04:10:01.710Z",
-  "data": "D:\\O-CUT\\.runtime\\shell-1791173400267",
+  "time": "2026-10-09T01:04:34.308Z",
+  "data": "D:\\O-CUT\\.runtime\\shell-1791507872920",
   "checks": [
     "packaged O-CUT UI and isolated preload",
     "settings apply undo redo",
@@ -25,6 +25,6 @@
       "webSecurity": true,
       "webviewTag": false
     },
-    "userData": "D:\\O-CUT\\.runtime\\shell-1791173400267"
+    "userData": "D:\\O-CUT\\.runtime\\shell-1791507872920"
   }
 }

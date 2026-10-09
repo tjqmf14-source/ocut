@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-05T04:25:43.319Z",
-  "asarSha256": "c1c934c1e4fadb2657a9e630d06647fcbcd84c308b0f9869c50732c58359897a",
+  "time": "2026-10-09T01:23:02.772Z",
+  "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9",
   "checks": [
     {
       "name": "core",
@@ -83,12 +83,20 @@
       "exitCode": 0
     },
     {
+      "name": "timeline-navigation",
+      "exitCode": 0
+    },
+    {
+      "name": "panel-resize",
+      "exitCode": 0
+    },
+    {
       "name": "music-composer",
       "exitCode": 0
     }
   ],
   "build": {
-    "time": "2026-10-05T04:09:56.989Z",
+    "time": "2026-10-09T01:04:29.728Z",
     "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
     "files": [
       {
@@ -148,6 +156,10 @@
         "sha256": "344e6799b9fe1e812dbbf62c5b9d7b0448cfabbedb4ea8e5242228538c8ed6a5"
       },
       {
+        "file": "core/studio-view.js",
+        "sha256": "43b3380548f5b89d5b3eb7740239be6d5211a36a3744eb33241fb5faf13a9b6b"
+      },
+      {
         "file": "core/text-style.js",
         "sha256": "6660b180d30091057bd88d395f0d94612a93b4721af3b705f1a7e97457cb8caa"
       },
@@ -168,12 +180,16 @@
         "sha256": "1bc0b215f660d448beac0200605a9855e6df7c3aee47bc9af365d721bad587b0"
       },
       {
+        "file": "core/workspace-layout.js",
+        "sha256": "488f8d82eb75ca3ec3e27d3ba8fd38246f5e39960a9cc197cdb375aeed4bcf62"
+      },
+      {
         "file": "desktop/main.cjs",
-        "sha256": "c3bea3b9e6c904f17f893b4e3540b1d7b2d34f33259ee99876e1709d609a3267"
+        "sha256": "0ce3878de4dcfd99dd7b48775ea2278638b74259262182f4334318e666ee1dcd"
       },
       {
         "file": "desktop/preload.cjs",
-        "sha256": "95aafca6284e519bde75d6936bbb871cb7f3d9f30d4782c90a01e93c2935fb28"
+        "sha256": "975381091a7e469b1513778130b6f651b9220407b3a56573bf6ee0e46574b9f7"
       },
       {
         "file": "desktop/session.cjs",
@@ -205,7 +221,7 @@
       },
       {
         "file": "infrastructure/music.cjs",
-        "sha256": "e13ea208fb9bd400ce9540f0f0c066434a94806dc49e6ed31c14a0c256699356"
+        "sha256": "ed6c4e6e87cd78f30ce07e55acdecf2e6191aa4ccf1ce8f309aa0eee560b8f87"
       },
       {
         "file": "infrastructure/ocut-worker.py",
@@ -249,11 +265,11 @@
       },
       {
         "file": "renderer/app.js",
-        "sha256": "c408ebccf0c214dbcdb1937fc6d0259a8816b4447843914a7c505e048b724f7d"
+        "sha256": "ac3c9ff30548e216d0fa5950c29914d5934422299a1a366c4e1725cd3703966e"
       },
       {
         "file": "renderer/index.html",
-        "sha256": "60f7ad416b72769983f69173f6e97b6816dd41bba6d445ae554b52c4679d51dd"
+        "sha256": "9d7302ac648d2e667b97f058663ea4e35c182735b7ad18962c3529698b866da7"
       },
       {
         "file": "renderer/playback.js",
@@ -261,15 +277,19 @@
       },
       {
         "file": "renderer/styles.css",
-        "sha256": "66934a1e67d61faec74a13fdca035fb2920a3759409e8a3f7cbfd796473c64e3"
+        "sha256": "4bc038ffeb05f01b9b6b6827ce98d361ab4559446912e2da0b35c82fa0aa5d89"
       },
       {
         "file": "renderer/text.js",
         "sha256": "0e20914d90e13c74d5fe7b65bffc5e999b5e2ab747d5c282719bc773258d2156"
       },
       {
+        "file": "renderer/workspace-panels.js",
+        "sha256": "b5bc3e3dca8f7da94a58aa1ad7ebde1891f3535bf8e3ad1c660321a8f4140c43"
+      },
+      {
         "file": "renderer/workspace-ui.js",
-        "sha256": "ff42af1507c5a9bbe793c029aa340706d0f5c527a7fdc7f8eab3ec0e37c33791"
+        "sha256": "765b44a17611761e5723893a5032447bc1fe7a31dc47137b327030c035a9927a"
       }
     ]
   }

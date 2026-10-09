@@ -1,0 +1,6 @@
+{
+  "time": "2026-10-08T13:07:16.951Z",
+  "checks": [],
+  "data": "D:\\O-CUT\\.runtime\\music-composer-IGAoe9",
+  "error": "page.screenshot: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\n    at main (D:\\O-CUT\\scripts\\qa-music-composer.cjs:14:76)"
+}

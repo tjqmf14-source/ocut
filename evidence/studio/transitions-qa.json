@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-05T04:12:35.067Z",
+  "time": "2026-10-09T01:07:46.901Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\transitions-1791173540465",
+  "data": "D:\\O-CUT\\.runtime\\transitions-1791508052279",
   "project": "D:\\O-CUT\\artifacts\\transitions\\디졸브 편집.ocut",
   "checks": [
     "six entrance exit transition types create real changing preview and fully decoded MP4 with three-frame parity",
@@ -15,19 +15,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\fade-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\fade-0.2.png",
           "ssim": 0.997835,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\fade-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\fade-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\fade-1.png",
           "ssim": 0.996883,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\fade-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\fade-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\fade-1.8.png",
           "ssim": 0.998536,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\fade-1.8.png"
         }
@@ -40,19 +40,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\dissolve-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\dissolve-0.2.png",
           "ssim": 0.997835,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\dissolve-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\dissolve-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\dissolve-1.png",
           "ssim": 0.996883,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\dissolve-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\dissolve-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\dissolve-1.8.png",
           "ssim": 0.998536,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\dissolve-1.8.png"
         }
@@ -65,19 +65,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\slide-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\slide-0.2.png",
           "ssim": 0.998441,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\slide-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\slide-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\slide-1.png",
           "ssim": 0.997139,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\slide-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\slide-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\slide-1.8.png",
           "ssim": 0.998987,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\slide-1.8.png"
         }
@@ -90,19 +90,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\wipe-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\wipe-0.2.png",
           "ssim": 0.999275,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\wipe-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\wipe-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\wipe-1.png",
           "ssim": 0.997446,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\wipe-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\wipe-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\wipe-1.8.png",
           "ssim": 0.999277,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\wipe-1.8.png"
         }
@@ -115,19 +115,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\zoom-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\zoom-0.2.png",
           "ssim": 0.996672,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\zoom-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\zoom-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\zoom-1.png",
           "ssim": 0.997007,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\zoom-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\zoom-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\zoom-1.8.png",
           "ssim": 0.997524,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\zoom-1.8.png"
         }
@@ -140,19 +140,19 @@
       "frames": [
         {
           "time": 0.2,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\blur-0.2.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\blur-0.2.png",
           "ssim": 0.996556,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\blur-0.2.png"
         },
         {
           "time": 1,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\blur-1.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\blur-1.png",
           "ssim": 0.997042,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\blur-1.png"
         },
         {
           "time": 1.8,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\blur-1.8.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\blur-1.8.png",
           "ssim": 0.996382,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\blur-1.8.png"
         }
@@ -165,19 +165,19 @@
       "frames": [
         {
           "time": 1.25,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\paired-dissolve-1.25.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\paired-dissolve-1.25.png",
           "ssim": 0.999905,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\paired-dissolve-1.25.png"
         },
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\paired-dissolve-1.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\paired-dissolve-1.5.png",
           "ssim": 0.999909,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\paired-dissolve-1.5.png"
         },
         {
           "time": 1.75,
-          "preview": "D:\\O-CUT\\.runtime\\transitions-1791173540465\\paired-dissolve-1.75.png",
+          "preview": "D:\\O-CUT\\.runtime\\transitions-1791508052279\\paired-dissolve-1.75.png",
           "ssim": 0.999812,
           "frame": "D:\\O-CUT\\artifacts\\transitions\\paired-dissolve-1.75.png"
         }

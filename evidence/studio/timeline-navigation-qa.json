@@ -1,0 +1,12 @@
+{
+  "time": "2026-10-09T01:11:00.841Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\navigation-A8OQgi",
+  "checks": [
+    "10-hour project fits at 1100 and 1920 widths with bounded hourly ruler and all ten clips visible",
+    "actual Ctrl+wheel zooms both directions around pointer without changing web zoom; ordinary wheel retains timeline zoom",
+    "slider keyboard extremes, nine-hour seek and no project mutation"
+  ],
+  "errors": [],
+  "scope": "10-hour navigation only; 10-hour video export NOT RUN"
+}
