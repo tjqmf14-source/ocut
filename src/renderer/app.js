@@ -422,10 +422,17 @@ function renderMusic(next) {
       const add = document.createElement('button'); add.className = 'secondary full music-add'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(async()=>{const next=await window.ocut.addMusic(item.id);showPane('media');return next;}, '생성한 음악을 타임라인에 추가했습니다.');
       const folder=document.createElement('button');folder.className='secondary full music-folder';folder.textContent='저장 폴더 열기';folder.onclick=()=>openMusicFolder(item.id);card.append(add,folder);
     }
+    const remove=document.createElement('button');remove.className='quiet full music-delete';remove.textContent='완전 삭제';remove.setAttribute('aria-label',`${item.title} 곡 완전 삭제`);remove.title='음원과 생성 임시파일을 함께 완전 삭제';remove.disabled=Boolean(musicPending||occupied);remove.onclick=()=>deleteGeneratedMusic(item.id);card.append(remove);
     holder.append(card);
   }
 }
 async function openMusicFolder(id){try{const directory=await window.ocut.openMusicFolder(id);message(`저장 폴더: ${directory}`);}catch(error){message(error.message,true);}}
+async function deleteGeneratedMusic(id){
+  if(musicPending)return;musicPending=true;renderMusic();
+  try{const result=await window.ocut.deleteGeneratedMusic(id);if(result){renderMusic(result.state);message(`곡과 관련 파일 ${result.deleted.files}개를 완전히 삭제했습니다.`);}else message('삭제를 취소했습니다.');}
+  catch(error){message(error.message,true);try{renderMusic(await window.ocut.musicState());}catch{}}
+  finally{musicPending=false;renderMusic();}
+}
 $('musicFolder').onclick=()=>openMusicFolder();
 $('musicActivity').onclick=()=>showPane('music');
 function updateMusicElapsed(){if(musicState?.current){const seconds=Math.max(0,(Date.now()-Date.parse(musicState.current.createdAt))/1000);$('musicElapsed').textContent=`경과 ${OcutStudioView.timeLabel(Number.isFinite(seconds)?seconds:0)} · 현재 단계 진행률`;}}

@@ -24,6 +24,7 @@ function run(exe, args, { timeout = 120000, maxBytes = 8 * 1024 * 1024, onProgre
     child.on('close', code => { clearTimeout(timer);signal?.removeEventListener('abort',cancel);code === 0 && !failure ? resolve(Buffer.concat(out)) : reject(failure || Error(error.trim() || `${path.basename(exe)} 종료 코드 ${code}`)); });
   });
 }
+function mediaKey(resolved,stat){return createHash('sha256').update(JSON.stringify([resolved,stat.size,stat.mtimeMs,'wave-v1'])).digest('hex');}
 async function probe(file) {
   const type = TYPES[path.extname(file).toLowerCase()];
   if (!type || file.startsWith('\\\\') || !path.isAbsolute(file)) throw Error('지원하는 로컬 미디어 파일을 선택해 주세요.');
@@ -36,7 +37,7 @@ async function probe(file) {
   if ((type === 'audio' && !audio) || (type !== 'audio' && !video)) throw Error('미디어 스트림을 읽을 수 없습니다.');
   const duration = type === 'image' ? null : Number(info.format.duration || video?.duration || audio?.duration);
   if (duration !== null && (!Number.isFinite(duration) || duration <= 0 || duration > 28800)) throw Error('미디어 길이를 확인할 수 없거나 8시간을 초과했습니다.');
-  const key = createHash('sha256').update(JSON.stringify([resolved, stat.size, stat.mtimeMs, 'wave-v1'])).digest('hex');
+  const key = mediaKey(resolved,stat);
   return { type, path: resolved, duration, width: video?.width || 0, height: video?.height || 0, hasAudio: Boolean(audio), bytes: stat.size, key };
 }
 async function waveform(file, duration, target) {
@@ -92,4 +93,4 @@ class MediaLibrary {
       spectrum: item.spectrum || null, url: `ocut-media://asset/${id}`, thumbnail: item.thumbnail ? `ocut-media://thumb/${id}` : null }]));
   }
 }
-module.exports = { MediaLibrary, probe, tool, run, waveform };
+module.exports = { MediaLibrary, probe, tool, run, waveform, mediaKey };

@@ -36,6 +36,7 @@ contextBridge.exposeInMainWorld('ocut', {
   },
   musicState: () => call('music:state'),
   openMusicFolder: id => call('music:folder',id),
+  deleteGeneratedMusic: id => call('music:deleteGenerated',id),
   checkMusic: () => call('music:check'),
   configureMusic: key => call('music:configure', key),
   startMusic: (values,count=1) => call('music:start', {...values,count}),

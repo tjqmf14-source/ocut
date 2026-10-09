@@ -90,6 +90,13 @@ class MusicQueue {
   }
   kick(){this.pump().catch(error=>{this.paused=true;this.error=error.message;});}
   cancel(){this.engine.cancel();}
+  async deleteGenerated(id,action){
+    const result=await this.mutate(async()=>{
+      if(this.closed||this.occupied||this.items.some(item=>item.id===id))throw Error('음악 생성을 마치거나 취소하고 대기열을 일시 정지한 뒤 삭제해 주세요.');
+      return action();
+    });
+    await this.changed();return result;
+  }
   async configure(key,file){await this.ready;if(this.occupied)throw Error('대기열을 일시 정지하고 현재 생성이 끝난 뒤 환경을 변경해 주세요.');return this.engine.configure(key,file).then(()=>this.state());}
   check(){return this.engine.check();}
   audio(id){return this.engine.audio(id);}
