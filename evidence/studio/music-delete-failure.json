@@ -1,0 +1,11 @@
+{
+  "time": "2026-10-09T06:15:51.587Z",
+  "data": "D:\\O-CUT\\.runtime\\music-delete-bnUX5z",
+  "checks": [
+    "complete/failed/cancelled/interrupted cards expose deletion; default-cancel confirmation describes permanent removal and size; cancel leaves all data intact",
+    "current project audio and undo assets cannot be deleted",
+    "confirmed UI deletion removes source WAV, generation plan/intermediate/log files and matching waveform cache while preserving unrelated cache"
+  ],
+  "errors": [],
+  "error": "electronApplication.evaluate: TypeError: A dynamic import callback was not specified.\n    at importModuleDynamicallyCallback (node:internal/modules/esm/utils:265:9)\n    at eval (eval at evaluate (:290:30), <anonymous>:1:35)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at main (D:\\O-CUT\\scripts\\qa-music-delete.cjs:26:13)"
+}

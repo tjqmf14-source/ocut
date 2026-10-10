@@ -1,10 +1,10 @@
 {
-  "time": "2026-10-09T01:28:28.213Z",
+  "time": "2026-10-09T06:38:54.512Z",
   "status": "PASS",
   "channel": "local-development",
-  "version": "0.14.1",
-  "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9",
-  "manifestSha256": "b59b9fe116982d3d353ea52fd3a3044d061aad241eb43bcb807cb7ff0d9578c0",
+  "version": "0.14.2",
+  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
+  "manifestSha256": "eded6a244c6aab170e9eaa7abeaa8e22d709126858bb7970eab5d4548ce3fe11",
   "feed": "D:\\O-CUT\\artifacts\\updates\\latest.json",
   "keyAccess": "Protected ACL: current user, SYSTEM and Administrators only",
   "scope": "This PC only; no external service or public distribution"

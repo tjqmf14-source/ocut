@@ -1,6 +1,6 @@
 {
-  "time": "2026-10-09T01:23:02.772Z",
-  "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9",
+  "time": "2026-10-09T06:34:01.044Z",
+  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
   "checks": [
     {
       "name": "core",
@@ -91,12 +91,16 @@
       "exitCode": 0
     },
     {
+      "name": "music-delete",
+      "exitCode": 0
+    },
+    {
       "name": "music-composer",
       "exitCode": 0
     }
   ],
   "build": {
-    "time": "2026-10-09T01:04:29.728Z",
+    "time": "2026-10-09T06:17:18.047Z",
     "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
     "files": [
       {
@@ -185,11 +189,11 @@
       },
       {
         "file": "desktop/main.cjs",
-        "sha256": "0ce3878de4dcfd99dd7b48775ea2278638b74259262182f4334318e666ee1dcd"
+        "sha256": "2cbb08e682dce8739bc065d9a8ebf7879967554b235e31e4ea48d41acf5acded"
       },
       {
         "file": "desktop/preload.cjs",
-        "sha256": "975381091a7e469b1513778130b6f651b9220407b3a56573bf6ee0e46574b9f7"
+        "sha256": "8806faeada4eeb690310df537205e9f3f6f552db24131ba422b6d1e532348b6f"
       },
       {
         "file": "desktop/session.cjs",
@@ -213,11 +217,15 @@
       },
       {
         "file": "infrastructure/media.cjs",
-        "sha256": "c85ca139c846574565ea8d6cb2404e8169b956869345f1745321237844add55d"
+        "sha256": "65b1c93e489257e8ed7f9716c7a75d7a7e0e36aea8a32d8448303abab1a1d177"
+      },
+      {
+        "file": "infrastructure/music-delete.cjs",
+        "sha256": "915d909d054e0f0a2f730688c016cc1a2db7701574fc5fe2baf6bc1f38c12fc6"
       },
       {
         "file": "infrastructure/music-queue.cjs",
-        "sha256": "b3167a2fe5197228833abd72476661e1bc18630409f30290d48d80357527805d"
+        "sha256": "8fd8c6f3576b7fda58cdbc54e4cff04458348da54d788d8e38bb97dee23f49ad"
       },
       {
         "file": "infrastructure/music.cjs",
@@ -265,7 +273,7 @@
       },
       {
         "file": "renderer/app.js",
-        "sha256": "ac3c9ff30548e216d0fa5950c29914d5934422299a1a366c4e1725cd3703966e"
+        "sha256": "6b8c708b417efc9f83c54e092a1e390a9d05f90c2fc59833b7e7b226a4cacda8"
       },
       {
         "file": "renderer/index.html",

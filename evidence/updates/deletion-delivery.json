@@ -1,0 +1,7 @@
+{
+  "time": "2026-10-10T04:58:25.326Z",
+  "status": "PENDING",
+  "version": "0.14.2",
+  "installedVersion": "0.14.1",
+  "reason": "User app is already running; left open for its normal update check and exit."
+}

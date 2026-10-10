@@ -1,7 +1,7 @@
-bars PASS [ 0.999295, 0.999181, 0.999278 ]
-wave PASS [ 0.998828 ]
-line PASS [ 0.9989 ]
-circular PASS [ 0.999323 ]
-mirror PASS [ 0.999005 ]
-spectrum PASS [ 0.998895 ]
+bars PASS [ 0.99931, 0.999179, 0.999266 ]
+wave PASS [ 0.998839 ]
+line PASS [ 0.998935 ]
+circular PASS [ 0.999344 ]
+mirror PASS [ 0.999042 ]
+spectrum PASS [ 0.998908 ]
 Visualizer QA PASS: 6 scenarios

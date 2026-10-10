@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-09T01:11:03.158Z",
+  "time": "2026-10-09T06:22:54.723Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\panel-resize-FRKfmr",
+  "data": "D:\\O-CUT\\.runtime\\panel-resize-gzJU4I",
   "checks": [
     "actual pointer drags resize both vertical boundaries and horizontal timeline boundary while preserving the other column",
     "keyboard resizing does not seek playback and Escape rolls back an active drag",

@@ -1,17 +1,15 @@
-Queue: semantic waiting 1 paused true
-Queue: synth waiting 1 paused true
-App exit: 0 null
+Queue: load waiting 1 paused true
 App exit: 0 null
 Queue: idle waiting 1 paused true
+App exit: 0 null
 Queue: load waiting 0 paused false
-Queue: load waiting 0 paused false
-Queue: synth waiting 0 paused false
 Queue: idle waiting 0 paused true
 App exit: 1 null
 Queue: load waiting 1 paused false
 Queue: idle waiting 0 paused true
+Queue: idle waiting 0 paused true
 {
-  "time": "2026-10-09T01:10:47.265Z",
+  "time": "2026-10-09T06:22:39.644Z",
   "status": "PASS",
   "checks": [
     "UI batch uses distinct seeds, persists pending songs and removes selected reservation",
@@ -24,10 +22,10 @@ Queue: idle waiting 0 paused true
     "real worker cancellation automatically advances to next reservation; pause plus cancel stops queue",
     "both queue results add to editable timeline, save as project and mix into decodable non-silent 1080p AAC MP4"
   ],
-  "data": "D:\\O-CUT\\.runtime\\music-queue-1791508081862",
+  "data": "D:\\O-CUT\\.runtime\\music-queue-1791526838440",
   "songs": [
     {
-      "id": "8cce4493-c266-4bc7-970a-0183095c9b3b",
+      "id": "5f68a37d-7fc3-4640-a783-255c40653435",
       "title": "대기열 실증 · 1/3",
       "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
@@ -35,16 +33,16 @@ Queue: idle waiting 0 paused true
       "seconds": 20,
       "quality": "draft",
       "seed": 42,
-      "batchId": "fc52d6a9-7a86-46b9-9d95-02bf4192455c",
+      "batchId": "2b1fe3bd-25eb-42e7-9995-7c6f880897d8",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-09T01:08:14.278Z",
+      "createdAt": "2026-10-09T06:20:50.846Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {
         "status": "done"
       },
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791508081862\\user\\music\\8cce4493-c266-4bc7-970a-0183095c9b3b\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791526838440\\user\\music\\5f68a37d-7fc3-4640-a783-255c40653435\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
@@ -61,21 +59,21 @@ Queue: idle waiting 0 paused true
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 40.1,
+        "wallSeconds": 28.2,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-09T10:08:55"
+        "createdAt": "2026-10-09T15:21:20"
       },
-      "finishedAt": "2026-10-09T01:08:55.657Z",
+      "finishedAt": "2026-10-09T06:21:20.231Z",
       "qa": {
-        "rms": 0.12101011015512768,
-        "sha256": "2bea30285c60d3f6f64662afaf254ed830396c87e7e7529fd1d6713062448870"
+        "rms": 0.11811048803931175,
+        "sha256": "6720705ad5867b8331f185d520bdc5dd93fc1560dd2f8f2175968235cd37e8a4"
       }
     },
     {
-      "id": "2e3023d2-3bc1-4b62-8c54-b42a5ad21702",
+      "id": "a9878726-420c-48ef-8545-3042cd080381",
       "title": "대기열 실증 · 2/3",
       "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
@@ -83,16 +81,16 @@ Queue: idle waiting 0 paused true
       "seconds": 20,
       "quality": "draft",
       "seed": 43,
-      "batchId": "fc52d6a9-7a86-46b9-9d95-02bf4192455c",
+      "batchId": "2b1fe3bd-25eb-42e7-9995-7c6f880897d8",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-09T01:09:05.415Z",
+      "createdAt": "2026-10-09T06:21:29.850Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {
         "status": "done"
       },
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791508081862\\user\\music\\2e3023d2-3bc1-4b62-8c54-b42a5ad21702\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791526838440\\user\\music\\a9878726-420c-48ef-8545-3042cd080381\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
@@ -109,23 +107,23 @@ Queue: idle waiting 0 paused true
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 53,
+        "wallSeconds": 20.7,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-09T10:09:59"
+        "createdAt": "2026-10-09T15:21:51"
       },
-      "finishedAt": "2026-10-09T01:10:00.057Z",
+      "finishedAt": "2026-10-09T06:21:51.983Z",
       "qa": {
-        "rms": 0.1700487034140633,
-        "sha256": "a5080e064181e2528c93bd8487a04922f2519ce0daf7c4b6cbff726bc6ae5af5"
+        "rms": 0.09364470637422284,
+        "sha256": "09c6fa01cfa270cc56f6167b3e8decaf23a0aa0616c8f532536a45dfbca1865c"
       }
     }
   ],
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-queue-mix-1080p.mp4",
-  "mixRms": 0.1331707147858515,
-  "outputSha256": "9d03fab6141905994632b11722a526e1d9925344869ec0da87675b444a50a43b",
-  "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9"
+  "mixRms": 0.08814575254012119,
+  "outputSha256": "a85a4c9f8fa95b548ba5a00a627244ed1a1355f8f08c3528884b433faa7b56f7",
+  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a"
 }
 App exit: 0 null

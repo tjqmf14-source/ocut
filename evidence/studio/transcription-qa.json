@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-09T01:07:10.990Z",
+  "time": "2026-10-09T06:19:51.758Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\transcribe-1791508008119",
-  "save": "D:\\O-CUT\\.runtime\\transcribe-1791508008119\\자동 자막.ocut",
+  "data": "D:\\O-CUT\\.runtime\\transcribe-1791526763715",
+  "save": "D:\\O-CUT\\.runtime\\transcribe-1791526763715\\자동 자막.ocut",
   "output": "D:\\O-CUT\\artifacts\\transcription\\O-CUT-local-captions.mp4",
   "srt": "D:\\O-CUT\\artifacts\\transcription\\자동 자막.srt",
   "recognized": "안녕하세요. 오늘은 음악과 영상을 편집합니다. 자막을 만들고 내용을 확인합니다.",
@@ -17,13 +17,13 @@
   ],
   "logs": [
     {
-      "clipId": "ded2e322-e1a7-40c5-a9d7-c5a84dec622a",
+      "clipId": "dfe00ab1-0c0f-4774-bfa6-b9620d288829",
       "options": {
         "language": "ko",
         "device": "cpu"
       },
       "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
-      "startedAt": "2026-10-09T01:07:04.063Z",
+      "startedAt": "2026-10-09T06:19:44.955Z",
       "status": "complete",
       "device": "cpu",
       "segments": [
@@ -38,16 +38,16 @@
           "text": "자막을 만들고 내용을 확인합니다."
         }
       ],
-      "finishedAt": "2026-10-09T01:07:08.694Z"
+      "finishedAt": "2026-10-09T06:19:49.483Z"
     },
     {
-      "clipId": "ded2e322-e1a7-40c5-a9d7-c5a84dec622a",
+      "clipId": "dfe00ab1-0c0f-4774-bfa6-b9620d288829",
       "options": {
         "language": "ko",
         "device": "auto"
       },
       "model": "C:\\Users\\tjqmf\\.cache\\huggingface\\hub\\models--openai--whisper-base\\snapshots\\e37978b90ca9030d5170a5c07aadb050351a65bb",
-      "startedAt": "2026-10-09T01:06:49.621Z",
+      "startedAt": "2026-10-09T06:19:25.116Z",
       "status": "complete",
       "device": "cuda:0",
       "segments": [
@@ -62,7 +62,7 @@
           "text": "자막을 만들고 내용을 확인합니다."
         }
       ],
-      "finishedAt": "2026-10-09T01:07:03.869Z"
+      "finishedAt": "2026-10-09T06:19:44.759Z"
     }
   ],
   "errors": []

@@ -1,13 +1,13 @@
 {
   "item": {
     "channel": "local-development",
-    "version": "0.14.1",
-    "directory": "D:\\O-CUT\\artifacts\\updates\\packages\\0.14.1",
-    "manifestSha256": "b59b9fe116982d3d353ea52fd3a3044d061aad241eb43bcb807cb7ff0d9578c0",
-    "asarSha256": "b676a9a69d5b95bc714e0cd37acc9edad4ddd582f96128e47692ea3ab8123ce9",
-    "createdAt": "2026-10-09T01:28:00.663Z"
+    "version": "0.14.2",
+    "directory": "D:\\O-CUT\\artifacts\\updates\\packages\\0.14.2",
+    "manifestSha256": "eded6a244c6aab170e9eaa7abeaa8e22d709126858bb7970eab5d4548ce3fe11",
+    "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
+    "createdAt": "2026-10-09T06:38:27.192Z"
   },
-  "installerSha256": "4a768e642a24907123d2f91c74219ffa4fd82e6ac44211c995f2ea1d076201cf",
+  "installerSha256": "458c788e295102b5e856f6662b272fb09f86735ea1371e4bfceb9b6c6b047814",
   "files": 88,
-  "sourceCommit": "b32c2021590822027576c079775c4fd2bbef89c3"
+  "sourceCommit": "a07a031fd55f6daefe93992c2ce503cbbfd9df58"
 }

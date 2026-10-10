@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-09T01:11:00.841Z",
+  "time": "2026-10-09T06:22:52.627Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\navigation-A8OQgi",
+  "data": "D:\\O-CUT\\.runtime\\navigation-k8QZEq",
   "checks": [
     "10-hour project fits at 1100 and 1920 widths with bounded hourly ruler and all ten clips visible",
     "actual Ctrl+wheel zooms both directions around pointer without changing web zoom; ordinary wheel retains timeline zoom",
