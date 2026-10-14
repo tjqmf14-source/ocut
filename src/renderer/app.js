@@ -33,7 +33,8 @@ function render(next) {
     }
     if (state?.project.id !== next.project.id) selected.clear();
     state = next;
-    if (Object.hasOwn(next, 'selectedId')) selected = new Set(next.selectedId ? [next.selectedId] : []);
+    if (Array.isArray(next.selectedIds)) selected = new Set(next.selectedIds);
+    else if (Object.hasOwn(next, 'selectedId')) selected = new Set(next.selectedId ? [next.selectedId] : []);
   }
   const p = state.project;
   for (const id of selected) if (!p.clips.some(c => c.id === id)) selected.delete(id);
@@ -122,6 +123,8 @@ function drawWave(canvas, peaks, sourceStart, sourceEnd, duration) {
 }
 function renderTimeline() {
   const p = state.project, width = Math.max($('timelineBody').clientWidth, (Math.max(16, playback.duration) + 4) * zoom);
+  const rows=new Map(),heights=new Map();
+  for(const track of p.tracks){const ends=[];for(const c of p.clips.filter(c=>c.trackId===track.id).sort((a,b)=>a.startTime-b.startTime)){let row=ends.findIndex(end=>end<=c.startTime+1e-7);if(row<0)row=ends.length;ends[row]=c.startTime+c.duration;rows.set(c.id,row);}heights.set(track.id,Math.max(61,ends.length*55+6));}
   $('timelineContent').style.width = `${width}px`;
   $('trackHeaders').replaceChildren();
   const lanes = new Map([...$('tracks').children].map(node => [node.dataset.trackId, node]));
@@ -134,10 +137,10 @@ function renderTimeline() {
       if(OcutVisualizer.visualTrack(p,track)&&['muted','solo'].includes(property))button.disabled=true;
       button.onclick = () => edit({ type: 'track', id: track.id, property, value: !track[property] }); toggles.append(button);
     }
-    head.append(name, toggles); $('trackHeaders').append(head);
+    head.append(name, toggles);head.dataset.baseHeight=heights.get(track.id);head.style.height=`${heights.get(track.id)}px`; $('trackHeaders').append(head);
     let lane = lanes.get(track.id);
     if (!lane) { lane = document.createElement('div'); lane.className = 'track-lane'; lane.dataset.trackId = track.id; $('tracks').append(lane); }
-    $('tracks').append(lane);
+    $('tracks').append(lane);lane.dataset.baseHeight=heights.get(track.id);lane.style.height=`${heights.get(track.id)}px`;
     lane.classList.toggle('locked', track.locked); lane.classList.toggle('track-hidden', track.hidden); lanes.delete(track.id);
     lane.ondragover = event => event.preventDefault();
     lane.ondrop = event => { event.preventDefault(); const id = event.dataTransfer.getData('application/ocut-media'); if (id) edit({ type: 'add', mediaId: id, startTime: timeAt(event.clientX) }); };
@@ -159,6 +162,7 @@ function renderTimeline() {
       node.onkeydown = event => { if (event.key === 'Enter') { selected = new Set([clip.id]); renderSelection(); renderInspector(); } };
       clipNodes.set(clip.id, node); lane.append(node);
     }
+    node.style.top=`${6+rows.get(clip.id)*55}px`;
     if (node.dataset.key !== key) {
       node.dataset.key = key; node.style.left = `${clip.startTime * zoom}px`; node.style.width = `${Math.max(4, clip.duration * zoom)}px`; node.replaceChildren();
       const name = document.createElement('span'); name.className = 'clip-label'; name.textContent = clip.text || media?.name || clip.type; node.append(name);
@@ -178,8 +182,10 @@ function renderRuler() {
 function renderSelection() {
   updateCaptionSelection();
   for (const [id, node] of clipNodes) node.classList.toggle('selected', selected.has(id));
-  const clip = selectedClip(), locked = clip && state.project.tracks.find(t => t.id === clip.trackId).locked;
+  const clip = selectedClip(), locked = state.project.clips.some(c => selected.has(c.id) && state.project.tracks.find(t => t.id === c.trackId).locked);
   for (const id of ['split', 'duplicate', 'deleteClip']) $(id).disabled = !clip || locked;
+  for (const id of ['trimBefore', 'trimAfter']) $(id).disabled = !clip || locked || selected.size !== 1;
+  window.directEditor?.render();
 }
 function renderInspector() {
   if(selectedClip())window.dispatchEvent(new Event('ocut-inspect'));
@@ -244,11 +250,11 @@ function snapped(delta, clip) {
   return Math.max(-first, Math.round(value * state.project.canvas.fps) / state.project.canvas.fps);
 }
 function beginDrag(event, id) {
-  if (event.button !== 0 || busy) return;
+  if (event.button !== 0 || busy || event.target.closest('.fade-handle')) return;
   event.preventDefault();
   if (event.shiftKey) { selected.has(id) ? selected.delete(id) : selected.add(id); } else if (!selected.has(id)) selected = new Set([id]);
   renderSelection(); renderInspector();
-  const clip = state.project.clips.find(c => c.id === id); if (state.project.tracks.find(t => t.id === clip.trackId).locked) return;
+  const clip = state.project.clips.find(c => c.id === id); if (!selected.has(id) || state.project.clips.some(c => selected.has(c.id) && state.project.tracks.find(t => t.id === c.trackId).locked)) return;
   const node = clipNodes.get(id), startX = event.clientX, side = event.target.dataset.trim;
   let delta = 0, moved = false; node.setPointerCapture(event.pointerId);
   node.onpointermove = move => {
@@ -257,18 +263,31 @@ function beginDrag(event, id) {
     if (!side) { delta = snapped(raw, clip); for (const selectedId of selected) clipNodes.get(selectedId).style.transform = `translateX(${delta * zoom}px)`; }
     else {
       const frame = 1 / state.project.canvas.fps, media = state.project.media.find(m => m.id === clip.source);
-      const quantized = Math.round(raw * state.project.canvas.fps) / state.project.canvas.fps;
+      let candidate = raw;
+      if (snap && !move.altKey) {
+        const boundary = side === 'left' ? clip.startTime : clip.startTime + clip.duration;
+        const targets = [0, playback.time, ...state.project.clips.filter(c => c.id !== id).flatMap(c => [c.startTime, c.startTime + c.duration])];
+        let best = 7 / zoom;
+        for (const target of targets) if (Math.abs(target - boundary - raw) < best) { best = Math.abs(target - boundary - raw); candidate = target - boundary; }
+      }
+      const quantized = Math.round(candidate * state.project.canvas.fps) / state.project.canvas.fps;
       delta = side === 'left' ? Math.max(-clip.startTime, -clip.sourceStart / clip.speed, Math.min(clip.duration - frame, quantized)) : Math.max(frame - clip.duration, Math.min(media?.duration ? (media.duration - clip.sourceEnd) / clip.speed : 86400, quantized));
       node.style.left = `${(clip.startTime + (side === 'left' ? delta : 0)) * zoom}px`; node.style.width = `${(clip.duration + (side === 'left' ? -delta : delta)) * zoom}px`;
     }
   };
-  node.onpointerup = () => {
-    node.onpointermove = node.onpointerup = null;
+  const finish = cancelled => {
+    node.onpointermove = node.onpointerup = node.onpointercancel = node.onlostpointercapture = null;
+    window.removeEventListener('keydown', cancelKey, true);
+    if (node.hasPointerCapture(event.pointerId)) node.releasePointerCapture(event.pointerId);
     for (const n of clipNodes.values()) { n.style.transform = ''; n.dataset.key = ''; }
-    if (!moved || !delta) { renderTimeline(); return; }
+    if (cancelled || !moved || !delta) { renderTimeline(); return; }
     if (!side) edit({ type: 'move', ids: [...selected], delta });
-    else edit({ type: 'update', id, values: side === 'left' ? { startTime: clip.startTime + delta, sourceStart: clip.sourceStart + delta * clip.speed, duration: clip.duration - delta } : { duration: clip.duration + delta } });
+    else edit({ type: 'trim', id, side, time: (side === 'left' ? clip.startTime : clip.startTime + clip.duration) + delta });
   };
+  const cancelKey = key => { if (key.key === 'Escape') { key.preventDefault(); key.stopImmediatePropagation(); finish(true); } };
+  window.addEventListener('keydown', cancelKey, true);
+  node.onpointerup = () => finish(false);
+  node.onpointercancel = node.onlostpointercapture = () => finish(true);
 }
 function showContext(x, y) {
   document.querySelector('.context-menu')?.remove(); const menu = document.createElement('div'); menu.className = 'context-menu'; menu.style.left = `${Math.min(x, innerWidth - 160)}px`; menu.style.top = `${Math.min(y, innerHeight - 150)}px`;
@@ -309,8 +328,21 @@ for (const pane of ['media','captions','music','visualizer','text','stickers','f
 $('addVisualizer').onclick=()=>{message('음원의 파형과 주파수를 분석하고 있습니다…');edit({type:'visualizer',mediaId:$('visualizerSource').value,startTime:playback.time});};
 $('createMusicVideo').onclick=()=>{message('음원을 분석하고 음악 영상 프로젝트를 준비하고 있습니다…');act(()=>window.ocut.createMusicVideo($('visualizerSource').value),'음악 영상 프로젝트를 만들었습니다. 각 트랙을 자유롭게 편집하세요.');};
 $('captionSearch').oninput = () => renderCaptions(); $('captionTrack').onchange = () => { selected.clear(); renderSelection(); renderInspector(); renderCaptions(); };
-$('split').onclick = () => { if (selectedClip()) edit({ type: 'split', id: selectedClip().id, time: playback.time }); };
-$('duplicate').onclick = () => { if (selectedClip()) edit({ type: 'duplicate', id: selectedClip().id }); };
+function editSelection(type) {
+  if (!selected.size) return;
+  const existing = new Set(state.project.clips.map(c => c.id));
+  return act(async () => {
+    const next = await window.ocut.edit({ type, ids: [...selected], time: playback.time });
+    return { ...next, selectedIds: next.project.clips.filter(c => !existing.has(c.id)).map(c => c.id) };
+  }, '선택한 클립을 편집했습니다.');
+}
+$('split').onclick = () => editSelection('splitSelected');
+$('duplicate').onclick = () => editSelection('duplicateSelected');
+for (const [id, side] of [['trimBefore', 'left'], ['trimAfter', 'right']]) $(id).onclick = () => {
+  const clip = selectedClip(); if (!clip || selected.size !== 1) return;
+  if (playback.time < clip.startTime || playback.time > clip.startTime + clip.duration) { message('재생 헤드를 선택한 클립 안으로 이동해 주세요.', true); return; }
+  edit({ type: 'trim', id: clip.id, side, time: playback.time });
+};
 $('deleteClip').onclick = () => edit({ type: 'delete', ids: [...selected], ripple });
 $('deselect').onclick = () => { selected.clear(); renderSelection(); renderInspector(); };
 $('snap').onclick = () => { snap = !snap; $('snap').setAttribute('aria-pressed', String(snap)); };
@@ -344,11 +376,18 @@ $('clipForm').onsubmit = event => {
   edit({ type: 'update', id: clip.id, values: { startTime: num('clipStart'), duration: num('clipDuration'), sourceStart: num('clipSourceStart'), speed: num('clipSpeed'), text: $('clipText').value, volume: num('clipVolume') / 100, opacity: num('clipOpacity') / 100, ...visual, ...(!$('colorFields').hidden?{colorCorrection:readColor(),texture:Object.fromEntries(Object.keys(OcutTexture.defaults).map(k=>[k,Number($('texture-'+k).value)]))}:{}), ...(!$('fadeFields').hidden ? {audioFade:{fadeIn:num('clipFadeIn'),fadeOut:num('clipFadeOut')}} : {}), transform: { x: num('clipX'), y: num('clipY'), scaleX: num('clipScale') / 100, scaleY: num('clipScale') / 100, rotation: num('clipRotation') } } });
 };
 window.addEventListener('keydown', event => {
-  if (exporting || $('workspaceDialog').open) return;
-  const key = event.key.toLowerCase(), typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+  if (exporting || document.querySelector('dialog[open]')) return;
+  const key = event.key.toLowerCase(), typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) || document.activeElement.isContentEditable;
   if ((event.ctrlKey || event.metaKey) && key === 's') { event.preventDefault(); $(event.shiftKey ? 'saveAs' : 'save').click(); return; }
   if (typing) return;
-  if (event.ctrlKey || event.metaKey) { if (key === 'z') { event.preventDefault(); $(event.shiftKey ? 'redo' : 'undo').click(); } if (key === 'd') { event.preventDefault(); $('duplicate').click(); } return; }
+  if(event.defaultPrevented)return;
+  if (event.ctrlKey || event.metaKey) {
+    if (key === 'z') { event.preventDefault(); $(event.shiftKey ? 'redo' : 'undo').click(); }
+    if (key === 'd') { event.preventDefault(); $('duplicate').click(); }
+    if (key === 'b') { event.preventDefault(); $('split').click(); }
+    if (key === 'a') { event.preventDefault(); selected = new Set(state.project.clips.filter(c => !state.project.tracks.find(t => t.id === c.trackId).locked).map(c => c.id)); renderSelection(); renderInspector(); }
+    return;
+  }
   if (key === ' ') { event.preventDefault(); $('play').click(); }
   if (key === 's') $('split').click();
   if (key === 'delete' || key === 'backspace') { event.preventDefault(); $('deleteClip').click(); }

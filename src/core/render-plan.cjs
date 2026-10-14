@@ -38,7 +38,9 @@ function renderPlan(project, assets, textFiles, visualFiles = new Map()) {
       const { fadeIn, fadeOut } = lengths(c);
       const fades = (fadeIn ? `,afade=t=in:st=0:d=${fadeIn}:curve=tri` : '') + (fadeOut ? `,afade=t=out:st=${c.duration-fadeOut}:d=${fadeOut}:curve=tri` : '');
       const volume=c.keyframes.some(k=>k.property==='volume')?`'${expression(c,'volume')}':eval=frame:precision=double`:String(c.volume);
-      graph.push(`[${audioIndex}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${volume}${fades},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1[${tag}]`);
+      // Delay includes real leading silence; rebuild its timestamps from samples.
+      // Some FFmpeg versions emit NOPTS for those delayed frames.
+      graph.push(`[${audioIndex}:a:0]atrim=start=${c.sourceStart}:end=${c.sourceEnd},asetpts=PTS-STARTPTS,${tempo.join(',')},volume=${volume}${fades},aresample=48000,adelay=${Math.round(c.startTime * 48000)}S:all=1,asetpts=N/SR/TB[${tag}]`);
       audio.push(`[${tag}]`);
     }
     if (!visual) continue;

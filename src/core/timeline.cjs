@@ -3,7 +3,7 @@ const { randomUUID } = require('node:crypto');
 const { createTrack, createClip, validateProject } = require('./project.cjs');
 const { defaults: visualDefaults, validate: validateVisualizer } = require('./visualizer.js');
 const {defaults:textDefaults,validate:validateTextStyle,get:textStyle}=require('./text-style.js');
-const {split:splitKeyframes}=require('./keyframes.js');
+const {split:splitKeyframes,trim:trimKeyframes}=require('./keyframes.js');
 const {defaults:colorDefaults,validate:validateColor,active:colorActive}=require('./color-filters.js');
 const {defaults:textureDefaults,validate:validateTexture,active:textureActive}=require('./texture.js');
 const {defaults:transitionDefaults,validate:validateTransition,active:transitionActive,get:transitionGet}=require('./transitions.js');
@@ -25,10 +25,51 @@ function trackFor(project, type) {
   }
   return track;
 }
+function selection(project,ids){
+  if(!Array.isArray(ids)||!ids.length)throw Error('편집할 클립을 선택해 주세요.');
+  return [...new Set(ids)].map(id=>writable(project,id));
+}
+function unionIntervals(intervals){
+  const result=[];
+  for(const [start,end] of intervals.sort((a,b)=>a[0]-b[0])){
+    const last=result.at(-1);
+    if(last&&start<=last[1])last[1]=Math.max(last[1],end);
+    else result.push([start,end]);
+  }
+  return result;
+}
+function vacantIntervals(removed,survivors){
+  let vacant=unionIntervals(removed.map(c=>[c.startTime,c.startTime+c.duration]));
+  for(const [start,end] of unionIntervals(survivors.map(c=>[c.startTime,c.startTime+c.duration]))){
+    vacant=vacant.flatMap(([a,b])=>end<=a||start>=b?[[a,b]]:[...(a<start?[[a,start]]:[]),...(end<b?[[end,b]]:[])]);
+  }
+  return vacant;
+}
 function command(project, action) {
   if (!action || typeof action.type !== 'string') throw Error('잘못된 편집 명령입니다.');
   const frame = 1 / project.canvas.fps;
   switch (action.type) {
+    case 'transformDirect': {
+      const clip=writable(project,action.id),time=frameTime(action.time,project.canvas.fps),keys=require('./keyframes.js');
+      if(['audio','music'].includes(clip.type)||!Number.isFinite(time)||time<0||time>clip.duration||!action.values||typeof action.values!=='object')throw Error('화면에 표시되는 클립과 클립 안 시간을 선택해 주세요.');
+      for(const [property,value] of Object.entries(action.values)){
+        if(!['x','y','scaleX','scaleY','rotation'].includes(property)||!Number.isFinite(value)||value<keys.ranges[property][0]||value>keys.ranges[property][1])throw Error('위치·크기·회전 범위를 확인해 주세요.');
+        if(Math.abs(keys.value(clip,property,time)-value)<1e-9)continue;
+        const animated=clip.keyframes.some(k=>k.property===property);
+        if(animated||action.autoKey===true){
+          if(!animated&&time>0)clip.keyframes.push({property,time:0,value:keys.base(clip,property),interpolation:'linear'});
+          const old=clip.keyframes.find(k=>k.property===property&&Math.abs(k.time-time)<1e-7);
+          clip.keyframes=clip.keyframes.filter(k=>k!==old);clip.keyframes.push({property,time,value,interpolation:old?.interpolation||'linear'});
+        }else clip.transform[property]=value;
+      }
+      clip.keyframes.sort((a,b)=>a.time-b.time||a.property.localeCompare(b.property));return clip.id;
+    }
+    case 'keyframeMove': {
+      const clip=writable(project,action.id),time=frameTime(action.time,project.canvas.fps),point=clip.keyframes.find(k=>k.property===action.property&&Math.abs(k.time-action.from)<1e-7);
+      if(!point||!Number.isFinite(time)||time<0||time>clip.duration)throw Error('키프레임을 클립 범위 안으로 이동해 주세요.');
+      if(clip.keyframes.some(k=>k!==point&&k.property===point.property&&Math.abs(k.time-time)<1e-7))throw Error('같은 위치에 키프레임이 있습니다.');
+      point.time=time;clip.keyframes.sort((a,b)=>a.time-b.time||a.property.localeCompare(b.property));return clip.id;
+    }
     case 'dissolve': {
       const clip=writable(project,action.id),duration=Number(action.duration);
       if(!['video','image'].includes(clip.type)||!Number.isFinite(duration)||duration<=0||duration>30)throw Error('영상/이미지 클립과 30초 이하 전환 길이를 선택해 주세요.');
@@ -114,6 +155,35 @@ function command(project, action) {
       first.duration = end - first.startTime; first.speed = 1; first.sourceStart = 0; first.sourceEnd = first.duration;
       project.clips = project.clips.filter(c => !clips.includes(c) || c === first); return first.id;
     }
+    case 'trim': {
+      const clip=writable(project,action.id);
+      if(!['left','right'].includes(action.side)||!Number.isFinite(action.time))throw Error('트림 경계와 시간을 확인해 주세요.');
+      const boundary=frameTime(action.time,project.canvas.fps),oldEnd=clip.startTime+clip.duration;
+      const start=action.side==='left'?boundary:clip.startTime,end=action.side==='right'?boundary:oldEnd;
+      if(start<0||end-start<frame-1e-7)throw Error('클립은 0초 이후에 한 프레임 이상이어야 합니다.');
+      if(Math.abs(start-clip.startTime)<1e-9&&Math.abs(end-oldEnd)<1e-9)return clip.id;
+      const offset=start-clip.startTime,sourceStart=clip.sourceStart+offset*clip.speed,sourceEnd=clip.sourceStart+(end-clip.startTime)*clip.speed;
+      const media=project.media.find(m=>m.id===clip.source);
+      if(sourceStart<-1e-7||(media?.duration!=null&&sourceEnd>media.duration+1e-7))throw Error('원본 미디어 범위 안에서 트림해 주세요.');
+      clip.keyframes=trimKeyframes(clip,offset,end-clip.startTime);
+      clip.startTime=start;clip.duration=end-start;clip.sourceStart=Math.max(0,sourceStart);clip.sourceEnd=clip.sourceStart+clip.duration*clip.speed;
+      return clip.id;
+    }
+    case 'splitSelected': {
+      const clips=selection(project,action.ids);
+      if(!Number.isFinite(action.time))throw Error('분할 시간을 확인해 주세요.');
+      const time=frameTime(action.time,project.canvas.fps),crossing=clips.filter(c=>time-c.startTime>=frame-1e-7&&c.startTime+c.duration-time>=frame-1e-7);
+      if(!crossing.length)throw Error('선택한 클립 내부의 프레임에서 분할해 주세요.');
+      let first;
+      for(const clip of crossing){const id=command(project,{type:'split',id:clip.id,time});first??=id;}
+      return first;
+    }
+    case 'duplicateSelected': {
+      const clips=selection(project,action.ids),span=Math.max(...clips.map(c=>c.startTime+c.duration))-Math.min(...clips.map(c=>c.startTime));
+      let first;
+      for(const clip of clips){const copy=structuredClone(clip);copy.id=randomUUID();copy.startTime+=span;project.clips.push(copy);first??=copy.id;}
+      return first;
+    }
     case 'split': {
       const clip = writable(project, action.id);
       if (clip.effects.some(e=>!['audioVisualizer','textStyle','colorCorrection'].includes(e.type))) throw Error('전환·질감·페이드/기타 효과를 먼저 제거한 뒤 분할해 주세요.');
@@ -128,6 +198,7 @@ function command(project, action) {
     }
     case 'update': {
       const clip = writable(project, action.id);
+      const original=structuredClone(clip);
       const fields = ['startTime', 'duration', 'sourceStart', 'speed', 'text', 'volume', 'opacity', 'transform', 'audioFade', 'visualizer', 'textStyle', 'colorCorrection', 'visualTransition','texture'];
       if (!action.values || Object.keys(action.values).some(key => !fields.includes(key))) throw Error('지원하지 않는 클립 속성입니다.');
       for (const [key, value] of Object.entries(action.values)) {
@@ -162,6 +233,10 @@ function command(project, action) {
         clip[key] = key === 'transform' ? { ...clip.transform, ...value } : value;
       }
       if (clip.duration < frame - 1e-7) throw Error('클립은 한 프레임 이상이어야 합니다.');
+      if(clip.speed===original.speed&&(clip.sourceStart!==original.sourceStart||clip.duration!==original.duration)){
+        const offset=(clip.sourceStart-original.sourceStart)/clip.speed;
+        clip.keyframes=trimKeyframes(original,offset,offset+clip.duration);
+      }
       clip.sourceEnd = clip.sourceStart + clip.duration * clip.speed;
       return clip.id;
     }
@@ -180,9 +255,10 @@ function command(project, action) {
       const clips = ids.map(id => writable(project, id));
       project.clips = project.clips.filter(clip => !ids.includes(clip.id));
       if (action.ripple) {
-        // Remove intervals right-to-left; overlapping clips stay at their current time.
-        for (const removed of clips.sort((a, b) => b.startTime - a.startTime)) {
-          for (const clip of project.clips) if (clip.trackId === removed.trackId && clip.startTime >= removed.startTime + removed.duration - 1e-7) clip.startTime -= removed.duration;
+        // Close each vacated interval once, preserving every surviving clip's occupied time.
+        for (const trackId of new Set(clips.map(c=>c.trackId))) {
+          const survivors=project.clips.filter(c=>c.trackId===trackId),vacant=vacantIntervals(clips.filter(c=>c.trackId===trackId),survivors);
+          for(const clip of survivors){const start=clip.startTime;clip.startTime-=vacant.reduce((sum,[a,b])=>sum+Math.max(0,Math.min(start,b)-a),0);}
         }
       }
       return null;

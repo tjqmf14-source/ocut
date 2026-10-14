@@ -34,13 +34,22 @@
   }
   const animated=clip=>clip.keyframes.some(k=>k.property!=='volume')||clip.effects.some(e=>['audioVisualizer','colorCorrection','visualTransition','texture'].includes(e.type)&&e.enabled);
   function split(clip,time){
-    const left=[],right=[];
-    for(const property of new Set(clip.keyframes.map(k=>k.property))){
-      const list=frames(clip,property),v=value(clip,property,time),mode=[...list].reverse().find(k=>k.time<=time)?.interpolation||list[0].interpolation;
-      left.push(...list.filter(k=>k.time<time),{property,time,value:v,interpolation:mode});
-      right.push({property,time:0,value:v,interpolation:mode},...list.filter(k=>k.time>time).map(k=>({...k,time:k.time-time})));
-    }
-    return {left,right};
+    return {left:trim(clip,0,time),right:trim(clip,time,clip.duration)};
   }
-  const api={ranges,frames,base,validate,value,evaluate,expression,animated,split};if(typeof module!=='undefined')module.exports=api;else root.OcutKeyframes=api;
+  function trim(clip,start,end){
+    const result=[];
+    for(const property of new Set(clip.keyframes.map(k=>k.property))){
+      const list=frames(clip,property);
+      const mode=time=>[...list].reverse().find(k=>k.time<=time)?.interpolation||'hold';
+      const retained=list.filter(k=>k.time>=start&&k.time<=end).map(k=>({...k,time:k.time-start}));
+      // Outside the keyed interval, evaluation already holds the first/last value.
+      // Add a boundary only when cutting through an interpolated interval.
+      if(start>list[0].time&&start<list.at(-1).time&&!list.some(k=>k.time===start))retained.unshift({property,time:0,value:value(clip,property,start),interpolation:mode(start)});
+      if(end>list[0].time&&end<list.at(-1).time&&!list.some(k=>k.time===end))retained.push({property,time:end-start,value:value(clip,property,end),interpolation:mode(end)});
+      if(!retained.length)retained.push({property,time:0,value:value(clip,property,start),interpolation:'hold'});
+      result.push(...retained);
+    }
+    return result.sort((a,b)=>a.time-b.time||a.property.localeCompare(b.property));
+  }
+  const api={ranges,frames,base,validate,value,evaluate,expression,animated,split,trim};if(typeof module!=='undefined')module.exports=api;else root.OcutKeyframes=api;
 })(globalThis);

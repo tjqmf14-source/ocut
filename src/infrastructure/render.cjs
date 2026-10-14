@@ -69,6 +69,8 @@ async function renderVideo({ project, library, target, cacheDir, textImage, visu
     const video = metadata.streams.find(s => s.codec_type === 'video'), audio = metadata.streams.find(s => s.codec_type === 'audio');
     const fps = video?.avg_frame_rate.split('/').map(Number);
     if (!video || !audio || video.width !== plan.width || video.height !== plan.height || Math.abs(fps[0] / fps[1] - plan.fps) > .001 || Math.abs(Number(metadata.format.duration) - plan.duration) > .1 || Number(metadata.format.size) <= 0) throw Error('출력 파일 검증 실패');
+    const audioStart=Number(audio.start_time),audioDuration=Number(audio.duration);
+    if(!Number.isFinite(audioStart)||Math.abs(audioStart)>.1||!Number.isFinite(audioDuration)||Math.abs(audioDuration-plan.duration)>.1)throw Error('출력 오디오 시간 검증 실패');
     if (signal?.aborted) throw Error('내보내기를 취소했습니다.');
     const now = await fs.lstat(target).catch(e => { if (e.code === 'ENOENT') return null; throw e; });
     if (Boolean(now) !== Boolean(previous) || now && (now.mtimeMs !== previous.mtimeMs || now.size !== previous.size || now.ino !== previous.ino)) throw Error('출력 중 대상 파일이 변경되어 덮어쓰기를 중단했습니다.');

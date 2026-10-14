@@ -144,6 +144,7 @@ class StudioPlayback {
         this.paintVisual(ctx,clip,project.canvas,entry,this.time);
       }
     }
+    this.onDraw?.();
   }
 }
 window.StudioPlayback = StudioPlayback;

@@ -68,7 +68,8 @@
 </div></aside>
     <section class="monitor-panel" aria-label="영상 미리보기">
       <div class="panel-head"><h2>미리보기</h2><span id="canvasInfo" class="muted"></span></div>
-      <div class="monitor-space"><div class="monitor-frame"><canvas id="preview" width="1920" height="1080"></canvas><div id="previewEmpty"><span class="preview-mark">O-CUT</span><p>나만의 장면을 만들어 보세요</p></div></div></div>
+      <div class="preview-tools"><label><input id="previewAutoKey" type="checkbox">자동 키프레임</label><button id="previewCenter" type="button">중앙 맞춤</button><button id="previewReset" type="button">배치 초기화</button><span id="previewEditHint">클릭하여 선택 · 드래그하여 이동</span></div>
+      <div class="monitor-space"><div class="monitor-frame"><canvas id="preview" width="1920" height="1080" tabindex="0" aria-label="미리보기 직접 편집"></canvas><svg id="previewSelection" tabindex="0" role="group" aria-label="선택한 요소 이동 및 크기 조절"></svg><div id="previewEmpty"><span class="preview-mark">O-CUT</span><p>나만의 장면을 만들어 보세요</p></div></div></div>
       <div class="transport"><span id="timecode">00:00.000</span><div class="transport-buttons"><button id="stepBack" aria-label="이전 프레임" title="이전 프레임 (←)">│◁</button><button id="play" aria-label="재생" title="재생/일시정지 (Space)">▶</button><button id="stepForward" aria-label="다음 프레임" title="다음 프레임 (→)">▷│</button></div><span id="duration">00:00.000</span></div>
     </section>
     <aside class="inspector">
@@ -106,7 +107,7 @@
       </form>
     </aside>
     <section class="timeline-panel" aria-label="타임라인">
-      <div class="timeline-toolbar"><div class="edit-tools"><strong>타임라인</strong><button id="split" title="재생 헤드에서 분할 (S)">✂ 분할</button><button id="duplicate" title="복제 (Ctrl+D)">복제</button><button id="deleteClip" title="클립 삭제 (Delete)">삭제</button><span class="divider"></span><button id="addText">T 텍스트</button><button id="snap" aria-pressed="true" title="클립 경계에 맞추기">스냅</button><button id="ripple" aria-pressed="false" title="삭제한 클립 뒤의 빈 공간 닫기">리플</button></div><div class="zoom-tools"><input id="timelineHeight" type="range" min="150" max="380" value="230" aria-label="타임라인 영역 높이" title="타임라인 영역 높이"><span class="muted" id="clipCount">클립 0개</span><button id="fitTimeline" type="button" title="프로젝트 전체 길이를 화면에 맞추기">전체 보기</button><label for="zoom">−</label><input id="zoom" aria-label="타임라인 확대" title="Ctrl + 마우스 휠로 확대·축소" type="range" min="0" max="1000" step="1" value="900"><span>＋</span></div></div>
+      <div class="timeline-toolbar"><div class="edit-tools"><strong>타임라인</strong><button id="split" title="선택한 클립을 재생 헤드에서 분할 (Ctrl+B / S)">✂ 분할</button><button id="duplicate" title="선택한 클립을 간격 그대로 복제 (Ctrl+D)">복제</button><button id="trimBefore" title="선택한 클립의 재생 헤드 앞부분 자르기">앞 자르기</button><button id="trimAfter" title="선택한 클립의 재생 헤드 뒷부분 자르기">뒤 자르기</button><button id="deleteClip" title="클립 삭제 (Delete)">삭제</button><span class="divider"></span><button id="addText">T 텍스트</button><button id="snap" aria-pressed="true" title="클립 경계에 맞추기">스냅</button><button id="ripple" aria-pressed="false" title="삭제한 클립 뒤의 빈 공간 닫기">리플</button></div><div class="zoom-tools"><input id="timelineHeight" type="range" min="150" max="380" value="230" aria-label="타임라인 영역 높이" title="타임라인 영역 높이"><span class="muted" id="clipCount">클립 0개</span><button id="fitTimeline" type="button" title="프로젝트 전체 길이를 화면에 맞추기">전체 보기</button><label for="zoom">−</label><input id="zoom" aria-label="타임라인 확대" title="Ctrl + 마우스 휠로 확대·축소" type="range" min="0" max="1000" step="1" value="900"><span>＋</span></div></div>
       <div id="timeline" class="timeline"><div id="trackHeaders" class="track-headers"></div><div id="timelineBody" class="timeline-body"><div id="timelineContent"><div id="ruler" class="ruler"></div><div id="tracks"></div><div id="playhead" class="playhead"></div></div></div></div>
     </section>
   </main>
@@ -117,5 +118,6 @@
   <dialog id="exportDialog"><div class="overline">O-CUT EXPORT</div><h2>영상을 만들고 있습니다</h2><p id="exportDescription"></p><progress id="exportProgress" max="100" value="0"></progress><p id="exportPercent" role="status">저장할 위치를 선택해 주세요.</p><button id="cancelExport" class="secondary">내보내기 취소</button></dialog>
   <dialog id="transcriptionDialog"><div class="overline">LOCAL TRANSCRIPTION</div><h2>자동 자막을 만들고 있습니다</h2><progress></progress><p id="transcriptionProgress" role="status" aria-live="polite">음성을 준비하고 있습니다…</p><button id="cancelTranscription" class="secondary">자막 생성 취소</button></dialog>
   <script src="../core/transitions.js"></script><script src="../core/color-filters.js"></script><script src="../core/texture.js"></script><script src="../core/keyframes.js"></script><script src="../core/audio-fades.js"></script><script src="../core/visualizer.js"></script><script src="../core/text-style.js"></script><script src="text.js"></script><script src="playback.js"></script><script src="../core/studio-view.js"></script><script src="app.js"></script><script src="../core/workspace-layout.js"></script><script src="workspace-panels.js"></script><script src="workspace-ui.js"></script>
+  <script src="../core/direct-edit.js"></script><script src="direct-editor.js"></script>
 </body>
 </html>

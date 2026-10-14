@@ -1,5 +1,10 @@
 'use strict';
 window.OcutText = {
+  bounds(ctx,clip,height){
+    const s=OcutTextStyle.get(clip),size=s.fontSize||Math.round(height*.05);ctx.save();ctx.font=`${s.weight} ${size}px "${s.font}", sans-serif`;ctx.letterSpacing=`${s.tracking}px`;
+    const lines=clip.text.split('\n'),width=Math.max(size*.4,...lines.map(line=>ctx.measureText(line).width)),h=size+(lines.length-1)*size*s.lineHeight,padding=s.backgroundOpacity>0?s.padding:Math.max(4,s.strokeWidth);ctx.restore();
+    return {x:(s.align==='left'?0:s.align==='right'?-width:-width/2)-padding,y:-h/2-padding,width:width+padding*2,height:h+padding*2};
+  },
   paint(ctx, clip, height) {
     const s=OcutTextStyle.get(clip),size=s.fontSize||Math.round(height*.05);
     ctx.font=`${s.weight} ${size}px "${s.font}", sans-serif`;ctx.textAlign=s.align;ctx.textBaseline='middle';ctx.letterSpacing=`${s.tracking}px`;
