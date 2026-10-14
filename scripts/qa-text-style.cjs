@@ -1,5 +1,5 @@
 'use strict';
-const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{spawnSync}=require('node:child_process'),{_electron}=require('playwright-core');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{spawnSync}=require('node:child_process'),{_electron}=require('./qa-electron.cjs');
 const root=path.resolve(__dirname,'..'),evidence=path.join(root,'evidence/studio'),data=path.join(root,'.runtime','text-style-'+Date.now()),artifact=path.join(root,'artifacts/text-style');
 for(const dir of [data,artifact])fs.mkdirSync(dir,{recursive:true});
 const run=(exe,args)=>{const r=spawnSync(exe,args,{windowsHide:true,maxBuffer:16*1024*1024});assert.equal(r.status,0,r.stderr?.toString());return r;};
