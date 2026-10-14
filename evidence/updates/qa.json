@@ -1,10 +1,10 @@
 {
-  "time": "2026-10-09T06:38:53.502Z",
+  "time": "2026-10-14T10:39:09.514Z",
   "status": "PASS",
-  "version": "0.14.2",
-  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
-  "manifestSha256": "eded6a244c6aab170e9eaa7abeaa8e22d709126858bb7970eab5d4548ce3fe11",
-  "data": "D:\\O-CUT\\.runtime\\update-qa-ysCzfk",
+  "version": "0.16.0",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6",
+  "manifestSha256": "5c0a17eb8835bef4189045e4d03650345e790fd2a36ebe90a9d8f07c682af79f",
+  "data": "D:\\O-CUT\\.runtime\\update-qa-nlGKzQ",
   "checks": [
     "signed exact candidate prepares beside running 0.11; helper waits while real app remains usable",
     "real 0.11 upgrades to exact candidate after exit; previous app, matching uninstaller, custom file, project and queue preserved",
@@ -14,17 +14,17 @@
     "preserved exact previous app remains runnable for rollback"
   ],
   "firstUpdate": {
-    "version": "0.14.2",
+    "version": "0.16.0",
     "message": "Update installed. Previous app and uninstaller are preserved in backup.",
-    "root": "D:\\O-CUT\\.runtime\\update-qa-ysCzfk\\한글 설치",
+    "root": "D:\\O-CUT\\.runtime\\update-qa-nlGKzQ\\한글 설치",
     "phase": "activated",
-    "backup": "D:\\O-CUT\\.runtime\\update-qa-ysCzfk\\한글 설치\\backup-update-0.11.0-305152cb3d084d408807549a84de45a9",
-    "time": "2026-10-09T06:38:45.3665946Z",
+    "backup": "D:\\O-CUT\\.runtime\\update-qa-nlGKzQ\\한글 설치\\backup-update-0.11.0-5298ad3741f14b74a171da8bb11f64f7",
+    "time": "2026-10-14T10:39:01.9299782Z",
     "status": "applied"
   },
   "futureFixture": {
-    "version": "0.14.3",
-    "asarSha256": "d2d40c19209ff7d2a48dd17462917cc806cbc3be57ec574400ac17f963d6d97c"
+    "version": "0.16.1",
+    "asarSha256": "54952c000c99ddaebca3e95c28e27b18cdf82fa13b707f3488bb78e1f4e244f7"
   },
   "scope": "Real isolated apps and actual helper; future version is test-only; no user installation mutation"
 }

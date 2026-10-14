@@ -1,17 +1,17 @@
 {
-  "time": "2026-10-09T06:38:12.832Z",
+  "time": "2026-10-14T10:38:29.428Z",
   "status": "PARTIAL",
-  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.14.2.exe",
-  "installerSha256": "458c788e295102b5e856f6662b272fb09f86735ea1371e4bfceb9b6c6b047814",
-  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
-  "data": "D:\\O-CUT\\.runtime\\installer-qa-3dBOD0",
-  "install": "D:\\O-CUT\\.runtime\\installer-qa-3dBOD0\\한글 설치 폴더",
-  "backup": "D:\\O-CUT\\.runtime\\installer-qa-3dBOD0\\한글 설치 폴더\\backup-4677125",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.16.0.exe",
+  "installerSha256": "9339ad0336858c51286d06bf78863699697f7438bc65fdcdbced2390342ef999",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6",
+  "data": "D:\\O-CUT\\.runtime\\installer-qa-ajczhR",
+  "install": "D:\\O-CUT\\.runtime\\installer-qa-ajczhR\\한글 설치 폴더",
+  "backup": "D:\\O-CUT\\.runtime\\installer-qa-ajczhR\\한글 설치 폴더\\backup-3243734",
   "output": "D:\\O-CUT\\artifacts\\release\\O-CUT-installed-smoke.mp4",
   "meta": {
     "ProductName": "O-CUT",
     "FileDescription": "O-CUT AI Music & Video Studio",
-    "FileVersion": "0.14.2",
+    "FileVersion": "0.16.0",
     "OriginalFilename": "O-CUT.exe"
   },
   "streams": {

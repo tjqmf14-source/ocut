@@ -1,0 +1,19 @@
+{
+  "time": "2026-10-14T10:45:38.869Z",
+  "status": "PASS",
+  "previousVersion": "0.14.1",
+  "version": "0.16.0",
+  "sourceCommit": "2711544d9d9b22fd4c0451540ccb22bb03a35c04",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6",
+  "verifiedPackageFiles": 86,
+  "verifiedBackupFiles": 86,
+  "preservedUserFiles": 2,
+  "installation": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT",
+  "checks": [
+    "Every installed package file matches verified manifest and ASAR",
+    "New installed version launches with editor controls and retains protected user files byte-for-byte",
+    "Saved previous installed package backup is byte-verified"
+  ],
+  "errors": [],
+  "backup": "C:\\Users\\tjqmf\\AppData\\Local\\Programs\\O-CUT\\backup-update-0.14.1-981a17fbed9c4420ac26fd007753bf5c"
+}

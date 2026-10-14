@@ -1,0 +1,17 @@
+{
+  "time": "2026-10-14T10:24:13.164Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\direct-edit-eKrRpc",
+  "checks": [
+    "actual preview pointer drags move text, subtitles, audio visualizer and decoration; each drag undoes/redoes in one step",
+    "resize and rotation handles, center alignment and keyboard nudging work; Escape cancels without committing",
+    "automatic keyframing records starting pose and current pose instead of changing the whole animation",
+    "timeline diamonds add at playhead, drag on frame grid, delete independently from clips and undo",
+    "audio edge handles set both fades and actual Web Audio gain follows their envelope",
+    "actual MP4 fully decodes, picture matches direct-edited preview above .97 SSIM, and rendered PCM contains the mouse-edited fades",
+    "saved transforms, keys and fades restore exactly after restart without renderer errors"
+  ],
+  "errors": [],
+  "output": "D:\\O-CUT\\.runtime\\direct-edit-eKrRpc\\direct-edit.mp4",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6"
+}

@@ -1,0 +1,44 @@
+{
+  "time": "2026-10-14T10:26:56.811Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\timeline-editing-ZtvM9b",
+  "checks": [
+    "real left/right trim drags preserve linear and hold animation at world time, valid keyframe bounds, and one-step undo/redo",
+    "Escape and pointercancel abandon trim drafts without changing project or revision",
+    "trim-before and trim-after toolbar controls trim at playhead and are atomic undo steps",
+    "Ctrl+A excludes locked tracks; Shift multi-selection and Ctrl+B split both selected clips with preserved animation in one history step",
+    "Ctrl+D duplicates every selected clip by group span, preserves relative placement and keys, and undoes/redoes atomically",
+    "mouse fade handles retain edge fade lengths after both trims; real Web Audio gains match an independently calculated envelope",
+    "MP4 fully decodes; animated trimmed picture matches preview above .97 SSIM; PCM is audible with correct fade edges and silence outside trimmed audio",
+    "save and actual process restart reopen the exact project without renderer errors"
+  ],
+  "errors": [],
+  "metrics": {
+    "previewAudio": {
+      "times": [
+        1,
+        1.25,
+        2,
+        4.5,
+        4.9
+      ],
+      "gains": [
+        0,
+        0.5,
+        1,
+        0.5,
+        0.10000000149011612
+      ]
+    },
+    "ssim": 0.997155,
+    "pcm": {
+      "steady": 0.08816141739475734,
+      "before": 0,
+      "fadeIn": 0.011310606729637357,
+      "fadeOut": 0.007337687361244534,
+      "after": 0
+    }
+  },
+  "output": "D:\\O-CUT\\.runtime\\timeline-editing-ZtvM9b\\edited.mp4",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6"
+}

@@ -1,9 +1,9 @@
 {
-  "time": "2026-10-09T06:38:12.860Z",
+  "time": "2026-10-14T10:38:29.458Z",
   "status": "BLOCKED",
-  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.14.2.exe",
-  "installerSha256": "458c788e295102b5e856f6662b272fb09f86735ea1371e4bfceb9b6c6b047814",
-  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
+  "installer": "D:\\O-CUT\\artifacts\\release\\O-CUT-Setup-0.16.0.exe",
+  "installerSha256": "9339ad0336858c51286d06bf78863699697f7438bc65fdcdbced2390342ef999",
+  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6",
   "error": "Error: Windows integration NOT RUN: existing user registration or shortcut folder preserved\n    at Object.<anonymous> (D:\\O-CUT\\scripts\\verify-release.cjs:16:50)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47",
   "checks": [
     {
