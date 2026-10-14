@@ -185,6 +185,7 @@ function renderSelection() {
   const clip = selectedClip(), locked = state.project.clips.some(c => selected.has(c.id) && state.project.tracks.find(t => t.id === c.trackId).locked);
   for (const id of ['split', 'duplicate', 'deleteClip']) $(id).disabled = !clip || locked;
   for (const id of ['trimBefore', 'trimAfter']) $(id).disabled = !clip || locked || selected.size !== 1;
+  $('extractAudio').disabled=!clip||locked||selected.size!==1||clip.type!=='video';
   window.directEditor?.render();
 }
 function renderInspector() {
@@ -291,7 +292,7 @@ function beginDrag(event, id) {
 }
 function showContext(x, y) {
   document.querySelector('.context-menu')?.remove(); const menu = document.createElement('div'); menu.className = 'context-menu'; menu.style.left = `${Math.min(x, innerWidth - 160)}px`; menu.style.top = `${Math.min(y, innerHeight - 150)}px`;
-  for (const [label, id] of [['재생 헤드에서 분할', 'split'], ['클립 복제', 'duplicate'], ['클립 삭제', 'deleteClip']]) { const button = document.createElement('button'); button.textContent = label; button.disabled = $(id).disabled; button.onclick = () => { menu.remove(); $(id).click(); }; menu.append(button); }
+  for (const [label, id] of [['재생 헤드에서 분할', 'split'], ['클립 복제', 'duplicate'], ['오디오 분리', 'extractAudio'], ['클립 삭제', 'deleteClip']]) { const button = document.createElement('button'); button.textContent = label; button.disabled = $(id).disabled; button.onclick = () => { menu.remove(); $(id).click(); }; menu.append(button); }
   document.body.append(menu); setTimeout(() => document.addEventListener('pointerdown', event => { if (!menu.contains(event.target)) menu.remove(); }, { once: true }), 0);
 }
 async function act(work, note) {
@@ -338,6 +339,7 @@ function editSelection(type) {
 }
 $('split').onclick = () => editSelection('splitSelected');
 $('duplicate').onclick = () => editSelection('duplicateSelected');
+$('extractAudio').onclick=()=>{const clip=selectedClip();if(clip)edit({type:'extractAudio',id:clip.id});};
 for (const [id, side] of [['trimBefore', 'left'], ['trimAfter', 'right']]) $(id).onclick = () => {
   const clip = selectedClip(); if (!clip || selected.size !== 1) return;
   if (playback.time < clip.startTime || playback.time > clip.startTime + clip.duration) { message('재생 헤드를 선택한 클립 안으로 이동해 주세요.', true); return; }
@@ -417,6 +419,17 @@ $('exportVideo').onclick = async () => {
 };
 act(() => window.ocut.state(), '프로젝트 준비됨');
 let musicState, musicPending = false;
+let voiceRunning=false,voiceScanId=null,voiceReports=new Map();
+const selectedMusicIds=new Set();
+const voiceLabels={detected:'허밍·보이스 검출',review:'확인 필요',not_detected:'미검출',error:'검사 실패'};
+function voiceControls(){
+  const occupied=musicState?.current||musicState?.queueActive||(!musicState?.paused&&musicState?.queue?.length),count=selectedMusicIds.size;
+  for(const id of ['voiceSelectInstrumentals','voiceClearSelection','voiceSelectDetected','voiceModel'])$(id).disabled=musicPending||Boolean(occupied);
+  $('voiceScan').disabled=musicPending||Boolean(occupied)||!count;
+  $('voiceDelete').disabled=musicPending||Boolean(occupied)||!voiceScanId||!count||[...selectedMusicIds].some(id=>voiceReports.get(id)?.verdict!=='detected');
+  $('voiceCancel').hidden=!voiceRunning;$('voiceCancel').disabled=false;
+  $('voiceScan').textContent=count?`선택 ${count}곡 검사`:'선택곡 검사';
+}
 function renderMusic(next) {
   if (next) musicState = next;
   if (!musicState) return;
@@ -447,8 +460,10 @@ function renderMusic(next) {
     updateMusicElapsed();
   }
   $('musicEnvironment').textContent = `${musicState.configured ? '로컬 경로 연결됨' : '실행 환경 연결 필요'}\nPython: ${musicState.config.python}\n모델: ${musicState.config.models}`;
-  const holder = $('musicJobs'); holder.replaceChildren();
+  const holder = $('musicJobs');for(const audio of holder.querySelectorAll('audio'))audio.pause();holder.replaceChildren();
   const jobs = musicState.jobs.filter(item => item.id !== job?.id);
+  for(const id of selectedMusicIds)if(!jobs.some(j=>j.id===id&&j.status==='complete'))selectedMusicIds.delete(id);
+  voiceControls();
   if (!jobs.length) { const hint = document.createElement('p'); hint.className = 'music-hint'; hint.textContent = '완료된 음악을 타임라인에 넣어 편집하세요.'; holder.append(hint); }
   for (const item of jobs) {
     const card = document.createElement('article'); card.className = 'music-job'; card.dataset.jobId = item.id;
@@ -458,6 +473,11 @@ function renderMusic(next) {
     const tag = document.createElement('span'); tag.className = 'music-job-status'; tag.textContent = {complete:'완료',failed:'실패',cancelled:'취소',interrupted:'중단'}[item.status] || item.status;
     card.append(title, tag, info);
     if (item.status === 'complete') {
+      const choice=document.createElement('label');choice.className='music-choice';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.className='music-select';checkbox.checked=selectedMusicIds.has(item.id);checkbox.disabled=musicPending;checkbox.setAttribute('aria-label',`${item.title} 검사 선택`);checkbox.onchange=()=>{checkbox.checked?selectedMusicIds.add(item.id):selectedMusicIds.delete(item.id);voiceControls();};choice.append(checkbox,document.createTextNode(' 검사 선택'));card.prepend(choice);
+      const report=voiceReports.get(item.id)||item.voiceCheck;
+      if(report){const result=document.createElement('p');result.className='voice-verdict';result.dataset.verdict=report.verdict;result.textContent=voiceLabels[report.verdict]+(report.message?` · ${report.message}`:` · 전체 ${report.duration.toFixed(1)}초 검사`);card.append(result);}
+      const player=document.createElement('audio');player.controls=true;player.preload='none';player.src=`ocut-music://song/${item.id}`;player.className='music-audio';player.setAttribute('aria-label',`${item.title} 원본 듣기`);player.onplay=()=>{playback.pause();for(const other of document.querySelectorAll('.music-audio'))if(other!==player)other.pause();};card.append(player);
+      if(report?.windows){const candidates=report.windows.filter(w=>w.speech>=.25||w.singing>=.15||w.humming>=.15);if(candidates.length){const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent=`검출 후보 구간 ${candidates.length}개 · 모델 점수`;details.append(summary);for(const w of candidates){const button=document.createElement('button');button.className='quiet voice-segment';button.textContent=`${w.start.toFixed(1)}–${w.end.toFixed(1)}초 듣기 · 말 ${w.speech.toFixed(2)} / 노래 ${w.singing.toFixed(2)} / 허밍 ${w.humming.toFixed(2)}`;button.onclick=async()=>{try{if(player.readyState<1){player.load();await new Promise((resolve,reject)=>{player.addEventListener('loadedmetadata',resolve,{once:true});player.addEventListener('error',()=>reject(Error('음원을 읽지 못했습니다.')),{once:true});});}player.currentTime=w.start;await player.play();}catch(e){message(e.message,true);}};details.append(button);}card.append(details);}}
       const add = document.createElement('button'); add.className = 'secondary full music-add'; add.textContent = '＋ 타임라인에 넣기'; add.onclick = () => act(async()=>{const next=await window.ocut.addMusic(item.id);showPane('media');return next;}, '생성한 음악을 타임라인에 추가했습니다.');
       const folder=document.createElement('button');folder.className='secondary full music-folder';folder.textContent='저장 폴더 열기';folder.onclick=()=>openMusicFolder(item.id);card.append(add,folder);
     }
@@ -465,6 +485,26 @@ function renderMusic(next) {
     holder.append(card);
   }
 }
+$('voiceSelectInstrumentals').onclick=()=>{selectedMusicIds.clear();for(const job of musicState.jobs)if(job.status==='complete'&&job.instrumental)selectedMusicIds.add(job.id);renderMusic();};
+$('voiceClearSelection').onclick=()=>{selectedMusicIds.clear();renderMusic();};
+$('voiceSelectDetected').onclick=()=>{selectedMusicIds.clear();for(const [id,report] of voiceReports)if(report.verdict==='detected')selectedMusicIds.add(id);renderMusic();};
+$('voiceCancel').onclick=()=>{window.ocut.cancelVoiceScan();$('voiceStatus').textContent='검사를 취소하고 있습니다…';};
+$('voiceScan').onclick=async()=>{
+  if(musicPending||!selectedMusicIds.size)return;
+  musicPending=true;voiceRunning=true;voiceScanId=null;voiceReports=new Map();renderMusic();$('voiceStatus').textContent='모델과 원본 파일을 확인하고 있습니다…';
+  try{const result=await window.ocut.scanMusicVoices([...selectedMusicIds]);voiceScanId=result.scanId;voiceReports=new Map(result.reports.map(r=>[r.id,r]));renderMusic(result.state);const counts={};for(const r of result.reports)counts[r.verdict]=(counts[r.verdict]||0)+1;$('voiceStatus').textContent=`검사 완료 · 검출 ${counts.detected||0} / 확인 필요 ${counts.review||0} / 미검출 ${counts.not_detected||0} / 실패 ${counts.error||0}곡`;}
+  catch(e){$('voiceStatus').textContent=e.message;message(e.message,true);}
+  finally{voiceRunning=false;musicPending=false;renderMusic();}
+};
+$('voiceDelete').onclick=async()=>{
+  if(musicPending)return;musicPending=true;renderMusic();
+  try{const result=await window.ocut.deleteVoiceMusic({ids:[...selectedMusicIds],scanId:voiceScanId});if(result){voiceScanId=null;voiceReports.clear();renderMusic(result.state);message(`${result.deleted.length}곡 완전 삭제${result.error?' · 중단: '+result.error:''}`,Boolean(result.error));}else message('삭제를 취소했습니다.');}
+  catch(e){message(e.message,true);}finally{musicPending=false;renderMusic();}
+};
+function renderVoiceModel(value){if(value)$('voiceModelInfo').textContent=`${value.available?'로컬 모델 연결됨':'모델 연결 필요'} · ${value.model}\n자동 다운로드 없이 로컬에서 검사합니다.`;}
+$('voiceModel').onclick=async()=>{try{renderVoiceModel(await window.ocut.voiceModel());}catch(e){message(e.message,true);}};
+window.ocut.voiceSettings().then(renderVoiceModel).catch(e=>message(e.message,true));
+window.ocut.onVoiceProgress(value=>{if(!voiceRunning)return;const job=musicState?.jobs.find(j=>j.id===value.id);$('voiceStatus').textContent=value.type==='progress'?`${job?.title||'선택곡'} · 구간 ${value.completedWindows}/${value.totalWindows} 검사 중`:`${job?.title||'선택곡'} · ${value.type==='checked'?'검사 완료':'원본 준비'}`;});
 async function openMusicFolder(id){try{const directory=await window.ocut.openMusicFolder(id);message(`저장 폴더: ${directory}`);}catch(error){message(error.message,true);}}
 async function deleteGeneratedMusic(id){
   if(musicPending)return;musicPending=true;renderMusic();

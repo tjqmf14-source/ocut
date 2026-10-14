@@ -27,6 +27,7 @@ class MusicService {
       try { const job = JSON.parse(await fsp.readFile(path.join(this.directory, dir.name, 'job.json'), 'utf8'));
         if (job.id !== dir.name || typeof job.title !== 'string' || typeof job.createdAt !== 'string') continue;
         if (['starting','running','checking'].includes(job.status) && this.current?.id !== job.id) { job.status = 'interrupted'; job.message = '지난 실행 중 중단된 작업입니다.'; }
+        job.voiceCheck=await require('./voice-check.cjs').readValidReport(this.directory,job.id);
         jobs.push(job);
       } catch {}
     }

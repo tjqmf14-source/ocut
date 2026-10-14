@@ -12,6 +12,8 @@ const { mediaResponse } = require('../infrastructure/media-response.cjs');
 const { MusicService } = require('../infrastructure/music.cjs');
 const { MusicQueue } = require('../infrastructure/music-queue.cjs');
 const {inspectMusic,deleteMusic}=require('../infrastructure/music-delete.cjs');
+const {scanGenerated,verifyModel}=require('../infrastructure/voice-check.cjs');
+const {prepareVoiceDeletion}=require('../infrastructure/voice-delete.cjs');
 const {defaultModel,transcribe}=require('../infrastructure/transcribe.cjs');
 const {Workspace}=require('../infrastructure/workspace.cjs');
 const {UpdateService,safeDirectory}=require('../infrastructure/updates.cjs');
@@ -23,7 +25,7 @@ app.setPath('userData', process.env.OCUT_DATA_DIR || path.join(app.getPath('appD
 if(!app.requestSingleInstanceLock())app.exit(0);
 let session = new StudioSession();
 let library = new MediaLibrary(path.join(app.getPath('userData'), 'media-cache'));
-protocol.registerSchemesAsPrivileged([{ scheme: 'ocut-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true, corsEnabled: true } }]);
+protocol.registerSchemesAsPrivileged(['ocut-media','ocut-music'].map(scheme=>({scheme,privileges:{standard:true,secure:true,supportFetchAPI:true,stream:true,corsEnabled:true}})));
 const snapshot = extra => ({ ...session.snapshot(), assets: library.view(), ...extra });
 let window;
 const updates=new UpdateService({root:path.dirname(path.dirname(process.execPath)),executable:process.execPath,directory:path.join(app.getPath('userData'),'updates'),version:app.getVersion(),feed:process.env.OCUT_UPDATE_FEED||updateChannel.feed,publicKey:updateChannel.publicKey,onChange:status=>{if(window&&!window.isDestroyed())window.webContents.send('updates:state',status);}});
@@ -32,10 +34,14 @@ app.on('second-instance',()=>{if(window&&!window.isDestroyed()){if(window.isMini
 const workspace=new Workspace(path.join(app.getPath('userData'),'workspace'),status=>{if(window&&!window.isDestroyed())window.webContents.send('workspace:autosave',status);});
 let exportAbort;
 let sttAbort;
-const music = new MusicQueue({engine:new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/ocut-worker.py') }),canRun:()=>!sttAbort,
+let voiceAbort,voiceScan;
+const music = new MusicQueue({engine:new MusicService({ directory: path.join(app.getPath('userData'), 'music'), workerPath: path.join(process.resourcesPath, 'music-worker/ocut-worker.py') }),canRun:()=>!sttAbort&&!voiceAbort,
   onChange: value => { if (window && !window.isDestroyed()) window.webContents.send('music:state', value); } });
 const sttSettings=path.join(app.getPath('userData'),'transcription-settings.json');
 async function sttModel(){try{const saved=JSON.parse(fs.readFileSync(sttSettings,'utf8'));if(typeof saved.model==='string')return saved.model;}catch{}return defaultModel();}
+const voiceSettings=path.join(app.getPath('userData'),'voice-check-settings.json');
+function voiceModel(){if(process.env.OCUT_VOICE_MODEL)return process.env.OCUT_VOICE_MODEL;try{const saved=JSON.parse(fs.readFileSync(voiceSettings,'utf8'));if(typeof saved.model==='string')return saved.model;}catch{}return 'D:/O-CUT/.runtime/voice-model/ast-f826b80d28226b62986cc218e5cec390b1096902';}
+function voiceIdle(){if(exportAbort||sttAbort||voiceAbort||music.occupied)throw Error('출력·자막·음악 작업을 마치거나 취소한 뒤 검사·삭제해 주세요.');}
 let serial = Promise.resolve();
 const rendererPath = path.join(__dirname, '../renderer/index.html');
 const log = message => {
@@ -78,7 +84,7 @@ async function save(as) {
 register('project:state', () => snapshot());
 register('updates:state',()=>updates.state());
 register('updates:check',()=>updates.check(true));
-register('updates:restart',()=>{if(!updates.pending)throw Error('준비된 업데이트가 없습니다.');if(exportAbort||sttAbort||music.occupied)throw Error('출력·자막·음악 작업을 마치거나 정지한 뒤 업데이트해 주세요.');restartAfterUpdate=true;window.close();return updates.state();});
+register('updates:restart',()=>{if(!updates.pending)throw Error('준비된 업데이트가 없습니다.');if(exportAbort||sttAbort||voiceAbort||music.occupied)throw Error('출력·자막·음악·검사 작업을 마치거나 정지한 뒤 업데이트해 주세요.');restartAfterUpdate=true;window.close();return updates.state();});
 register('project:settings', values => { session.settings(values); return snapshot(); });
 register('project:new', async () => {
   if (!await mayDiscard()) return null;
@@ -113,6 +119,11 @@ register('history:redo', () => { session.history.redo(); return snapshot(); });
 register('timeline:edit', async action => {
   if (action?.type === 'music') throw Error('완료된 생성 작업에서 음악을 추가해 주세요.');
   if (action?.type === 'sticker') throw Error('장식 목록에서 추가해 주세요.');
+  if(action?.type==='extractAudio'){
+    const clip=session.history.state.clips.find(c=>c.id===action.id),asset=library.assets.get(clip?.source);
+    if(clip?.type!=='video'||!asset?.hasAudio)throw Error('오디오가 있는 영상 클립을 선택해 주세요.');
+    if((await probe(asset.path)).key!==asset.key)throw Error('원본 미디어가 변경됐습니다. 프로젝트를 다시 열어 주세요.');
+  }
   if (action?.type === 'visualizer') await library.ensureVisual(action.mediaId);
   const selectedId = applyCommand(session.history, action);
   return snapshot(['track', 'move'].includes(action.type) ? {} : { selectedId });
@@ -141,8 +152,35 @@ register('music:folder', async id => {
   return directory;
 });
 register('music:check', () => music.check());
+register('music:voiceSettings',()=>({model:voiceModel(),available:fs.existsSync(path.join(voiceModel(),'model.safetensors'))}));
+register('music:voiceModel',async()=>{
+  voiceIdle();const picked=await dialog.showOpenDialog(window,{title:'AST 음성 검사 모델 폴더 선택',properties:['openDirectory']});if(picked.canceled)return null;
+  const model=fs.realpathSync(picked.filePaths[0]);await verifyModel(model);fs.mkdirSync(path.dirname(voiceSettings),{recursive:true});fs.writeFileSync(voiceSettings,JSON.stringify({model}));return {model,available:true};
+});
+register('music:voiceScan',async(ids,controller)=>{
+  try{
+    if(music.occupied||exportAbort||sttAbort)throw Error('음악 대기열을 일시 정지하고 현재 작업이 끝난 뒤 검사해 주세요.');
+    voiceScan=null;
+    const reports=await scanGenerated({directory:music.engine.directory,cacheDirectory:library.cacheDir,ids,python:music.config.python,model:voiceModel(),workerPath:path.join(process.resourcesPath,'voice-check/voice-check.py'),signal:controller.signal,onProgress:value=>{if(!window.isDestroyed())window.webContents.send('music:voiceProgress',value);}});
+    if(controller.signal.aborted)throw Error('음성 검사를 취소했습니다.');
+    voiceScan={id:require('node:crypto').randomUUID(),reports};return {scanId:voiceScan.id,reports,state:await music.state()};
+  }finally{if(voiceAbort===controller)voiceAbort=null;}
+},()=>{voiceIdle();voiceAbort=new AbortController();return voiceAbort;});
+ipcMain.on('music:voiceCancel',event=>{if(event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame)voiceAbort?.abort();});
+register('music:voiceDelete',async values=>{
+  voiceIdle();
+  const prepare=()=>prepareVoiceDeletion({directory:music.engine.directory,cacheDirectory:library.cacheDir,ids:values?.ids,scanId:values?.scanId,scan:voiceScan,media:session.history.state.media,assets:[...library.assets.values()],projectDirectory:session.location?path.dirname(session.location):process.cwd()});
+  const plans=await prepare(),bytes=plans.reduce((n,p)=>n+p.bytes,0),count=plans.reduce((n,p)=>n+p.files.length+p.cacheFiles.length,0);
+  const answer=await dialog.showMessageBox(window,{type:'warning',title:'보이스 검출곡 완전 삭제',message:`선택한 검출곡 ${plans.length}곡을 완전히 삭제할까요?`,detail:`${plans.map(p=>'• '+p.title).join('\n')}\n\n음원·생성 기록·중간 데이터·검사 기록·관련 캐시 ${count}개 (${(bytes/1024/1024).toFixed(2)} MB)를 삭제합니다.\nAI 검출에는 오탐이 있습니다. 검출 구간을 들어보고 선택해 주세요.\n휴지통으로 이동하지 않으며 복구할 수 없습니다. 다른 저장 프로젝트의 원본도 누락될 수 있습니다. 별도로 내보낸 사본은 삭제하지 않습니다.`,buttons:['취소','선택한 검출곡 완전 삭제'],defaultId:0,cancelId:0,noLink:true});
+  if(answer.response!==1)return null;
+  voiceIdle();const fresh=await prepare();
+  if(fresh.some((p,i)=>p.fingerprint!==plans[i].fingerprint))throw Error('확인 중 파일이 변경됐습니다. 다시 검사해 주세요.');
+  const deleted=[];let error;
+  for(const plan of fresh){try{deleted.push(await music.deleteGenerated(plan.id,()=>deleteMusic(music.engine.directory,library.cacheDir,plan)));}catch(e){error=e.message;break;}}
+  voiceScan=null;return {deleted,error,state:await music.state()};
+});
 register('music:deleteGenerated', async id => {
-  const ensureIdle=()=>{if(exportAbort||sttAbort||music.occupied)throw Error('출력·자막·음악 작업을 마치거나 취소한 뒤 삭제해 주세요.');};
+  const ensureIdle=voiceIdle;
   ensureIdle();
   const plan=await inspectMusic(music.engine.directory,library.cacheDir,id);
   const inside=file=>{const relative=path.relative(plan.target,path.resolve(file));return relative===''||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative));};
@@ -245,6 +283,11 @@ register('media:import', async () => {
   return snapshot({ warning: failures.length ? failures.join('\n') : null });
 });
 app.whenReady().then(() => {
+  protocol.handle('ocut-music',async request=>{
+    const url=new URL(request.url),id=url.pathname.slice(1);
+    if(!['GET','HEAD'].includes(request.method)||url.hostname!=='song'||!require('../core/voice-check.cjs').uuid(id))return new Response('Forbidden',{status:403});
+    try{const plan=await inspectMusic(music.engine.directory,library.cacheDir,id),job=JSON.parse(fs.readFileSync(plan.record,'utf8'));if(job.status!=='complete')return new Response('Forbidden',{status:403});return mediaResponse(request,path.join(plan.target,'audio.wav'));}catch{return new Response('Not found',{status:404});}
+  });
   protocol.handle('ocut-media', async request => {
     const url = new URL(request.url); const id = url.pathname.slice(1);
     // A renderer cannot turn this protocol into an arbitrary filesystem reader.
@@ -264,7 +307,7 @@ app.whenReady().then(() => {
   window.webContents.on('render-process-gone', (_event, details) => log('renderer gone: ' + JSON.stringify(details)));
   let closing = false;
   window.on('close', event => {
-    if (exportAbort || sttAbort) { event.preventDefault(); return; }
+    if (exportAbort || sttAbort || voiceAbort) { event.preventDefault(); return; }
     if (closing || (!session.snapshot().dirty&&!updates.pending)) return;
     event.preventDefault();
     serial = serial.then(async () => { if (await mayDiscard()) {await workspace.clear();await updates.schedule(restartAfterUpdate);closing = true; window.close(); }else restartAfterUpdate=false; }).catch(error => {restartAfterUpdate=false;log(error.stack);updates.changed({status:'error',message:error.message});});
@@ -274,4 +317,4 @@ app.whenReady().then(() => {
   const updateTimer=setInterval(()=>updates.check().catch(error=>log(error.message)),5*60*1000);updateTimer.unref();
 }).catch(error => { log(error.stack); app.quit(); });
 app.on('window-all-closed', () => app.quit());
-app.on('before-quit', () => {music.dispose();sttAbort?.abort();});
+app.on('before-quit', () => {music.dispose();sttAbort?.abort();voiceAbort?.abort();});

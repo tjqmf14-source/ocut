@@ -49,6 +49,21 @@ function command(project, action) {
   if (!action || typeof action.type !== 'string') throw Error('잘못된 편집 명령입니다.');
   const frame = 1 / project.canvas.fps;
   switch (action.type) {
+    case 'extractAudio': {
+      const clip=writable(project,action.id),media=project.media.find(m=>m.id===clip.source);
+      if(clip.type!=='video'||media?.type!=='video')throw Error('오디오를 분리할 영상 클립을 선택해 주세요.');
+      const keys=require('./keyframes.js'),volumeKeys=keys.frames(clip,'volume');
+      const boundaries=[...new Set([0,...volumeKeys.map(k=>k.time),clip.duration])].sort((a,b)=>a-b);
+      // Sampling each interval detects any positive linear/held gain, excluding the end instant.
+      if(!boundaries.slice(1).some((end,i)=>keys.value(clip,'volume',(boundaries[i]+end)/2)>0))throw Error('이미 음소거된 영상입니다. 분리된 오디오 클립을 사용해 주세요.');
+      const track=trackFor(project,'audio');
+      const audio=createClip({trackId:track.id,type:'audio',source:clip.source,startTime:clip.startTime,duration:clip.duration,sourceStart:clip.sourceStart,speed:clip.speed});
+      audio.sourceEnd=clip.sourceEnd;audio.volume=clip.volume;
+      audio.keyframes=structuredClone(volumeKeys);
+      audio.effects=clip.effects.filter(e=>e.type==='audioFade').map(e=>({...structuredClone(e),id:randomUUID()}));
+      clip.volume=0;clip.keyframes=clip.keyframes.filter(k=>k.property!=='volume');
+      project.clips.push(audio);return audio.id;
+    }
     case 'transformDirect': {
       const clip=writable(project,action.id),time=frameTime(action.time,project.canvas.fps),keys=require('./keyframes.js');
       if(['audio','music'].includes(clip.type)||!Number.isFinite(time)||time<0||time>clip.duration||!action.values||typeof action.values!=='object')throw Error('화면에 표시되는 클립과 클립 안 시간을 선택해 주세요.');

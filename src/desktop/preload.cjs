@@ -35,6 +35,12 @@ contextBridge.exposeInMainWorld('ocut', {
     return ()=>ipcRenderer.removeListener('captions:sttProgress',listener);
   },
   musicState: () => call('music:state'),
+  voiceSettings:()=>call('music:voiceSettings'),
+  voiceModel:()=>call('music:voiceModel'),
+  scanMusicVoices:ids=>call('music:voiceScan',ids),
+  deleteVoiceMusic:values=>call('music:voiceDelete',values),
+  cancelVoiceScan:()=>ipcRenderer.send('music:voiceCancel'),
+  onVoiceProgress:callback=>{const listener=(_event,value)=>callback(value);ipcRenderer.on('music:voiceProgress',listener);return ()=>ipcRenderer.removeListener('music:voiceProgress',listener);},
   openMusicFolder: id => call('music:folder',id),
   deleteGeneratedMusic: id => call('music:deleteGenerated',id),
   checkMusic: () => call('music:check'),

@@ -16,7 +16,7 @@ for(const original of fs.readdirSync(path.join(root,'original/extracted')))if(or
   const e=original==='ssokMusic Free.exe'?'O-CUT.exe':original;
   fs.cpSync(path.join(root,'dist/studio',e),path.join(payload,e),{recursive:true});
 }
-for(const e of ['app.asar','music-worker','transcribe'])fs.cpSync(path.join(root,'dist/studio/resources',e),path.join(payload,'resources',e),{recursive:true});
+for(const e of ['app.asar','music-worker','transcribe','voice-check'])fs.cpSync(path.join(root,'dist/studio/resources',e),path.join(payload,'resources',e),{recursive:true});
 const ffmpeg=process.env.OCUT_FFMPEG||run('where.exe',['ffmpeg.exe']).trim().split(/\r?\n/)[0],ffprobe=path.join(path.dirname(ffmpeg),'ffprobe.exe'),ffroot=path.dirname(path.dirname(ffmpeg));
 const toolDir=path.join(payload,'resources/tools');fs.mkdirSync(toolDir,{recursive:true});
 for(const tool of [ffmpeg,ffprobe])fs.copyFileSync(tool,path.join(toolDir,path.basename(tool)));
