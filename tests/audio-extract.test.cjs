@@ -58,6 +58,20 @@ test('original locked track and missing clip reject without altering history or 
     assert.deepEqual(h.state,before);assert.equal(h.canUndo,false);
   }
 });
+test('extraction preserves mute and solo audibility without changing existing track states',()=>{
+  const {renderPlan}=require('../src/core/render-plan.cjs');
+  const assets=new Map([['video-source',{type:'video',path:'D:/fixture.mp4',width:320,height:180,hasAudio:true}]]);
+  for(const muted of [false,true])for(const solo of [false,true])for(const targetMuted of [false,true])for(const targetSolo of [false,true]){
+    const {h,id,trackId}=fixture((p,c,track)=>{track.muted=muted;track.solo=solo;const other=createTrack('audio');other.muted=targetMuted;other.solo=targetSolo;p.tracks.push(other);p.clips.push(createClip({trackId:other.id,type:'audio',source:c.source,duration:1}));});
+    const before=h.state,other=before.tracks.find(t=>t.id!==trackId),planBefore=renderPlan(before,assets,new Map());
+    const extracted=applyCommand(h,{type:'extractAudio',id}),after=h.state,audio=after.clips.find(c=>c.id===extracted),track=after.tracks.find(t=>t.id===audio.trackId),planAfter=renderPlan(after,assets,new Map());
+    assert.equal(track.muted,muted);assert.equal(track.solo,solo);assert.deepEqual(after.tracks.find(t=>t.id===other.id),other);
+    assert.equal(track.id===other.id,muted===targetMuted&&solo===targetSolo);
+    const chain=p=>p.graph.split(';\n').filter(s=>s.includes('atrim=start=4:')).map(s=>s.replace(/^\[\d+:a:0\]/,'[source]').replace(/\[a\d+\]$/,'[audio]'));
+    assert.deepEqual(chain(planAfter),chain(planBefore),JSON.stringify({muted,solo,targetMuted,targetSolo}));
+    h.undo();assert.deepEqual(h.state.clips,before.clips);assert.deepEqual(h.state.tracks,before.tracks);
+  }
+});
 test('nonvideo clips or sources reject atomically',()=>{
   for(const type of ['audio','image','text','subtitle']){
     const {h,id}=fixture((p,c,t)=>{

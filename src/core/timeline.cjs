@@ -15,8 +15,8 @@ function writable(project, id) {
   if (project.tracks.find(track => track.id === clip.trackId)?.locked) throw Error('잠긴 트랙은 편집할 수 없습니다.');
   return clip;
 }
-function trackFor(project, type) {
-  let track = project.tracks.find(item => item.type === type && !item.locked);
+function trackFor(project, type, accepts=()=>true) {
+  let track = project.tracks.find(item => item.type === type && !item.locked && accepts(item));
   if (!track) {
     track = createTrack(type, { image: '이미지', video: '영상', audio: '오디오', music: 'AI 음악', text: '텍스트', subtitle: '자막', overlay: '장식 · 시각화' }[type] || type);
     const rank = item => ['text', 'subtitle'].includes(item) ? 0 : item === 'overlay' ? 1 : ['audio', 'music'].includes(item) ? 3 : 2;
@@ -56,7 +56,9 @@ function command(project, action) {
       const boundaries=[...new Set([0,...volumeKeys.map(k=>k.time),clip.duration])].sort((a,b)=>a-b);
       // Sampling each interval detects any positive linear/held gain, excluding the end instant.
       if(!boundaries.slice(1).some((end,i)=>keys.value(clip,'volume',(boundaries[i]+end)/2)>0))throw Error('이미 음소거된 영상입니다. 분리된 오디오 클립을 사용해 주세요.');
-      const track=trackFor(project,'audio');
+      const originalTrack=project.tracks.find(t=>t.id===clip.trackId);
+      const track=trackFor(project,'audio',t=>t.muted===originalTrack.muted&&t.solo===originalTrack.solo);
+      track.muted=originalTrack.muted;track.solo=originalTrack.solo;
       const audio=createClip({trackId:track.id,type:'audio',source:clip.source,startTime:clip.startTime,duration:clip.duration,sourceStart:clip.sourceStart,speed:clip.speed});
       audio.sourceEnd=clip.sourceEnd;audio.volume=clip.volume;
       audio.keyframes=structuredClone(volumeKeys);
