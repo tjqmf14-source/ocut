@@ -1,0 +1,11 @@
+Preview drag: 67990191-b64f-4942-bf48-7892e9d7bdd2
+Preview drag: 0c2dc3d3-051d-4b73-8490-6499a60535f0
+Preview drag: 4b7eec5b-3182-41d8-9966-80093e03f411
+Preview drag: 1b84904a-dfa1-4de3-9b85-2dcda7d84dbb
+PASS: actual preview pointer drags move text, subtitles, audio visualizer and decoration; each drag undoes/redoes in one step
+PASS: resize and rotation handles, center alignment and keyboard nudging work; Escape cancels without committing
+PASS: automatic keyframing records starting pose and current pose instead of changing the whole animation
+PASS: timeline diamonds add at playhead, drag on frame grid, delete independently from clips and undo
+PASS: audio edge handles set both fades and actual Web Audio gain follows their envelope
+PASS: actual MP4 fully decodes, picture matches direct-edited preview above .97 SSIM, and rendered PCM contains the mouse-edited fades
+PASS: saved transforms, keys and fades restore exactly after restart without renderer errors

@@ -1,0 +1,125 @@
+checked 52e3dc0a-109a-4e44-95b2-5dfd9fa466d8 review
+checked c6aae6b0-d1b6-4718-ad97-795d5a58eac6 not_detected
+checked 9115166c-9610-4fa6-a4d8-f380a708f313 not_detected
+checked 1e8e31e6-7523-4016-a1ed-0c74bba9813e not_detected
+checked a1ee7241-6aa7-49da-bf05-17cb570cc2e6 review
+checked beaa6af1-bb51-4f05-8ae6-57b2d32ddc31 review
+checked 90f5cb2a-08de-4717-84c7-55e90f4a31ed review
+checked ea80b3d9-d962-498d-9f62-e30e499e83f6 review
+checked c132cec4-013e-400a-a4c2-ec04599d9738 detected
+checked 5afa391c-81b1-45c0-82e1-14506dffe77d review
+checked 4ff9fb4d-3212-4e45-9bc0-482f85411daa review
+{
+  "target": "D:\\O-CUT\\evidence\\studio\\voice-detector-qa.json",
+  "data": "D:\\O-CUT\\.runtime\\voice-check-1792062150991",
+  "reports": [
+    {
+      "name": "known SAPI Korean speech",
+      "id": "52e3dc0a-109a-4e44-95b2-5dfd9fa466d8",
+      "verdict": "review",
+      "duration": 8.138125,
+      "maxSpeech": 0.874893844127655,
+      "maxSinging": 0.0003151330165565014,
+      "maxHumming": 0.000007138012733776122
+    },
+    {
+      "name": "silence",
+      "id": "c6aae6b0-d1b6-4718-ad97-795d5a58eac6",
+      "verdict": "not_detected",
+      "duration": 16,
+      "maxSpeech": 0.016118716448545456,
+      "maxSinging": 0.0032224704045802355,
+      "maxHumming": 0.0002160820586141199
+    },
+    {
+      "name": "sine instrumental",
+      "id": "9115166c-9610-4fa6-a4d8-f380a708f313",
+      "verdict": "not_detected",
+      "duration": 16,
+      "maxSpeech": 0.0006791042978875339,
+      "maxSinging": 0.00014608638593927026,
+      "maxHumming": 0.000012596166016010102
+    },
+    {
+      "name": "generated instrumental request",
+      "id": "1e8e31e6-7523-4016-a1ed-0c74bba9813e",
+      "verdict": "not_detected",
+      "duration": 19.9986875,
+      "maxSpeech": 0.006369156762957573,
+      "maxSinging": 0.0034625527914613485,
+      "maxHumming": 0.0014844911638647318
+    },
+    {
+      "name": "known sustained SAPI speech",
+      "id": "a1ee7241-6aa7-49da-bf05-17cb570cc2e6",
+      "verdict": "review",
+      "duration": 24,
+      "maxSpeech": 0.8440561294555664,
+      "maxSinging": 0.0005331267020665109,
+      "maxHumming": 0.00001791940667317249
+    },
+    {
+      "name": "known late SAPI speech",
+      "id": "beaa6af1-bb51-4f05-8ae6-57b2d32ddc31",
+      "verdict": "review",
+      "duration": 41,
+      "maxSpeech": 0.7252702713012695,
+      "maxSinging": 0.0032224704045802355,
+      "maxHumming": 0.0002160820586141199
+    },
+    {
+      "name": "generated vocal request",
+      "id": "90f5cb2a-08de-4717-84c7-55e90f4a31ed",
+      "verdict": "review",
+      "duration": 19.9986875,
+      "maxSpeech": 0.004684056155383587,
+      "maxSinging": 0.15720881521701813,
+      "maxHumming": 0.002253473037853837
+    },
+    {
+      "name": "known English SAPI Zira speech",
+      "id": "ea80b3d9-d962-498d-9f62-e30e499e83f6",
+      "verdict": "review",
+      "duration": 24.034875,
+      "maxSpeech": 0.7655496001243591,
+      "maxSinging": 0.0007309444481506944,
+      "maxHumming": 0.00004085591353941709
+    },
+    {
+      "name": "known CC0 human humming",
+      "id": "c132cec4-013e-400a-a4c2-ec04599d9738",
+      "verdict": "detected",
+      "duration": 20.1085,
+      "maxSpeech": 0.022344600409269333,
+      "maxSinging": 0.03337550163269043,
+      "maxHumming": 0.9703027606010437
+    },
+    {
+      "name": "known human humming mixed 0dB RMS",
+      "id": "5afa391c-81b1-45c0-82e1-14506dffe77d",
+      "verdict": "review",
+      "duration": 20.1085,
+      "maxSpeech": 0.0113905668258667,
+      "maxSinging": 0.04147239401936531,
+      "maxHumming": 0.7360420823097229
+    },
+    {
+      "name": "known human humming mixed -12dB RMS",
+      "id": "4ff9fb4d-3212-4e45-9bc0-482f85411daa",
+      "verdict": "review",
+      "duration": 20.1085,
+      "maxSpeech": 0.013915426097810268,
+      "maxSinging": 0.051205433905124664,
+      "maxHumming": 0.23293036222457886
+    }
+  ],
+  "checks": [
+    "actual offline AST multilabel inference, pinned model hash verified",
+    "known speech retained as review; constructed silence and pure-tone have no detection",
+    "41-second full audio has final-window speech scores after 33 seconds",
+    "known CC0 human humming + constructed chord evaluated at 0dB and -12dB whole-file RMS ratio",
+    "cancelling real inference leaves persisted report and music untouched",
+    "cancelling after first report commits retains that valid report, preserves later prior report and both original WAVs",
+    "actual worker timeout produces explicit error"
+  ]
+}

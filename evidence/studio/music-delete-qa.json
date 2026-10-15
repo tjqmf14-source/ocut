@@ -1,8 +1,8 @@
 {
-  "time": "2026-10-09T06:23:15.169Z",
+  "time": "2026-10-15T10:56:12.098Z",
   "status": "PASS",
-  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a",
-  "data": "D:\\O-CUT\\.runtime\\music-delete-u80NV9",
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505",
+  "data": "D:\\O-CUT\\.runtime\\music-delete-mbqyKC",
   "checks": [
     "complete/failed/cancelled/interrupted cards expose deletion; default-cancel confirmation describes permanent removal and size; cancel leaves all data intact",
     "current project audio and undo assets cannot be deleted",

@@ -1,0 +1,165 @@
+{
+  "time": "2026-10-15T11:04:07.625Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\voice-ui-bn7edn",
+  "checks": [
+    "checkbox selection and real model cancellation leave all original songs and persisted reports unchanged",
+    "real offline AST covers whole selected files; human humming and known speech are flagged while tone is not detected; mixed selection cannot batch-delete",
+    "candidate interval button plays actual owned audio through ranged protocol; arbitrary paths rejected",
+    "one native default-cancel confirmation names exact detected tracks and files; cancelling preserves songs",
+    "unknown copy added during confirmation blocks the complete batch before any deletion and remains byte-identical",
+    "confirmed real detected-humming deletion removes owned WAV/intermediate/report/job folder only; uncertain and nonvoice songs remain byte-identical",
+    "reports survive restart; deleted song stays absent and deletion requires a new live scan; zero renderer errors"
+  ],
+  "errors": [],
+  "reports": {
+    "04f55250-fb68-4a2b-80b4-649ed6260aa5": {
+      "version": 1,
+      "id": "04f55250-fb68-4a2b-80b4-649ed6260aa5",
+      "audioSha256": "a98895b901e21090ae97feda3cd2ee4e3a4f0e1b7e01204449e6ae196a40590b",
+      "sourceSignature": [
+        976547954,
+        562949953469354,
+        358936,
+        1792061529076.1453,
+        1792061529076.1453
+      ],
+      "scannedAt": "2026-10-15T11:03:48.447Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 8.138125,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 8.138125,
+          "speech": 0.874893844127655,
+          "singing": 0.0003151330165565014,
+          "humming": 0.000007138012733776122
+        }
+      ],
+      "coverage": {
+        "seconds": 8.138125,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    "639884c2-ef85-4a37-89a2-098dedc26793": {
+      "version": 1,
+      "id": "639884c2-ef85-4a37-89a2-098dedc26793",
+      "audioSha256": "decb898e20a297d299a0b74aafe6246f6a1ffdd52901f854543db78d759de116",
+      "sourceSignature": [
+        976547954,
+        562949953469350,
+        640078,
+        1792062201552.1782,
+        1792062201552.1782
+      ],
+      "scannedAt": "2026-10-15T11:03:48.466Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "not_detected",
+      "duration": 20,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        }
+      ],
+      "coverage": {
+        "seconds": 20,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    "b04275fb-bf1a-4e0f-8dd1-e986a18ec2ca": {
+      "version": 1,
+      "id": "b04275fb-bf1a-4e0f-8dd1-e986a18ec2ca",
+      "audioSha256": "c616a7ae88e50215101d8f657318682b11ab9888943fc29f4c89903a8215f740",
+      "sourceSignature": [
+        976547954,
+        562949953469346,
+        1773614,
+        1791976309390.6753,
+        1791976309390.6753
+      ],
+      "scannedAt": "2026-10-15T11:03:48.475Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "detected",
+      "duration": 20.1085,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.017521128058433533,
+          "singing": 0.03337550163269043,
+          "humming": 0.9665859341621399
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.022344600409269333,
+          "singing": 0.026808110997080803,
+          "humming": 0.9598178267478943
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.012602453120052814,
+          "singing": 0.031212955713272095,
+          "humming": 0.9676730036735535
+        },
+        {
+          "start": 10.1085,
+          "end": 20.1085,
+          "speech": 0.012167946435511112,
+          "singing": 0.027116455137729645,
+          "humming": 0.9703027606010437
+        }
+      ],
+      "coverage": {
+        "seconds": 20.1085,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    }
+  },
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505",
+  "scope": "Only isolated copied CC0 humming and synthetic speech/tone fixtures; no user song deletion."
+}

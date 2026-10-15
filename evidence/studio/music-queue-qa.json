@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T06:22:39.644Z",
+  "time": "2026-10-15T10:55:35.676Z",
   "status": "PASS",
   "checks": [
     "UI batch uses distinct seeds, persists pending songs and removes selected reservation",
@@ -12,10 +12,10 @@
     "real worker cancellation automatically advances to next reservation; pause plus cancel stops queue",
     "both queue results add to editable timeline, save as project and mix into decodable non-silent 1080p AAC MP4"
   ],
-  "data": "D:\\O-CUT\\.runtime\\music-queue-1791526838440",
+  "data": "D:\\O-CUT\\.runtime\\music-queue-1792061600467",
   "songs": [
     {
-      "id": "5f68a37d-7fc3-4640-a783-255c40653435",
+      "id": "b2136330-117f-4d6b-be38-ee99b8245042",
       "title": "대기열 실증 · 1/3",
       "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
@@ -23,16 +23,16 @@
       "seconds": 20,
       "quality": "draft",
       "seed": 42,
-      "batchId": "2b1fe3bd-25eb-42e7-9995-7c6f880897d8",
+      "batchId": "5a3b3d13-f224-4d84-a39c-6bebdd7a474c",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-09T06:20:50.846Z",
+      "createdAt": "2026-10-15T10:53:32.873Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {
         "status": "done"
       },
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791526838440\\user\\music\\5f68a37d-7fc3-4640-a783-255c40653435\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1792061600467\\user\\music\\b2136330-117f-4d6b-be38-ee99b8245042\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
@@ -49,21 +49,22 @@
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 28.2,
+        "wallSeconds": 35.3,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-09T15:21:20"
+        "createdAt": "2026-10-15T19:54:09"
       },
-      "finishedAt": "2026-10-09T06:21:20.231Z",
+      "finishedAt": "2026-10-15T10:54:09.823Z",
+      "voiceCheck": null,
       "qa": {
-        "rms": 0.11811048803931175,
-        "sha256": "6720705ad5867b8331f185d520bdc5dd93fc1560dd2f8f2175968235cd37e8a4"
+        "rms": 0.07565988458769557,
+        "sha256": "8d3898aa30ed2f40f259cb591da830d1967df132db4cd719a8967a7fba77fa4c"
       }
     },
     {
-      "id": "a9878726-420c-48ef-8545-3042cd080381",
+      "id": "b4d14266-d19b-4754-ba44-5bd5e3f486fe",
       "title": "대기열 실증 · 2/3",
       "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
       "lyrics": "[Instrumental]",
@@ -71,16 +72,16 @@
       "seconds": 20,
       "quality": "draft",
       "seed": 43,
-      "batchId": "2b1fe3bd-25eb-42e7-9995-7c6f880897d8",
+      "batchId": "5a3b3d13-f224-4d84-a39c-6bebdd7a474c",
       "status": "complete",
       "stage": "decode",
-      "createdAt": "2026-10-09T06:21:29.850Z",
+      "createdAt": "2026-10-15T10:54:19.885Z",
       "message": "음악을 생성했습니다.",
       "gpu": "NVIDIA GeForce RTX 5080",
       "progress": {
         "status": "done"
       },
-      "audio": "D:\\O-CUT\\.runtime\\music-queue-1791526838440\\user\\music\\a9878726-420c-48ef-8545-3042cd080381\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\music-queue-1792061600467\\user\\music\\b4d14266-d19b-4754-ba44-5bd5e3f486fe\\audio.wav",
       "duration": 19.998667,
       "meta": {
         "id": "song",
@@ -97,22 +98,23 @@
         "engine": "yue2-infer 0.1.6",
         "abc": null,
         "seconds": 20,
-        "wallSeconds": 20.7,
+        "wallSeconds": 24.6,
         "truncated": {
           "abc": false,
           "semantic": true
         },
-        "createdAt": "2026-10-09T15:21:51"
+        "createdAt": "2026-10-15T19:54:46"
       },
-      "finishedAt": "2026-10-09T06:21:51.983Z",
+      "finishedAt": "2026-10-15T10:54:46.152Z",
+      "voiceCheck": null,
       "qa": {
-        "rms": 0.09364470637422284,
-        "sha256": "09c6fa01cfa270cc56f6167b3e8decaf23a0aa0616c8f532536a45dfbca1865c"
+        "rms": 0.18092828630105187,
+        "sha256": "fad5aad6a2308232608f5644ee3bb1416939e9abb1fe2e1cfc45bb1a74f1ce98"
       }
     }
   ],
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-queue-mix-1080p.mp4",
-  "mixRms": 0.08814575254012119,
-  "outputSha256": "a85a4c9f8fa95b548ba5a00a627244ed1a1355f8f08c3528884b433faa7b56f7",
-  "asarSha256": "159397edbfd4768eb0b191fb75b03a357c6c31d1af124559c67662d3662e3c4a"
+  "mixRms": 0.12851134492170938,
+  "outputSha256": "014ade8eacfa2408798fb7e515070100fd34836ff02d7a02e79d6a0b05a3acaf",
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505"
 }

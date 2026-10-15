@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-14T10:26:56.811Z",
+  "time": "2026-10-15T11:01:27.914Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\timeline-editing-ZtvM9b",
+  "data": "D:\\O-CUT\\.runtime\\timeline-editing-bVt1z7",
   "checks": [
     "real left/right trim drags preserve linear and hold animation at world time, valid keyframe bounds, and one-step undo/redo",
     "Escape and pointercancel abandon trim drafts without changing project or revision",
@@ -39,6 +39,6 @@
       "after": 0
     }
   },
-  "output": "D:\\O-CUT\\.runtime\\timeline-editing-ZtvM9b\\edited.mp4",
-  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6"
+  "output": "D:\\O-CUT\\.runtime\\timeline-editing-bVt1z7\\edited.mp4",
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505"
 }

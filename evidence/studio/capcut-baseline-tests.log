@@ -1,0 +1,233 @@
+✔ fade preview gain follows linear envelopes including overlapping fades (6.1641ms)
+✔ trim clamps fades, undo restores edit and zero removes fade for splitting (2.3279ms)
+✔ fade rejects malicious, negative, duplicate and non-audio parameters atomically (1.5985ms)
+✔ render fades run after speed and before timeline delay with same clamped durations (1.0919ms)
+✔ built ASAR contains the current baseline source bytes (439.9232ms)
+✔ all recovered source bytes match ASAR integrity manifest (111.9205ms)
+✔ spectrum of digital silence remains zero (9.7414ms)
+✔ FFT responds to real samples and is deterministic (22.4898ms)
+✔ frame/time boundaries do not add a rounding frame (0.1668ms)
+✔ invalid MIDI is rejected (0.5279ms)
+✔ MIDI melody converts to valid ABC through recovered Python validator (374.6234ms)
+✔ render plan preserves resolution frame rate and repeat length (0.3592ms)
+✔ upstream updater cannot download or execute an installer (0.7108ms)
+✔ SRT UTF-8 BOM and multiline import roundtrips exact millisecond timing (6.3874ms)
+✔ VTT cue identifiers settings comments markup and entities are handled explicitly (0.4556ms)
+✔ malformed, reversed, empty, oversized and unknown caption data reject (1.4119ms)
+✔ caption import is one undoable transaction and invalid segments do not partially apply (1.0072ms)
+✔ caption split and merge restore timing and do not duplicate identical split text (1.4605ms)
+✔ caption merge refuses omitted middle segments and locked tracks (1.3032ms)
+✔ SRT export isolates selected track and escapes literal markup (2.6252ms)
+✔ real SRT file write/read preserves bytes and rejects invalid UTF-8 and non-file targets (15.6095ms)
+✔ neutral pixels are byte exact; monochrome removes chroma and preserves alpha (2.1349ms)
+✔ exposure brightness contrast temperature tint highlights and shadows change correct channels (0.2443ms)
+✔ all presets validate and color effect schema rejects unsafe and inappropriate inputs (2.9597ms)
+✔ color edits split undo and neutral removal preserve original source and keyframes (2.5599ms)
+✔ direct editor world/local transforms roundtrip with rotation, unequal scales and flips (0.9814ms)
+✔ all resize handles keep opposite anchor fixed with rotated and flipped content (2.2795ms)
+✔ resize clamps crossing and extreme drags to valid positive scales (0.1708ms)
+✔ transition-scaled resize uses scaled limits and keeps its anchor fixed (0.1201ms)
+✔ direct transform is one reversible transaction and preserves unrelated values (5.858ms)
+✔ automatic keys preserve initial pose and animated transforms update the current frame without changing base (15.9455ms)
+✔ keyframe drag moves only its time, quantizes frames and rejects occupied destinations atomically (1.7558ms)
+✔ direct edits reject locked tracks and invalid values without partial changes (1.0227ms)
+✔ linear and hold curves have exact endpoint, pre-first and post-last behavior (6.2536ms)
+✔ all seven properties evaluate without mutating base project, key edits replace undo and delete (19.2577ms)
+✔ unknown properties unsafe values and out-of-clip edits fail atomically (1.8202ms)
+✔ splitting a moving clip keeps every sampled linear and hold value continuous in local time (3.3841ms)
+✔ volume expression is numeric-only and preserves hold and linear intervals (1.4768ms)
+✔ maximum 128-keyframe volume envelope runs through real FFmpeg without expression depth failure (346.8151ms)
+✔ media byte range response has correct 206, length, content range and exact bytes (37.5064ms)
+✔ media range suffix, HEAD and unsatisfiable ranges never overread (7.5463ms)
+✔ complete deletion removes nested generation junk and matching caches but preserves other songs/settings (115.892ms)
+✔ failed/cancelled/interrupted jobs can be deleted without an audio file (98.8009ms)
+✔ invalid IDs, mismatched records and modified confirmation snapshots never delete files (31.8935ms)
+✔ root and nested junctions and cache links are refused before any deletion (33.4019ms)
+✔ partial filesystem failure is reported and record remains retryable (62.4037ms)
+✔ queue deletion guard blocks active, queued and closed work before executing destructive action (11.9987ms)
+✔ batch validates count, titles and deterministic distinct wrapped seeds (2.7797ms)
+✔ one start dispatches ten long-target songs sequentially with distinct seeds (170.7554ms)
+✔ FIFO waits for completion, pause retains next song and resume runs it once (60.438ms)
+✔ cancel advances the queue but failed generation pauses the remaining songs (45.595ms)
+✔ restart preserves pending songs paused and never replays a dispatched job (11.881ms)
+✔ removal and clear preserve the currently running worker and pause after it (51.0677ms)
+✔ queue capacity is enforced atomically across concurrent additions (11.08ms)
+✔ file lock and external edit failures preserve memory and existing file bytes (8.828ms)
+✔ completed song is never regenerated when saving queue removal fails (42.8401ms)
+✔ malformed persisted input remains untouched and blocks execution (3.951ms)
+✔ generation startup error keeps pending job available for explicit retry (11.3745ms)
+✔ transcription blocks resume and pauses between songs without dispatching (31.1293ms)
+✔ drained queue returns to paused so new reservations can be resumed from UI (62.8202ms)
+✔ all genre presets generate bounded English prompts and keep user keywords (1.7876ms)
+✔ genre blend removes duplicate tags and switches instrumental to requested vocals (0.4327ms)
+✔ invalid genres, excessive blends and unbounded custom keywords are rejected (0.7675ms)
+✔ music requests accept seven-minute targets and reject unsupported durations (0.6759ms)
+✔ music requests validate limits, normalize text and preserve deterministic seed (2.0821ms)
+✔ generated music adds media and a dedicated track as one undoable transaction (3.9671ms)
+✔ music catalog recovers interrupted jobs and excludes malformed records (15.4148ms)
+✔ missing worker cannot leave an active music job or change project state (0.7435ms)
+✔ music folder lookup only exposes its own completed job and rejects path traversal or junctions (23.6635ms)
+✔ built core equals current source (16.6604ms)
+✔ project JSON round-trip preserves media tracks and source range (2.9726ms)
+✔ reject unknown format version instead of lossy migration (0.494ms)
+✔ reject missing media reference (0.383ms)
+✔ reject duplicate entity IDs (0.2777ms)
+✔ reject clip source overrun and mismatched speed span (0.2933ms)
+✔ reject NaN infinity and zero duration (0.4841ms)
+✔ reject unsafe JSON object keys and unsupported fields (0.3924ms)
+✔ support source-free text and bounded keyframes (0.4232ms)
+✔ undo redo round-trip and branching clear redo (1.0888ms)
+✔ failed edit and retained draft cannot mutate history (1.1093ms)
+✔ history is bounded and rejects async edits (0.6974ms)
+✔ document identity remains stable through history edits (0.1947ms)
+✔ save open update enforces optimistic concurrency (19.1843ms)
+✔ invalid save preserves existing bytes and releases lock (5.7204ms)
+✔ corrupt on-disk document is rejected and never silently overwritten (4.7266ms)
+✔ traversal reserved filenames and alternate data streams are rejected (1.0939ms)
+✔ existing lock prevents writes without stealing another writer lock (2.3649ms)
+✔ simultaneous saves cannot both overwrite the same revision (5.874ms)
+✔ autosave recovery preserves primary project and survives new service instance (9.7712ms)
+✔ reject non-regular project targets (1.5899ms)
+✔ actual packaged Electron runtime saves and reopens core in separate processes (363.2265ms)
+✔ render retains source trim, speed, placement and exact duration from project (4.2656ms)
+✔ hide does not mute, mute does not hide, solo excludes other tracks (1.2677ms)
+✔ unsupported effects and missing sources cannot silently export (0.664ms)
+✔ animated video has one baked visual input and one original audio input with volume envelope (0.4836ms)
+✔ render paints track order bottom to top and keeps source path in argument not graph (0.291ms)
+✖ studio ASAR contains exactly current source bytes without stale files (245.3286ms)
+✔ ten-hour project fits narrow and wide timelines; ruler stays bounded and hours are readable (0.8458ms)
+✔ music feedback distinguishes unknown duration, token estimate, actual synthesis steps and verification (62.6247ms)
+✔ all text presets validate and unknown CSS or nonfinite style values reject (1.1853ms)
+✔ text style edits are undoable and survive serialization (4.7863ms)
+✔ styled captions split and merge preserve style and reject mixed styles atomically (2.9844ms)
+✔ default text appearance remains available for legacy projects without effects (0.1047ms)
+✔ texture neutral is exact; film is monochrome, noise deterministic, alpha preserved and frames vary (3.7905ms)
+✔ texture rejects invalid settings and text clips; removal and undo preserve source (4.7317ms)
+✔ decorations use foreground overlay tracks, atomic undo, and no source schema change (0.7302ms)
+✔ no-lyrics request discards stored lyrics while vocal request preserves all section text (0.2647ms)
+✔ new image track stays below titles and above audio (5.167ms)
+✔ split preserves exact source span and is one undoable operation (1.1823ms)
+✔ split at clip edge fails and preserves history state (0.5361ms)
+✔ trim and speed keep source-time mapping coherent (0.8054ms)
+✔ locked tracks reject clip edits but can be unlocked (1.166ms)
+✔ duplicate and ripple delete close only the affected track (1.3065ms)
+✔ multi-selection move is atomic when one clip would go negative (0.5286ms)
+✔ transcription validates language, device, duration and audio clip requirements (1.2126ms)
+✔ all transition modes have deterministic start midpoint end and clamp oversized durations (1.5842ms)
+✔ dissolve overlaps only incoming and following clips, preserves source ranges, and undoes atomically (4.9644ms)
+✔ invalid dissolve boundaries locks and durations cannot partially move timeline (1.16ms)
+✔ transition effect validates rejects audio and must be removed before splitting (1.4321ms)
+✔ update versions compare numerically and reject malformed, same and downgrade candidates (0.8574ms)
+✔ signed feed rejects tampering, wrong key, UNC source and malformed file paths (1.8424ms)
+✔ signed package stages verified bytes without touching the current application (41.565ms)
+✔ corrupt package and manifest mismatch cannot prepare or replace installed app (24.8494ms)
+✔ junction package is rejected and its target remains unchanged (14.506ms)
+✔ backup and unrelated executable paths cannot update the main installation (9.5637ms)
+✔ PowerShell update swaps exact files and preserves prior app, uninstaller and custom files (763.204ms)
+✔ helper independently refuses staged tampering after preparation (413.7005ms)
+✔ locked old uninstaller causes actual mid-swap rollback without deleting previous app (540.5541ms)
+✔ previous failed version is not retried automatically but explicit retry can prepare it (23.3097ms)
+✔ scheduled helper completes after its scheduling parent exits (678.5794ms)
+✔ FFT source is byte-identical to the preserved baseline implementation (2.0239ms)
+✔ silent audio generates zero spectrum and all drawing samples stay zero (13.7424ms)
+✔ real FFT frequency regions distinguish low and high tone without random motion (36.2335ms)
+✔ visualizer validates finite bounded settings and source duration (4.235ms)
+✔ visualizer timing and style edits undo atomically and reject invalid range (1.2262ms)
+✔ render uses alpha overlay without duplicating audio or applying transforms twice (2.0035ms)
+✔ disabled visualizer needs no alpha layer and produces no duplicate audio (0.4366ms)
+✔ silent visualizer track solo cannot suppress the actual music track (0.9532ms)
+✔ splitting a visualizer preserves source continuity and settings without a fade (0.783ms)
+✔ workspace sizes stay inside small/large windows and malformed preferences cannot hide panels (0.8655ms)
+✔ each splitter changes adjacent panels, preserves the other column, and clamps extreme drags (0.2354ms)
+✔ automatic recovery stores latest immutable edit separately and a fresh instance can read it (18.4112ms)
+✔ successful manual save clears owned and selected recovery copies but preserves another instance (18.0544ms)
+✔ clear preserves externally changed recovery instead of deleting it (7.1432ms)
+✔ recovery path traversal and corrupt candidate fail without hiding valid backups (6.6293ms)
+✔ recent list is bounded deduplicated persisted and reports corruption (67.6234ms)
+✔ recovery resolves relative source paths against original project directory (5.6419ms)
+ℹ tests 147
+ℹ suites 0
+ℹ pass 146
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2759.7344
+
+✖ failing tests:
+
+test at tests\studio-package.test.cjs:7:1
+✖ studio ASAR contains exactly current source bytes without stale files (245.3286ms)
+  AssertionError [ERR_ASSERTION]: renderer\direct-editor.js
+  + actual - expected
+  ... Skipped lines
+  
+  + Buffer(18718) [Uint8Array] [
+  - Buffer(18742) [Uint8Array] [
+      39,
+      117,
+      115,
+      101,
+      32,
+  ...
+      100,
+  +   124,
+  +   124,
+  +   98,
+  +   117,
+  +   115,
+  +   121,
+      59,
+      10,
+      32,
+      32,
+      32,
+  ...
+      59,
+  -   112,
+  -   108,
+  -   97,
+  -   121,
+  -   98,
+  -   97,
+  -   99,
+  -   107,
+  -   46,
+  -   115,
+      101,
+  -   101,
+  -   107,
+  -   40,
+  -   99,
+  -   46,
+  -   115,
+  -   116,
+  -   97,
+  -   114,
+  -   116,
+  -   84,
+  -   105,
+  -   109,
+  -   101,
+  -   43,
+  -   116,
+  -   111,
+  -   41,
+  -   59,
+  -   101,
+      100,
+      105,
+      116,
+      40,
+      123,
+  
+      at TestContext.<anonymous> (D:\O-CUT\tests\studio-package.test.cjs:10:36)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: <Buffer 27 75 73 65 20 73 74 72 69 63 74 27 3b 0a 28 28 29 3d 3e 7b 0a 20 20 63 6f 6e 73 74 20 47 3d 4f 63 75 74 44 69 72 65 63 74 45 64 69 74 2c 73 76 67 3d ... 18668 more bytes>,
+    expected: <Buffer 27 75 73 65 20 73 74 72 69 63 74 27 3b 0a 28 28 29 3d 3e 7b 0a 20 20 63 6f 6e 73 74 20 47 3d 4f 63 75 74 44 69 72 65 63 74 45 64 69 74 2c 73 76 67 3d ... 18692 more bytes>,
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

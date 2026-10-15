@@ -1,0 +1,8 @@
+PASS: real left/right trim drags preserve linear and hold animation at world time, valid keyframe bounds, and one-step undo/redo
+PASS: Escape and pointercancel abandon trim drafts without changing project or revision
+PASS: trim-before and trim-after toolbar controls trim at playhead and are atomic undo steps
+PASS: Ctrl+A excludes locked tracks; Shift multi-selection and Ctrl+B split both selected clips with preserved animation in one history step
+PASS: Ctrl+D duplicates every selected clip by group span, preserves relative placement and keys, and undoes/redoes atomically
+PASS: mouse fade handles retain edge fade lengths after both trims; real Web Audio gains match an independently calculated envelope
+PASS: MP4 fully decodes; animated trimmed picture matches preview above .97 SSIM; PCM is audible with correct fade edges and silence outside trimmed audio
+PASS: save and actual process restart reopen the exact project without renderer errors

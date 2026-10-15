@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T06:20:10.467Z",
+  "time": "2026-10-15T10:52:50.975Z",
   "status": "PASS",
   "checks": [
     "four real image presets change pixels; monochrome removes chroma; four MP4s fully decode and match preview",
@@ -7,7 +7,7 @@
     "all eight controls combine with video keyframes, trim and fade/blur transitions at three verified output timestamps",
     "app restart restores exact graded animated project"
   ],
-  "data": "D:\\O-CUT\\.runtime\\color-1791526799173",
+  "data": "D:\\O-CUT\\.runtime\\color-1792061559072",
   "project": "D:\\O-CUT\\artifacts\\color-filters\\색 보정 편집.ocut",
   "outputs": [
     {
@@ -17,7 +17,7 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\vivid-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\vivid-0.5.png",
           "ssim": 0.997696,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\vivid-0.5.png"
         }
@@ -30,7 +30,7 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\warm-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\warm-0.5.png",
           "ssim": 0.99826,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\warm-0.5.png"
         }
@@ -43,7 +43,7 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\mono-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\mono-0.5.png",
           "ssim": 0.999463,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\mono-0.5.png"
         }
@@ -56,7 +56,7 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\soft-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\soft-0.5.png",
           "ssim": 0.998495,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\soft-0.5.png"
         }
@@ -69,19 +69,19 @@
       "frames": [
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\animated-video-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\animated-video-0.5.png",
           "ssim": 0.997352,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\animated-video-0.5.png"
         },
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\animated-video-1.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\animated-video-1.5.png",
           "ssim": 0.997637,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\animated-video-1.5.png"
         },
         {
           "time": 2.5,
-          "preview": "D:\\O-CUT\\.runtime\\color-1791526799173\\animated-video-2.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\color-1792061559072\\animated-video-2.5.png",
           "ssim": 0.995879,
           "frame": "D:\\O-CUT\\artifacts\\color-filters\\animated-video-2.5.png"
         }

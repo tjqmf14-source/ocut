@@ -1,7 +1,7 @@
 {
-  "time": "2026-10-14T10:24:13.164Z",
+  "time": "2026-10-15T10:58:44.531Z",
   "status": "PASS",
-  "data": "D:\\O-CUT\\.runtime\\direct-edit-eKrRpc",
+  "data": "D:\\O-CUT\\.runtime\\direct-edit-1s44tk",
   "checks": [
     "actual preview pointer drags move text, subtitles, audio visualizer and decoration; each drag undoes/redoes in one step",
     "resize and rotation handles, center alignment and keyboard nudging work; Escape cancels without committing",
@@ -12,6 +12,6 @@
     "saved transforms, keys and fades restore exactly after restart without renderer errors"
   ],
   "errors": [],
-  "output": "D:\\O-CUT\\.runtime\\direct-edit-eKrRpc\\direct-edit.mp4",
-  "asarSha256": "788374fd608be0251be70d0b246c5db3ae6e16cdf3cdb872d80dbcb6929bb5e6"
+  "output": "D:\\O-CUT\\.runtime\\direct-edit-1s44tk\\direct-edit.mp4",
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505"
 }

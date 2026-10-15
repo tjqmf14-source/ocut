@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T06:17:16.725Z",
+  "time": "2026-10-15T10:49:26.892Z",
   "kind": "CommonJS core distribution; no UI or installer",
   "files": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "file": "core/keyframes.js",
-      "sha256": "5173e5d8620182b167506c81e9d0c92f5ed8982017c61acbce13a99c12bcd9c2"
+      "sha256": "a1004aad59b0ae6c0ca5f10bf571f337ebe8a3c495efa308d13b6ea2e14a36c1"
     },
     {
       "file": "core/color-filters.js",

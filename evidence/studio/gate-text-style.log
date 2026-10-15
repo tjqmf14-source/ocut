@@ -1,1 +1,39 @@
+Preset title {
+  selected: [ '71cfefd5-e26c-472e-8dbb-595f5a5177ce' ],
+  clipFormHidden: false,
+  textHidden: false,
+  pointers: []
+}
+Preset subtitle {
+  selected: [ '71cfefd5-e26c-472e-8dbb-595f5a5177ce' ],
+  clipFormHidden: false,
+  textHidden: false,
+  pointers: [
+    { id: '', tag: 'BUTTON', x: 1375.5, y: 645 },
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 }
+  ]
+}
+Preset lyrics {
+  selected: [ '71cfefd5-e26c-472e-8dbb-595f5a5177ce' ],
+  clipFormHidden: false,
+  textHidden: false,
+  pointers: [
+    { id: '', tag: 'BUTTON', x: 1375.5, y: 645 },
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 },
+    { id: '', tag: 'BUTTON', x: 1375.5, y: 645 },
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 }
+  ]
+}
+Preset lowerThird {
+  selected: [ '71cfefd5-e26c-472e-8dbb-595f5a5177ce' ],
+  clipFormHidden: false,
+  textHidden: false,
+  pointers: [
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 },
+    { id: '', tag: 'BUTTON', x: 1375.5, y: 645 },
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 },
+    { id: '', tag: 'BUTTON', x: 1375.5, y: 645 },
+    { id: 'exportVideo', tag: 'BUTTON', x: 1445.800048828125, y: 28.5 }
+  ]
+}
 Text style QA PASS: 4

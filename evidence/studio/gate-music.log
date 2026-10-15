@@ -3,6 +3,6 @@ Music: running synth {"status":"start"}
   "status": "PASS",
   "checks": 9,
   "seconds": 19.998667,
-  "rms": 0.11760794502206488,
+  "rms": 0.10704618738392721,
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4"
 }

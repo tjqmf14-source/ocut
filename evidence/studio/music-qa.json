@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T06:18:57.504Z",
+  "time": "2026-10-15T10:51:10.277Z",
   "status": "PASS",
   "checks": [
     "existing local Python / CUDA / YuE2 environment checked in UI",
@@ -13,11 +13,11 @@
     "app restart restores generated catalog and saved project with audio fade parameters"
   ],
   "environment": "환경 확인 완료 · NVIDIA GeForce RTX 5080 · YuE2 0.1.6",
-  "data": "D:\\O-CUT\\.runtime\\music-1791526672076",
-  "save": "D:\\O-CUT\\.runtime\\music-1791526672076\\음악 편집 프로젝트.ocut",
+  "data": "D:\\O-CUT\\.runtime\\music-1792061403415",
+  "save": "D:\\O-CUT\\.runtime\\music-1792061403415\\음악 편집 프로젝트.ocut",
   "output": "D:\\O-CUT\\artifacts\\music\\O-CUT-AI-music-1080p.mp4",
   "job": {
-    "id": "bbfefd22-5261-4469-98f5-836f0bb4c45f",
+    "id": "aef0ebd1-355f-4c4a-8d7d-157090ef1ad8",
     "title": "O-CUT 음악 실증",
     "style": "acoustic folk, fingerpicked acoustic guitar, soft piano, organic percussion, intimate arrangement, hopeful and uplifting mood, instrumental, no vocals",
     "lyrics": "[Instrumental]",
@@ -25,16 +25,16 @@
     "seconds": 20,
     "quality": "draft",
     "seed": 42,
-    "batchId": "2dd5313c-9d48-42b7-b077-4354f6f1fde6",
+    "batchId": "7fe1f7e5-8ee5-4e99-bbd8-3120246e56e3",
     "status": "complete",
     "stage": "decode",
-    "createdAt": "2026-10-09T06:18:06.480Z",
+    "createdAt": "2026-10-15T10:50:17.858Z",
     "message": "음악을 생성했습니다.",
     "gpu": "NVIDIA GeForce RTX 5080",
     "progress": {
       "status": "done"
     },
-    "audio": "D:\\O-CUT\\.runtime\\music-1791526672076\\user\\music\\bbfefd22-5261-4469-98f5-836f0bb4c45f\\audio.wav",
+    "audio": "D:\\O-CUT\\.runtime\\music-1792061403415\\user\\music\\aef0ebd1-355f-4c4a-8d7d-157090ef1ad8\\audio.wav",
     "duration": 19.998667,
     "meta": {
       "id": "song",
@@ -51,14 +51,15 @@
       "engine": "yue2-infer 0.1.6",
       "abc": null,
       "seconds": 20,
-      "wallSeconds": 20.1,
+      "wallSeconds": 21.2,
       "truncated": {
         "abc": false,
         "semantic": true
       },
-      "createdAt": "2026-10-09T15:18:27"
+      "createdAt": "2026-10-15T19:50:40"
     },
-    "finishedAt": "2026-10-09T06:18:27.757Z"
+    "finishedAt": "2026-10-15T10:50:40.712Z",
+    "voiceCheck": null
   },
   "stages": [
     "synth",
@@ -68,20 +69,20 @@
     "decode"
   ],
   "pcm": {
-    "rms": 0.11760794502206488,
-    "peak": 0.8718905448913574,
+    "rms": 0.10704618738392721,
+    "peak": 0.7239073514938354,
     "ratios": [
       {
         "time": 0.3,
-        "ratio": 0.9931167524059084
+        "ratio": 1.003616915474501
       },
       {
         "time": 2,
-        "ratio": 0.9358561054022708
+        "ratio": 1.004755787530361
       },
       {
         "time": 5.5,
-        "ratio": 0.9886317152538342
+        "ratio": 0.9997893335863323
       }
     ]
   },
@@ -107,5 +108,5 @@
       "gain": 0.03750000149011612
     }
   ],
-  "sha256": "f472a56cbc4798bde37e6c33959d9dc263bcb9dba0fa942b3f501121059f30f4"
+  "sha256": "aaa953209b13efbefaa58f3a993750d17d84387bb656071067e243f469ccbfc9"
 }

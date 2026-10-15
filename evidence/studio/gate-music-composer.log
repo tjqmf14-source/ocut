@@ -1,31 +1,25 @@
-Composer QA: 7분 생성 검증 semantic {"tokens":1812} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":3341} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":4290} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":5258} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":6202} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":7121} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":8056} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":8982} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":9556} waiting 0
-Composer QA: 7분 생성 검증 semantic {"tokens":10056} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":1750} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":3494} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":5300} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":7103} waiting 0
+Composer QA: 7분 생성 검증 semantic {"tokens":8930} waiting 0
 Composer QA: 7분 생성 검증 synth {"status":"start"} waiting 0
-Composer QA: 7분 생성 검증 synth {"step":2,"steps":8} waiting 0
-Composer QA: 7분 생성 검증 synth {"step":7,"steps":8} waiting 0
-Composer QA: 10곡 일괄 검증 · 1/10 semantic {"status":"start"} waiting 9
-Composer QA: 10곡 일괄 검증 · 2/10 load {} waiting 8
-Composer QA: 10곡 일괄 검증 · 2/10 decode {"status":"start"} waiting 8
-Composer QA: 10곡 일괄 검증 · 3/10 semantic {"tokens":476} waiting 7
-Composer QA: 10곡 일괄 검증 · 4/10 load {"status":"done"} waiting 6
-Composer QA: 10곡 일괄 검증 · 5/10 load {} waiting 5
-Composer QA: 10곡 일괄 검증 · 5/10 synth {"status":"start"} waiting 5
-Composer QA: 10곡 일괄 검증 · 6/10 load {"status":"done"} waiting 4
+Composer QA: 7분 생성 검증 synth {"step":5,"steps":8} waiting 0
+Composer QA: 10곡 일괄 검증 · 1/10 load {} waiting 9
+Composer QA: 10곡 일괄 검증 · 1/10 decode {"status":"start"} waiting 9
+Composer QA: 10곡 일괄 검증 · 2/10 semantic {"tokens":469} waiting 8
+Composer QA: 10곡 일괄 검증 · 3/10 semantic {"tokens":1} waiting 7
+Composer QA: 10곡 일괄 검증 · 4/10 load {} waiting 6
+Composer QA: 10곡 일괄 검증 · 4/10 synth {"status":"start"} waiting 6
+Composer QA: 10곡 일괄 검증 · 5/10 semantic {"tokens":51} waiting 5
+Composer QA: 10곡 일괄 검증 · 5/10 decode {"status":"start"} waiting 5
+Composer QA: 10곡 일괄 검증 · 6/10 semantic {"tokens":222} waiting 4
 Composer QA: 10곡 일괄 검증 · 7/10 load {} waiting 3
-Composer QA: 10곡 일괄 검증 · 7/10 semantic {"tokens":264} waiting 3
 Composer QA: 10곡 일괄 검증 · 7/10 decode {"status":"start"} waiting 3
-Composer QA: 10곡 일괄 검증 · 8/10 semantic {"tokens":182} waiting 2
-Composer QA: 10곡 일괄 검증 · 8/10 decode {"status":"start"} waiting 2
-Composer QA: 10곡 일괄 검증 · 9/10 semantic {"tokens":195} waiting 1
-Composer QA: 10곡 일괄 검증 · 9/10 decode {"status":"start"} waiting 1
+Composer QA: 10곡 일괄 검증 · 8/10 semantic {"tokens":468} waiting 2
+Composer QA: 10곡 일괄 검증 · 9/10 semantic {"tokens":100} waiting 1
+Composer QA: 10곡 일괄 검증 · 10/10 semantic {"status":"start"} waiting 0
 Composer QA: 10곡 일괄 검증 · 10/10 synth {"status":"start"} waiting 0
 Composer QA: 가사 전달 검증 load {"status":"done"} waiting 0
-{"status":"PASS","checks":["16 selectable genres generate editable English blend with mood and correct instrumental or vocal tags","seven-minute request begins from product UI","actual 7-minute GPU generation fully decodes to nonzero finite 48kHz audio without looping or padding","one generate click starts ten distinct seeded reservations without a separate resume click","ten actual GPU songs complete sequentially; all files decode and are non-silent and byte-distinct","visible lyrics form sends exact verse/chorus text to actual GPU worker; vocal request returns non-silent decodable audio"],"longSeconds":419.998667,"batch":10,"data":"D:\\O-CUT\\.runtime\\music-composer-ALHiU7"}
+Composer QA: 가사 전달 검증 synth {"step":3,"steps":8} waiting 0
+{"status":"PASS","checks":["16 selectable genres generate editable English blend with mood and correct instrumental or vocal tags","seven-minute request begins from product UI","actual 7-minute GPU generation fully decodes to nonzero finite 48kHz audio without looping or padding","one generate click starts ten distinct seeded reservations without a separate resume click","ten actual GPU songs complete sequentially; all files decode and are non-silent and byte-distinct","visible lyrics form sends exact verse/chorus text to actual GPU worker; vocal request returns non-silent decodable audio"],"longSeconds":419.998667,"batch":10,"data":"D:\\O-CUT\\.runtime\\music-composer-uJSTQu"}

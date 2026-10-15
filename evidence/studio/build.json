@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-14T10:14:40.565Z",
+  "time": "2026-10-15T10:49:28.436Z",
   "executable": "D:\\O-CUT\\dist\\studio\\O-CUT.exe",
   "files": [
     {
@@ -76,7 +76,7 @@
     },
     {
       "file": "core/timeline.cjs",
-      "sha256": "f6666cf6f779d70b5b6bf52e9afa73a8d135e30245e0c941bcc3d4726c327987"
+      "sha256": "ccd5dc7f58c5a35156d12ad1fc8969ff606b14b29a713e09262d81c1591af981"
     },
     {
       "file": "core/transitions.js",
@@ -87,16 +87,20 @@
       "sha256": "1bc0b215f660d448beac0200605a9855e6df7c3aee47bc9af365d721bad587b0"
     },
     {
+      "file": "core/voice-check.cjs",
+      "sha256": "6148f7f3b74a22fd5239d0b2f1f20f5c6052c742ed838b7a7af60e3443f72958"
+    },
+    {
       "file": "core/workspace-layout.js",
       "sha256": "488f8d82eb75ca3ec3e27d3ba8fd38246f5e39960a9cc197cdb375aeed4bcf62"
     },
     {
       "file": "desktop/main.cjs",
-      "sha256": "2cbb08e682dce8739bc065d9a8ebf7879967554b235e31e4ea48d41acf5acded"
+      "sha256": "ad10700dc2dd73c3ae241955dcab01d9b36f8352ef14338c7d15e5342c59dc53"
     },
     {
       "file": "desktop/preload.cjs",
-      "sha256": "8806faeada4eeb690310df537205e9f3f6f552db24131ba422b6d1e532348b6f"
+      "sha256": "8a40ed233a280315bd438c53cc360d41f15c1e396d68d13f6cb2280eb63c6a03"
     },
     {
       "file": "desktop/session.cjs",
@@ -132,7 +136,7 @@
     },
     {
       "file": "infrastructure/music.cjs",
-      "sha256": "ed6c4e6e87cd78f30ce07e55acdecf2e6191aa4ccf1ce8f309aa0eee560b8f87"
+      "sha256": "a3ecf6584d8bd4de987abb0600d56d64ee18445d6373f1aa14148c470be03953"
     },
     {
       "file": "infrastructure/ocut-worker.py",
@@ -171,12 +175,24 @@
       "sha256": "6bba82950d924821e0b71c9e24b4aab654ea5b1fec165f84fb3520c455c5c55e"
     },
     {
+      "file": "infrastructure/voice-check.cjs",
+      "sha256": "906411a38f196e9030c87b7a73b12bbc5c2621604c321cc251dedb5ce50844e1"
+    },
+    {
+      "file": "infrastructure/voice-check.py",
+      "sha256": "a4478b1662c60a2a4b621a8313f4b789b63fdd424975f5ef2c04fe5df6fec614"
+    },
+    {
+      "file": "infrastructure/voice-delete.cjs",
+      "sha256": "1e68b9c2a02eee7e53848bccd23ece5748a6145e64a733b7e5ffab0f1065c2d8"
+    },
+    {
       "file": "infrastructure/workspace.cjs",
       "sha256": "4daf63bafa8df5a4f43a55a9a2522c14afc6c5f61b6d9c46ad23631dad5fefdf"
     },
     {
       "file": "renderer/app.js",
-      "sha256": "3bd3cd4e5b86530fa107bda0376ef3b4e0b16127048b0d590524ab77100e4095"
+      "sha256": "654b1742a92699a4e725d93a37233bb388da28d13de823030c0c447d49a6f649"
     },
     {
       "file": "renderer/direct-editor.js",
@@ -184,7 +200,7 @@
     },
     {
       "file": "renderer/index.html",
-      "sha256": "61d689b1a20f10c29afee69512bce1ec3b74f3c4f01c07b6d22027d566bb43c4"
+      "sha256": "17e16c8fc7c65686d6e6198e8d4bc1b403e6114310009d8320740983e90b82ad"
     },
     {
       "file": "renderer/playback.js",
@@ -192,7 +208,7 @@
     },
     {
       "file": "renderer/styles.css",
-      "sha256": "3d50a1d432899e346d6b600eecd534d063a7ad2446a025e6cd71e4d58fbaae22"
+      "sha256": "8f08c2de4a2fc1c1535e54db225510d3e6ea5c7ee8c195fccdf363310498ed7c"
     },
     {
       "file": "renderer/text.js",

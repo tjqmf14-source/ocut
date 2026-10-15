@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T06:22:51.341Z",
+  "time": "2026-10-15T10:55:47.263Z",
   "status": "PASS",
   "checks": [
     "visible lyrics input; vocal lyrics persist; no-lyrics toggle preserves text but excludes it from real queued request; manual style survives genre change",
@@ -11,28 +11,28 @@
     "actual MP4 with grading, animated grain/noise/vignette, original decorations and text fade fully decodes and matches preview at three times",
     "saved project and layout restore after restart with identical textured preview"
   ],
-  "data": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd",
-  "project": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\로파이 편집.ocut",
+  "data": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz",
+  "project": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\로파이 편집.ocut",
   "outputs": [
     {
-      "output": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\로파이 편집.mp4",
+      "output": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\로파이 편집.mp4",
       "frames": [
         {
           "time": 0.25,
-          "preview": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\preview-0.25.png",
-          "frame": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\export-0.25.png",
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\preview-0.25.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\export-0.25.png",
           "ssim": 0.954068
         },
         {
           "time": 0.5,
-          "preview": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\preview-0.5.png",
-          "frame": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\export-0.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\preview-0.5.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\export-0.5.png",
           "ssim": 0.958012
         },
         {
           "time": 1.5,
-          "preview": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\preview-1.5.png",
-          "frame": "D:\\O-CUT\\.runtime\\editor-014-b5iaUd\\export-1.5.png",
+          "preview": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\preview-1.5.png",
+          "frame": "D:\\O-CUT\\.runtime\\editor-014-QYI0Yz\\export-1.5.png",
           "ssim": 0.953123
         }
       ],

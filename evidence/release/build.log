@@ -2,27 +2,27 @@ MakeNSIS v3.04 - Copyright 1999-2018 Contributors
 See the file COPYING for license details.
 Credits can be found in the Users Manual.
 
-Command line defined: "VERSION=0.14.2"
-Command line defined: "PAYLOAD=D:\O-CUT\.runtime\release-B9w8CN\payload"
-Command line defined: "ICON=D:\O-CUT\.runtime\release-B9w8CN\payload\resources\ocut.ico"
-Command line defined: "UNINSTALL_FILES=D:\O-CUT\.runtime\release-B9w8CN\uninstall-files.nsh"
-Command line defined: "OUTPUT=D:\O-CUT\artifacts\release\O-CUT-Setup-0.14.2.exe"
+Command line defined: "VERSION=0.17.0"
+Command line defined: "PAYLOAD=D:\O-CUT\.runtime\release-yoKT61\payload"
+Command line defined: "ICON=D:\O-CUT\.runtime\release-yoKT61\payload\resources\ocut.ico"
+Command line defined: "UNINSTALL_FILES=D:\O-CUT\.runtime\release-yoKT61\uninstall-files.nsh"
+Command line defined: "OUTPUT=D:\O-CUT\artifacts\release\O-CUT-Setup-0.17.0.exe"
 Processing script file: "D:\O-CUT\packaging\installer.nsi" (UTF8)
 
 Processed 1 file, writing output (x86-unicode):
 
-Output: "D:\O-CUT\artifacts\release\O-CUT-Setup-0.14.2.exe"
-Install: 5 pages (320 bytes), 1 section (16408 bytes), 896 instructions (25088 bytes), 1487 strings (11308 bytes), 1 language table (322 bytes).
-Uninstall: 2 pages (192 bytes), 1 section (16408 bytes), 359 instructions (10052 bytes), 1049 strings (7586 bytes), 1 language table (254 bytes).
+Output: "D:\O-CUT\artifacts\release\O-CUT-Setup-0.17.0.exe"
+Install: 5 pages (320 bytes), 1 section (16408 bytes), 898 instructions (25144 bytes), 1498 strings (11388 bytes), 1 language table (322 bytes).
+Uninstall: 2 pages (192 bytes), 1 section (16408 bytes), 364 instructions (10192 bytes), 1062 strings (7732 bytes), 1 language table (254 bytes).
 Datablock optimizer saved 26498 bytes (~0.0%).
 
 Using lzma (compress whole) compression.
 
 EXE header size:               51712 / 38400 bytes
-Install code:                          (53910 bytes)
-Install data:                          (725783685 bytes)
-Uninstall code+data:                   (61148 bytes)
-Compressed data:           199651708 / 725898743 bytes
-CRC (0x697658CE):                  4 / 4 bytes
+Install code:                          (54046 bytes)
+Install data:                          (725863322 bytes)
+Uninstall code+data:                   (61434 bytes)
+Compressed data:           199653883 / 725978802 bytes
+CRC (0xC6EC6211):                  4 / 4 bytes
 
-Total size:                199703424 / 725937147 bytes (27.5%)
+Total size:                199705599 / 726017206 bytes (27.5%)

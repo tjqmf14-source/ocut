@@ -1,0 +1,12 @@
+{
+  "time": "2026-10-14T11:29:59.960Z",
+  "data": "D:\\O-CUT\\.runtime\\voice-ui-8HfVe4",
+  "checks": [
+    "checkbox selection and real model cancellation leave all original songs and persisted reports unchanged",
+    "real offline AST covers whole selected files; human humming and known speech are flagged while tone is not detected; mixed selection cannot batch-delete",
+    "candidate interval button plays actual owned audio through ranged protocol; arbitrary paths rejected",
+    "one native default-cancel confirmation names exact detected tracks and files; cancelling preserves songs"
+  ],
+  "errors": [],
+  "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /알 수 없는/. Input:\n\n'확인 중 파일이 변경됐습니다. 다시 검사해 주세요.'\n\n    at main (D:\\O-CUT\\scripts\\qa-voice-check.cjs:28:580)"
+}

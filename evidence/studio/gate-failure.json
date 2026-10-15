@@ -1,5 +1,5 @@
 {
-  "time": "2026-10-09T01:01:11.279Z",
+  "time": "2026-10-14T10:12:40.251Z",
   "checks": [
     {
       "name": "core",
@@ -39,6 +39,14 @@
     },
     {
       "name": "music",
+      "exitCode": 0
+    },
+    {
+      "name": "visualizer",
+      "exitCode": 0
+    },
+    {
+      "name": "text-style",
       "exitCode": 1
     }
   ]

@@ -1,0 +1,85 @@
+{
+  "time": "2026-10-15T11:02:30.735Z",
+  "status": "PASS",
+  "data": "D:\\O-CUT\\.runtime\\audio-extract-wUavML",
+  "checks": [
+    "actual extract button separates trimmed sped-up audio with fades and volume keys; one undo/redo preserves exact original/new clips",
+    "real Web Audio preview mutes original video and follows extracted audio volume and both fades",
+    "actual MP4 fully decodes; PCM matches original audio amplitude and timeline silence without doubled audio",
+    "saved separated tracks, source mapping, volume keys and fades restore exactly after app restart",
+    "actual preview and MP4 preserve audibility with muted destination, solo source and muted source tracks; existing track flags are unchanged",
+    "actual silent-video extraction is rejected by asset audio-stream probe without creating an audio clip"
+  ],
+  "errors": [],
+  "saved": "D:\\O-CUT\\.runtime\\audio-extract-wUavML\\after.ocut",
+  "output": "D:\\O-CUT\\.runtime\\audio-extract-wUavML\\after.mp4",
+  "gains": [
+    {
+      "time": 1.3,
+      "video": 0,
+      "audio": 0.12999999523162842
+    },
+    {
+      "time": 2,
+      "video": 0,
+      "audio": 0.4000000059604645
+    },
+    {
+      "time": 3.5,
+      "video": 0,
+      "audio": 0.4375
+    }
+  ],
+  "audioSamples": [
+    {
+      "time": 0.3,
+      "before": 0,
+      "after": 0
+    },
+    {
+      "time": 1.3,
+      "before": 0.014513151835086424,
+      "after": 0.01450632787469957
+    },
+    {
+      "time": 2,
+      "before": 0.03637574458973537,
+      "after": 0.03631300317766892
+    },
+    {
+      "time": 3.5,
+      "before": 0.03459775508579821,
+      "after": 0.03458875512100566
+    }
+  ],
+  "edgeSamples": [
+    {
+      "label": "muted destination",
+      "muted": false,
+      "solo": false,
+      "previewGain": 0.4000000059604645,
+      "actual": 0.03631300317766892,
+      "reference": 0.03637574458973537,
+      "output": "D:\\O-CUT\\.runtime\\audio-extract-wUavML\\flags-0.mp4"
+    },
+    {
+      "label": "solo source",
+      "muted": false,
+      "solo": true,
+      "previewGain": 0.4000000059604645,
+      "actual": 0.03631300317766892,
+      "reference": 0.03637574458973537,
+      "output": "D:\\O-CUT\\.runtime\\audio-extract-wUavML\\flags-1.mp4"
+    },
+    {
+      "label": "muted source",
+      "muted": true,
+      "solo": false,
+      "previewGain": 0,
+      "actual": 0,
+      "reference": 0.03637574458973537,
+      "output": "D:\\O-CUT\\.runtime\\audio-extract-wUavML\\flags-2.mp4"
+    }
+  ],
+  "asarSha256": "cb97ef7882977a60d8a7c6e5c5f6249f9a0d34529b758a76422c58c762f0e505"
+}

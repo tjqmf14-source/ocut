@@ -1,0 +1,35 @@
+{
+  "time": "2026-10-14T10:03:47.595Z",
+  "status": "FAIL",
+  "data": "D:\\O-CUT\\.runtime\\timeline-editing-XUS4NZ",
+  "checks": [
+    "real left/right trim drags preserve linear and hold animation at world time, valid keyframe bounds, and one-step undo/redo",
+    "Escape and pointercancel abandon trim drafts without changing project or revision",
+    "trim-before and trim-after toolbar controls trim at playhead and are atomic undo steps",
+    "Ctrl+A excludes locked tracks; Shift multi-selection and Ctrl+B split both selected clips with preserved animation in one history step",
+    "Ctrl+D duplicates every selected clip by group span, preserves relative placement and keys, and undoes/redoes atomically",
+    "mouse fade handles retain edge fade lengths after both trims; real Web Audio gains match an independently calculated envelope"
+  ],
+  "errors": [],
+  "metrics": {
+    "previewAudio": {
+      "times": [
+        1,
+        1.25,
+        2,
+        4.5,
+        4.9
+      ],
+      "gains": [
+        0,
+        0.5,
+        1,
+        0.5,
+        0.10000000149011612
+      ]
+    },
+    "ssim": 0.997155
+  },
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(count>0)\n\n    at rms (D:\\O-CUT\\scripts\\qa-timeline-editing.cjs:131:172)\n    at main (D:\\O-CUT\\scripts\\qa-timeline-editing.cjs:132:16)",
+  "asarSha256": "05bc5857131a98496ef97de427db32abc182b95d41082f048c2d4176abb1af5a"
+}

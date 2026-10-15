@@ -1,0 +1,6 @@
+PASS: actual extract button separates trimmed sped-up audio with fades and volume keys; one undo/redo preserves exact original/new clips
+PASS: real Web Audio preview mutes original video and follows extracted audio volume and both fades
+PASS: actual MP4 fully decodes; PCM matches original audio amplitude and timeline silence without doubled audio
+PASS: saved separated tracks, source mapping, volume keys and fades restore exactly after app restart
+PASS: actual preview and MP4 preserve audibility with muted destination, solo source and muted source tracks; existing track flags are unchanged
+PASS: actual silent-video extraction is rejected by asset audio-stream probe without creating an audio clip

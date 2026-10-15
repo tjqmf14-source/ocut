@@ -1,0 +1,684 @@
+{
+  "time": "2026-10-15T11:03:21.207Z",
+  "data": "D:\\O-CUT\\.runtime\\voice-check-1792062150991",
+  "model": "D:\\O-CUT\\.runtime\\voice-model\\ast-f826b80d28226b62986cc218e5cec390b1096902",
+  "humanHum": {
+    "url": "https://commons.wikimedia.org/wiki/File:Woman_humming_a_nondescript_tune.wav",
+    "creator": "PSsoundproject",
+    "license": "CC0",
+    "sha256": "c616a7ae88e50215101d8f657318682b11ab9888943fc29f4c89903a8215f740"
+  },
+  "reports": [
+    {
+      "id": "52e3dc0a-109a-4e44-95b2-5dfd9fa466d8",
+      "name": "known SAPI Korean speech",
+      "groundTruth": "known synthetic speech",
+      "source": "D:\\O-CUT\\.runtime\\transcribe-1792061528737\\korean-voice.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\52e3dc0a-109a-4e44-95b2-5dfd9fa466d8\\audio.wav",
+      "version": 1,
+      "audioSha256": "a98895b901e21090ae97feda3cd2ee4e3a4f0e1b7e01204449e6ae196a40590b",
+      "sourceSignature": [
+        976547954,
+        562949953469293,
+        358936,
+        1792061529076.1453,
+        1792061529076.1453
+      ],
+      "scannedAt": "2026-10-15T11:03:08.686Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 8.138125,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 8.138125,
+          "speech": 0.874893844127655,
+          "singing": 0.0003151330165565014,
+          "humming": 0.000007138012733776122
+        }
+      ],
+      "coverage": {
+        "seconds": 8.138125,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "c6aae6b0-d1b6-4718-ad97-795d5a58eac6",
+      "name": "silence",
+      "groundTruth": "constructed silence",
+      "source": "constructed nonvoice fixture",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\c6aae6b0-d1b6-4718-ad97-795d5a58eac6\\audio.wav",
+      "version": 1,
+      "audioSha256": "1f23e74665ed5a887205e98534a7c30a6a1a2df03da01a0f006ff651e202b07b",
+      "sourceSignature": [
+        976547954,
+        562949953469296,
+        512078,
+        1792062151032.247,
+        1792062151032.247
+      ],
+      "scannedAt": "2026-10-15T11:03:08.694Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "not_detected",
+      "duration": 16,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 6,
+          "end": 16,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        }
+      ],
+      "coverage": {
+        "seconds": 16,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "9115166c-9610-4fa6-a4d8-f380a708f313",
+      "name": "sine instrumental",
+      "groundTruth": "constructed pure tone without voice",
+      "source": "constructed nonvoice fixture",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\9115166c-9610-4fa6-a4d8-f380a708f313\\audio.wav",
+      "version": 1,
+      "audioSha256": "0c7e029292acee5a1cfbd5f838809ed313b4af3346ca92f2727bfb9ac1e1606e",
+      "sourceSignature": [
+        976547954,
+        562949953469299,
+        512078,
+        1792062151069.0317,
+        1792062151069.0317
+      ],
+      "scannedAt": "2026-10-15T11:03:08.701Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "not_detected",
+      "duration": 16,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        },
+        {
+          "start": 6,
+          "end": 16,
+          "speech": 0.0006791042978875339,
+          "singing": 0.00014608638593927026,
+          "humming": 0.000012596166016010102
+        }
+      ],
+      "coverage": {
+        "seconds": 16,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "1e8e31e6-7523-4016-a1ed-0c74bba9813e",
+      "name": "generated instrumental request",
+      "groundTruth": "unannotated generation; instrumental request is not ground truth",
+      "source": "D:\\O-CUT\\.runtime\\music-1792061403415\\user\\music\\aef0ebd1-355f-4c4a-8d7d-157090ef1ad8\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\1e8e31e6-7523-4016-a1ed-0c74bba9813e\\audio.wav",
+      "version": 1,
+      "audioSha256": "8a3d7cb392e989f657cd4b8a3537a0761e346e057af2a564ec4e5e21ccddad03",
+      "sourceSignature": [
+        976547954,
+        562949953469302,
+        5759660,
+        1792061440423.0266,
+        1792061440423.0266
+      ],
+      "scannedAt": "2026-10-15T11:03:08.711Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "not_detected",
+      "duration": 19.9986875,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.0018311204621568322,
+          "singing": 0.0012541643809527159,
+          "humming": 0.00041852606227621436
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.006369156762957573,
+          "singing": 0.0034625527914613485,
+          "humming": 0.0013499342603608966
+        },
+        {
+          "start": 9.9986875,
+          "end": 19.9986875,
+          "speech": 0.0060806372202932835,
+          "singing": 0.0032184431329369545,
+          "humming": 0.0014844911638647318
+        }
+      ],
+      "coverage": {
+        "seconds": 19.9986875,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "a1ee7241-6aa7-49da-bf05-17cb570cc2e6",
+      "name": "known sustained SAPI speech",
+      "groundTruth": "known synthetic speech repeated over 24 seconds",
+      "source": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\sustained-speech.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\a1ee7241-6aa7-49da-bf05-17cb570cc2e6\\audio.wav",
+      "version": 1,
+      "audioSha256": "a998f795771f4351bbe2270c1a939e24ad13c4ea13e8315d5b6642bddb74d2a6",
+      "sourceSignature": [
+        976547954,
+        562949953469307,
+        1058478,
+        1792062151116.1934,
+        1792062151116.1934
+      ],
+      "scannedAt": "2026-10-15T11:03:08.717Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 24,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.8440561294555664,
+          "singing": 0.0004230160266160965,
+          "humming": 0.000014019773516338319
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.7457664012908936,
+          "singing": 0.0004628894093912095,
+          "humming": 0.00001781942592060659
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.8111124634742737,
+          "singing": 0.0005264675128273666,
+          "humming": 0.00001791940667317249
+        },
+        {
+          "start": 14,
+          "end": 24,
+          "speech": 0.8319767117500305,
+          "singing": 0.0005331267020665109,
+          "humming": 0.000011721584996848833
+        }
+      ],
+      "coverage": {
+        "seconds": 24,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "beaa6af1-bb51-4f05-8ae6-57b2d32ddc31",
+      "name": "known late SAPI speech",
+      "groundTruth": "known synthetic speech starts at 33 seconds",
+      "source": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\late-speech.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\beaa6af1-bb51-4f05-8ae6-57b2d32ddc31\\audio.wav",
+      "version": 1,
+      "audioSha256": "dcf6007fa3c65fdfdadfe4d0fd21a897b93c0b7b6067e6435763043b4a30c312",
+      "sourceSignature": [
+        976547954,
+        562949953469310,
+        1808178,
+        1792062151158.094,
+        1792062151158.094
+      ],
+      "scannedAt": "2026-10-15T11:03:08.724Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 41,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 15,
+          "end": 25,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 20,
+          "end": 30,
+          "speech": 0.016118716448545456,
+          "singing": 0.0032224704045802355,
+          "humming": 0.0002160820586141199
+        },
+        {
+          "start": 25,
+          "end": 35,
+          "speech": 0.7086873650550842,
+          "singing": 0.0006043351604603231,
+          "humming": 0.00009650464926380664
+        },
+        {
+          "start": 30,
+          "end": 40,
+          "speech": 0.6944472789764404,
+          "singing": 0.00038563727866858244,
+          "humming": 0.0000532883896084968
+        },
+        {
+          "start": 31,
+          "end": 41,
+          "speech": 0.7252702713012695,
+          "singing": 0.00038724314072169363,
+          "humming": 0.000023092301489668898
+        }
+      ],
+      "coverage": {
+        "seconds": 41,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "90f5cb2a-08de-4717-84c7-55e90f4a31ed",
+      "name": "generated vocal request",
+      "groundTruth": "unannotated generation; vocal request is not ground truth",
+      "source": "D:\\O-CUT\\.runtime\\music-composer-wptN8a\\user\\music\\15656861-0dec-4d78-8f13-818c27a84256\\audio.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\90f5cb2a-08de-4717-84c7-55e90f4a31ed\\audio.wav",
+      "version": 1,
+      "audioSha256": "3ac7376853af4aaf6bc7b86f659cc6ba67cb803e04443e069385687cb1d34621",
+      "sourceSignature": [
+        976547954,
+        562949953469313,
+        5759660,
+        1791974048160.1733,
+        1791974048160.1733
+      ],
+      "scannedAt": "2026-10-15T11:03:08.734Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 19.9986875,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.0022951324936002493,
+          "singing": 0.0018300471128895879,
+          "humming": 0.00009238658822141588
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.00404432462528348,
+          "singing": 0.051993031054735184,
+          "humming": 0.0008253451669588685
+        },
+        {
+          "start": 9.9986875,
+          "end": 19.9986875,
+          "speech": 0.004684056155383587,
+          "singing": 0.15720881521701813,
+          "humming": 0.002253473037853837
+        }
+      ],
+      "coverage": {
+        "seconds": 19.9986875,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "ea80b3d9-d962-498d-9f62-e30e499e83f6",
+      "name": "known English SAPI Zira speech",
+      "groundTruth": "known synthetic English speech from installed Windows voice",
+      "source": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\known-english-speech.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\ea80b3d9-d962-498d-9f62-e30e499e83f6\\audio.wav",
+      "version": 1,
+      "audioSha256": "6975a84821258c23dc87eacafbf6400480f8315bf30fe8cb28fa4bea58385391",
+      "sourceSignature": [
+        976547954,
+        562949953469317,
+        1059982,
+        1792062151492.956,
+        1792062151492.956
+      ],
+      "scannedAt": "2026-10-15T11:03:08.740Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 24.034875,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.6841539144515991,
+          "singing": 0.0004871059500146657,
+          "humming": 0.0000286824069917202
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.7503819465637207,
+          "singing": 0.0007099758367985487,
+          "humming": 0.000028353961170068942
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.7508922815322876,
+          "singing": 0.00039820780511945486,
+          "humming": 0.000018747545254882425
+        },
+        {
+          "start": 14.034875,
+          "end": 24.034875,
+          "speech": 0.7655496001243591,
+          "singing": 0.0007309444481506944,
+          "humming": 0.00004085591353941709
+        }
+      ],
+      "coverage": {
+        "seconds": 24.034875,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "c132cec4-013e-400a-a4c2-ec04599d9738",
+      "name": "known CC0 human humming",
+      "groundTruth": "known human humming recording; source provenance recorded",
+      "source": "D:\\O-CUT\\.runtime\\voice-evaluation\\humming-cc0.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\c132cec4-013e-400a-a4c2-ec04599d9738\\audio.wav",
+      "version": 1,
+      "audioSha256": "c616a7ae88e50215101d8f657318682b11ab9888943fc29f4c89903a8215f740",
+      "sourceSignature": [
+        976547954,
+        562949953469320,
+        1773614,
+        1791976309390.6753,
+        1791976309390.6753
+      ],
+      "scannedAt": "2026-10-15T11:03:08.747Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "detected",
+      "duration": 20.1085,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.017521128058433533,
+          "singing": 0.03337550163269043,
+          "humming": 0.9665859341621399
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.022344600409269333,
+          "singing": 0.026808110997080803,
+          "humming": 0.9598178267478943
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.012602453120052814,
+          "singing": 0.031212955713272095,
+          "humming": 0.9676730036735535
+        },
+        {
+          "start": 10.1085,
+          "end": 20.1085,
+          "speech": 0.012167946435511112,
+          "singing": 0.027116455137729645,
+          "humming": 0.9703027606010437
+        }
+      ],
+      "coverage": {
+        "seconds": 20.1085,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "5afa391c-81b1-45c0-82e1-14506dffe77d",
+      "name": "known human humming mixed 0dB RMS",
+      "groundTruth": "known human humming + constructed chord, 0dB whole-file RMS ratio",
+      "source": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\known-hum-mixed-0dB.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\5afa391c-81b1-45c0-82e1-14506dffe77d\\audio.wav",
+      "version": 1,
+      "audioSha256": "717d67668fc95ec26445efc2394e558a10516700d642ee268a229e12aff26d44",
+      "sourceSignature": [
+        976547954,
+        562949953469325,
+        643550,
+        1792062151734.5547,
+        1792062151734.5547
+      ],
+      "scannedAt": "2026-10-15T11:03:08.753Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 20.1085,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.008078454993665218,
+          "singing": 0.03708109259605408,
+          "humming": 0.3505535423755646
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.010643554851412773,
+          "singing": 0.038610879331827164,
+          "humming": 0.47429439425468445
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.011120387353003025,
+          "singing": 0.03954415023326874,
+          "humming": 0.7126467823982239
+        },
+        {
+          "start": 10.1085,
+          "end": 20.1085,
+          "speech": 0.0113905668258667,
+          "singing": 0.04147239401936531,
+          "humming": 0.7360420823097229
+        }
+      ],
+      "coverage": {
+        "seconds": 20.1085,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    },
+    {
+      "id": "4ff9fb4d-3212-4e45-9bc0-482f85411daa",
+      "name": "known human humming mixed -12dB RMS",
+      "groundTruth": "known human humming + constructed chord, -12dB whole-file RMS ratio",
+      "source": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\known-hum-mixed--12dB.wav",
+      "audio": "D:\\O-CUT\\.runtime\\voice-check-1792062150991\\music\\4ff9fb4d-3212-4e45-9bc0-482f85411daa\\audio.wav",
+      "version": 1,
+      "audioSha256": "05df1dfa3f4e4696e5ec29f9c43e649ab641f61c4659c7bbdbadae5406eb21be",
+      "sourceSignature": [
+        976547954,
+        562949953469329,
+        643550,
+        1792062151784.666,
+        1792062151784.666
+      ],
+      "scannedAt": "2026-10-15T11:03:08.759Z",
+      "model": {
+        "id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+        "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+      },
+      "policy": "ast-audioset-provisional-v1",
+      "verdict": "review",
+      "duration": 20.1085,
+      "sampleRate": 16000,
+      "windows": [
+        {
+          "start": 0,
+          "end": 10,
+          "speech": 0.009914545342326164,
+          "singing": 0.051205433905124664,
+          "humming": 0.05565151944756508
+        },
+        {
+          "start": 5,
+          "end": 15,
+          "speech": 0.013915426097810268,
+          "singing": 0.04736759141087532,
+          "humming": 0.13346076011657715
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "speech": 0.0116810854524374,
+          "singing": 0.042013198137283325,
+          "humming": 0.2046544998884201
+        },
+        {
+          "start": 10.1085,
+          "end": 20.1085,
+          "speech": 0.012170405127108097,
+          "singing": 0.04420836269855499,
+          "humming": 0.23293036222457886
+        }
+      ],
+      "coverage": {
+        "seconds": 20.1085,
+        "ratio": 1,
+        "windowSeconds": 10,
+        "strideSeconds": 5
+      }
+    }
+  ],
+  "checks": [
+    "actual offline AST multilabel inference, pinned model hash verified",
+    "known speech retained as review; constructed silence and pure-tone have no detection",
+    "41-second full audio has final-window speech scores after 33 seconds",
+    "known CC0 human humming + constructed chord evaluated at 0dB and -12dB whole-file RMS ratio",
+    "cancelling real inference leaves persisted report and music untouched",
+    "cancelling after first report commits retains that valid report, preserves later prior report and both original WAVs",
+    "actual worker timeout produces explicit error"
+  ],
+  "limits": "Provisional AudioSet multi-label scores; no calibrated precision/recall. A real human humming source and synthetic instrument mixes are controls, not accuracy proof on generated music. Generated metadata is not ground truth. No user files were deleted."
+}
