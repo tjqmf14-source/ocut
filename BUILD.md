@@ -12,7 +12,7 @@
 
 ## Windows 설치 후보
 
-- `node scripts/verify-release.cjs`: 검증된 Studio ASAR 확인 → 설치 파일 생성 → 184개 검사 → 설치 경로 보호 → 실제 전체 설치/앱 실행/MP4/재설치/제거/Windows 등록 검증. `--existing`은 이미 만든 파일과 현재 빌드 입력 해시를 확인한 뒤 검증만 새로 실행한다. 빌드를 생략한 단계를 PASS로 기록하지 않는다.
+- `node scripts/verify-release.cjs`: 검증된 Studio ASAR 확인 → 설치 파일 생성 → 185개 검사 → 설치 경로 보호 → 실제 전체 설치/앱 실행/MP4/재설치/제거/Windows 등록 검증. `--existing`은 이미 만든 파일과 현재 빌드 입력 해시를 확인한 뒤 검증만 새로 실행한다. 빌드를 생략한 단계를 PASS로 기록하지 않는다.
 - 출력: `artifacts/release/O-CUT-Setup-0.17.0.exe`, `SHA256SUMS.txt`. 정확한 해시·파일 목록·도구 출처는 `evidence/release/build.json`, 최신 검증은 `evidence/release/gate.json`에 있다. 같은 설치 파일 해시인지 확인해야 한다.
 - 빌드 입력: 기존 electron-builder 캐시의 NSIS 3.04 및 `.runtime/build-tools/rcedit-x64-2.0.0.exe`. `OCUT_MAKENSIS`, `OCUT_RCEDIT`로 경로를 지정할 수 있으나 스크립트의 고정 SHA-256과 일치해야 한다. RCEdit의 공식 출처는 RELEASE_REPORT.md에 있다. 자동 설치·다운로드는 하지 않는다.
 - 이 PC의 Gyan FFmpeg/FFprobe 실행 파일과 LICENSE/README를 `resources/tools`에 동봉한다. `OCUT_FFMPEG` 또는 PATH에서 ffmpeg를 찾고 같은 bin 폴더의 ffprobe를 사용한다. 기존 Python·AI 모델은 동봉하지 않는다.

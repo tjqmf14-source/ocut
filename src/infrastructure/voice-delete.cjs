@@ -3,6 +3,13 @@ const path=require('node:path');
 const {selection,validateReport}=require('../core/voice-check.cjs');
 const {hashFile,readValidReport}=require('./voice-check.cjs');
 const {inspectMusic}=require('./music-delete.cjs');
+const GENERATED_FILES=new Set(['job.json','audio.wav','latent.npy','semantic.npy','result.json','worker.stderr.log','voice-check.json','plan/abc_tokens.npy','plan/plan_manifest.json','plan/plan.json','plan/prefix.npy']);
+function generatedOnly(plan){
+  const names=plan.files.map(f=>path.relative(plan.target,f.file).replaceAll('\\','/'));
+  const unknown=names.filter(name=>!GENERATED_FILES.has(name));
+  const directories=plan.directories.map(dir=>path.relative(plan.target,dir).replaceAll('\\','/')).filter(name=>name!==''&&name!=='plan');
+  if(unknown.length||directories.length)throw Error(`곡 폴더에 알 수 없는 파일 또는 폴더가 있어 일괄 삭제하지 않았습니다. 별도 사본을 곡 폴더 밖으로 옮긴 뒤 다시 검사해 주세요: ${[...unknown,...directories].slice(0,5).join(', ')}`);
+}
 async function prepareVoiceDeletion({directory,cacheDirectory,ids,scanId,scan,media=[],assets=[],projectDirectory=process.cwd()}){
   selection(ids);
   if(!scan||scan.id!==scanId||!Array.isArray(scan.reports))throw Error('선택한 곡을 다시 검사한 뒤 삭제해 주세요.');
@@ -13,6 +20,7 @@ async function prepareVoiceDeletion({directory,cacheDirectory,ids,scanId,scan,me
     const saved=await readValidReport(directory,id);
     if(!saved||saved.scannedAt!==report.scannedAt||saved.audioSha256!==report.audioSha256)throw Error('음악 또는 검사 기록이 변경됐습니다. 다시 검사해 주세요.');
     const plan=await inspectMusic(directory,cacheDirectory,id);
+    generatedOnly(plan);
     if(await hashFile(path.join(plan.target,'audio.wav'))!==report.audioSha256)throw Error('검사 후 음악 파일이 변경됐습니다. 다시 검사해 주세요.');
     const inside=file=>{const relative=path.relative(plan.target,path.resolve(file));return relative===''||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative));};
     if(media.some(m=>inside(path.resolve(projectDirectory,m.path)))||assets.some(a=>inside(a.path)))throw Error('현재 프로젝트 또는 실행 취소 기록에서 사용하는 곡입니다. 프로젝트를 저장하고 새 프로젝트를 연 뒤 삭제해 주세요.');
@@ -20,4 +28,4 @@ async function prepareVoiceDeletion({directory,cacheDirectory,ids,scanId,scan,me
   }
   return plans;
 }
-module.exports={prepareVoiceDeletion};
+module.exports={prepareVoiceDeletion,generatedOnly};

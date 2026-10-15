@@ -186,7 +186,7 @@ register('music:deleteGenerated', async id => {
   const inside=file=>{const relative=path.relative(plan.target,path.resolve(file));return relative===''||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative));};
   const media=session.history.state.media;
   if(media.some(m=>inside(path.resolve(session.location?path.dirname(session.location):process.cwd(),m.path)))||[...library.assets.values()].some(a=>inside(a.path)))throw Error('현재 프로젝트 또는 실행 취소 기록에서 사용하는 곡입니다. 프로젝트를 저장하고 새 프로젝트를 연 뒤 삭제해 주세요.');
-  const result=await dialog.showMessageBox(window,{type:'warning',title:'생성곡 완전 삭제',message:`“${plan.title}” 곡을 완전히 삭제할까요?`,detail:`음원, 생성 기록, 중간 데이터, 로그와 해당 곡의 파형·시각화 캐시 ${plan.files.length+plan.cacheFiles.length}개 (${(plan.bytes/1024/1024).toFixed(2)} MB)를 삭제합니다.\n휴지통으로 이동하지 않으며 복구할 수 없습니다.\n다른 저장 프로젝트에서 이 곡을 사용했다면 원본 음원이 누락됩니다. 별도로 내보낸 파일은 삭제하지 않습니다.`,buttons:['취소','완전 삭제'],defaultId:0,cancelId:0,noLink:true});
+  const result=await dialog.showMessageBox(window,{type:'warning',title:'생성곡 완전 삭제',message:`“${plan.title}” 곡을 완전히 삭제할까요?`,detail:`${plan.target}\n위 곡 폴더 안의 모든 파일과 해당 곡의 파형·시각화 캐시 ${plan.files.length+plan.cacheFiles.length}개 (${(plan.bytes/1024/1024).toFixed(2)} MB)를 삭제합니다. 사용자가 이 폴더에 넣은 사본도 포함됩니다.\n휴지통으로 이동하지 않으며 복구할 수 없습니다.\n다른 저장 프로젝트에서 이 곡을 사용했다면 원본 음원이 누락됩니다. 곡 폴더 밖에 내보낸 파일은 삭제하지 않습니다.`,buttons:['취소','완전 삭제'],defaultId:0,cancelId:0,noLink:true});
   if(result.response!==1)return null;
   ensureIdle();
   const deleted=await music.deleteGenerated(id,()=>deleteMusic(music.engine.directory,library.cacheDir,plan));
